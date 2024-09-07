@@ -1,28 +1,53 @@
-\documentclass[12pt]{article}
+\documentclass{article}
+
+\usepackage[a4paper]{geometry}
+\usepackage{fancyhdr}
 \usepackage{graphicx}
-\usepackage{hyperref}
 \usepackage{listings}
 \usepackage{textcomp}
-\usepackage[a4paper]{geometry}
+\usepackage{hyperref}
+\usepackage{lastpage}
 
 \graphicspath{{img/}}
 
 \AddToHook{cmd/section/before}{\newpage}
 
-\title{Early Earthquake and Tsunami Waning Viewer}
-\author{Yicheng Shao (Eason)}
+\def\Title{Early Earthquake and Tsunami Waning Viewer}
+\def\Author{Yicheng Shao (Eason)}
+\def\CandNo{Insert\_Candidate\_Number\_Here}
+
+\title{\Title}
+\author{\Author}
 \date{\today}
 
+\fancypagestyle{nohead}{
+    \renewcommand{\headrulewidth}{0pt}
+    \fancyhf{}
+    \lfoot{\CandNo}
+    \rfoot{Page \thepage\ of \pageref{LastPage}}
+}
+
 \begin{document}
+\pagestyle{fancy}
+
 \maketitle
 \subsection*{Abstract}
 Give a brief summary outline of your project.
+\thispagestyle{nohead}
 
 \newpage
 \noindent \copyright 2025 Y. Shao. This work is licensed under \href{https://creativecommons.org/licenses/by-nc-nd/4.0/}{CC BY-NC-ND 4.0}. To view a copy of this license, visit https://creativecommons.org/licenses/by-nc-nd/4.0/.
+\thispagestyle{nohead}
 
 \newpage
 \tableofcontents
+\thispagestyle{nohead}
+
+\fancyhf{}
+\lhead{\Author}
+\rhead{\Title}
+\lfoot{\CandNo}
+\rfoot{Page \thepage\ of \pageref{LastPage}}
 
 \section{Analysis}
 
