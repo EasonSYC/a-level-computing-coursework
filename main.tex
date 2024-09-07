@@ -1,0 +1,241 @@
+\documentclass[12pt]{article}
+\usepackage{graphicx}
+\usepackage{hyperref}
+\usepackage{listings}
+\usepackage{textcomp}
+\usepackage[a4paper]{geometry}
+
+\graphicspath{{img/}}
+
+\AddToHook{cmd/section/before}{\newpage}
+
+\title{Early Earthquake and Tsunami Waning Viewer}
+\author{Yicheng Shao (Eason)}
+\date{\today}
+
+\begin{document}
+\maketitle
+\subsection*{Abstract}
+Give a brief summary outline of your project.
+
+\newpage
+\noindent \copyright 2025 Y. Shao. This work is licensed under \href{https://creativecommons.org/licenses/by-nc-nd/4.0/}{CC BY-NC-ND 4.0}. To view a copy of this license, visit https://creativecommons.org/licenses/by-nc-nd/4.0/.
+
+\newpage
+\tableofcontents
+
+\section{Analysis}
+
+\subsection{Problem Area}
+Define the general problem area that your project covers.
+
+\subsection{Client and End User}
+A client is the person who has commissioned the system. They may be the same person as the end user or there may be additional end users. If there are multiple end users, do they all have the same needs/requirements?
+
+A \textbf{real} client/user is beneficial to keep things realistic and to mirror a real software development project.
+
+Some background as to the client/user will be required.
+\begin{itemize}
+    \item Who are they?
+    \item What is their background?
+    \item What is their level of experience in the problem area being undertaken?
+
+          Novices/experts will have different requirements.
+\end{itemize}
+
+If you don't have a specific user you should still have an intended \textbf{target audience/user base} in mind.
+
+\subsection{Research Methodology}
+Describe \textbf{how} you went about investigating the requirements. This may include a range of measures:
+\begin{itemize}
+    \item Investigation of similar systems
+    \item Web research for key concepts/algorithms
+    \item Client/end user interview
+    \item Questionnaires to potential end-users of the system
+\end{itemize}
+
+\subsection{Features of proposed solution}
+As a result of research, you should identify the key features (in general terms) that your system will have:
+\begin{itemize}
+    \item List of key features that will be Required
+    \item Discussion of the scope and potential limitations to the system given the time constraints.
+\end{itemize}
+
+\subsection{Requirements Specification}
+The requirements specification is a document/contract with the client that outlines what you will deliver. The contents need to have SMART (specific, measurable, achievable, realistic, timely) goals.
+
+After your system has been completed you will need to test against this.
+
+\begin{table}[!ht]
+    \centering
+    \begin{tabular}{|l|p{0.15\linewidth}|l|p{0.3\linewidth}|}
+        \hline
+        Requirement \textnumero & Description & Success Criteria & Measurement Method \\
+        \hline \hline
+         & & &\\
+        \hline
+         & & &\\
+        \hline
+         & & & \\
+        \hline
+    \end{tabular}
+    \caption{Table of Requirements.}
+    \label{table:requirements}
+\end{table}
+
+\subsection{Critical Path}
+
+Order of development for the tasks that will need to be completed. This may reflect an iterative approach to software development. Software development will be undertaken using an \textit{agile} methodology as opposed to a \textit{waterfall} model of software development. It is expected that development will go through a number of iterations that will add increasing functionality to the system.
+
+\section{Design}
+Algorithms + Data Structures = Programs.
+
+\subsection{Hierarchy Chart}
+A top-down approach to problem solving will lead to the identification of tasks with sub-tasks. i.e. modules and functions required. This shows how \textbf{decomposition} is applied.
+
+\begin{figure}[!ht]
+    \centering
+    \includegraphics[width = 0.5\linewidth]{hierarchy_chart.png}
+    \caption{Hierarchy Chart.}
+    \label{fig:hierarchy}
+\end{figure}
+
+\subsection{Data Structures/Data modelling}
+\subsubsection{External Data Sources}
+If you are scraping/gathering data from APIs from external sources you should define the relevant format/parameters.
+
+\subsubsection{OOP Model}
+OOP modelling (classes, methods, attributes, inheritance etc.). Class diagrams would be useful (these are covered in Bond book 1 page 185 onwards). Diagrams should follow conventions for inheritance/composition and private/protected/public methods/attributes.
+
+\begin{figure}[!ht]
+    \centering
+    \includegraphics[width = 0.5\linewidth]{class_diagram.png}
+    \caption{Class Diagram.}
+    \label{fig:classes}
+\end{figure}
+
+\subsection{User Interface}
+You will need to draw up a prototype for the user interface. You may do this within the software package you implement your solution in.
+\begin{itemize}
+    \item Screen designs
+    \item Menu options/sequences
+    \item Buttons/keys/commands (command line)
+\end{itemize}
+
+\subsection{Hardware \and Software Requirements}
+Draw up a hardware and software specification for items that are required.
+
+\section{Technical Implementation}
+\subsection{Key Code Segments}
+\subsubsection{Data structures}
+Implementation of ADTs and OOP Classes to be demonstrated.
+
+\subsubsection{Modularity}
+Code should be created and tested in separate modules that are integrated later. Use sub-headings for each module, define the purpose of the module, and show unit testing of the module.
+
+\subsubsection{Defensive Programming/Robustness}
+Exception handling
+
+\section{Testing}
+Consider how you will test your project. You should devise a test strategy that encompasses a range of methods.
+
+\subsection{Test Strategy}
+\begin{itemize}
+    \item Unit testing (of individual functions)
+    \item Integration testing (e.g. different modules/class files)
+    \item Robustness (demonstrating defensive programming skills/exception handling)
+    \item Requirements testing (against your initial requirements - a table with test number, description, test data, expected result, evidence (screenshot/video time link) would be suitable)
+    \item Independent end user beta testing (this will assist with your evaluation)
+\end{itemize}
+
+\subsection{Testing Video}
+\begin{itemize}
+    \item You can include a video to assist (but you will need to reference the timepoint at which relevant evidence appears)
+    \item If you include a video you will need to have it publicly available.
+    \item It is suggested that you include a QR code in your testing to give a link to it the video (for the moderator) rather than just giving a long URL on its own.
+\end{itemize}
+
+\subsection{System Tests (against original requirements specification)}
+You need to give evidence in support of requirements that have been met e.g. reference to a relevant test/screenshot/relevant code.
+
+\begin{table}[!ht]
+    \centering
+    \begin{tabular}{|l|p{0.15\linewidth}|l|p{0.3\linewidth}|}
+        \hline
+        Requirement \textnumero & Description & Success Criteria & Tests + Evidence \\
+        \hline \hline
+         & & &\\
+        \hline
+         & & &\\
+        \hline
+         & & & \\
+        \hline
+    \end{tabular}
+    \caption{Table of Tests.}
+    \label{table:tests}
+\end{table}
+
+\section{Evaluation}
+\subsection{Requirements Specification Evaluation}
+Personal evaluation
+\begin{itemize}
+    \item Copy and paste your original requirements from your project analysis
+    \item You need to review each requirement and comment objectively on whether it was \textit{fully met/partially met/not met}.
+\end{itemize}
+
+\begin{table}[!ht]
+    \centering
+    \begin{tabular}{|l|p{0.15\linewidth}|l|p{0.3\linewidth}|}
+        \hline
+        Requirement \textnumero & Description & Success Criteria & Fully/Partial/Not met (Reflective Comment) \\
+        \hline \hline
+         & & &\\
+        \hline
+         & & &\\
+        \hline
+         & & & \\
+        \hline
+    \end{tabular}
+    \caption{Table of Evaluation.}
+    \label{table:evaluation}
+\end{table}
+
+\subsection{Independent End-User Feedback}
+End user/client evaluation
+\begin{itemize}
+    \item there \textbf{must} be meaningful end user feedback
+    \item You should hold a review meeting with your end user
+    \item Write down any key feedback that they give you. E.g. Agreement that a particular requirement has been meet/comments as to aspects that they find sub-optimal/comments as to additions they would like to see
+\end{itemize}
+
+\begin{table}[!ht]
+    \centering
+    \begin{tabular}{|l|p{0.15\linewidth}|l|p{0.3\linewidth}|}
+        \hline
+        Requirement \textnumero & Description & Acceptance Y/N & Additional Comments \\
+        \hline \hline
+         & & &\\
+        \hline
+         & & &\\
+        \hline
+         & & & \\
+        \hline
+    \end{tabular}
+    \caption{Table of Feedback.}
+    \label{table:feedback}
+\end{table}
+
+\subsection{Improvements}
+
+You need to give consideration to a number of potential future improvements that could be made. They may arise from either your experience or from feedback given to you by your end user. Ideally at least one should be in response to end user feedback.
+
+\begin{itemize}
+    \item Write a paragraph for each potential improvement/change
+    \item The improvements/changes could result from additional functionality that has been identified as being beneficial or could be as a result of required efficiencies if some processes are clunky or require faster run-times
+    \item You should then comment on how the proposed change could be implemented moving forward. i.e. what would need to be changed/developed and how? You are not expected to actually make any changes; just comment on the possibilities.
+\end{itemize}
+
+\section{Code Listing}
+
+
+\end{document}
