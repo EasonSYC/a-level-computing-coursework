@@ -7,14 +7,20 @@
 \usepackage{textcomp}
 \usepackage{hyperref}
 \usepackage{lastpage}
+\usepackage{amsmath}
+\usepackage{xltxtra}
+\usepackage{fontawesome5}
 
 \graphicspath{{img/}}
 
 \AddToHook{cmd/section/before}{\newpage}
 
-\def\Title{Early Earthquake and Tsunami Warning Viewer}
-\def\Author{Yicheng Shao (Eason)}
-\def\CandNo{Insert\_Candidate\_Number\_Here}
+\newcommand{\Title}{Early Earthquake and Tsunami Warning Viewer}
+\newcommand{\Author}{Yicheng Shao (Eason)}
+\newcommand{\CandNo}{[1234]}
+
+\newcommand{\SetFooter}{\lfoot{Candidate Number: \CandNo}\rfoot{Page \thepage\space of \pageref{LastPage}}}
+\newcommand{\GitHubHref}[2]{\href{https://github.com/#1/#2}{\faGithub\space #1/#2}}
 
 \title{\Title}
 \author{\Author}
@@ -23,8 +29,7 @@
 \fancypagestyle{nohead}{
     \renewcommand{\headrulewidth}{0pt}
     \fancyhf{}
-    \lfoot{\CandNo}
-    \rfoot{Page \thepage\ of \pageref{LastPage}}
+    \SetFooter
 }
 
 \begin{document}
@@ -36,7 +41,16 @@ Give a brief summary outline of your project.
 \thispagestyle{nohead}
 
 \newpage
-\noindent \copyright 2025 Y. Shao. This work is licensed under \href{https://creativecommons.org/licenses/by-nc-nd/4.0/}{CC BY-NC-ND 4.0}. To view a copy of this license, visit https://creativecommons.org/licenses/by-nc-nd/4.0/.
+\noindent \copyright 2024-2025 Yicheng Shao (Eason).
+
+
+\noindent This work is licensed under a \href{https://creativecommons.org/licenses/by-nc-nd/4.0/}{CC BY-NC-ND 4.0} license.
+
+
+\noindent This work is formatted using \XeLaTeX. The source code is avaliable at \GitHubHref{EasonSYC}{nea-report}.
+
+
+\noindent The relevant program source code is avaliable at \GitHubHref{EasonSYC}{EEETWV}, licensed under the MIT License.
 \thispagestyle{nohead}
 
 \newpage
@@ -46,8 +60,7 @@ Give a brief summary outline of your project.
 \fancyhf{}
 \lhead{\Author}
 \rhead{\Title}
-\lfoot{\CandNo}
-\rfoot{Page \thepage\ of \pageref{LastPage}}
+\SetFooter
 
 \section{Analysis}
 
