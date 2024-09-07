@@ -57,13 +57,13 @@ Give a brief summary outline of your project.
 
 Earthquake is one of the most common natural disasters in the whole world, and direct consequences of earthquakes include tsunamies which could be catastrauphic.
 
-Japan, sitting on the intersection of the Eurasian, the Philippine and the North--American plates, is the countries with most earthquakes. Historically, the Great Kant\=o Earthquake in 1923, the Great East Japan Earthquake in 2011 (a.k.a. the T\=ohoku Earthquake) and the recent 2024 Noto Peninsula Earthquake all caused hundreds of deaths, both due to the result of the earthquake(s) and the resulting tsunami.
+Japan, sitting on the intersection of the Eurasian, the Philippine and the North-American plates, is the countries with most earthquakes. Historically, the Great Kant\=o Earthquake in 1923, the Great East Japan Earthquake in 2011 (a.k.a. the T\=ohoku Earthquake) and the recent 2024 Noto Peninsula Earthquake all caused hundreds of deaths, both due to the result of the earthquake(s) and the resulting tsunami.
 
 To provide protection to its residents, the Japan Meterological Agency (JMA), together with the National Research Institute for Earth Science and Disaster Resilience (NIED) placed thousands of \textbf{earthquake sensors} across Japan (the Hi-net), with several lying deep in the sea bed, measuring displacement, velocity and acceleration, which are connected to multiple servers, including two located in \=Osaka and T\=okyo.
 
 Using data obtained from the sensors, computers do some complicated algorithms (mentioned below) to send out \textbf{early earthquake warnings (EEWs)} automatically within milliseconds. There are two types of EEWs:
 \begin{enumerate}
-    \item \textbf{EEW (Forecast).} Sent out to \textbf{highly--dependent industries} (e.g. rail industry, power plants) and \textbf{subscribed users}, when maximum intensity level of more than 3, or a magnitude of more than 3.5 is expected.
+    \item \textbf{EEW (Forecast).} Sent out to \textbf{highly-dependent industries} (e.g. rail industry, power plants) and \textbf{subscribed users}, when maximum intensity level of more than 3, or a magnitude of more than 3.5 is expected.
     \item \textbf{EEW (Warning).} Sent out to \textbf{everyone} via TV, Radio, Mobile Phone, SMS, etc., when a maximum intensity level of more than 4 is expected.
 \end{enumerate}
 
@@ -76,27 +76,18 @@ After the earthquake, JMA staff will determine the location and severity of tsun
     \item \textbf{Magnitude/Scale.} The magnitude of an earthquake describes the energy released in the earthquake in a logarithmic scale. \textbf{It is unique to an earthquake.}
     \item \textbf{Epicenter/Hypocenter.} The epicenter is the surface point directly above the true centre of the earthquake.
     \item \textbf{Focal Depth.} The focal depth is the depth of the true center of the earthquake.
-    \item \textbf{P--Wave and S--Wave.} These are seismic waves, sourced from the true center of the earthquake, travelling at different speeds, with Primary (P)--Wave travelling faster and Secondary (S)--Wave travelling slower.
+    \item \textbf{P-Wave and S-Wave.} These are seismic waves, sourced from the true center of the earthquake, travelling at different speeds, with Primary (P)-Wave travelling faster and Secondary (S)-Wave travelling slower.
 \end{itemize}
 
 \subsection{Problem Area}
-Define the general problem area that your project covers.
+The main goal of this application is to provide a visuallisation of the earthquake/tsunami related data feed(s) provided by JMA's affliated institution, Disaster Migitation Data Send Service (DM-D.S.S). There are numerous seperate apps providing a list of recent earthquakes, the real-time data measured by the sensors, and the real time earthquake warning displayed on a map, but rarely are there good apps that combine all those features together in a satisfying way, with just the necessary features I need.
+
+Some applications are no longer being updated due to change in the user's policy of the related data feed. Furthermore, most of the apps avaliable are only in Japanese, not in English or my home language Chinese, which can create trouble for me to understand.
 
 \subsection{Client and End User}
-A client is the person who has commissioned the system. They may be the same person as the end user or there may be additional end users. If there are multiple end users, do they all have the same needs/requirements?
+The primary target of this application will be passionate geographers and geologists who are interested in the study of earthquake obserations and predictions. The age group of this vary all the way from primary-school students to adults, including me who has been amazed by the technology since the age of 12. They could take any employment, ranging from students to full-time jobs. Their proficiency usually varies, since there are people new to this field who probably does not have much knowledge, so the interface of the applciation should be relatively user-friendly and understandable, hiding unnessary technical complexities.
 
-A \textbf{real} client/user is beneficial to keep things realistic and to mirror a real software development project.
-
-Some background as to the client/user will be required.
-\begin{itemize}
-    \item Who are they?
-    \item What is their background?
-    \item What is their level of experience in the problem area being undertaken?
-
-          Novices/experts will have different requirements.
-\end{itemize}
-
-If you don't have a specific user you should still have an intended \textbf{target audience/user base} in mind.
+Another target client could be industries which highly rely on earthquake predictions due to the risk imposed by earthquakes. High-speed railway and nuclear power plants are good examples of this. Therefore, the staff in charge monitoring will usually have higher proficiency and would like more detailed data of the earthquake. However, they will only need the necessary data from earthquakes happening close to them and only require intensity data of the point in interest (e.g. the power plant). To put this into content, an earthquake happening 1000km away from them does not need to be fed into their system, while they would like to see the intensity of the shock and the arrival time of the seismic waves to decide the actions.
 
 \subsection{Research Methodology}
 Describe \textbf{how} you went about investigating the requirements. This may include a range of measures:
