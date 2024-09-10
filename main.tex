@@ -41,7 +41,7 @@ Give a brief summary outline of your project.
 \thispagestyle{nohead}
 
 \newpage
-\noindent \copyright 2024-2025 Yicheng Shao (Eason).
+\noindent \copyright 2024--2025 Yicheng Shao (Eason).
 
 
 \noindent This work is licensed under a \href{https://creativecommons.org/licenses/by-nc-nd/4.0/}{CC BY-NC-ND 4.0} license.
@@ -53,14 +53,14 @@ Give a brief summary outline of your project.
 \noindent The relevant program source code is avaliable at \GitHubHref{EasonSYC}{EEETWV}, licensed under the MIT License.
 \thispagestyle{nohead}
 
-\newpage
-\tableofcontents
-\thispagestyle{nohead}
 
 \fancyhf{}
 \lhead{\Author}
 \rhead{\Title}
 \SetFooter
+
+\newpage
+\tableofcontents
 
 \section{Analysis}
 
@@ -102,6 +102,30 @@ The primary target of this application will be passionate geographers and geolog
 
 Another target client could be industries which highly rely on earthquake predictions due to the risk imposed by earthquakes. High-speed railway and nuclear power plants are good examples of this. Therefore, the staff in charge monitoring will usually have higher proficiency and would like more detailed data of the earthquake. However, they will only need the necessary data from earthquakes happening close to them and only require intensity data of the point in interest (e.g. the power plant). To put this into content, an earthquake happening 1000km away from them does not need to be fed into their system, while they would like to see the intensity of the shock and the arrival time of the seismic waves to decide the actions.
 
+Table \ref{table:users} compares relative features of these two target users/clients.
+
+\begin{table}[!ht]
+    \centering
+    \begin{tabular}{|p{55pt}||p{145pt}|p{145pt}|}
+        \hline
+        Feature              & Primary Target                       & Secondary Target                                          \\
+        \hline\hline
+        Description          & Passionate Geologists                & Earthquake-Sensitive Industries                           \\
+        \hline
+        Age                  & Varies (Middle School -- Adults)     & Work Age                                                  \\
+        \hline
+        Reason               & Monitor Live \and Latest Earthquakes & Monitor Risks to Infrastructure                           \\
+        \hline
+        Proficiency          & Varies (Beginner -- Amateur)         & Trained Professional                                      \\
+        \hline
+        General Requirements & Monitor Overall Movement             & Alert about intensity and arrival time at specific points \\
+        \hline
+    \end{tabular}
+
+    \caption{Target users and clients.}
+    \label{table:users}
+\end{table}
+
 \subsection{Research Methodology}
 Describe \textbf{how} you went about investigating the requirements. This may include a range of measures:
 \begin{itemize}
@@ -129,11 +153,11 @@ After your system has been completed you will need to test against this.
         \hline
         Requirement \textnumero & Description & Success Criteria & Measurement Method \\
         \hline \hline
-         & & &\\
+                                &             &                  &                    \\
         \hline
-         & & &\\
+                                &             &                  &                    \\
         \hline
-         & & & \\
+                                &             &                  &                    \\
         \hline
     \end{tabular}
     \caption{Table of Requirements.}
@@ -221,11 +245,11 @@ You need to give evidence in support of requirements that have been met e.g. ref
         \hline
         Requirement \textnumero & Description & Success Criteria & Tests + Evidence \\
         \hline \hline
-         & & &\\
+                                &             &                  &                  \\
         \hline
-         & & &\\
+                                &             &                  &                  \\
         \hline
-         & & & \\
+                                &             &                  &                  \\
         \hline
     \end{tabular}
     \caption{Table of Tests.}
@@ -246,11 +270,11 @@ Personal evaluation
         \hline
         Requirement \textnumero & Description & Success Criteria & Fully/Partial/Not met (Reflective Comment) \\
         \hline \hline
-         & & &\\
+                                &             &                  &                                            \\
         \hline
-         & & &\\
+                                &             &                  &                                            \\
         \hline
-         & & & \\
+                                &             &                  &                                            \\
         \hline
     \end{tabular}
     \caption{Table of Evaluation.}
@@ -271,11 +295,11 @@ End user/client evaluation
         \hline
         Requirement \textnumero & Description & Acceptance Y/N & Additional Comments \\
         \hline \hline
-         & & &\\
+                                &             &                &                     \\
         \hline
-         & & &\\
+                                &             &                &                     \\
         \hline
-         & & & \\
+                                &             &                &                     \\
         \hline
     \end{tabular}
     \caption{Table of Feedback.}
@@ -294,5 +318,7 @@ You need to give consideration to a number of potential future improvements that
 
 \section{Code Listing}
 
-
+\newpage
+\listoftables
+\listoffigures
 \end{document}
