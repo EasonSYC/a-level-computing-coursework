@@ -8,8 +8,14 @@
 \usepackage{hyperref}
 \usepackage{lastpage}
 \usepackage{amsmath}
+\usepackage{amsfonts}
+\usepackage{amssymb}
+\usepackage{amsthm}
 \usepackage{xltxtra}
 \usepackage{fontawesome5}
+\usepackage{footnote}
+\usepackage[format=plain,justification=centering]{caption}
+\makesavenoteenv{table}
 
 \graphicspath{{img/}}
 
@@ -93,12 +99,12 @@ After the earthquake, JMA staff will determine the location and severity of tsun
 \end{itemize}
 
 \subsection{Problem Area}
-The main goal of this application is to provide a visuallisation of the earthquake/tsunami related data feed(s) provided by JMA's affliated institution, Disaster Migitation Data Send Service (DM-D.S.S). There are numerous seperate apps providing a list of recent earthquakes, the real-time data measured by the sensors, and the real time earthquake warning displayed on a map, but rarely are there good apps that combine all those features together in a satisfying way, with just the necessary features I need.
+The main goal of this application is to provide a visuallisation of the earthquake/tsunami related data feed(s) provided by JMA's affliated institution, Disaster Migitation Data Send Service (DM-D.S.S). There are numerous seperate apps providing a list of recent earthquakes, the real-time data measured by the sensors, and the real time earthquake warning displayed on a map, but rarely are there good apps that combine all those features together in a satisfying way, with just the necessary features the author needs.
 
-Some applications are no longer being updated due to change in the user's policy of the related data feed. Furthermore, most of the apps avaliable are only in Japanese, not in English or my home language Chinese, which can create trouble for me to understand.
+Some applications are no longer being updated due to change in the user's policy of the related data feed. Furthermore, most of the apps avaliable are only in Japanese, not in English or my home language Chinese, which can create trouble for the author to understand.
 
 \subsection{Client and End User}
-The primary target of this application will be passionate geographers and geologists who are interested in the study of earthquake obserations and predictions. The age group of this vary all the way from primary-school students to adults, including me who has been amazed by the technology since the age of 12. They could take any employment, ranging from students to full-time jobs. Their proficiency usually varies, since there are people new to this field who probably does not have much knowledge, so the interface of the applciation should be relatively user-friendly and understandable, hiding unnessary technical complexities.
+The primary target of this application will be passionate geographers and geologists who are interested in the study of earthquake obserations and predictions. The age group of this vary all the way from primary-school students to adults, including the author who has been amazed by the technology since the age of 12. They could take any employment, ranging from students to full-time jobs. Their proficiency usually varies, since there are people new to this field who probably does not have much knowledge, so the interface of the applciation should be relatively user-friendly and understandable, hiding unnessary technical complexities.
 
 Another target client could be industries which highly rely on earthquake predictions due to the risk imposed by earthquakes. High-speed railway and nuclear power plants are good examples of this. Therefore, the staff in charge monitoring will usually have higher proficiency and would like more detailed data of the earthquake. However, they will only need the necessary data from earthquakes happening close to them and only require intensity data of the point in interest (e.g. the power plant). To put this into content, an earthquake happening 1000km away from them does not need to be fed into their system, while they would like to see the intensity of the shock and the arrival time of the seismic waves to decide the actions.
 
@@ -106,6 +112,7 @@ Table \ref{table:users} compares relative features of these two target users/cli
 
 \begin{table}[!ht]
     \centering
+
     \begin{tabular}{|p{55pt}||p{145pt}|p{145pt}|}
         \hline
         Feature              & Primary Target                       & Secondary Target                                          \\
@@ -122,20 +129,152 @@ Table \ref{table:users} compares relative features of these two target users/cli
         \hline
     \end{tabular}
 
-    \caption{Target users and clients.}
+    \caption{Comparison of target users and clients}
     \label{table:users}
 \end{table}
 
 \subsection{Research Methodology}
-Describe \textbf{how} you went about investigating the requirements. This may include a range of measures:
+\subsubsection{Client Interview}
+The author interviewed my friend Wesley Ma, who is a passionate geologist on earthquake studies and also monitor earthquakes regularly.
+
+\begin{enumerate}
+    \item Which earthquake monitoring apps do you use?
+    \item Do you subscribe/pay to services such as DM-D.S.S. to use earthquake monitoring apps, and do you think it is worth the price?
+    \item Do you watch YouTube livestreams on earthquake monitoring?
+    \item Why do you use earthquake monitoring apps?
+    \item How often do you use earthquake monitoring apps (e.g. all the time/after school/only after big earthquakes)?
+    \item Describe the advantages and disadvantages of each of them, mentioning the specific features.
+    \item What features do you use the most/least?
+    \item What features are redundant in the earthquake monitoring apps you use?
+    \item What are the critical features of an earthquake monitoring app?
+    \item What additional features would you like to have in those existing apps?
+\end{enumerate}
+
+\subsubsection{Existing Applications and Solutions}
+
+Based on the applications the author uses and the feedback from interviewee, there are the following commonly-used applications:
 \begin{itemize}
-    \item Investigation of similar systems
-    \item Web research for key concepts/algorithms
-    \item Client/end user interview
-    \item Questionnaires to potential end-users of the system
+    \item JQuake \url{https://jquake.net}
+    \item Scratch Realtime Earthquake Viewer (SREV)
+
+          \url{https://kotoho7.github.io/scratch-realtime-earthquake-viewer-page/}
+    \item Kyoshin EEW Viewer for ingen (KEV) \url{https://svs.ingen084.net/kyoshineewviewer/}
+    \item Quarog \url{https://fuku1213.github.io/quarog-site/}
 \end{itemize}
 
+Supported platforms of those apps are listed in Table \ref{table:exist-platform}. In particular, note that SREV is a web-based and GitHub Pages-hosted application therefore supporting all platforms. KEV is written in .NET Framework and supports the second most platforms, with JQuake not supporting Linux and Quarog only supporting Windows.
+
+\begin{table}[!ht]
+    \centering
+    \begin{tabular}{|c||c|c|c|c|}
+        \hline
+        Platform    & JQuake     & SREV       & KEV        & Quarog     \\
+        \hline\hline
+        Windows     & \checkmark & \checkmark & \checkmark & \checkmark \\
+        \hline
+        macOS       & \checkmark & \checkmark & \checkmark &            \\
+        \hline
+        Linux       &            & \checkmark & \checkmark &            \\
+        \hline
+        Android/iOS &            & \checkmark &            &            \\
+        \hline
+    \end{tabular}
+    \caption{Supported platforms of exsisting solutions}
+    \label{table:exist-platform}
+\end{table}
+
+An overview feature table of monitoring is analysied in Table \ref{table:exist-monitoring}. In particular, note that due to the nature of SREV being Scratch-programmed and web-based, it reached a special agreement with DM-D.S.S. to use the API without the need of all users paying for this, since it is hard to integrate such function into a web application.
+
+Quarog is a relatively new application and only supports basic functionalities of EEW Viewing and past earthquake listing, as shown in Figure \ref{fig:quarog-monitor-features}. JQuake is solely dedicated to earthquake and tsunami monitoring as shown in Figure \ref{fig:jquake-monitor-features}, while KREV has features like rain clouds map and natural disaster warning which is beyond the scope of this analysis.
+
+\begin{table}[!ht]
+    \centering
+
+    \begin{tabular}{|c||c|c|c|c|}
+        \hline
+        Feature                       & JQuake                                                & SREV                                                     & KEV        & Quarog     \\
+        \hline\hline
+        DM-D.S.S. Websocket Support   & \checkmark                                            & \checkmark \footnote{Integrated with no-login required.} & \checkmark & \checkmark \\
+        \hline
+        Real-time Sensor Data         & \checkmark                                            & \checkmark                                               & \checkmark &            \\
+        \hline
+        Vibration Alert               & \checkmark                                            & \checkmark                                               & \checkmark &            \\
+        \hline
+        Past Earthquake List          & \checkmark                                            & \checkmark                                               & \checkmark & \checkmark \\
+        \hline
+        Tsunami Warning               & \checkmark \footnote{Tsunami forecast not avaliable.} & \checkmark                                               & \checkmark &            \\
+        \hline
+        Realtime EEW                  & \checkmark                                            & \checkmark                                               & \checkmark & \checkmark \\
+        \hline
+        Calculated Seismic Wavefronts & \checkmark                                            & \checkmark                                               & \checkmark & \checkmark \\
+        \hline
+        Replay                        & \checkmark                                            &                                                          & \checkmark &            \\
+        \hline
+    \end{tabular}
+
+    \caption{Feature comparison in monitoring of existing solutions}
+    \label{table:exist-monitoring}
+\end{table}
+
+\begin{figure}[!ht]
+    \centering
+
+    \includegraphics[width=0.6\linewidth]{jquake-features.png}
+    \caption[Feature introduction of JQuake]{Feature introduction of JQuake, screenshot from website.}
+    \label{fig:jquake-monitor-features}
+\end{figure}
+
+\begin{figure}[!ht]
+    \centering
+
+    \includegraphics[width=0.6\linewidth]{quarog-features-1.png}\\
+    \includegraphics[width=0.6\linewidth]{quarog-features-2.png}
+    \caption[Feature introduction of Quarog]{Feature introduction of Quarog, screenshot from website.\\Top-left: Past earthquake information; Top-right: Real-time EEW;\\Bottom-Left: Past earthquake list; Bottom-Right: Details of EEW.}
+    \label{fig:quarog-monitor-features}
+\end{figure}
+
+There are also a variety of configuration options avaliable for all apps, as listed in Table \ref{table:exist-config}. Both KEV and Quarog supports the adjustment of the colour theme, and Quarog even supports changing the style of how blocks are displayed and coloured as shown in Figure \ref{fig:krev-colour-cust} and \ref{fig:quarog-cust}. Playing a sound on the speaker is also common among the apps to remind the user of earthquakes.
+
+\begin{table}[!ht]
+    \centering
+
+    \begin{tabular}{|c||c|c|c|c|}
+        \hline
+        Feature             & JQuake     & SREV       & KEV        & Quarog     \\
+        \hline\hline
+        DM-D.S.S. Login     & \checkmark &            & \checkmark & \checkmark \\
+        \hline
+        Sound Alert         & \checkmark & \checkmark & \checkmark & \checkmark \\
+        \hline
+        System Notification &            &            & \checkmark &            \\
+        \hline
+        Colour Theme        &            &            & \checkmark & \checkmark \\
+        \hline
+        Map Colouring Style &            & \checkmark &            & \checkmark \\
+        \hline
+    \end{tabular}
+    \caption{Feature comparison in configuration and customisability of existing solutions}
+    \label{table:exist-config}
+\end{table}
+
+\begin{figure}[!ht]
+    \centering
+
+    \includegraphics[width=0.5\linewidth]{kerv-colour.png}
+    \caption[Customisable colour scheme of KREV]{Customisable colour scheme of KREV, screenshot from website.}
+    \label{fig:krev-colour-cust}
+\end{figure}
+
+\begin{figure}[!ht]
+    \centering
+
+    \includegraphics[width=0.6\linewidth]{quarog-cust.png}
+    \caption[Customisablity of Quarog]{Customisablity of Quarog, screenshot from website.}
+    \label{fig:quarog-cust}
+\end{figure}
+
 \subsection{Features of proposed solution}
+
 As a result of research, you should identify the key features (in general terms) that your system will have:
 \begin{itemize}
     \item List of key features that will be Required
@@ -149,6 +288,7 @@ After your system has been completed you will need to test against this.
 
 \begin{table}[!ht]
     \centering
+
     \begin{tabular}{|l|p{0.15\linewidth}|l|p{0.3\linewidth}|}
         \hline
         Requirement \textnumero & Description & Success Criteria & Measurement Method \\
@@ -241,6 +381,7 @@ You need to give evidence in support of requirements that have been met e.g. ref
 
 \begin{table}[!ht]
     \centering
+
     \begin{tabular}{|l|p{0.15\linewidth}|l|p{0.3\linewidth}|}
         \hline
         Requirement \textnumero & Description & Success Criteria & Tests + Evidence \\
@@ -266,6 +407,7 @@ Personal evaluation
 
 \begin{table}[!ht]
     \centering
+
     \begin{tabular}{|l|p{0.15\linewidth}|l|p{0.3\linewidth}|}
         \hline
         Requirement \textnumero & Description & Success Criteria & Fully/Partial/Not met (Reflective Comment) \\
@@ -291,6 +433,7 @@ End user/client evaluation
 
 \begin{table}[!ht]
     \centering
+
     \begin{tabular}{|l|p{0.15\linewidth}|l|p{0.3\linewidth}|}
         \hline
         Requirement \textnumero & Description & Acceptance Y/N & Additional Comments \\
