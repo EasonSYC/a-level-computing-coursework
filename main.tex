@@ -150,6 +150,8 @@ The author interviewed my friend Wesley Ma, who is a passionate geologist on ear
     \item What additional features would you like to have in those existing apps?
 \end{enumerate}
 
+TODO: Client Interview
+
 \subsubsection{Existing Applications and Solutions}
 
 Based on the applications the author uses and the feedback from interviewee, there are the following commonly-used applications:
@@ -185,30 +187,36 @@ Supported platforms of those apps are listed in Table \ref{table:exist-platform}
 
 An overview feature table of monitoring is analysied in Table \ref{table:exist-monitoring}. In particular, note that due to the nature of SREV being Scratch-programmed and web-based, it reached a special agreement with DM-D.S.S. to use the API without the need of all users paying for this, since it is hard to integrate such function into a web application.
 
-Quarog is a relatively new application and only supports basic functionalities of EEW Viewing and past earthquake listing, as shown in Figure \ref{fig:quarog-monitor-features}. JQuake is solely dedicated to earthquake and tsunami monitoring as shown in Figure \ref{fig:jquake-monitor-features}, while KREV has features like rain clouds map and natural disaster warning which is beyond the scope of this analysis.
+Quarog is a relatively new application and only supports basic functionalities of EEW Viewing and past earthquake listing, as shown in Figure \ref{fig:quarog-monitor-features}. JQuake is solely dedicated to earthquake and tsunami monitoring as shown in Figure \ref{fig:jquake-monitor-features}, while KREV has features like rain clouds map and natural disaster warning which is beyond the scope of this analysis (which is a burden to users only requiring earthquake monitoring and a waste of storage space).
 
 \begin{table}[!ht]
     \centering
 
     \begin{tabular}{|c||c|c|c|c|}
         \hline
-        Feature                       & JQuake                                                & SREV                                                     & KEV        & Quarog     \\
+        Feature                        & JQuake                                                & SREV                                                     & KEV        & Quarog     \\
         \hline\hline
-        DM-D.S.S. Websocket Support   & \checkmark                                            & \checkmark \footnote{Integrated with no-login required.} & \checkmark & \checkmark \\
+        DM-D.S.S. Websocket Support    & \checkmark                                            & \checkmark \footnote{Integrated with no-login required.} & \checkmark & \checkmark \\
         \hline
-        Real-time Sensor Data         & \checkmark                                            & \checkmark                                               & \checkmark &            \\
+        Real-time Sensor Data          & \checkmark                                            & \checkmark                                               & \checkmark &            \\
         \hline
-        Vibration Alert               & \checkmark                                            & \checkmark                                               & \checkmark &            \\
+        Vibration Alert                & \checkmark                                            & \checkmark                                               & \checkmark &            \\
         \hline
-        Past Earthquake List          & \checkmark                                            & \checkmark                                               & \checkmark & \checkmark \\
+        Past Earthquake List           & \checkmark                                            & \checkmark                                               & \checkmark & \checkmark \\
         \hline
-        Tsunami Warning               & \checkmark \footnote{Tsunami forecast not avaliable.} & \checkmark                                               & \checkmark &            \\
+        Past Earthquake Details        &                                                       & \checkmark                                               & \checkmark & \checkmark \\
         \hline
-        Realtime EEW                  & \checkmark                                            & \checkmark                                               & \checkmark & \checkmark \\
+        Tsunami Warning                & \checkmark \footnote{Tsunami forecast not avaliable.} & \checkmark                                               & \checkmark &            \\
         \hline
-        Calculated Seismic Wavefronts & \checkmark                                            & \checkmark                                               & \checkmark & \checkmark \\
+        Realtime EEW                   & \checkmark                                            & \checkmark                                               & \checkmark & \checkmark \\
         \hline
-        Replay                        & \checkmark                                            &                                                          & \checkmark &            \\
+        Calculated Seismic Wavefronts  & \checkmark                                            & \checkmark                                               & \checkmark & \checkmark \\
+        \hline
+        User-Defined Key Monitor Point & \checkmark                                            &                                                          & \checkmark &            \\
+        \hline
+        Sub-Map for the Okinawa Area   & \checkmark                                            &                                                          & \checkmark &            \\
+        \hline
+        Replay                         & \checkmark                                            &                                                          & \checkmark &            \\
         \hline
     \end{tabular}
 
@@ -240,17 +248,17 @@ There are also a variety of configuration options avaliable for all apps, as lis
 
     \begin{tabular}{|c||c|c|c|c|}
         \hline
-        Feature             & JQuake     & SREV       & KEV        & Quarog     \\
+        Feature             & JQuake     & SREV                                                   & KEV        & Quarog     \\
         \hline\hline
-        DM-D.S.S. Login     & \checkmark &            & \checkmark & \checkmark \\
+        DM-D.S.S. Login     & \checkmark & \footnote{Already integrated with special permission.} & \checkmark & \checkmark \\
         \hline
-        Sound Alert         & \checkmark & \checkmark & \checkmark & \checkmark \\
+        Sound Alert         & \checkmark & \checkmark                                             & \checkmark & \checkmark \\
         \hline
-        System Notification &            &            & \checkmark &            \\
+        System Notification &            &                                                        & \checkmark &            \\
         \hline
-        Colour Theme        &            &            & \checkmark & \checkmark \\
+        Colour Theme        &            &                                                        & \checkmark & \checkmark \\
         \hline
-        Map Colouring Style &            & \checkmark &            & \checkmark \\
+        Map Colouring Style &            & \checkmark                                             &            & \checkmark \\
         \hline
     \end{tabular}
     \caption{Feature comparison in configuration and customisability of existing solutions}
@@ -275,11 +283,31 @@ There are also a variety of configuration options avaliable for all apps, as lis
 
 \subsection{Features of proposed solution}
 
-As a result of research, you should identify the key features (in general terms) that your system will have:
-\begin{itemize}
-    \item List of key features that will be Required
-    \item Discussion of the scope and potential limitations to the system given the time constraints.
-\end{itemize}
+Based on the potential user/client interview results, and the research into the exsisting solutions, the following key features should appear in the solution, since they are essential to earthquake monitoring applications:
+\begin{enumerate}
+    \item DM-D.S.S. Login functionality (for the data source)
+    \item Real-Time Sensor Shake Internsity Data (w/ vibration alert)
+    \item EEW Visuallisation (w/ Calculated Seismic Wavefronts)
+    \item Past Earthquake List (w/ Option to review details)
+    \item Tsunami Warning Visuallisation (w/ Related Sounds)
+\end{enumerate}
+
+However, due to the limitation of time and the difficulty of implementation, the following functionalities are not the key to implementation, which include mostly the customisation parts, ranked in decreasing importancy:
+\begin{enumerate}
+    \item User-Defined Key Monitor Point
+    \item Customisable Sound Alert
+    \item Customisable Colour Theme
+    \item Customisable Map Colouring Style
+\end{enumerate}
+
+The following features might not be avaliable due to the time constraints and the complexity behind such system:
+\begin{enumerate}
+    \item Replay (due to a server needing to store past data)
+    \item Sub-Map for the Okinawa Area (due to the difficulty in implementatino)
+    \item Map Zooming Feature (due to the complexity in the map colouring functionality)
+\end{enumerate}
+
+With those key features implemented, the application should mirror all essential functionalities of a earthquake monitoring application, as compared to the four exsisting solutions above.
 
 \subsection{Requirements Specification}
 The requirements specification is a document/contract with the client that outlines what you will deliver. The contents need to have SMART (specific, measurable, achievable, realistic, timely) goals.
