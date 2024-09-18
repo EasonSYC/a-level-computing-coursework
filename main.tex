@@ -7,15 +7,10 @@
 \usepackage{textcomp}
 \usepackage{hyperref}
 \usepackage{lastpage}
-\usepackage{amsmath}
 \usepackage{amsfonts}
-\usepackage{amssymb}
-\usepackage{amsthm}
 \usepackage{xltxtra}
 \usepackage{fontawesome5}
-\usepackage{footnote}
 \usepackage[format=plain,justification=centering]{caption}
-\makesavenoteenv{table}
 
 \graphicspath{{img/}}
 
@@ -139,52 +134,52 @@ The author interviewed my friend Wesley Ma, who is a passionate geologist on ear
 
 \begin{enumerate}
     \item \textit{Which earthquake monitoring apps do you use?}
-    
-    \textbf{Response:} JQuake, SREV, Quarog, KEV, Kyoshin-Monitor (Support discontinued), Kiwi Monitor (Support discontinued)
+
+          \textbf{Response:} JQuake, SREV, Quarog, KEVI, Kyoshin-Monitor (Support discontinued), Kiwi Monitor (Support discontinued)
 
     \item \textit{Do you subscribe/pay to services such as DM-D.S.S. to use earthquake monitoring apps, and do you think it is worth the price?}
-    
-    \textbf{Response:} Yes. However DM-D.S.S. is a little bit expensive. However, the price becomes more affordable considering the information provided by the subscription.
+
+          \textbf{Response:} Yes. However DM-D.S.S. is a little bit expensive. However, the price becomes more affordable considering the information provided by the subscription.
 
     \item \textit{Do you watch YouTube livestreams on earthquake monitoring?}
-    
-    \textbf{Response:} I do not usually watch the live streams, as almost no one who has already has a monitoring app will use the stream. They provide mostly the same information as the applications, just real-time streaming the windows.
+
+          \textbf{Response:} I do not usually watch the live streams, as almost no one who has already has a monitoring app will use the stream. They provide mostly the same information as the applications, just real-time streaming the windows.
 
     \item \textit{Why do you use earthquake monitoring apps?}
-    
-    \textbf{Response:} To monitor the earthquake. This is derived from my interest in broadcasting culture in Japan. This eventually led me to be intrigued with the development of earthquake monitoring technologies and theories in Japan.
+
+          \textbf{Response:} To monitor the earthquake. This is derived from my interest in broadcasting culture in Japan. This eventually led me to be intrigued with the development of earthquake monitoring technologies and theories in Japan.
 
     \item \textit{How often do you use earthquake monitoring apps (e.g. all the time/after school/only after big earthquakes)?}
-    
-    \textbf{Response:} After big earthquakes. But I usually open one or two apps for all-day monitoring to catch potential major (or medium) earthquakes.
+
+          \textbf{Response:} After big earthquakes. But I usually open one or two apps for all-day monitoring to catch potential major (or medium) earthquakes.
 
     \item \textit{Describe the advantages and disadvantages of each of them, mentioning the specific features.}
-    
-    \textbf{Response:}
-    \begin{itemize}
-        \item SREV is a good one, but it only available in a browser with no app.
-        \item Kyoshin-Monitor and Kiwi Monitor are relatively more stable, but the source is not the same as that from the former two apps, and its support is also discontinued.
-        \item Quarog has weak response time and interacting interface.
-        \item JQuake is the most developed app, which includes nearly all functions that can be thought of. However sometimes the connection of WebSocket is unstable.
-        \item KEW does not have the sound files configured by default. Some information are not displayed clearly enough.
-    \end{itemize}
-    
+
+          \textbf{Response:}
+          \begin{itemize}
+              \item SREV is a good one, but it only available in a browser with no app.
+              \item Kyoshin-Monitor and Kiwi Monitor are relatively more stable, but the source is not the same as that from the former two apps, and its support is also discontinued.
+              \item Quarog has weak response time and interacting interface.
+              \item JQuake is the most developed app, which includes nearly all functions that can be thought of. However sometimes the connection of WebSocket is unstable.
+              \item KEW does not have the sound files configured by default. Some information are not displayed clearly enough.
+          \end{itemize}
+
     \item \textit{What features do you use the most/least?}
-    
-    \textbf{Response:} Basic earthquake notifications, and should be including sufficient and prompt information.
+
+          \textbf{Response:} Basic earthquake notifications, and should be including sufficient and prompt information.
 
     \item \textit{What features are redundant in the earthquake monitoring apps you use?}
-    
-    \textbf{Response:} KEV has a weather monitoring function, which could be redundant. But that could be caused by the different purposes of the app. Hence, no further comments. It is not a bad thing.
+
+          \textbf{Response:} KEVI has a weather monitoring function, which could be redundant. But that could be caused by the different purposes of the app. Hence, no further comments. It is not a bad thing.
 
     \item \textit{What are the critical features of an earthquake monitoring app?}
-    
-    \textbf{Response:} To provide accurate, prompt and detailed information according to the source released by the JMA, the information display interface should be easy to read and understand. This is not only helping the people who like to monitor, but more importantly, provides the easiest way to the people who really need to seek information to minimise the harm brought by earthquakes and successive disaster.
+
+          \textbf{Response:} To provide accurate, prompt and detailed information according to the source released by the JMA, the information display interface should be easy to read and understand. This is not only helping the people who like to monitor, but more importantly, provides the easiest way to the people who really need to seek information to minimise the harm brought by earthquakes and successive disaster.
 
     \item \textit{What additional features would you like to have in those existing apps?}
-    
-    \textbf{Response:} Summarise all the useful features from different apps into one app. Stable connection. Nothing else.
-    
+
+          \textbf{Response:} Summarise all the useful features from different apps into one app. Stable connection. Nothing else.
+
 
 \end{enumerate}
 
@@ -196,17 +191,17 @@ Based on the applications the author uses and the feedback from interviewee, the
     \item Scratch Realtime Earthquake Viewer (SREV)
 
           \url{https://kotoho7.github.io/scratch-realtime-earthquake-viewer-page/}
-    \item Kyoshin EEW Viewer for ingen (KEV) \url{https://svs.ingen084.net/kyoshineewviewer/}
+    \item Kyoshin EEW Viewer for Ingen (KEVI) \url{https://svs.ingen084.net/kyoshineewviewer/}
     \item Quarog \url{https://fuku1213.github.io/quarog-site/}
 \end{itemize}
 
-Supported platforms of those apps are listed in Table \ref{table:exist-platform}. In particular, note that SREV is a web-based and GitHub Pages-hosted application therefore supporting all platforms. KEV is written in .NET Framework and supports the second most platforms, with JQuake not supporting Linux and Quarog only supporting Windows.
+Supported platforms of those apps are listed in Table \ref{table:exist-platform}. In particular, note that SREV is a web-based and GitHub Pages-hosted application therefore supporting all platforms. KEVI is written in .NET Framework and supports the second most platforms, with JQuake not supporting Linux and Quarog only supporting Windows.
 
 \begin{table}[!ht]
     \centering
     \begin{tabular}{|c||c|c|c|c|}
         \hline
-        Platform    & JQuake     & SREV       & KEV        & Quarog     \\
+        Platform    & JQuake     & SREV       & KEVI       & Quarog     \\
         \hline\hline
         Windows     & \checkmark & \checkmark & \checkmark & \checkmark \\
         \hline
@@ -223,40 +218,42 @@ Supported platforms of those apps are listed in Table \ref{table:exist-platform}
 
 An overview feature table of monitoring is analysied in Table \ref{table:exist-monitoring}. In particular, note that due to the nature of SREV being Scratch-programmed and web-based, it reached a special agreement with DM-D.S.S. to use the API without the need of all users paying for this, since it is hard to integrate such function into a web application.
 
-Quarog is a relatively new application and only supports basic functionalities of EEW Viewing and past earthquake listing, as shown in Figure \ref{fig:quarog-monitor-features}. JQuake is solely dedicated to earthquake and tsunami monitoring as shown in Figure \ref{fig:jquake-monitor-features}, while KEV has features like rain clouds map and natural disaster warning which is beyond the scope of this analysis (which is a burden to users only requiring earthquake monitoring and a waste of storage space).
+Quarog is a relatively new application and only supports basic functionalities of EEW Viewing and past earthquake listing, as shown in Figure \ref{fig:quarog-monitor-features}. JQuake is solely dedicated to earthquake and tsunami monitoring as shown in Figure \ref{fig:jquake-monitor-features}, while KEVI has features like rain clouds map and natural disaster warning which is beyond the scope of this analysis (which is a burden to users only requiring earthquake monitoring and a waste of storage space).
+
+It is worth noting that for SREV, DM-D.S.S. is integrated with special permission with no login required. For JQuake, although it has tsunami warnings/special warnings, the tsunami forecast is not available.
 
 \begin{table}[!ht]
     \centering
 
     \begin{tabular}{|c||c|c|c|c|}
         \hline
-        Feature                        & JQuake                                                & SREV                                                     & KEV        & Quarog     \\
+        Feature                        & JQuake     & SREV       & KEVI       & Quarog     \\
         \hline\hline
-        DM-D.S.S. Websocket Support    & \checkmark                                            & \checkmark \footnote{Integrated with no-login required.} & \checkmark & \checkmark \\
+        DM-D.S.S. WebSocket Support    & \checkmark & \checkmark & \checkmark & \checkmark \\
         \hline
-        Real-time Sensor Data          & \checkmark                                            & \checkmark                                               & \checkmark &            \\
+        Real-time Sensor Data          & \checkmark & \checkmark & \checkmark &            \\
         \hline
-        Vibration Alert                & \checkmark                                            & \checkmark                                               & \checkmark &            \\
+        Vibration Alert                & \checkmark & \checkmark & \checkmark &            \\
         \hline
-        Past Earthquake List           & \checkmark                                            & \checkmark                                               & \checkmark & \checkmark \\
+        Past Earthquake List           & \checkmark & \checkmark & \checkmark & \checkmark \\
         \hline
-        Past Earthquake Details        &                                                       & \checkmark                                               & \checkmark & \checkmark \\
+        Past Earthquake Details        &            & \checkmark & \checkmark & \checkmark \\
         \hline
-        Tsunami Warning                & \checkmark \footnote{Tsunami forecast not avaliable.} & \checkmark                                               & \checkmark &            \\
+        Tsunami Warning                & \checkmark & \checkmark & \checkmark &            \\
         \hline
-        Realtime EEW                   & \checkmark                                            & \checkmark                                               & \checkmark & \checkmark \\
+        Realtime EEW                   & \checkmark & \checkmark & \checkmark & \checkmark \\
         \hline
-        Calculated Seismic Wavefronts  & \checkmark                                            & \checkmark                                               & \checkmark & \checkmark \\
+        Calculated Seismic Wavefronts  & \checkmark & \checkmark & \checkmark & \checkmark \\
         \hline
-        User-Defined Key Monitor Point & \checkmark                                            &                                                          & \checkmark &            \\
+        User-Defined Key Monitor Point & \checkmark &            & \checkmark &            \\
         \hline
-        Sub-Map for the Okinawa Area   & \checkmark                                            &                                                          & \checkmark &            \\
+        Sub-Map for the Okinawa Area   & \checkmark &            & \checkmark &            \\
         \hline
-        Replay                         & \checkmark                                            &                                                          & \checkmark &            \\
+        Replay                         & \checkmark &            & \checkmark &            \\
         \hline
     \end{tabular}
 
-    \caption{Feature comparison in monitoring of existing solutions}
+    \caption[Feature comparison in monitoring of existing solutions]{Feature comparison in monitoring of existing solutions}
     \label{table:exist-monitoring}
 \end{table}
 
@@ -277,24 +274,24 @@ Quarog is a relatively new application and only supports basic functionalities o
     \label{fig:quarog-monitor-features}
 \end{figure}
 
-There are also a variety of configuration options avaliable for all apps, as listed in Table \ref{table:exist-config}. Both KEV and Quarog supports the adjustment of the colour theme, and Quarog even supports changing the style of how blocks are displayed and coloured as shown in Figure \ref{fig:kev-colour-cust} and \ref{fig:quarog-cust}. Playing a sound on the speaker is also common among the apps to remind the user of earthquakes.
+There are also a variety of configuration options avaliable for all apps, as listed in Table \ref{table:exist-config}. Both KEVI and Quarog supports the adjustment of the colour theme, and Quarog even supports changing the style of how blocks are displayed and coloured as shown in Figure \ref{fig:KEVI-colour-cust} and \ref{fig:quarog-cust}. Playing a sound on the speaker is also common among the apps to remind the user of earthquakes.
 
 \begin{table}[!ht]
     \centering
 
     \begin{tabular}{|c||c|c|c|c|}
         \hline
-        Feature             & JQuake     & SREV                                                   & KEV        & Quarog     \\
+        Feature             & JQuake     & SREV       & KEVI       & Quarog     \\
         \hline\hline
-        DM-D.S.S. Login     & \checkmark & \footnote{Already integrated with special permission.} & \checkmark & \checkmark \\
+        DM-D.S.S. Login     & \checkmark &            & \checkmark & \checkmark \\
         \hline
-        Sound Alert         & \checkmark & \checkmark                                             & \checkmark & \checkmark \\
+        Sound Alert         & \checkmark & \checkmark & \checkmark & \checkmark \\
         \hline
-        System Notification &            &                                                        & \checkmark &            \\
+        System Notification &            &            & \checkmark &            \\
         \hline
-        Colour Theme        &            &                                                        & \checkmark & \checkmark \\
+        Colour Theme        &            &            & \checkmark & \checkmark \\
         \hline
-        Map Colouring Style &            & \checkmark                                             &            & \checkmark \\
+        Map Colouring Style &            & \checkmark &            & \checkmark \\
         \hline
     \end{tabular}
     \caption{Feature comparison in configuration and customisability of existing solutions}
@@ -304,9 +301,9 @@ There are also a variety of configuration options avaliable for all apps, as lis
 \begin{figure}[!ht]
     \centering
 
-    \includegraphics[width=0.5\linewidth]{kerv-colour.png}
-    \caption[Customisable colour scheme of KEV]{Customisable colour scheme of KEV, screenshot from website.}
-    \label{fig:kev-colour-cust}
+    \includegraphics[width=0.5\linewidth]{KEVI-colour.png}
+    \caption[Customisable colour scheme of KEVI]{Customisable colour scheme of KEVI, screenshot from website.}
+    \label{fig:KEVI-colour-cust}
 \end{figure}
 
 \begin{figure}[!ht]
@@ -347,7 +344,7 @@ With those key features implemented, the application should mirror all essential
 
 \subsection{Critical Path}
 
-The functionality of this application can essentially be divied into \(1+2+1+n\) steps, where the 1 is to receive information from the API/Websocket provided by DM-D.S.S., and 2 is to, briefly say:
+The functionality of this application can essentially be divied into \(1+2+1+n\) steps, where the 1 is to receive information from the API/WebSocket provided by DM-D.S.S., and 2 is to, briefly saying:
 \begin{enumerate}
     \item Real-time Monitoring: Produce a real-time map to monitor real time vibration and plot real-time EEW/tsunami warnings
     \item Past-earthquake Viewing: Produce a menu to select an earthquake to display information on the map.
@@ -355,11 +352,66 @@ The functionality of this application can essentially be divied into \(1+2+1+n\)
 
 The next 1 is to merge these two functions, specifically the functionality to switch back to the real-time monitoring option immediately when a new EEW is released (to make sure the user does not miss any information on realtime EEWs while looking at past earthquake information).
 
-The final \(n\) is to implement a setting page for customisation.
+The final \(n\) is to implement a setting page for customisation, and some extra additional features.
 
-TODO: Detailed Critical Path
+\bigskip
+
+\textbf{Part 1.} DM-D.S.S. WebSocket Connection.
+\begin{enumerate}
+    \item Investigate into the list of APIs/WebSockets that should be used by the application.
+    \item Implement classes/DTOs to convert the information into C\# objects.
+    \item Implement classes to transfer real-time WebSocket XML/JSON to the classes and DTOs.
+    \item Use simple API Key to test the functionality of this sub-system.
+    \item Implement OAuth 2 login to reduce complexity and increase security.
+    \item Implement login page to link account with application to reduce complexity.
+\end{enumerate}
+
+\textbf{Part 2a.} Real-time Monitoring Map.
+\begin{enumerate}
+    \item Implement a Japan map in the application.
+    \item Achieve and store the loactions of the monitoring points in Japan, using necesasry information from JMA and DM-D.S.S.
+    \item Colour the monitoring points using a colour scheme on the map.
+    \item Investigate into and implement an algorithm to detect shake in a certain area of the map.
+    \item Achieve and store the names of areas of earthquake epicenters from JMA.
+    \item Investigate into and implement an algorithm to calculate seismic wave fronts.
+    \item Plot and display real time EEWs, considering special cases such as:
+          \begin{itemize}
+              \item Cancellation of EEW;
+              \item Upgrade from EEW Forecast to EEW Warning;
+              \item Multiple Earthquakes (hence displaying epicenters with labels).
+          \end{itemize}
+    \item Implement functionality of colouring areas on the map with the maximum expected intensity.
+    \item Achieve and store the names of shorelines from JMA.
+    \item Plot and display real time tsunami warnings.
+\end{enumerate}
+
+\textbf{Part 2b.} Past-earthquake Viewing.
+\begin{enumerate}
+    \item Implement a side-list of a list of path earthquakes.
+    \item Provide a button to view the detailed information on the earthquake (e.g. magnitude, epicenter, time).
+    \item Implement functionality to plot the detected maximum intensities on the map, from where they are detected.
+    \item Provide external link to view earthquake in the JMA website.
+\end{enumerate}
+
+\textbf{Part 3.} Joint functionality.
+\begin{enumerate}
+    \item Provide sidebar to switch between real-time minitoring and past-earthquake viewing.
+    \item Implement automatic functionatlity to switch back to real-time earthquake monitoring when a shake over a certain magnitude is detected, or an EEW/Tsunami Warning is being published.
+\end{enumerate}
+
+\textbf{Part 4.} Setting page for customisation and some more.
+\begin{enumerate}
+    \item Implement customisable voice and sound playing (e.g. when EEW (over certain magnitude) is published, when an earthquake information detail is received, etc.)
+    \item Implement customisable colour scheme for the colouring of different intensity scales, with several built in default.
+    \item Implement key monitoring point with special warnings when a earthquake with more than a certain intensity is expected to hit that point.
+    \item Implement a map-zooming feature.
+    \item Implement a sub-map for the Okinawa Area.
+\end{enumerate}
 
 \subsection{Requirements Specification}
+
+TODO: Requirements Specification
+
 The requirements specification is a document/contract with the client that outlines what you will deliver. The contents need to have SMART (specific, measurable, achievable, realistic, timely) goals.
 
 After your system has been completed you will need to test against this.
