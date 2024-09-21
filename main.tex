@@ -363,7 +363,6 @@ The final \(n\) is to implement a setting page for customisation, and some extra
     \item Implement classes to transfer real-time WebSocket XML/JSON to the classes and DTOs.
     \item Use simple API Key to test the functionality of this sub-system.
     \item Implement OAuth 2 login to reduce complexity and increase security.
-    \item Implement login page to link account with application to reduce complexity.
 \end{enumerate}
 
 \textbf{Part 2a.} Real-time Monitoring Map.
@@ -450,23 +449,23 @@ Table \ref{table:abbrs} for types of testing. [M] afterwards will stand for a ne
         \hline
         Req. \textnumero & Description                                     & Success Criteria                & Testing    \\
         \hline \hline
-        1(a)             & Login to DM-D.S.S. using an API Key             & Login successful                & UT [M]     \\
+        1(i)             & Login to DM-D.S.S. using an API Key             & Login successful                & UT [M]     \\
         \hline
-        1(b)             & Call HTTP-Based APIs                            & Successful calls                & UT (M)     \\
+        1(ii)            & Call HTTP-Based APIs                            & Successful calls                & UT (M)     \\
         \hline
-        1(c)             & Connect to WebSocket Data Feed                  & Successful calls                & UT [M]     \\
+        1(iii)           & Connect to WebSocket Data Feed                  & Successful calls                & UT [M]     \\
         \hline
-        1(d)             & Obtain stable connection on WS                  & Connectioned 30min              & PT (M)     \\
+        1(iv)            & Obtain stable connection on WS                  & Connectioned 30min              & PT (M)     \\
         \hline
-        1(e)             & Parse JSON and XML into C\# objects             & Information successfully parsed & UT         \\
+        1(v)             & Parse JSON and XML into C\# objects             & Information successfully parsed & UT         \\
         \hline
-        1(f)             & Exception handling for incorrect JSON and XML   & Exceptions thrown               & UT         \\
+        1(vi)            & Exception handling for incorrect JSON and XML   & Exceptions thrown               & UT         \\
         \hline
-        1(g)             & Exception handling for failed connections       & Exceptions thrown               & UT (M)     \\
+        1(vii)           & Exception handling for failed connections       & Exceptions thrown               & UT (M)     \\
         \hline
-        1(h)             & Integrated functionatlity from login to parsing & Correct objects created         & IT, FT [M] \\
+        1(viii)          & Integrated functionatlity from login to parsing & Correct objects created         & IT, FT [M] \\
         \hline
-        1(i)*            & Login to DM-D.S.S. using OAuth2                 & Login successful                & UT (M)     \\
+        1(ix)*           & Login to DM-D.S.S. using OAuth2                 & Login successful                & UT (M)     \\
         \hline
     \end{tabular}
     \caption{Requirements for Part 1}
@@ -480,23 +479,23 @@ Table \ref{table:abbrs} for types of testing. [M] afterwards will stand for a ne
         \hline
         Req. \textnumero & Description                                     & Success Criteria                & Testing    \\
         \hline \hline
-        2a(a)            & Login to DM-D.S.S. using an API Key             & Login successful                & UT [M]     \\
+        2a(i)            & Login to DM-D.S.S. using an API Key             & Login successful                & UT [M]     \\
         \hline
-        2a(b)            & Call HTTP-Based APIs                            & Successful calls                & UT (M)     \\
+        2a(ii)           & Call HTTP-Based APIs                            & Successful calls                & UT (M)     \\
         \hline
-        2a(c)            & Connect to WebSocket Data Feed                  & Successful calls                & UT [M]     \\
+        2a(iii)          & Connect to WebSocket Data Feed                  & Successful calls                & UT [M]     \\
         \hline
-        2a(d)            & Obtain stable connection on WS                  & Connected 30min                 & PT (M)     \\
+        2a(iv)           & Obtain stable connection on WS                  & Connected 30min                 & PT (M)     \\
         \hline
-        2a(e)            & Parse JSON and XML into C\# objects             & Information successfully parsed & UT         \\
+        2a(v)            & Parse JSON and XML into C\# objects             & Information successfully parsed & UT         \\
         \hline
-        2a(f)            & Exception handling for incorrect JSON and XML   & Exceptions thrown               & UT         \\
+        2a(vi)           & Exception handling for incorrect JSON and XML   & Exceptions thrown               & UT         \\
         \hline
-        2a(g)            & Exception handling for failed connections       & Exceptions thrown               & UT (M)     \\
+        2a(vii)          & Exception handling for failed connections       & Exceptions thrown               & UT (M)     \\
         \hline
-        2a(h)            & Integrated functionatlity from login to parsing & Correct objects created         & IT, FT [M] \\
+        2a(viii)         & Integrated functionatlity from login to parsing & Correct objects created         & IT, FT [M] \\
         \hline
-        2a(i)*           & Login to DM-D.S.S. using OAuth2                 & Login successful                & UT (M)     \\
+        2a(ix)*          & Login to DM-D.S.S. using OAuth2                 & Login successful                & UT (M)     \\
         \hline
     \end{tabular}
     \caption{Requirements for Part 2(a)}
@@ -510,23 +509,23 @@ Table \ref{table:abbrs} for types of testing. [M] afterwards will stand for a ne
         \hline
         Req. \textnumero & Description                                     & Success Criteria                & Testing    \\
         \hline \hline
-        2b(a)             & Login to DM-D.S.S. using an API Key             & Login successful                & UT [M]     \\
+        2b(i)            & Login to DM-D.S.S. using an API Key             & Login successful                & UT [M]     \\
         \hline
-        2b(b)             & Call HTTP-Based APIs                            & Successful calls                & UT (M)     \\
+        2b(ii)           & Call HTTP-Based APIs                            & Successful calls                & UT (M)     \\
         \hline
-        2b(c)             & Connect to WebSocket Data Feed                  & Successful calls                & UT [M]     \\
+        2b(iii)          & Connect to WebSocket Data Feed                  & Successful calls                & UT [M]     \\
         \hline
-        2b(d)             & Obtain stable connection on WS                  & Connectioned 30min              & PT (M)     \\
+        2b(iv)           & Obtain stable connection on WS                  & Connectioned 30min              & PT (M)     \\
         \hline
-        2b(e)             & Parse JSON and XML into C\# objects             & Information successfully parsed & UT         \\
+        2b(v)            & Parse JSON and XML into C\# objects             & Information successfully parsed & UT         \\
         \hline
-        2b(f)             & Exception handling for incorrect JSON and XML   & Exceptions thrown               & UT         \\
+        2b(vi)           & Exception handling for incorrect JSON and XML   & Exceptions thrown               & UT         \\
         \hline
-        2b(g)             & Exception handling for failed connections       & Exceptions thrown               & UT (M)     \\
+        2b(vii)          & Exception handling for failed connections       & Exceptions thrown               & UT (M)     \\
         \hline
-        2b(h)             & Integrated functionatlity from login to parsing & Correct objects created         & IT, FT [M] \\
+        2b(viii)         & Integrated functionatlity from login to parsing & Correct objects created         & IT, FT [M] \\
         \hline
-        2b(i)*            & Login to DM-D.S.S. using OAuth2                 & Login successful                & UT (M)     \\
+        2b(ix)*          & Login to DM-D.S.S. using OAuth2                 & Login successful                & UT (M)     \\
         \hline
     \end{tabular}
     \caption{Requirements for Part 2(b)}
@@ -540,23 +539,23 @@ Table \ref{table:abbrs} for types of testing. [M] afterwards will stand for a ne
         \hline
         Req. \textnumero & Description                                     & Success Criteria                & Testing    \\
         \hline \hline
-        3(a)             & Login to DM-D.S.S. using an API Key             & Login successful                & UT [M]     \\
+        3(i)             & Login to DM-D.S.S. using an API Key             & Login successful                & UT [M]     \\
         \hline
-        3(b)             & Call HTTP-Based APIs                            & Successful calls                & UT (M)     \\
+        3(ii)            & Call HTTP-Based APIs                            & Successful calls                & UT (M)     \\
         \hline
-        3(c)             & Connect to WebSocket Data Feed                  & Successful calls                & UT [M]     \\
+        3(iii)           & Connect to WebSocket Data Feed                  & Successful calls                & UT [M]     \\
         \hline
-        3(d)             & Obtain stable connection on WS                  & Connectioned 30min              & PT (M)     \\
+        3(iv)            & Obtain stable connection on WS                  & Connectioned 30min              & PT (M)     \\
         \hline
-        3(e)             & Parse JSON and XML into C\# objects             & Information successfully parsed & UT         \\
+        3(v)             & Parse JSON and XML into C\# objects             & Information successfully parsed & UT         \\
         \hline
-        3(f)             & Exception handling for incorrect JSON and XML   & Exceptions thrown               & UT         \\
+        3(vi)            & Exception handling for incorrect JSON and XML   & Exceptions thrown               & UT         \\
         \hline
-        3(g)             & Exception handling for failed connections       & Exceptions thrown               & UT (M)     \\
+        3(vii)           & Exception handling for failed connections       & Exceptions thrown               & UT (M)     \\
         \hline
-        3(h)             & Integrated functionatlity from login to parsing & Correct objects created         & IT, FT [M] \\
+        3(viii)          & Integrated functionatlity from login to parsing & Correct objects created         & IT, FT [M] \\
         \hline
-        3(i)*            & Login to DM-D.S.S. using OAuth2                 & Login successful                & UT (M)     \\
+        3(ix)*           & Login to DM-D.S.S. using OAuth2                 & Login successful                & UT (M)     \\
         \hline
     \end{tabular}
     \caption{Requirements for Part 3}
