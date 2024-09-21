@@ -1,4 +1,4 @@
-\documentclass{article}
+\documentclass[10pt]{article}
 
 \usepackage[a4paper]{geometry}
 \usepackage{fancyhdr}
@@ -14,7 +14,7 @@
 
 \graphicspath{{img/}}
 
-\AddToHook{cmd/section/before}{\newpage}
+\AddToHook{cmd/section/before}{\clearpage}
 
 \newcommand{\Title}{Early Earthquake and Tsunami Warning Viewer}
 \newcommand{\Author}{Yicheng Shao (Eason)}
@@ -41,7 +41,7 @@
 Give a brief summary outline of your project.
 \thispagestyle{nohead}
 
-\newpage
+\clearpage
 \noindent \copyright 2024--2025 Yicheng Shao (Eason).
 
 
@@ -60,7 +60,7 @@ Give a brief summary outline of your project.
 \rhead{\Title}
 \SetFooter
 
-\newpage
+\clearpage
 \tableofcontents
 
 \section{Analysis}
@@ -410,28 +410,157 @@ The final \(n\) is to implement a setting page for customisation, and some extra
 
 \subsection{Requirements Specification}
 
-TODO: Requirements Specification
+A detailed specification is defined here that is to be aimemd to be fufilled at the end of the project, split into four sections:
+\begin{enumerate}
+    \item \textbf{DM-D.S.S. Functionality} -- Corresponding to \textbf{Part 1}, in Table \ref{table:requirements-part-one}
+    \item \textbf{Real-Time Earthquake Monitoring} -- Corresponding to \textbf{Part 2a}, in Table \ref{table:requirements-part-two-a}
+    \item \textbf{Past-earthquake Viewing} -- Corrseponding to \textbf{Part 2b}, in Table \ref{table:requirements-part-two-b}
+    \item \textbf{GUI Design} -- Corresponding to \textbf{Part 3, 4}, in Table \ref{table:requirements-part-three}
+\end{enumerate}
 
-The requirements specification is a document/contract with the client that outlines what you will deliver. The contents need to have SMART (specific, measurable, achievable, realistic, timely) goals.
+The objectives here are SMART, meaning they are specific, measurable, achievable, realistic and timely.
 
-After your system has been completed you will need to test against this.
+Note that those marked with an * means they are optional.
+
+Table \ref{table:abbrs} for types of testing. [M] afterwards will stand for a necessary manual testing (i.e. specific user inputs), while (M) will stand for supplmentary manual testing (i.e. will have stand-alone tests as well as manual tests).
+
+\begin{table}[!ht]
+    \centering
+    \begin{tabular}{|l|c|}
+        \hline
+        Test Method         & Abbr. \\
+        \hline\hline
+        Unit Testing        & UT    \\
+        \hline
+        Integrated Testing  & IT    \\
+        \hline
+        Functional Testing  & FT    \\
+        \hline
+        Performance Testing & PT    \\
+        \hline
+    \end{tabular}
+    \caption{Measurement methods}
+    \label{table:abbrs}
+\end{table}
 
 \begin{table}[!ht]
     \centering
 
-    \begin{tabular}{|l|p{0.15\linewidth}|l|p{0.3\linewidth}|}
+    \begin{tabular}{|c|p{0.4\linewidth}|p{0.25\linewidth}|l|}
         \hline
-        Requirement \textnumero & Description & Success Criteria & Measurement Method \\
+        Req. \textnumero & Description                                     & Success Criteria                & Testing    \\
         \hline \hline
-                                &             &                  &                    \\
+        1(a)             & Login to DM-D.S.S. using an API Key             & Login successful                & UT [M]     \\
         \hline
-                                &             &                  &                    \\
+        1(b)             & Call HTTP-Based APIs                            & Successful calls                & UT (M)     \\
         \hline
-                                &             &                  &                    \\
+        1(c)             & Connect to WebSocket Data Feed                  & Successful calls                & UT [M]     \\
+        \hline
+        1(d)             & Obtain stable connection on WS                  & Connectioned 30min              & PT (M)     \\
+        \hline
+        1(e)             & Parse JSON and XML into C\# objects             & Information successfully parsed & UT         \\
+        \hline
+        1(f)             & Exception handling for incorrect JSON and XML   & Exceptions thrown               & UT         \\
+        \hline
+        1(g)             & Exception handling for failed connections       & Exceptions thrown               & UT (M)     \\
+        \hline
+        1(h)             & Integrated functionatlity from login to parsing & Correct objects created         & IT, FT [M] \\
+        \hline
+        1(i)*            & Login to DM-D.S.S. using OAuth2                 & Login successful                & UT (M)     \\
         \hline
     \end{tabular}
-    \caption{Table of Requirements.}
-    \label{table:requirements}
+    \caption{Requirements for Part 1}
+    \label{table:requirements-part-one}
+\end{table}
+
+\begin{table}[!ht]
+    \centering
+
+    \begin{tabular}{|c|p{0.4\linewidth}|p{0.25\linewidth}|l|}
+        \hline
+        Req. \textnumero & Description                                     & Success Criteria                & Testing    \\
+        \hline \hline
+        2a(a)            & Login to DM-D.S.S. using an API Key             & Login successful                & UT [M]     \\
+        \hline
+        2a(b)            & Call HTTP-Based APIs                            & Successful calls                & UT (M)     \\
+        \hline
+        2a(c)            & Connect to WebSocket Data Feed                  & Successful calls                & UT [M]     \\
+        \hline
+        2a(d)            & Obtain stable connection on WS                  & Connected 30min                 & PT (M)     \\
+        \hline
+        2a(e)            & Parse JSON and XML into C\# objects             & Information successfully parsed & UT         \\
+        \hline
+        2a(f)            & Exception handling for incorrect JSON and XML   & Exceptions thrown               & UT         \\
+        \hline
+        2a(g)            & Exception handling for failed connections       & Exceptions thrown               & UT (M)     \\
+        \hline
+        2a(h)            & Integrated functionatlity from login to parsing & Correct objects created         & IT, FT [M] \\
+        \hline
+        2a(i)*           & Login to DM-D.S.S. using OAuth2                 & Login successful                & UT (M)     \\
+        \hline
+    \end{tabular}
+    \caption{Requirements for Part 2(a)}
+    \label{table:requirements-part-two-a}
+\end{table}
+
+\begin{table}[!ht]
+    \centering
+
+    \begin{tabular}{|c|p{0.4\linewidth}|p{0.25\linewidth}|l|}
+        \hline
+        Req. \textnumero & Description                                     & Success Criteria                & Testing    \\
+        \hline \hline
+        2b(a)             & Login to DM-D.S.S. using an API Key             & Login successful                & UT [M]     \\
+        \hline
+        2b(b)             & Call HTTP-Based APIs                            & Successful calls                & UT (M)     \\
+        \hline
+        2b(c)             & Connect to WebSocket Data Feed                  & Successful calls                & UT [M]     \\
+        \hline
+        2b(d)             & Obtain stable connection on WS                  & Connectioned 30min              & PT (M)     \\
+        \hline
+        2b(e)             & Parse JSON and XML into C\# objects             & Information successfully parsed & UT         \\
+        \hline
+        2b(f)             & Exception handling for incorrect JSON and XML   & Exceptions thrown               & UT         \\
+        \hline
+        2b(g)             & Exception handling for failed connections       & Exceptions thrown               & UT (M)     \\
+        \hline
+        2b(h)             & Integrated functionatlity from login to parsing & Correct objects created         & IT, FT [M] \\
+        \hline
+        2b(i)*            & Login to DM-D.S.S. using OAuth2                 & Login successful                & UT (M)     \\
+        \hline
+    \end{tabular}
+    \caption{Requirements for Part 2(b)}
+    \label{table:requirements-part-two-b}
+\end{table}
+
+\begin{table}[!ht]
+    \centering
+
+    \begin{tabular}{|c|p{0.4\linewidth}|p{0.25\linewidth}|l|}
+        \hline
+        Req. \textnumero & Description                                     & Success Criteria                & Testing    \\
+        \hline \hline
+        3(a)             & Login to DM-D.S.S. using an API Key             & Login successful                & UT [M]     \\
+        \hline
+        3(b)             & Call HTTP-Based APIs                            & Successful calls                & UT (M)     \\
+        \hline
+        3(c)             & Connect to WebSocket Data Feed                  & Successful calls                & UT [M]     \\
+        \hline
+        3(d)             & Obtain stable connection on WS                  & Connectioned 30min              & PT (M)     \\
+        \hline
+        3(e)             & Parse JSON and XML into C\# objects             & Information successfully parsed & UT         \\
+        \hline
+        3(f)             & Exception handling for incorrect JSON and XML   & Exceptions thrown               & UT         \\
+        \hline
+        3(g)             & Exception handling for failed connections       & Exceptions thrown               & UT (M)     \\
+        \hline
+        3(h)             & Integrated functionatlity from login to parsing & Correct objects created         & IT, FT [M] \\
+        \hline
+        3(i)*            & Login to DM-D.S.S. using OAuth2                 & Login successful                & UT (M)     \\
+        \hline
+    \end{tabular}
+    \caption{Requirements for Part 3}
+    \label{table:requirements-part-three}
 \end{table}
 
 \section{Design}
@@ -587,7 +716,7 @@ You need to give consideration to a number of potential future improvements that
 
 \section{Code Listing}
 
-\newpage
+\clearpage
 \listoftables
 \listoffigures
 \end{document}
