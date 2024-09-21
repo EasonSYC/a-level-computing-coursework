@@ -19,6 +19,7 @@
 \newcommand{\Title}{Early Earthquake and Tsunami Warning Viewer}
 \newcommand{\Author}{Yicheng Shao (Eason)}
 \newcommand{\CandNo}{[1234]}
+% TODO: Candidate Number
 
 \newcommand{\SetFooter}{\lfoot{Candidate Number: \CandNo}\rfoot{Page \thepage\space of \pageref{LastPage}}}
 \newcommand{\GitHubHref}[2]{\href{https://github.com/#1/#2}{\faGithub\space #1/#2}}
@@ -314,6 +315,8 @@ There are also a variety of configuration options avaliable for all apps, as lis
     \label{fig:quarog-cust}
 \end{figure}
 
+% TODO: Include analysis on GUI
+
 \subsection{Features of proposed solution}
 
 Based on the potential user/client interview results, and the research into the exsisting solutions, the following key features should appear in the solution, since they are essential to earthquake monitoring applications:
@@ -433,8 +436,6 @@ Table \ref{table:abbrs} for types of testing. [M] afterwards will stand for a ne
         \hline
         Integrated Testing  & IT    \\
         \hline
-        Functional Testing  & FT    \\
-        \hline
         Performance Testing & PT    \\
         \hline
     \end{tabular}
@@ -447,25 +448,25 @@ Table \ref{table:abbrs} for types of testing. [M] afterwards will stand for a ne
 
     \begin{tabular}{|c|p{0.4\linewidth}|p{0.25\linewidth}|l|}
         \hline
-        Req. \textnumero & Description                                     & Success Criteria                & Testing    \\
+        Req. \textnumero & Description                                               & Success Criteria                & Testing \\
         \hline \hline
-        1(i)             & Login to DM-D.S.S. using an API Key             & Login successful                & UT [M]     \\
+        1(i)             & Login to DM-D.S.S. using an API Key                       & Login successful                & UT [M]  \\
         \hline
-        1(ii)            & Call HTTP-Based APIs                            & Successful calls                & UT (M)     \\
+        1(ii)            & Call HTTP-Based APIs                                      & Successful calls                & UT (M)  \\
         \hline
-        1(iii)           & Connect to WebSocket Data Feed                  & Successful calls                & UT [M]     \\
+        1(iii)           & Connect to WebSocket Data Feed                            & Successful calls                & UT [M]  \\
         \hline
-        1(iv)            & Obtain stable connection on WS                  & Connectioned 30min              & PT (M)     \\
+        1(iv)            & Obtain stable connection on WS                            & Connectioned 30min              & PT (M)  \\
         \hline
-        1(v)             & Parse JSON and XML into C\# objects             & Information successfully parsed & UT         \\
+        1(v)             & Successfully parse JSON and XML into C\# objects          & Information successfully parsed & UT      \\
         \hline
-        1(vi)            & Exception handling for incorrect JSON and XML   & Exceptions thrown               & UT         \\
+        1(vi)            & Exception handling for incorrect JSON and XML             & Exceptions thrown               & UT      \\
         \hline
-        1(vii)           & Exception handling for failed connections       & Exceptions thrown               & UT (M)     \\
+        1(vii)           & Exception handling for failed connections                 & Exceptions thrown               & UT (M)  \\
         \hline
-        1(viii)          & Integrated functionatlity from login to parsing & Correct objects created         & IT, FT [M] \\
+        1(viii)          & Integrated functionatlity from login to providing objects & Correct objects created         & IT [M]  \\
         \hline
-        1(ix)*           & Login to DM-D.S.S. using OAuth2                 & Login successful                & UT (M)     \\
+        1(ix)*           & Login to DM-D.S.S. using OAuth2                           & Login successful                & UT (M)  \\
         \hline
     \end{tabular}
     \caption{Requirements for Part 1}
@@ -477,25 +478,29 @@ Table \ref{table:abbrs} for types of testing. [M] afterwards will stand for a ne
 
     \begin{tabular}{|c|p{0.4\linewidth}|p{0.25\linewidth}|l|}
         \hline
-        Req. \textnumero & Description                                     & Success Criteria                & Testing    \\
+        Req. \textnumero & Description                                                                           & Success Criteria                                              & Testing    \\
         \hline \hline
-        2a(i)            & Login to DM-D.S.S. using an API Key             & Login successful                & UT [M]     \\
+        2a(i)            & Display real time shake-intensities on the map                                        & Correct coloured points at correct locations                  & IT         \\
         \hline
-        2a(ii)           & Call HTTP-Based APIs                            & Successful calls                & UT (M)     \\
+        2a(ii)           & Implement algorithm to display shake detection on the map                             & Use squares to indicate shake detected in area                & UT, IT, PT \\
         \hline
-        2a(iii)          & Connect to WebSocket Data Feed                  & Successful calls                & UT [M]     \\
+        2a(iii)          & Display the time at the corner of the UI                                              & Time displayed with less than 100ms error                     & UT         \\
         \hline
-        2a(iv)           & Obtain stable connection on WS                  & Connected 30min                 & PT (M)     \\
+        2a(iv)           & Display real-time EEW when issued                                                     & Epicenter at correct position                                 & IT         \\
         \hline
-        2a(v)            & Parse JSON and XML into C\# objects             & Information successfully parsed & UT         \\
+        2a(v)            & Update/Cancel EEW when appropriate                                                    & Correctly updated and plotted                                 & IT         \\
         \hline
-        2a(vi)           & Exception handling for incorrect JSON and XML   & Exceptions thrown               & UT         \\
+        2a(vi)           & Calculate and display seismic wavefronts by algorithm                                 & Calculated and plotted without significant delay              & UT, IT, PT \\
         \hline
-        2a(vii)          & Exception handling for failed connections       & Exceptions thrown               & UT (M)     \\
+        2a(vii)          & Colour map with expected maximum intensity of EEW                                     & Correctly coloured                                            & UT, IT     \\
         \hline
-        2a(viii)         & Integrated functionatlity from login to parsing & Correct objects created         & IT, FT [M] \\
+        2a(viii)         & Display the exp. magnitude, location, depth and intensity when EEW issued             & Correctly formatted and displayed                             & UT, IT     \\
         \hline
-        2a(ix)*          & Login to DM-D.S.S. using OAuth2                 & Login successful                & UT (M)     \\
+        2a(ix)           & Provide additional EEW information (e.g. detailed time, algorithm used) when prompted & Correctly formatted and displayed                             & IT [M]     \\
+        \hline
+        2a(x)            & Display tsunami warnings when issued                                                  & Coloured at correct location                                  & UT         \\
+        \hline
+        2a(xi)*          & Display real-time shake data at a user-defined point                                  & Display the name of the point with acceleration and intensity & IT         \\
         \hline
     \end{tabular}
     \caption{Requirements for Part 2(a)}
@@ -507,25 +512,19 @@ Table \ref{table:abbrs} for types of testing. [M] afterwards will stand for a ne
 
     \begin{tabular}{|c|p{0.4\linewidth}|p{0.25\linewidth}|l|}
         \hline
-        Req. \textnumero & Description                                     & Success Criteria                & Testing    \\
+        Req. \textnumero & Description                                                                                             & Success Criteria                         & Testing \\
         \hline \hline
-        2b(i)            & Login to DM-D.S.S. using an API Key             & Login successful                & UT [M]     \\
+        2b(i)            & Display past-earthquake side list using data from DM-D.S.S.                                             & Displayed and updated                    & UT, IT  \\
         \hline
-        2b(ii)           & Call HTTP-Based APIs                            & Successful calls                & UT (M)     \\
+        2b(ii)           & Display the time, location, depth, intensity and magnitude of earthquake on the side list               & Correctly formatted and displayed        & UT, IT  \\
         \hline
-        2b(iii)          & Connect to WebSocket Data Feed                  & Successful calls                & UT [M]     \\
+        2b(iii)          & Colouring of the map by the maximum intensity of an earthquake when prompted                            & Correctly coloured                       & UT, IT  \\
         \hline
-        2b(iv)           & Obtain stable connection on WS                  & Connectioned 30min              & PT (M)     \\
+        2b(iv)           & Display details of shake and other additional information provided by JMA when prompted on a sub-window & Correctly formatted and displayed        & UT, IT  \\
         \hline
-        2b(v)            & Parse JSON and XML into C\# objects             & Information successfully parsed & UT         \\
+        2b(v)            & Provide link to external weather services for details                                                   & Linked to correct website and earthquake & UT [M]  \\
         \hline
-        2b(vi)           & Exception handling for incorrect JSON and XML   & Exceptions thrown               & UT         \\
-        \hline
-        2b(vii)          & Exception handling for failed connections       & Exceptions thrown               & UT (M)     \\
-        \hline
-        2b(viii)         & Integrated functionatlity from login to parsing & Correct objects created         & IT, FT [M] \\
-        \hline
-        2b(ix)*          & Login to DM-D.S.S. using OAuth2                 & Login successful                & UT (M)     \\
+        2b(vi)           & Provide link to JMA Earthquake details                                                                  & Linked to correct earthquake             & UT [M]  \\
         \hline
     \end{tabular}
     \caption{Requirements for Part 2(b)}
@@ -537,25 +536,23 @@ Table \ref{table:abbrs} for types of testing. [M] afterwards will stand for a ne
 
     \begin{tabular}{|c|p{0.4\linewidth}|p{0.25\linewidth}|l|}
         \hline
-        Req. \textnumero & Description                                     & Success Criteria                & Testing    \\
+        Req. \textnumero & Description                                                               & Success Criteria                                   & Testing \\
         \hline \hline
-        3(i)             & Login to DM-D.S.S. using an API Key             & Login successful                & UT [M]     \\
+        3(i)             & Provide sidebar to switch between real-time, past earthquake and settings & Sidebar functioning                                & IT [M]  \\
         \hline
-        3(ii)            & Call HTTP-Based APIs                            & Successful calls                & UT (M)     \\
+        3(ii)            & Automatically switch to real-time monitoring when warnings are issued     & Automatically switch with delay less than 1s       & IT, PT  \\
         \hline
-        3(iii)           & Connect to WebSocket Data Feed                  & Successful calls                & UT [M]     \\
+        3(iii)           & Provide an easy-to-use GUI                                                & Potential user rating more than 7 out of 10        & [M]     \\
         \hline
-        3(iv)            & Obtain stable connection on WS                  & Connectioned 30min              & PT (M)     \\
+        3(iv)*           & Provide page to design custom colour scheme                               & Colour scheme designed and applied to the whole UI & UT      \\
         \hline
-        3(v)             & Parse JSON and XML into C\# objects             & Information successfully parsed & UT         \\
+        3(v)*            &                                                                           &                                                    & UT      \\
         \hline
-        3(vi)            & Exception handling for incorrect JSON and XML   & Exceptions thrown               & UT         \\
+        3(vi)*           &                                                                           &                                                    & UT, IT  \\
         \hline
-        3(vii)           & Exception handling for failed connections       & Exceptions thrown               & UT (M)     \\
+        3(vii)*          & Provide zooming feature on map                                            & Map functioning with all specs described in Part 2 & UT, IT  \\
         \hline
-        3(viii)          & Integrated functionatlity from login to parsing & Correct objects created         & IT, FT [M] \\
-        \hline
-        3(ix)*           & Login to DM-D.S.S. using OAuth2                 & Login successful                & UT (M)     \\
+        3(viii)*         & Provide sub-map to display Okinawa Area                                   & Map functioning with all specs described in Part 2 & UT, IT  \\
         \hline
     \end{tabular}
     \caption{Requirements for Part 3}
