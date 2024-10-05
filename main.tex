@@ -63,8 +63,14 @@ Give a brief summary outline of your project.
 
 \clearpage
 \tableofcontents
+\listoftables
+\listoffigures
 
 \section{Analysis}
+
+\subsection*{Overview}
+
+This section introduces the background for the EEW system in place in Japan, consisting of EEW Forecasts and EEW Warnings, and together with the tsunami warnings. Concepts such as intensities, magnitude and epicentres are defined. Two key users and targets are identified, specifically passionate geologists and earthquake-sensitive industries, each having different requirements. A client in the former was interviewed, together with a thorough analysis and comparison of some existing solutions such as SREV, JQuake, KEVI and Quarog. A detailed requirement specification and the critical path is also outlined, consisting of DM-D.S.S. parsing, real-time monitoring, past-earthquake viewing and joint functionalities.
 
 \subsection{Background Information}
 
@@ -74,7 +80,7 @@ Earthquake is one of the most common natural disasters in the whole world, and d
 
 Japan, sitting on the intersection of the Eurasian, the Philippine and the North-American plates, is the countries with most earthquakes. Historically, the Great Kant\=o Earthquake in 1923, the Great East Japan Earthquake in 2011 (a.k.a. the T\=ohoku Earthquake) and the recent 2024 Noto Peninsula Earthquake all caused hundreds of deaths, both due to the result of the earthquake(s) and the resulting tsunami.
 
-To provide protection to its residents, the Japan Meteorological Agency (JMA), together with the National Research Institute for Earth Science and Disaster Resilience (NIED) placed thousands of \textbf{earthquake sensors} across Japan (the Hi-net), with several of them lying deep in the sea bed, measuring displacement, velocity and acceleration, which are connected to multiple servers, including two located in \=Osaka and T\=okyo.
+To provide protection to its residents, the \href{https://www.jma.go.jp/jma/index.html}{Japan Meteorological Agency} (JMA), together with the \href{https://www.bosai.go.jp}{National Research Institute for Earth Science and Disaster Resilience (NIED)} placed thousands of \textbf{earthquake sensors} across Japan (the Hi-net, the K-NET, the KiK-net and the F-NET), with several of them lying deep in the sea bed, measuring displacement, velocity and acceleration, which are connected to multiple servers, including two located in \=Osaka and T\=okyo.
 
 Using data obtained from the sensors, computers do some complicated algorithms (mentioned below) to send out \textbf{early earthquake warnings (EEWs)} automatically within milliseconds. There are two types of EEWs:
 \begin{enumerate}
@@ -95,7 +101,7 @@ After the earthquake, JMA staff will determine the location and severity of tsun
 \end{itemize}
 
 \subsection{Problem Area}
-The main goal of this application is to provide a visualisation of the earthquake/tsunami related data feed(s) provided by JMA's affiliated institution, Disaster Mitigation Data Send Service (DM-D.S.S). There are numerous apps providing a list of recent earthquakes, the real-time data measured by the sensors, and the real time earthquake warning displayed on a map, but rarely are there good apps that combine all those features together satisfyingly, with just the necessary features the author needs.
+The main goal of this application is to provide a visualisation of the earthquake/tsunami related data feed(s) provided by JMA's affiliated institution, \href{https://dmdata.jp}{Disaster Mitigation Data Send Service (DM-D.S.S)}. There are numerous apps providing a list of recent earthquakes, the real-time data measured by the sensors, and the real time earthquake warning displayed on a map, but rarely are there good apps that combine all those features together satisfyingly, with just the necessary features the author needs.
 
 Some applications are no longer being updated due to change in the user's policy of the related data feed. Furthermore, most of the apps available are only in Japanese, not in English or my home language Chinese, which can create trouble for the author to understand.
 
@@ -162,7 +168,7 @@ The author interviewed my friend Wesley Ma, who is a passionate geologist on ear
               \item Kyoshin-Monitor and Kiwi Monitor are relatively more stable, but the source is not the same as that from the former two apps, and its support is also discontinued.
               \item Quarog has weak response time and interacting interface.
               \item JQuake is the most developed app, which includes nearly all functions that can be thought of. However sometimes the connection of WebSocket is unstable.
-              \item KEW does not have the sound files configured by default. Some information are not displayed clearly enough.
+              \item KEVI does not have the sound files configured by default. Some information are not displayed clearly enough.
           \end{itemize}
 
     \item \textit{What features do you use the most/least?}
@@ -188,12 +194,10 @@ The author interviewed my friend Wesley Ma, who is a passionate geologist on ear
 
 Based on the applications the author uses and the feedback from interviewee, there are the following commonly-used applications:
 \begin{itemize}
-    \item JQuake \url{https://jquake.net}
-    \item Scratch Real-time Earthquake Viewer (SREV)
-
-          \url{https://kotoho7.github.io/scratch-realtime-earthquake-viewer-page/}
-    \item Kyoshin EEW Viewer for Ingen (KEVI) \url{https://svs.ingen084.net/kyoshineewviewer/}
-    \item Quarog \url{https://fuku1213.github.io/quarog-site/}
+    \item \href{https://jquake.net}{JQuake}
+    \item \href{https://kotoho7.github.io/scratch-realtime-earthquake-viewer-page/}{Scratch Real-time Earthquake Viewer (SREV)}, available at \GitHubHref{kotoho7}{scratch-realtime-earthquake-viewer-page} in compiled form
+    \item \href{https://svs.ingen084.net/kyoshineewviewer/}{Kyoshin EEW Viewer for Ingen (KEVI)}, available at \GitHubHref{ingen084}{KyoshinEewViewerIngen}
+    \item \href{https://fuku1213.github.io/quarog-site/}{Quarog}
 \end{itemize}
 
 Supported platforms of those apps are listed in Table \ref{table:exist-platform}. In particular, note that SREV is a web-based and GitHub Pages-hosted application therefore supporting all platforms. KEVI is written in .NET Framework and supports the second most platforms, with JQuake not supporting Linux and Quarog only supporting Windows.
@@ -203,13 +207,10 @@ Supported platforms of those apps are listed in Table \ref{table:exist-platform}
     \begin{tabular}{|c||c|c|c|c|}
         \hline
         Platform    & JQuake     & SREV       & KEVI       & Quarog     \\
-        \hline\hline
+        \hline
         Windows     & \checkmark & \checkmark & \checkmark & \checkmark \\
-        \hline
         macOS       & \checkmark & \checkmark & \checkmark &            \\
-        \hline
         Linux       & \checkmark & \checkmark & \checkmark &            \\
-        \hline
         Android/iOS &            & \checkmark &            &            \\
         \hline
     \end{tabular}
@@ -229,27 +230,18 @@ It is worth noting that for SREV, DM-D.S.S. is integrated with special permissio
     \begin{tabular}{|c||c|c|c|c|}
         \hline
         Feature                        & JQuake     & SREV       & KEVI       & Quarog     \\
-        \hline\hline
+        \hline
+        NIED Real-time Shake Support   & \checkmark & \checkmark & \checkmark &            \\
         DM-D.S.S. WebSocket Support    & \checkmark & \checkmark & \checkmark & \checkmark \\
-        \hline
         Real-time Sensor Data          & \checkmark & \checkmark & \checkmark &            \\
-        \hline
         Vibration Alert                & \checkmark & \checkmark & \checkmark &            \\
-        \hline
         Past Earthquake List           & \checkmark & \checkmark & \checkmark & \checkmark \\
-        \hline
         Past Earthquake Details        &            & \checkmark & \checkmark & \checkmark \\
-        \hline
         Tsunami Warning                & \checkmark & \checkmark & \checkmark &            \\
-        \hline
         Real-time EEW                  & \checkmark & \checkmark & \checkmark & \checkmark \\
-        \hline
         Calculated Seismic Wavefronts  & \checkmark & \checkmark & \checkmark & \checkmark \\
-        \hline
         User-Defined Key Monitor Point & \checkmark &            & \checkmark &            \\
-        \hline
         Sub-Map for the Okinawa Area   & \checkmark &            & \checkmark &            \\
-        \hline
         Replay                         & \checkmark &            & \checkmark &            \\
         \hline
     \end{tabular}
@@ -283,15 +275,11 @@ There are also a variety of configuration options available for all apps, as lis
     \begin{tabular}{|c||c|c|c|c|}
         \hline
         Feature             & JQuake     & SREV       & KEVI       & Quarog     \\
-        \hline\hline
+        \hline
         DM-D.S.S. Login     & \checkmark &            & \checkmark & \checkmark \\
-        \hline
         Sound Alert         & \checkmark & \checkmark & \checkmark & \checkmark \\
-        \hline
         System Notification &            &            & \checkmark &            \\
-        \hline
         Colour Theme        &            &            & \checkmark & \checkmark \\
-        \hline
         Map Colouring Style &            & \checkmark &            & \checkmark \\
         \hline
     \end{tabular}
@@ -347,7 +335,7 @@ With those key features implemented, the application should mirror all essential
 
 \subsection{Critical Path}
 
-The functionality of this application can essentially be divided into \(1+2+1+n\) steps, where the 1 is to receive information from the API/WebSocket provided by DM-D.S.S., and 2 is to, briefly saying:
+The functionality of this application can essentially be divided into \(1+2+1+n\) steps, where the 1 is to receive information from the API/WebSocket provided by DM-D.S.S. and NIED, and 2 is to, briefly saying:
 \begin{enumerate}
     \item Real-time Monitoring: Produce a real-time map to monitor real time vibration and plot real-time EEW/tsunami warnings
     \item Past-earthquake Viewing: Produce a menu to select an earthquake to display information on the map.
@@ -359,7 +347,7 @@ The final \(n\) is to implement a setting page for customisation, and some extra
 
 \bigskip
 
-\textbf{Part 1.} DM-D.S.S. WebSocket Connection.
+\paragraph{Part 1. NIED and DM-D.S.S. API/WebSocket Connection}
 \begin{enumerate}
     \item Investigate into the list of APIs/WebSockets that should be used by the application.
     \item Implement classes/DTOs to convert the information into C\# objects.
@@ -368,10 +356,10 @@ The final \(n\) is to implement a setting page for customisation, and some extra
     \item Implement OAuth 2 login to reduce complexity and increase security.
 \end{enumerate}
 
-\textbf{Part 2a.} Real-time Monitoring Map.
+\paragraph{Part 2a. Real-time Monitoring Map}
 \begin{enumerate}
     \item Implement a Japan map in the application.
-    \item Achieve and store the locations of the monitoring points in Japan, using necessary information from JMA and DM-D.S.S.
+    \item Achieve and store the locations of the monitoring points in Japan, using necessary information from JMA, NIED and DM-D.S.S.
     \item Colour the monitoring points using a colour scheme on the map.
     \item Investigate into and implement an algorithm to detect shake in a certain area of the map.
     \item Achieve and store the names of areas of earthquake epicentres from JMA.
@@ -387,7 +375,7 @@ The final \(n\) is to implement a setting page for customisation, and some extra
     \item Plot and display real time tsunami warnings.
 \end{enumerate}
 
-\textbf{Part 2b.} Past-earthquake Viewing.
+\paragraph{Part 2b. Past-earthquake Viewing}
 \begin{enumerate}
     \item Implement a side-list of a list of path earthquakes.
     \item Provide a button to view the detailed information on the earthquake (e.g. magnitude, epicentre, time).
@@ -395,13 +383,13 @@ The final \(n\) is to implement a setting page for customisation, and some extra
     \item Provide external link to view earthquake in the JMA website.
 \end{enumerate}
 
-\textbf{Part 3.} Joint functionality.
+\paragraph{Part 3. Joint functionality}
 \begin{enumerate}
     \item Provide sidebar to switch between real-time monitoring and past-earthquake viewing.
     \item Implement automatic functionality to switch back to real-time earthquake monitoring when a shake over a certain magnitude is detected, or an EEW/Tsunami Warning is being published.
 \end{enumerate}
 
-\textbf{Part 4.} Setting page for customisation and some more.
+\paragraph{Part 4. Setting page for customisation and some more}
 \begin{enumerate}
     \item Implement customisable voice and sound playing (e.g. when EEW (over certain magnitude) is published, when an earthquake information detail is received, etc.)
     \item Implement customisable colour scheme for the colouring of different intensity scales, with several built in default.
@@ -414,7 +402,7 @@ The final \(n\) is to implement a setting page for customisation, and some extra
 
 A detailed specification is defined here that is to be aimed to be fulfilled at the end of the project, split into four sections:
 \begin{enumerate}
-    \item \textbf{DM-D.S.S. Functionality} -- Corresponding to \textbf{Part 1}, in Table \ref{table:requirements-part-one}
+    \item \textbf{NIED and DM-D.S.S. Functionality} -- Corresponding to \textbf{Part 1}, in Table \ref{table:requirements-part-one}
     \item \textbf{Real-Time Earthquake Monitoring} -- Corresponding to \textbf{Part 2a}, in Table \ref{table:requirements-part-two-a}
     \item \textbf{Past-earthquake Viewing} -- Corresponding to \textbf{Part 2b}, in Table \ref{table:requirements-part-two-b}
     \item \textbf{GUI Design} -- Corresponding to \textbf{Part 3, 4}, in Table \ref{table:requirements-part-three}
@@ -428,14 +416,12 @@ Table \ref{table:abbrs} for types of testing. [M] afterwards will stand for a ne
 
 \begin{table}[!ht]
     \centering
-    \begin{tabular}{|l|c|}
+    \begin{tabular}{|c|c|}
         \hline
         Test Method         & Abbr. \\
-        \hline\hline
+        \hline
         Unit Testing        & UT    \\
-        \hline
         Integrated Testing  & IT    \\
-        \hline
         Performance Testing & PT    \\
         \hline
     \end{tabular}
@@ -560,10 +546,124 @@ Table \ref{table:abbrs} for types of testing. [M] afterwards will stand for a ne
 \end{table}
 
 \section{Design}
-Algorithms + Data Structures = Programs.
+\subsection*{Overview}
+This section includes a breakdown of the application into sections of data processing, GUI functionalities and joint functionalities. The use of external sources including DM-D.S.S. and NIED data sources is discussed, together with the relevant formats (XML, JSON) and the objects related. A UML class diagram is included to discuss OOP relations of classes, records (record classes) and enums including use of inheritance, composition, association and aggregation. They also implement different interfaces. An outline of the design of the user interface is included. The expected hardware requirements of the systems are also listed, but any laptop with an up-to-date operating system (running Windows or macOS) should be able to run the program.
+
+\subsection{Data Structures/Data modelling}
+
+\subsubsection{External Data Sources}
+There are two data sources this program will use: the NIED and the DM-D.S.S. Specifically, the former one is used to achieve the real-time shake data of the sensor points which were set up by the government (whose data is free to use), and the latter one is used to achieve past earthquake information and EEW information sent out by the JMA (which is pay-to-use). Note that DM-D.S.S. does also provide the real-time intensity data of the observation points, however it is pay-to-use only for companies and institutions on request. Therefore, it will not be feasible to use this data source in the program since one of and the principle target users is people passionate in monitoring earthquakes.
+
+\paragraph{NIED Data Source}
+
+As mentioned before, NIED has numerous 'earthquake observation nets' across Japan. Specifically, there is the \href{https://www.kyoshin.bosai.go.jp/kyoshin/}{K-NET and the KiK-net}, which is dedicated to the observation of strong seismic motion. The K-NET consists of approximately 1000 sensors located across Japan, while the KiK-net also includes some sensors which are located within the earth, which will often have different readings compared to those located on the surface. They are extremely capable of detecting strong motion of ground. Furthermore, the K-NET and the KiK-net provides real-time intensity data webpage of two types, the \href{http://www.kmoni.bosai.go.jp}{'Kyoshin' monitor} and the \href{https://www.lmoni.bosai.go.jp/monitor/}{long-period ground motion (LPGM) monitor (not working at the time of investigation)}. The \href{https://www.hinet.bosai.go.jp/?LANG=ja}{Hi-net} stands for high-sensitivity seismograph network, and it is dedicated for observation of minor motions of the ground. They release the waveforms to those who are researching seismic movements. As for the \href{https://www.fnet.bosai.go.jp/freesia/top.php?LANG=ja}{F-net} which stands for the Full Range Seismograph Network of Japan, which is used to analyse the mechanism of a certain earthquake by analysing movements. None of the three nets provide a real-time API data feed.
+
+Having compared the functionalities described above of the K/KiK-net, Hi-net and F-net and how they feed the data sources, the most suitable data source to reflect real-time motion of ground movements will be the \textbf{K/KiK-net}'s data feed, since it detects strong ground movements and is available real-time for the purpose of the application. (This is also the data source that JQuake and KEVI use in fact.)
+
+In fact, in addition to these three networks, there are also the S-net, the DONET and the N-net, which detects the ground seismic movements in the sea. These data were adapted by SREV, but this is beyond the scope of this NEA analysis.
+
+A comparison from the official website of \href{https://www.mowlas.bosai.go.jp}{MOWLAS (Monitoring of Waves on Land and Seafloor)} of the three nets are included in Figure \ref{fig:net-comparison} and a map of the distribution of the sensors are included in Figure \ref{fig:net-distribution}.
+
+\begin{figure}[!ht]
+    \centering
+    \includegraphics[width = 0.75\linewidth]{net-comparison.png}
+    \caption{A comparison of the K-NET, F-net and Hi-net.}
+    \label{fig:net-comparison}
+\end{figure}
+
+\begin{figure}[!ht]
+    \centering
+    \includegraphics[width = 0.75\linewidth]{net-distribution.png}
+    \caption{Distribution of the sensors of different nets.}
+    \label{fig:net-distribution}
+\end{figure}
+
+% TODO: Citation
+
+\subparagraph{Achieving image format data source}
+
+The data source fed by the 'Kyoshin' Monitor is split into 8 types (detailed below in table \ref{table:kmoni-data-types}), and each type split into 2 types of data sources, surface sensors and borehole (earth) sensors, with codes in table \ref{table:kmoni-sensor-types}. The link to the GIF image is in the following format:
+
+\begin{center}
+    \url{http://www.kmoni.bosai.go.jp/data/map_img/RealTimeImg/[#1]_[#2]/[yyyyMMdd]/[yyyyMMdd][hhmmss].[#1]_[#2].gif}
+\end{center}
+
+In the link, the [yyyyMMdd] and the [hhmmss] part should be replaced with the date and time respectively (in JST, UTC+8), and the \#1 replaced with the codes detailed below for the data types, and \#2 replaced with the codes detailed below for data sources. An example of the imaged achieved is in Figure \ref{fig:sample-kmoni}
+
+\begin{table}[!ht]
+    \centering
+
+    \begin{tabular}{|c|c|c|}
+        \hline
+        Data Type        & Description/Meaning                     & Code in \@1 \\
+        \hline
+        Real-time Shindo & Real-time Measured Intensity of Sensors & jma         \\
+        PGA              & Peak (Maximal) Ground Acceleration      & acmap       \\
+        PGV              & Peak (Maximal) Ground Velocity          & vcmap       \\
+        PGD              & Peak (Maximal) Ground Displacement      & dcmap       \\
+        Response 0.125Hz & Response spectrum for 0.125Hz Waves     & rsp0125     \\
+        Response 0.250Hz & Response spectrum for 0.250Hz Waves     & rsp0250     \\
+        Response 0.500Hz & Response spectrum for 0.500Hz Waves     & rsp0500     \\
+        Response 1.000Hz & Response spectrum for 1.000Hz Waves     & rsp1000     \\
+        Response 2.000Hz & Response spectrum for 2.000Hz Waves     & rsp2000     \\
+        Response 4.000Hz & Response spectrum for 4.000Hz Waves     & rsp4000     \\
+        \hline
+    \end{tabular}
+    \caption{Data available in 'Kyoshin' monitor}
+    \label{table:kmoni-data-types}
+\end{table}
+
+\begin{table}[!ht]
+    \centering
+
+    \begin{tabular}{|c|c|c|}
+        \hline
+        Sensor Type & Description/Meaning          & Code in \@1 \\
+        \hline
+        Surface     & K-NET and KiK-net sensors    & s           \\
+        Borehole    & KiK-net sensors within earth & b           \\
+        \hline
+    \end{tabular}
+    \caption{Sensors available in 'Kyoshin' monitor}
+    \label{table:kmoni-sensor-types}
+\end{table}
+
+\begin{figure}[!ht]
+    \centering
+    \includegraphics[width = 0.5\linewidth]{sample-kmoni.png}
+    \caption{Sample GIF image achieved from 'Kyoshin' Monitor}
+    \label{fig:sample-kmoni}
+\end{figure}
+
+\subparagraph{Extracting colour for each observation point from image} Unfortunately, it seems to the author (and is widely accepted in the EEW monitoring app development society) that the position of the points (squares) on the image does not follow any significant pattern of position, i.e. there is no obvious conversion of coordinates to us from the official longitude/latitude locations to the positions on the image. Therefore, a manual conversion one-to-one mapping has to be developed.
+
+NIED does have an official released list of observation points, which include their names and positions. This list has around 1700 of those observation points. However, in the actual image (like those in Figure \ref{fig:sample-kmoni}), there are only 1000 of those in use in real time, consistent with K-NET's official introduction, and the rest 700 of those are invalid observation points. Therefore, it will be worth removing them from the list of earthquake monitoring points, before attempting to make the dictionary.
+
+Unfortunately, 1000 is still quite a lot for us to deal with. Luckily, Ingen who used a similar approach to develop the KEVI application has already made such a mapping inside his open-source application in the file \href{https://github.com/ingen084/KyoshinEewViewerIngen/blob/develop/src/KyoshinEewViewer/Assets/ShindoObsPoints.mpk.lz4}{ShindoObsPoints.mpk.lz4} within \GitHubHref{ingen084}{KyoshinEewViewerIngen}, and even developed an editor for this at \GitHubHref{ingen084}{KyoshinShindoPlaceEditor}.
+
+Due to the limited time for this NEA, the author will primarily use the pre-determined observation points for the K-net, and will use the existing application to map the points for KiK-net, which is still a considerable amount of work, but significantly less.
+
+This paragraph referred to \href{https://qiita.com/ingen084/items/7e91f8da2996972ac586}{this blog article} written by Ingen.
+
+% TODO: Where is the list?
+
+\subparagraph{Converting colour back to number format for further processing}
+
+\subparagraph{Flowchart of data and sidenotes}
+
+It is also worth noting that an existing NuGet Library, \GitHubHref{ingen084}{KyoshinMonitorLib} which is designated to manage intensities, as well as extracting intensities from the 'Kyoshin' monitor. This NEA did refer to this for some guidance but is not dependent on this library, and its necessary functionalities within the scope of this NEA is realised again using the author's own code.
+
+It is also worth noting that, technically, scraping the data from the 'Kyoshin' monitor page is not explicitly allowed, however also not explicitly banned either. However, extracting and displaying numerical data in the application is strictly banned by the NIED, and therefore the numerical values will only serve as internal values of the application and will not be displayed in any way.
+
+\paragraph{DM-D.S.S. Data Source}
+
+\subsubsection{OOP Model}
+OOP modelling (classes, methods, attributes, inheritance etc.). Class diagrams would be useful (these are covered in Bond book 1 page 185 onwards). Diagrams should follow conventions for inheritance/composition and private/protected/public methods/attributes.
 
 \subsection{Hierarchy Chart}
-A top-down approach to problem-solving will lead to the identification of tasks with sub-tasks. i.e. modules and functions required. This shows how \textbf{decomposition} is applied.
+As discussed in the analysis section, the program consists of three parts: data-parsing from external data sources, GUI functionalities and joint functionalities, where the GUI part will be divided into two parts focusing on real-time monitoring and past-earthquake information, respectively. A detailed discussion into how different modules can be further split up while at the same time being interacted is discussed, and Figure \ref{fig:hierarchy} is a hierarchy diagram for the whole application. This shows how \textbf{decomposition} technique is applied to reduce a sophisticated problem into more attackable problems.
+
+A top-down approach to problem-solving will lead to the identification of tasks with sub-tasks. i.e. modules and functions required.
 
 \begin{figure}[!ht]
     \centering
@@ -571,13 +671,6 @@ A top-down approach to problem-solving will lead to the identification of tasks 
     \caption{Hierarchy Chart.}
     \label{fig:hierarchy}
 \end{figure}
-
-\subsection{Data Structures/Data modelling}
-\subsubsection{External Data Sources}
-If you are scraping/gathering data from APIs from external sources you should define the relevant format/parameters.
-
-\subsubsection{OOP Model}
-OOP modelling (classes, methods, attributes, inheritance etc.). Class diagrams would be useful (these are covered in Bond book 1 page 185 onwards). Diagrams should follow conventions for inheritance/composition and private/protected/public methods/attributes.
 
 \begin{figure}[!ht]
     \centering
@@ -712,7 +805,4 @@ You need to give consideration to a number of potential future improvements that
 
 \section{Code Listing}
 
-\clearpage
-\listoftables
-\listoffigures
 \end{document}
