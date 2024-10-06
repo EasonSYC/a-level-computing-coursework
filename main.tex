@@ -435,7 +435,7 @@ Table \ref{table:abbrs} for types of testing. [M] afterwards will stand for a ne
 \begin{table}[!ht]
     \centering
 
-    \begin{tabular}{|c|p{0.4\linewidth}|p{0.25\linewidth}|l|}
+    \begin{tabular}{|c||p{0.4\linewidth}|p{0.25\linewidth}|l|}
         \hline
         Req. \textnumero & Description                                              & Success Criteria                & Testing \\
         \hline \hline
@@ -465,7 +465,7 @@ Table \ref{table:abbrs} for types of testing. [M] afterwards will stand for a ne
 \begin{table}[!ht]
     \centering
 
-    \begin{tabular}{|c|p{0.4\linewidth}|p{0.25\linewidth}|l|}
+    \begin{tabular}{|c||p{0.4\linewidth}|p{0.25\linewidth}|l|}
         \hline
         Req. \textnumero & Description                                                                           & Success Criteria                                              & Testing    \\
         \hline \hline
@@ -499,7 +499,7 @@ Table \ref{table:abbrs} for types of testing. [M] afterwards will stand for a ne
 \begin{table}[!ht]
     \centering
 
-    \begin{tabular}{|c|p{0.4\linewidth}|p{0.25\linewidth}|l|}
+    \begin{tabular}{|c||p{0.4\linewidth}|p{0.25\linewidth}|l|}
         \hline
         Req. \textnumero & Description                                                                                             & Success Criteria                         & Testing \\
         \hline \hline
@@ -523,7 +523,7 @@ Table \ref{table:abbrs} for types of testing. [M] afterwards will stand for a ne
 \begin{table}[!ht]
     \centering
 
-    \begin{tabular}{|c|p{0.4\linewidth}|p{0.3\linewidth}|l|}
+    \begin{tabular}{|c||p{0.4\linewidth}|p{0.3\linewidth}|l|}
         \hline
         Req. \textnumero & Description                                                               & Success Criteria                                     & Testing \\
         \hline \hline
@@ -689,9 +689,9 @@ We consider using a suitable base to decompose \(\mathcal{C}\). The colour of th
     \label{fig:hue-scale}
 \end{figure}
 
-Therefore, a colour in the colour space \(\mathcal{C}\) can be represented as a 3-D vector \((H, S, V)\), where \(H \in [0, 360)\) in degrees is the hue value, \(S \in [0, 1]\) stands for the saturation, and \(V \in [0, 1]\) stands for the value (a brightness). And hence we will be able to decompose \(f\) into three components \(f = \left(f_H, f_S, f_V\right)\).
+Therefore, a colour in the colour space \(\mathcal{C}\) can be represented as a 3-D vector \(\mathcal{C} \ni C = (H, S, V)\), where \(H \in [0, 360)\) in degrees is the hue value, \(S \in [0, 1]\) stands for the saturation, and \(V \in [0, 1]\) stands for the value (a brightness). And hence we will be able to decompose \(f\) into three components \(f = \left(f_H, f_S, f_V\right)\).
 
-We would like to plot the values of \(H, S\) and \(V\) against \(h\) (this is the graph of \(f\) and its components) of discrete values of \(h\), and depending on the result we will attempt some fit/regression to a suitable function.
+Figure \ref{fig:hsv-against-row} plots the values of \(H, S\) and \(V\) against \(h\) (this is the graph of \(f\) and its components) of discrete values of \(h\), and depending on the result we will attempt some fit/regression to a suitable function.
 
 \begin{figure}[!ht]
     \centering
@@ -706,6 +706,8 @@ It is worth noting that the scale has some space on the top (to show the type), 
 \[
     h = 1 - \frac{r - 18}{278}.
 \]
+
+Figure \ref{fig:hsv-against-h} shows the result of this transformation being applied.
 
 \begin{figure}[!ht]
     \centering
@@ -731,11 +733,11 @@ We consider finding \(f_H\) first, which is the cyan line. Notice that its trend
         \hline
         \(h\) & \(H = f_H(h)\) \\
         \hline
-        0 & 237\\
-        0.1 & 222\\
-        0.6 & 51\\
-        0.9 & 0\\
-        1 & 0\\
+        0     & 237            \\
+        0.1   & 222            \\
+        0.6   & 51             \\
+        0.9   & 0              \\
+        1     & 0              \\
         \hline
     \end{tabular}
     \caption{Initial values for \(f_H\)}
@@ -785,12 +787,12 @@ As for \(f_S(h)\), the obvious thing to do is to split it into 5 (4) piecewise f
         \hline
         \(h\) & \(S = f_S(h)\) \\
         \hline
-        0 & 1\\
-        0.2 & 1\\
-        0.29 & 0.765\\
-        0.4 & 0.95\\
-        0.5 & 1\\
-        1 & 1\\
+        0     & 1              \\
+        0.2   & 1              \\
+        0.29  & 0.765          \\
+        0.4   & 0.95           \\
+        0.5   & 1              \\
+        1     & 1              \\
         \hline
     \end{tabular}
     \caption{Initial values for \(f_S\)}
@@ -800,11 +802,11 @@ As for \(f_S(h)\), the obvious thing to do is to split it into 5 (4) piecewise f
 This gives us that
 \[
     f_S(h) = \begin{cases}
-        1,           & h \in [0, 0.2],   \\
+        1,              & h \in [0, 0.2],    \\
         -2.611h + 1.522 & h \in [0.2, 0.29], \\
         1.682h + 0.277, & h \in [0.29, 0.4], \\
-        0.5h + 0.75  & h \in [0.4, 0.5], \\
-        1,           & h \in [0.5, 1].
+        0.5h + 0.75     & h \in [0.4, 0.5],  \\
+        1,              & h \in [0.5, 1].
     \end{cases}
 \]
 
@@ -826,15 +828,15 @@ As for \(f_V(h)\), we shall divide it into even more piecewise linear functions.
         \hline
         \(h\) & \(V = f_V(h)\) \\
         \hline
-        0 & 0.8\\
-        0.1 & 0.98\\
-        0.175 & 0.65\\
-        0.2 & 0.82\\
-        0.3 & 0.98\\
-        0.4 & 1\\
-        0.8 & 1\\
-        0.9 & 0.97\\
-        1 & 0.68\\
+        0     & 0.8            \\
+        0.1   & 0.98           \\
+        0.172 & 0.66           \\
+        0.2   & 0.82           \\
+        0.3   & 0.98           \\
+        0.4   & 1              \\
+        0.8   & 1              \\
+        0.9   & 0.97           \\
+        1     & 0.68           \\
         \hline
     \end{tabular}
     \caption{Initial values for \(f_V\)}
@@ -844,14 +846,14 @@ As for \(f_V(h)\), we shall divide it into even more piecewise linear functions.
 This gives us the piecewise function
 \[
     f_V(h) = \begin{cases}
-        1.8h + 0.8, & h \in [0, 0.1], \\
-        -4.4h + 1.42, & h \in [0.1, 0.175], \\
-        6.8h - 0.54, & h \in [0.175, 0.2], \\
-        1.6h + 0.5, & h \in [0.2, 0.3], \\
-        0.2h + 0.92, & h \in [0.3, 0.4], \\
-        1, & h \in [0.4, 0.8], \\
-        -0.3h + 1.24, & h \in [0.8, 0.9], \\
-        -2.9h + 3.58, & h \in [0.9, 1].
+        1.8h + 0.8,      & h \in [0, 0.1],     \\
+        -4.444h + 1.424, & h \in [0.1, 0.172], \\
+        5.714h - 0.323,  & h \in [0.172, 0.2], \\
+        1.6h + 0.5,      & h \in [0.2, 0.3],   \\
+        0.2h + 0.92,     & h \in [0.3, 0.4],   \\
+        1,               & h \in [0.4, 0.8],   \\
+        -0.3h + 1.24,    & h \in [0.8, 0.9],   \\
+        -2.9h + 3.58,    & h \in [0.9, 1].
     \end{cases}
 \]
 
@@ -869,41 +871,78 @@ Note that in this plot, \(V\) when \(h = 0\) or \(h = 1\) is excluded, since jus
 To find \(f^{-1}: \mathcal{C} \to [0, 1]\), we do not need necessarily to find an expression of \(h\) in terms of \((H, V, S)\). If we notice that \(f_H\) is one-to-one on \(h \in [0, 0.9]\), and \(f_V\) is one-to-one on \(h \in [0.9, 1]\), we can use \(f_H^{-1}\) to determine \(h\) from \(H\) only if \(H\) is non-zero, and use \(f_V^{-1}\) otherwise.
 
 \[
-f^{-1}(H, S, V) = \begin{cases}
-    f_H^{-1}(H), & H \neq 0,\\
-    f_V^{-1}(V), & H = 0.
-\end{cases}
+    f^{-1}(H, S, V) = \begin{cases}
+        f_H^{-1}(H), & H \neq 0, \\
+        f_V^{-1}(V), & H = 0.
+    \end{cases}
 \]
 
 Notice that for \(h \in [0.1, 0.6]\), \(f_H\) is a cubic and is not easily invertible. However, it would be plausible to use a binary-search algorithm to find \(h\) based on \(H\) since it is monotonic, and it is within a reasonable amount of time, to relatively good accuracy. Otherwise, on the linear parts, it is fine to simply mathematically invert it.
 
 \subparagraph{Flowchart of data and sidenotes} To summarise, we discussed the mapping from the colour space\(\mathcal{C}\) to the normalised height \(h\), and back, and we also discussed how \(h\) is related with the measured intensity \(I\), the PGA \(a\), the PGV \(v\), and the PGD \(x\). They can be transformed forwards and backwards using simple mathematical explicit relations, and specifically for \(f_H^{-1}(H)\) will use a binary search algorithm.
 
-A flowchart of how data will flow is included in Figure \ref{fig:convert-kmoni}, and how those variables are related is shown in Figure \ref{fig:variable-relation}.
+Figure \ref{fig:kmoni-data-flow} shows the data flow, Figure \ref{fig:variable-relation} shows the relation between abstract variables, and \ref{fig:generated-colour} shows the result of colour generated compared with the original.
 
 \begin{figure}[!ht]
     \centering
-    \includegraphics[width = 0.5\linewidth]{hierarchy_chart.png}
+    \includegraphics[width = 0.8\linewidth]{kmoni-data-flow.png}
     \caption{Flow of data in NIED data sources}
-    \label{fig:convert-kmoni}
+    \label{fig:kmoni-data-flow}
 \end{figure}
 
 \begin{figure}[!ht]
     \centering
-    \includegraphics[width = 0.5\linewidth]{hierarchy_chart.png}
+    \includegraphics[width = 0.9\linewidth]{variable-relation.png}
     \caption{Relation between abstract variables}
     \label{fig:variable-relation}
 \end{figure}
 
-% TODO: Draw the diagrams!
+\begin{figure}[!ht]
+    \centering
+    \includegraphics[scale = 0.6]{jma-scale.png}
+    \includegraphics[scale = 0.6]{generated-colour.png}
+    \caption{Colour generated using fitted functions}
+    \label{fig:generated-colour}
+\end{figure}
 
-It is worth noting that an existing NuGet Library, \GitHubHref{ingen084}{KyoshinMonitorLib} which is designated to manage intensities, as well as extracting intensities from the 'Kyoshin' monitor. This NEA did refer to this for some guidance but is not dependent on this library, and its necessary functionalities within the scope of this NEA is realised again using the author's own code.
+% TODO: Draw the diagram!
+
+It is worth noting that an existing NuGet Library, \GitHubHref{ingen084}{KyoshinMonitorLib} which is designated to manage intensities, as well as extracting intensities from the 'Kyoshin' monitor. This NEA did refer to this for some guidance but is not dependent on this library, and its necessary functionalities within the scope of this NEA is realised again using the author's own code. The developer of this library did also mention that it is quite purpose-built so might not be suitable for general use.
 
 It is also worth noting that, technically, scraping the data from the 'Kyoshin' monitor page of NIED is not explicitly allowed, but not explicitly banned either. However, extracting and displaying numerical data in the application is strictly banned by the NIED, and therefore the numerical values will only serve as internal values of the application and will not be displayed in any way.
 
 This paragraph referred to \href{https://qiita.com/NoneType1/items/a4d2cf932e20b56ca444}{the blog article} written by NoneType1, author of JQuake.
 
 \paragraph{DM-D.S.S. Data Source}
+
+DM-D.S.S. is a well-structured official data source with low latency and reliable information and services. This is going to be the primary data source for most part of the application.
+
+Their APIs are split into two types: HTTP based requests and WebSocket based connections. HTTP based requests are typically for more static information, while WebSocket connections are for live time-essential data feeds, such as the EEW warnings and latest earthquake information.
+
+\subparagraph{Authorisation} There are two types of authorisation that DM-D.S.S. supports, API Keys and OAuth2 Access Tokens.
+
+API Keys access tokens are extremely easy to program, since it simply uses Basic BasicBath64 Authorisation in the header, and uses the key as the username (without a password). However, this introduces an extra layer of complexity for the users, since they would have to go to the settings of the DM-D.S.S. webpage and achieve an API Key to paste into the application, as shown in Figure \ref{fig:api-key-control-panel}.
+
+\begin{figure}[!ht]
+    \centering
+    \includegraphics[width = 0.7\linewidth]{api-key-control-panel.png}
+    \caption{Control panel for API Keys}
+    \label{fig:api-key-control-panel}
+\end{figure}
+
+As for OAuth2, it will be much simpler for the users,
+
+% TODO: I don't really understand how OAuth 2.0 works.
+
+For the purposes of this NEA, we will primarily use the API Key way of accessing DM-D.S.S. since it will be easier to code and debug, and OAuth2 will introduce quite a lot of complexity to the program. However, the program should be designed to be able to modify to OAuth2 authentication without much modification, and if time permits OAuth2 will be implemented in the application.
+
+\subparagraph{HTTP Based Requests}
+
+
+
+\subparagraph{WebSocket Connections}
+
+\subparagraph{Flowchart of data and sidenotes} It is worth noting that an existing NuGet Library, \GitHubHref{ingen084}{DmdataSharp} supports dealing with the DM-D.S.S. data flow and converting them to C\# objects (and exceptions). However, for the purposes of this NEA, we will implement our own way to interact with the APIs and the correlated C\# DTOs. The developer of this library did also mention that it is quite purpose-built so might not be suitable for general use.
 
 \subsubsection{OOP Model}
 OOP modelling (classes, methods, attributes, inheritance etc.). Class diagrams would be useful (these are covered in Bond book 1 page 185 onwards). Diagrams should follow conventions for inheritance/composition and private/protected/public methods/attributes.
