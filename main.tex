@@ -585,7 +585,7 @@ A comparison from the official website of \href{https://www.mowlas.bosai.go.jp}{
 
 \subparagraph{Achieving image format data source}
 
-The data source fed by the 'Kyoshin' Monitor is split into 8 types (detailed below in table \ref{table:kmoni-data-types}), and each type split into 2 types of data sources, surface sensors and borehole (earth) sensors, with codes in table \ref{table:kmoni-sensor-types}. The link to the GIF image is in the following format:
+The data source fed by the 'Kyoshin' Monitor is split into 8 types (detailed below in Table \ref{table:kmoni-data-types}), and each type split into 2 types of data sources, surface sensors and borehole (earth) sensors, with codes in Table \ref{table:kmoni-sensor-types}. The link to the GIF image is in the following format:
 
 \begin{center}
     \url{http://www.kmoni.bosai.go.jp/data/map_img/RealTimeImg/[#1]_[#2]/[yyyyMMdd]/[yyyyMMdd][hhmmss].[#1]_[#2].gif}
@@ -666,7 +666,7 @@ The true numerical data does not seem fully necessary at the first glance (since
     \label{fig:scale-colour}
 \end{figure}
 
-As shown in figure \ref{fig:scale-colour}, the NIED 'Kyoshin' Monitor does indeed provide a scale of colours and reference to numerical values. However, there is a chance that a certain colour is not 'exactly' mapped on the scale, and further concerning that it is very slow and difficult to 'loop over' a colour legend, it is necessary to have an algorithmic-approach (numerical mapping-based approach) to map the colours in the colour space to numerical values (and back) is necessary.
+As shown in Figure \ref{fig:scale-colour}, the NIED 'Kyoshin' Monitor does indeed provide a scale of colours and reference to numerical values. However, there is a chance that a certain colour is not 'exactly' mapped on the scale, and further concerning that it is very slow and difficult to 'loop over' a colour legend, it is necessary to have an algorithmic-approach (numerical mapping-based approach) to map the colours in the colour space to numerical values (and back) is necessary.
 
 Notice that the scale for PGA/PGV/PGD follow a logarithmic scale, while measured intensity follows a linear scale (though noting that the way intensity and magnitude is calculated is logarithmic as well). Therefore, if we normalise the vertical distance from the bottom of the axis \(h\) to \(0 \leq h \leq 1\) (i.e. \(h = 0\) at the bottom of the scale, \(h = 1\) at the top of the scale), and if we denote intensity using \(I\) in JMA scale, PGA as \(a\) in gal, PGV as \(v\) in cm per second, and PGD as \(s\) in cm, from the scale, the following transforming formulae obviously hold:
 \begin{align*}
@@ -680,7 +680,7 @@ However, it is worth noting that NIED did use \(1, 2, 5, 10\) on the logarithmic
 
 The next step is to develop a mapping from this colour space \(\mathcal{C}\) to \(h\), which of course should be invertible. Denote this as \(f: [0, 1] \to \mathcal{C}\).
 
-We consider using a suitable base to decompose \(\mathcal{C}\). The colour of the given scale is an immediate suggestion to use a base containing \textbf{hue}, which in fact is designed to describe how human perceive colour, and unlike RGB and CMYK which uses principle colours to describe colour. A hue scale is shown in figure \ref{fig:hue-scale}.
+We consider using a suitable base to decompose \(\mathcal{C}\). The colour of the given scale is an immediate suggestion to use a base containing \textbf{hue}, which in fact is designed to describe how human perceive colour, and unlike RGB and CMYK which uses principle colours to describe colour. A hue scale is shown in Figure \ref{fig:hue-scale}.
 
 \begin{figure}[!ht]
     \centering
@@ -724,7 +724,25 @@ We consider finding \(f_H\) first, which is the cyan line. Notice that its trend
     \item \(h \in [0.9, 1]\): constant (0).
 \end{itemize}
 
-Furthermore, boundary conditions of \(f_H(0) = 237, f_H(0.1) = 222, f_H(0.6) = 51, f_H(0.9) = 0\) are applied to ensure that the function is continuous and nicely-behaving while matching the existing data. We use the following function to apply the fit:
+\begin{table}[!ht]
+    \centering
+
+    \begin{tabular}{|c|c|}
+        \hline
+        \(h\) & \(H = f_H(h)\) \\
+        \hline
+        0 & 237\\
+        0.1 & 222\\
+        0.6 & 51\\
+        0.9 & 0\\
+        1 & 0\\
+        \hline
+    \end{tabular}
+    \caption{Initial values for \(f_H\)}
+    \label{table:h-against-h-iv}
+\end{table}
+
+Furthermore, boundary conditions in Table \ref{table:h-against-h-iv} are applied to ensure that the function is continuous and nicely-behaving while matching the existing data. We use the following function to apply the fit:
 \[
     f_H(h) = \begin{cases}
         -150h + 237, & h \in [0, 0.1],   \\
@@ -749,7 +767,7 @@ By applying a curve fit to the original data, the following results are obtained
     (y_1, y_2) = (115, 79.5).
 \]
 
-Plotting \(H\) and \(f_H(h)\) against \(h\) gives us figure \ref{fig:h-against-h}, which is decent.
+Plotting \(H\) and \(f_H(h)\) against \(h\) gives us Figure \ref{fig:h-against-h}, which is decent.
 
 \begin{figure}[!ht]
     \centering
@@ -758,9 +776,26 @@ Plotting \(H\) and \(f_H(h)\) against \(h\) gives us figure \ref{fig:h-against-h
     \label{fig:h-against-h}
 \end{figure}
 
-As for \(f_S(h)\), the obvious thing to do is to split it into 5 (4) piecewise functions, specifically \(f_S = 1\) for \(h \in [0, 0.2] \cup [0.5, 1]\), and three linear functions for \(h \in [0.2, 0.29], h \in [0.29, 0.4]\) and \(h \in [0.4, 0.5]\).
+As for \(f_S(h)\), the obvious thing to do is to split it into 5 (4) piecewise functions, specifically \(f_S = 1\) for \(h \in [0, 0.2] \cup [0.5, 1]\), and three linear functions for \(h \in [0.2, 0.29], h \in [0.29, 0.4]\) and \(h \in [0.4, 0.5]\). Initial values are included in Table \ref{table:s-against-h-iv}.
 
-We would also like to have the boundary conditions \(f_S(0.2) = 1, f_S(0.29) = 0.765, f_S(0.4) = 0.95, f_S(0.5) = 1\).
+\begin{table}[!ht]
+    \centering
+
+    \begin{tabular}{|c|c|}
+        \hline
+        \(h\) & \(S = f_S(h)\) \\
+        \hline
+        0 & 1\\
+        0.2 & 1\\
+        0.29 & 0.765\\
+        0.4 & 0.95\\
+        0.5 & 1\\
+        1 & 1\\
+        \hline
+    \end{tabular}
+    \caption{Initial values for \(f_S\)}
+    \label{table:s-against-h-iv}
+\end{table}
 
 This gives us that
 \[
@@ -773,7 +808,7 @@ This gives us that
     \end{cases}
 \]
 
-Plotting this out gives figure \ref{fig:s-against-h}.
+Plotting this out gives Figure \ref{fig:s-against-h}.
 
 \begin{figure}[!ht]
     \centering
@@ -782,7 +817,45 @@ Plotting this out gives figure \ref{fig:s-against-h}.
     \label{fig:s-against-h}
 \end{figure}
 
-As for \(f_V(h)\), 
+As for \(f_V(h)\), we shall divide it into even more piecewise linear functions. Specifically, I chose the intervals \([0, 0.1], [0.1, 0.175], [0.175, 0.2], [0.2, 0.3], [0.3, 0.4], [0.4, 0.8], [0.8, 0.9]\) and \([0.9, 1]\). Initial values are included in Table \ref{table:v-against-h-iv}.
+
+\begin{table}[!ht]
+    \centering
+
+    \begin{tabular}{|c|c|}
+        \hline
+        \(h\) & \(V = f_V(h)\) \\
+        \hline
+        0 & 0.8\\
+        0.1 & 0.98\\
+        0.175 & 0.65\\
+        0.2 & 0.82\\
+        0.3 & 0.98\\
+        0.4 & 1\\
+        0.8 & 1\\
+        0.9 & 0.97\\
+        1 & 0.68\\
+        \hline
+    \end{tabular}
+    \caption{Initial values for \(f_V\)}
+    \label{table:v-against-h-iv}
+\end{table}
+
+This gives us the piecewise function
+\[
+    f_V(h) = \begin{cases}
+        1.8h + 0.8, & h \in [0, 0.1], \\
+        -4.4h + 1.42, & h \in [0.1, 0.175], \\
+        6.8h - 0.54, & h \in [0.175, 0.2], \\
+        1.6h + 0.5, & h \in [0.2, 0.3], \\
+        0.2h + 0.92, & h \in [0.3, 0.4], \\
+        1, & h \in [0.4, 0.8], \\
+        -0.3h + 1.24, & h \in [0.8, 0.9], \\
+        -2.9h + 3.58, & h \in [0.9, 1].
+    \end{cases}
+\]
+
+Plotting this out gives us Figure \ref{fig:v-against-h}
 
 \begin{figure}[!ht]
     \centering
@@ -791,13 +864,44 @@ As for \(f_V(h)\),
     \label{fig:v-against-h}
 \end{figure}
 
-To find \(f^{-1}\),
+Note that in this plot, \(V\) when \(h = 0\) or \(h = 1\) is excluded, since just like every \(h = 0.1 k\) for some \(k \in \mathbb{N}\), they are anomalies created by the horizontal black line in the scale.
 
-\subparagraph{Flowchart of data and sidenotes} To summarise,
+To find \(f^{-1}: \mathcal{C} \to [0, 1]\), we do not need necessarily to find an expression of \(h\) in terms of \((H, V, S)\). If we notice that \(f_H\) is one-to-one on \(h \in [0, 0.9]\), and \(f_V\) is one-to-one on \(h \in [0.9, 1]\), we can use \(f_H^{-1}\) to determine \(h\) from \(H\) only if \(H\) is non-zero, and use \(f_V^{-1}\) otherwise.
+
+\[
+f^{-1}(H, S, V) = \begin{cases}
+    f_H^{-1}(H), & H \neq 0,\\
+    f_V^{-1}(V), & H = 0.
+\end{cases}
+\]
+
+Notice that for \(h \in [0.1, 0.6]\), \(f_H\) is a cubic and is not easily invertible. However, it would be plausible to use a binary-search algorithm to find \(h\) based on \(H\) since it is monotonic, and it is within a reasonable amount of time, to relatively good accuracy. Otherwise, on the linear parts, it is fine to simply mathematically invert it.
+
+\subparagraph{Flowchart of data and sidenotes} To summarise, we discussed the mapping from the colour space\(\mathcal{C}\) to the normalised height \(h\), and back, and we also discussed how \(h\) is related with the measured intensity \(I\), the PGA \(a\), the PGV \(v\), and the PGD \(x\). They can be transformed forwards and backwards using simple mathematical explicit relations, and specifically for \(f_H^{-1}(H)\) will use a binary search algorithm.
+
+A flowchart of how data will flow is included in Figure \ref{fig:convert-kmoni}, and how those variables are related is shown in Figure \ref{fig:variable-relation}.
+
+\begin{figure}[!ht]
+    \centering
+    \includegraphics[width = 0.5\linewidth]{hierarchy_chart.png}
+    \caption{Flow of data in NIED data sources}
+    \label{fig:convert-kmoni}
+\end{figure}
+
+\begin{figure}[!ht]
+    \centering
+    \includegraphics[width = 0.5\linewidth]{hierarchy_chart.png}
+    \caption{Relation between abstract variables}
+    \label{fig:variable-relation}
+\end{figure}
+
+% TODO: Draw the diagrams!
 
 It is worth noting that an existing NuGet Library, \GitHubHref{ingen084}{KyoshinMonitorLib} which is designated to manage intensities, as well as extracting intensities from the 'Kyoshin' monitor. This NEA did refer to this for some guidance but is not dependent on this library, and its necessary functionalities within the scope of this NEA is realised again using the author's own code.
 
-It is also worth noting that, technically, scraping the data from the 'Kyoshin' monitor page is not explicitly allowed, however also not explicitly banned either. However, extracting and displaying numerical data in the application is strictly banned by the NIED, and therefore the numerical values will only serve as internal values of the application and will not be displayed in any way.
+It is also worth noting that, technically, scraping the data from the 'Kyoshin' monitor page of NIED is not explicitly allowed, but not explicitly banned either. However, extracting and displaying numerical data in the application is strictly banned by the NIED, and therefore the numerical values will only serve as internal values of the application and will not be displayed in any way.
+
+This paragraph referred to \href{https://qiita.com/NoneType1/items/a4d2cf932e20b56ca444}{the blog article} written by NoneType1, author of JQuake.
 
 \paragraph{DM-D.S.S. Data Source}
 
