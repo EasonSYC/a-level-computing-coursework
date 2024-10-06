@@ -10,10 +10,26 @@
 \usepackage{amsfonts}
 \usepackage{amsmath}
 \usepackage{xltxtra}
+\usepackage[dvipsnames]{xcolor}
 \usepackage{fontawesome5}
 \usepackage[format=plain,justification=centering]{caption}
 
 \graphicspath{{img/}}
+
+\lstdefinestyle{MyStyle}{
+    basicstyle=\ttfamily,
+    numberstyle=\ttfamily\color{Gray},
+    commentstyle=\color{Green},
+    keywordstyle=\color{Blue},
+    stringstyle=\color{Maroon},
+    numbers=left,
+    captionpos=b,
+    frame=single,
+    breakatwhitespace=true,
+    breaklines=true,
+    keepspaces=true,
+}
+\lstset{style=MyStyle}
 
 \AddToHook{cmd/section/before}{\clearpage}
 
@@ -68,6 +84,7 @@ Give a brief summary outline of your project.
 \tableofcontents
 \listoftables
 \listoffigures
+\lstlistoflistings
 
 \section{Analysis}
 
@@ -591,25 +608,25 @@ The data source fed by the 'Kyoshin' Monitor is split into 8 types (detailed bel
     \url{http://www.kmoni.bosai.go.jp/data/map_img/RealTimeImg/[#1]_[#2]/[yyyyMMdd]/[yyyyMMdd][hhmmss].[#1]_[#2].gif}
 \end{center}
 
-In the link, the [yyyyMMdd] and the [hhmmss] part should be replaced with the date and time respectively (in JST, UTC+8), and the \#1 replaced with the codes detailed below for the data types, and \#2 replaced with the codes detailed below for data sources. An example of the imaged achieved is in Figure \ref{fig:sample-kmoni}
+In the link, the \lstinline{[yyyyMMdd]} and the \lstinline{[hhmmss]} part should be replaced with the date and time respectively (in JST, UTC+8), and the \lstinline{#1} replaced with the codes detailed below for the data types, and \lstinline{#2} replaced with the codes detailed below for data sources. An example of the imaged achieved is in Figure \ref{fig:sample-kmoni}.
 
 \begin{table}[!ht]
     \centering
 
     \begin{tabular}{|c|c|c|}
         \hline
-        Data Type        & Description/Meaning                & Code in \@1 \\
+        Data Type        & Description/Meaning                & Code in \lstinline{#1} \\
         \hline
-        Real-time Shindo & Real-time Measured Intensity       & jma         \\
-        PGA              & Peak (Maximal) Ground Acceleration & acmap       \\
-        PGV              & Peak (Maximal) Ground Velocity     & vcmap       \\
-        PGD              & Peak (Maximal) Ground Displacement & dcmap       \\
-        Response 0.125Hz & Response spectrum for 0.125Hz PGV  & rsp0125     \\
-        Response 0.250Hz & Response spectrum for 0.250Hz PGV  & rsp0250     \\
-        Response 0.500Hz & Response spectrum for 0.500Hz PGV  & rsp0500     \\
-        Response 1.000Hz & Response spectrum for 1.000Hz PGV  & rsp1000     \\
-        Response 2.000Hz & Response spectrum for 2.000Hz PGV  & rsp2000     \\
-        Response 4.000Hz & Response spectrum for 4.000Hz PGV  & rsp4000     \\
+        Real-time Shindo & Real-time Measured Intensity       & \lstinline{jma}        \\
+        PGA              & Peak (Maximal) Ground Acceleration & \lstinline{acmap}      \\
+        PGV              & Peak (Maximal) Ground Velocity     & \lstinline{vcmap}      \\
+        PGD              & Peak (Maximal) Ground Displacement & \lstinline{dcmap}      \\
+        Response 0.125Hz & Response spectrum for 0.125Hz PGV  & \lstinline{rsp0125}    \\
+        Response 0.250Hz & Response spectrum for 0.250Hz PGV  & \lstinline{rsp0250}    \\
+        Response 0.500Hz & Response spectrum for 0.500Hz PGV  & \lstinline{rsp0500}    \\
+        Response 1.000Hz & Response spectrum for 1.000Hz PGV  & \lstinline{rsp1000}    \\
+        Response 2.000Hz & Response spectrum for 2.000Hz PGV  & \lstinline{rsp2000}    \\
+        Response 4.000Hz & Response spectrum for 4.000Hz PGV  & \lstinline{rsp4000}    \\
         \hline
     \end{tabular}
     \caption{Data available in 'Kyoshin' monitor}
@@ -621,10 +638,10 @@ In the link, the [yyyyMMdd] and the [hhmmss] part should be replaced with the da
 
     \begin{tabular}{|c|c|c|}
         \hline
-        Sensor Type & Description/Meaning          & Code in \@1 \\
+        Sensor Type & Description/Meaning          & Code in \lstinline{#2} \\
         \hline
-        Surface     & K-NET and KiK-net sensors    & s           \\
-        Borehole    & KiK-net sensors within earth & b           \\
+        Surface     & K-NET and KiK-net sensors    & \lstinline{s}          \\
+        Borehole    & KiK-net sensors within earth & \lstinline{b}          \\
         \hline
     \end{tabular}
     \caption{Sensors available in 'Kyoshin' monitor}
@@ -857,7 +874,7 @@ This gives us the piecewise function
     \end{cases}
 \]
 
-Plotting this out gives us Figure \ref{fig:v-against-h}
+Plotting this out gives us Figure \ref{fig:v-against-h}.
 
 \begin{figure}[!ht]
     \centering
@@ -905,8 +922,6 @@ Figure \ref{fig:kmoni-data-flow} shows the data flow, Figure \ref{fig:variable-r
     \label{fig:generated-colour}
 \end{figure}
 
-% TODO: Draw the diagram!
-
 It is worth noting that an existing NuGet Library, \GitHubHref{ingen084}{KyoshinMonitorLib} which is designated to manage intensities, as well as extracting intensities from the 'Kyoshin' monitor. This NEA did refer to this for some guidance but is not dependent on this library, and its necessary functionalities within the scope of this NEA is realised again using the author's own code. The developer of this library did also mention that it is quite purpose-built so might not be suitable for general use.
 
 It is also worth noting that, technically, scraping the data from the 'Kyoshin' monitor page of NIED is not explicitly allowed, but not explicitly banned either. However, extracting and displaying numerical data in the application is strictly banned by the NIED, and therefore the numerical values will only serve as internal values of the application and will not be displayed in any way.
@@ -930,19 +945,53 @@ API Keys access tokens are extremely easy to program, since it simply uses Basic
     \label{fig:api-key-control-panel}
 \end{figure}
 
-As for OAuth2, it will be much simpler for the users,
+As for OAuth2, it will be much simpler for the users, since it will provide the user with a login interface on the website, and ask them to give the program certain permissions, which is just a few simple clicks. Rather than the user sharing the credentials with the application, they are shared between the authorisation server (DM-D.S.S.) and the application directly, without the need for the user to deal with such human-unreadable codes.
 
-% TODO: I don't really understand how OAuth 2.0 works.
+How the OAuth2 works for DM-D.S.S. is outlined below:
+
+% TODO: Outline OAuth 2
 
 For the purposes of this NEA, we will primarily use the API Key way of accessing DM-D.S.S. since it will be easier to code and debug, and OAuth2 will introduce quite a lot of complexity to the program. However, the program should be designed to be able to modify to OAuth2 authentication without much modification, and if time permits OAuth2 will be implemented in the application.
 
 \subparagraph{HTTP Based Requests}
 
+Table \ref{table:necessary-permissions} shows the necessary permissions would be necessary for the application to function. How each of them functions will be discussed below.
 
+\begin{table}[!ht]
+    \centering
+
+    \begin{tabular}{|c|c|}
+        \hline
+        Permission Code                     & Permission Details \\
+        \hline
+        \lstinline{contract.list}           &                    \\
+        \lstinline{eew.get.forecast}        &                    \\
+        \lstinline{gd.earthquake}           &                    \\
+        \lstinline{gd.eew}                  &                    \\
+        \lstinline{parameter.earthquake}    &                    \\
+        \lstinline{parameter.realtime}      &                    \\
+        \lstinline{parameter.tsunami}       &                    \\
+        \lstinline{socket.start}            &                    \\
+        \lstinline{socket.list}             &                    \\
+        \lstinline{socket.close}            &                    \\
+        \lstinline{telegram.data}           &                    \\
+        \lstinline{telegram.get.earthquake} &                    \\
+        \lstinline{telegram.list}           &                    \\
+        \hline
+    \end{tabular}
+    \caption{Necessary access permissions for DM-D.S.S.}
+    \label{table:necessary-permissions}
+\end{table}
 
 \subparagraph{WebSocket Connections}
 
-\subparagraph{Flowchart of data and sidenotes} It is worth noting that an existing NuGet Library, \GitHubHref{ingen084}{DmdataSharp} supports dealing with the DM-D.S.S. data flow and converting them to C\# objects (and exceptions). However, for the purposes of this NEA, we will implement our own way to interact with the APIs and the correlated C\# DTOs. The developer of this library did also mention that it is quite purpose-built so might not be suitable for general use.
+
+
+\subparagraph{Flowchart of data and sidenotes}
+
+It is worth noting that an existing NuGet Library, \GitHubHref{ingen084}{DmdataSharp} supports dealing with the DM-D.S.S. data flow and converting them to C\# objects (and exceptions). However, for the purposes of this NEA, we will implement our own way to interact with the APIs and the correlated C\# DTOs. The developer of this library did also mention that it is quite purpose-built so might not be suitable for general use.
+
+This section referred to \href{https://dmdata.jp/docs/reference/}{the official document for DM-D.S.S}.
 
 \subsubsection{OOP Model}
 OOP modelling (classes, methods, attributes, inheritance etc.). Class diagrams would be useful (these are covered in Bond book 1 page 185 onwards). Diagrams should follow conventions for inheritance/composition and private/protected/public methods/attributes.
@@ -1089,7 +1138,5 @@ You need to give consideration to a number of potential future improvements that
     \item The improvements/changes could result from additional functionality that has been identified as being beneficial or could be as a result of required efficiencies if some processes are clunky or require faster run-times
     \item You should then comment on how the proposed change could be implemented moving forward. i.e. what would need to be changed/developed and how? You are not expected to actually make any changes; just comment on the possibilities.
 \end{itemize}
-
-\section{Code Listing}
 
 \end{document}
