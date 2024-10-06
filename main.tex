@@ -727,19 +727,19 @@ We consider finding \(f_H\) first, which is the cyan line. Notice that its trend
 Furthermore, boundary conditions of \(f_H(0) = 237, f_H(0.1) = 222, f_H(0.6) = 51, f_H(0.9) = 0\) are applied to ensure that the function is continuous and nicely-behaving while matching the existing data. We use the following function to apply the fit:
 \[
     f_H(h) = \begin{cases}
-        -150 (x - 0.1) + 222, & h \in [0, 0.1],   \\
-        \odot,               & h \in [0.1, 0.6], \\
-        -170(x-0.9),         & h \in [0.6, 0.9], \\
-        0,                   & h \in [0.9, 1].
+        -150h + 237, & h \in [0, 0.1],   \\
+        \odot,       & h \in [0.1, 0.6], \\
+        -170h + 153, & h \in [0.6, 0.9], \\
+        0,           & h \in [0.9, 1].
     \end{cases}
 \]
 
 Here,
 \begin{align*}
-    \odot & = \frac{222 \cdot (x - 0.3) \cdot (x - 0.4) \cdot (x - 0.6)}{(0.1 - 0.3) \cdot (0.1 - 0.4) \cdot (0.1 - 0.6)} \\
-          & + \frac{y_1 \cdot (x - 0.1) \cdot (x - 0.4) \cdot (x - 0.6)}{(0.3 - 0.1) \cdot (0.3 - 0.4) \cdot (0.3 - 0.6)} \\
-          & + \frac{y_2 \cdot (x - 0.1) \cdot (x - 0.3) \cdot (x - 0.6)}{(0.4 - 0.1) \cdot (0.4 - 0.3) \cdot (0.4 - 0.6)} \\
-          & + \frac{51 \cdot (x - 0.1) \cdot (x - 0.3) \cdot (x - 0.4)}{(0.6 - 0.1) \cdot (0.6 - 0.3) \cdot (0.6 - 0.4)}.
+    \odot & = \frac{222 \cdot (h - 0.3) \cdot (h - 0.4) \cdot (h - 0.6)}{(0.1 - 0.3) \cdot (0.1 - 0.4) \cdot (0.1 - 0.6)} \\
+          & + \frac{y_1 \cdot (h - 0.1) \cdot (h - 0.4) \cdot (h - 0.6)}{(0.3 - 0.1) \cdot (0.3 - 0.4) \cdot (0.3 - 0.6)} \\
+          & + \frac{y_2 \cdot (h - 0.1) \cdot (h - 0.3) \cdot (h - 0.6)}{(0.4 - 0.1) \cdot (0.4 - 0.3) \cdot (0.4 - 0.6)} \\
+          & + \frac{51 \cdot (h - 0.1) \cdot (h - 0.3) \cdot (h - 0.4)}{(0.6 - 0.1) \cdot (0.6 - 0.3) \cdot (0.6 - 0.4)}.
 \end{align*}
 
 Here, \(m_1\) is the gradient of the line for \(h \in [0, 0.1]\), \(y_1 = f_H(0.3), y_2 = f_H(0.4)\) for \(h \in [0.1, 0.6]\) (using Lagrange Polynomial), and the equation between \(h \in [0.6, 0.9]\) is in fact fixed due to the initial conditions.
@@ -749,18 +749,53 @@ By applying a curve fit to the original data, the following results are obtained
     (y_1, y_2) = (115, 79.5).
 \]
 
-Plotting \(H\) and \(f_H(h)\) against \(h\) gives us the following graph, which is decent.
+Plotting \(H\) and \(f_H(h)\) against \(h\) gives us figure \ref{fig:h-against-h}, which is decent.
 
 \begin{figure}[!ht]
     \centering
     \includegraphics[scale = 0.55]{h-against-h.png}
     \caption{The fit result for \(f_H: h \mapsto H\)}
+    \label{fig:h-against-h}
+\end{figure}
+
+As for \(f_S(h)\), the obvious thing to do is to split it into 5 (4) piecewise functions, specifically \(f_S = 1\) for \(h \in [0, 0.2] \cup [0.5, 1]\), and three linear functions for \(h \in [0.2, 0.29], h \in [0.29, 0.4]\) and \(h \in [0.4, 0.5]\).
+
+We would also like to have the boundary conditions \(f_S(0.2) = 1, f_S(0.29) = 0.765, f_S(0.4) = 0.95, f_S(0.5) = 1\).
+
+This gives us that
+\[
+    f_S(h) = \begin{cases}
+        1,           & h \in [0, 0.2],   \\
+        -2.611h + 1.522 & h \in [0.2, 0.29], \\
+        1.682h + 0.277, & h \in [0.29, 0.4], \\
+        0.5h + 0.75  & h \in [0.4, 0.5], \\
+        1,           & h \in [0.5, 1].
+    \end{cases}
+\]
+
+Plotting this out gives figure \ref{fig:s-against-h}.
+
+\begin{figure}[!ht]
+    \centering
+    \includegraphics[scale = 0.55]{s-against-h.png}
+    \caption{The fit result for \(f_S: h \mapsto S\)}
+    \label{fig:s-against-h}
+\end{figure}
+
+As for \(f_V(h)\), 
+
+\begin{figure}[!ht]
+    \centering
+    \includegraphics[scale = 0.55]{v-against-h.png}
+    \caption{The fit result for \(f_V: h \mapsto V\)}
     \label{fig:v-against-h}
 \end{figure}
 
+To find \(f^{-1}\),
+
 \subparagraph{Flowchart of data and sidenotes} To summarise,
 
-It is also worth noting that an existing NuGet Library, \GitHubHref{ingen084}{KyoshinMonitorLib} which is designated to manage intensities, as well as extracting intensities from the 'Kyoshin' monitor. This NEA did refer to this for some guidance but is not dependent on this library, and its necessary functionalities within the scope of this NEA is realised again using the author's own code.
+It is worth noting that an existing NuGet Library, \GitHubHref{ingen084}{KyoshinMonitorLib} which is designated to manage intensities, as well as extracting intensities from the 'Kyoshin' monitor. This NEA did refer to this for some guidance but is not dependent on this library, and its necessary functionalities within the scope of this NEA is realised again using the author's own code.
 
 It is also worth noting that, technically, scraping the data from the 'Kyoshin' monitor page is not explicitly allowed, however also not explicitly banned either. However, extracting and displaying numerical data in the application is strictly banned by the NIED, and therefore the numerical values will only serve as internal values of the application and will not be displayed in any way.
 
