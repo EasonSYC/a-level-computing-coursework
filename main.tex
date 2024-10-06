@@ -8,6 +8,7 @@
 \usepackage{hyperref}
 \usepackage{lastpage}
 \usepackage{amsfonts}
+\usepackage{amsmath}
 \usepackage{xltxtra}
 \usepackage{fontawesome5}
 \usepackage[format=plain,justification=centering]{caption}
@@ -33,6 +34,8 @@
     \fancyhf{}
     \SetFooter
 }
+
+% TODO: Diagrams in English as well as Japanese
 
 \begin{document}
 \pagestyle{fancy}
@@ -267,7 +270,7 @@ It is worth noting that for SREV, DM-D.S.S. is integrated with special permissio
     \label{fig:quarog-monitor-features}
 \end{figure}
 
-There are also a variety of configuration options available for all apps, as listed in Table \ref{table:exist-config}. Both KEVI and Quarog supports the adjustment of the colour theme, and Quarog even supports changing the style of how blocks are displayed and coloured as shown in Figure \ref{fig:KEVI-colour-cust} and \ref{fig:quarog-cust}. Playing a sound on the speaker is also common among the apps to remind the user of earthquakes.
+There are also a variety of configuration options available for all apps, as listed in Table \ref{table:exist-config}. Both KEVI and Quarog supports the adjustment of the colour theme, and Quarog even supports changing the style of how blocks are displayed and coloured as shown in Figure \ref{fig:kevi-colour-cust} and \ref{fig:quarog-cust}. Playing a sound on the speaker is also common among the apps to remind the user of earthquakes.
 
 \begin{table}[!ht]
     \centering
@@ -290,9 +293,9 @@ There are also a variety of configuration options available for all apps, as lis
 \begin{figure}[!ht]
     \centering
 
-    \includegraphics[width=0.5\linewidth]{KEVI-colour.png}
+    \includegraphics[width=0.5\linewidth]{kevi-colour.png}
     \caption[Customisable colour scheme of KEVI]{Customisable colour scheme of KEVI, screenshot from website.}
-    \label{fig:KEVI-colour-cust}
+    \label{fig:kevi-colour-cust}
 \end{figure}
 
 \begin{figure}[!ht]
@@ -595,18 +598,18 @@ In the link, the [yyyyMMdd] and the [hhmmss] part should be replaced with the da
 
     \begin{tabular}{|c|c|c|}
         \hline
-        Data Type        & Description/Meaning                     & Code in \@1 \\
+        Data Type        & Description/Meaning                & Code in \@1 \\
         \hline
-        Real-time Shindo & Real-time Measured Intensity of Sensors & jma         \\
-        PGA              & Peak (Maximal) Ground Acceleration      & acmap       \\
-        PGV              & Peak (Maximal) Ground Velocity          & vcmap       \\
-        PGD              & Peak (Maximal) Ground Displacement      & dcmap       \\
-        Response 0.125Hz & Response spectrum for 0.125Hz Waves     & rsp0125     \\
-        Response 0.250Hz & Response spectrum for 0.250Hz Waves     & rsp0250     \\
-        Response 0.500Hz & Response spectrum for 0.500Hz Waves     & rsp0500     \\
-        Response 1.000Hz & Response spectrum for 1.000Hz Waves     & rsp1000     \\
-        Response 2.000Hz & Response spectrum for 2.000Hz Waves     & rsp2000     \\
-        Response 4.000Hz & Response spectrum for 4.000Hz Waves     & rsp4000     \\
+        Real-time Shindo & Real-time Measured Intensity       & jma         \\
+        PGA              & Peak (Maximal) Ground Acceleration & acmap       \\
+        PGV              & Peak (Maximal) Ground Velocity     & vcmap       \\
+        PGD              & Peak (Maximal) Ground Displacement & dcmap       \\
+        Response 0.125Hz & Response spectrum for 0.125Hz PGV  & rsp0125     \\
+        Response 0.250Hz & Response spectrum for 0.250Hz PGV  & rsp0250     \\
+        Response 0.500Hz & Response spectrum for 0.500Hz PGV  & rsp0500     \\
+        Response 1.000Hz & Response spectrum for 1.000Hz PGV  & rsp1000     \\
+        Response 2.000Hz & Response spectrum for 2.000Hz PGV  & rsp2000     \\
+        Response 4.000Hz & Response spectrum for 4.000Hz PGV  & rsp4000     \\
         \hline
     \end{tabular}
     \caption{Data available in 'Kyoshin' monitor}
@@ -635,7 +638,9 @@ In the link, the [yyyyMMdd] and the [hhmmss] part should be replaced with the da
     \label{fig:sample-kmoni}
 \end{figure}
 
-\subparagraph{Extracting colour for each observation point from image} Unfortunately, it seems to the author (and is widely accepted in the EEW monitoring app development society) that the position of the points (squares) on the image does not follow any significant pattern of position, i.e. there is no obvious conversion of coordinates to us from the official longitude/latitude locations to the positions on the image. Therefore, a manual conversion one-to-one mapping has to be developed.
+\subparagraph{Extracting colour for each observation point from image}
+
+Unfortunately, it seems to the author (and is widely accepted in the EEW monitoring app development society) that the position of the points (squares) on the image does not follow any significant pattern of position, i.e. there is no obvious conversion of coordinates to us from the official longitude/latitude locations to the positions on the image. Therefore, a manual conversion one-to-one mapping has to be developed.
 
 NIED does have an official released list of observation points, which include their names and positions. This list has around 1700 of those observation points. However, in the actual image (like those in Figure \ref{fig:sample-kmoni}), there are only 1000 of those in use in real time, consistent with K-NET's official introduction, and the rest 700 of those are invalid observation points. Therefore, it will be worth removing them from the list of earthquake monitoring points, before attempting to make the dictionary.
 
@@ -649,7 +654,111 @@ This paragraph referred to \href{https://qiita.com/ingen084/items/7e91f8da299697
 
 \subparagraph{Converting colour back to number format for further processing}
 
-\subparagraph{Flowchart of data and sidenotes}
+The true numerical data does not seem fully necessary at the first glance (since we might just as well just achieve the colour from the image and just plot them on the map, without the need to convert to a colour and back). However, for us to detect the shake in certain regions, it is necessary for us to achieve the numerical value to run the algorithm on it. Nevertheless, it is just good to have the number for us to have the numerical value for potential future developments.
+
+\begin{figure}[!ht]
+    \centering
+    \includegraphics[scale = 0.6]{jma-scale.png}
+    \includegraphics[scale = 0.6]{pga-scale.png}
+    \includegraphics[scale = 0.6]{pgv-scale.png}
+    \includegraphics[scale = 0.6]{pgd-scale.png}
+    \caption{Scale colours of different measurements}
+    \label{fig:scale-colour}
+\end{figure}
+
+As shown in figure \ref{fig:scale-colour}, the NIED 'Kyoshin' Monitor does indeed provide a scale of colours and reference to numerical values. However, there is a chance that a certain colour is not 'exactly' mapped on the scale, and further concerning that it is very slow and difficult to 'loop over' a colour legend, it is necessary to have an algorithmic-approach (numerical mapping-based approach) to map the colours in the colour space to numerical values (and back) is necessary.
+
+Notice that the scale for PGA/PGV/PGD follow a logarithmic scale, while measured intensity follows a linear scale (though noting that the way intensity and magnitude is calculated is logarithmic as well). Therefore, if we normalise the vertical distance from the bottom of the axis \(h\) to \(0 \leq h \leq 1\) (i.e. \(h = 0\) at the bottom of the scale, \(h = 1\) at the top of the scale), and if we denote intensity using \(I\) in JMA scale, PGA as \(a\) in gal, PGV as \(v\) in cm per second, and PGD as \(s\) in cm, from the scale, the following transforming formulae obviously hold:
+\begin{align*}
+    I  = 10h - 3     & \iff h      = \frac{I + 3}{10}, \\
+    a  = 10^{5h - 2} & \iff h  = \frac{\lg a + 2}{5},  \\
+    v  = 10^{5h - 3} & \iff h  = \frac{\lg v + 3}{5},  \\
+    x  = 10^{5h - 4} & \iff h  = \frac{\lg x + 4}{5}.  \\
+\end{align*}
+
+However, it is worth noting that NIED did use \(1, 2, 5, 10\) on the logarithmic scale at equal intervals, so it is not a perfect logarithmic scale. The author is unsure why they designed the scale like this, nor if it's an intended approximation. Nevertheless, the logarithmic scale is a good enough approximation.
+
+The next step is to develop a mapping from this colour space \(\mathcal{C}\) to \(h\), which of course should be invertible. Denote this as \(f: [0, 1] \to \mathcal{C}\).
+
+We consider using a suitable base to decompose \(\mathcal{C}\). The colour of the given scale is an immediate suggestion to use a base containing \textbf{hue}, which in fact is designed to describe how human perceive colour, and unlike RGB and CMYK which uses principle colours to describe colour. A hue scale is shown in figure \ref{fig:hue-scale}.
+
+\begin{figure}[!ht]
+    \centering
+    \includegraphics[scale = 0.15]{hue-scale.png}
+    \caption{The hue scale in HSL/HSV encoding}
+    \label{fig:hue-scale}
+\end{figure}
+
+Therefore, a colour in the colour space \(\mathcal{C}\) can be represented as a 3-D vector \((H, S, V)\), where \(H \in [0, 360)\) in degrees is the hue value, \(S \in [0, 1]\) stands for the saturation, and \(V \in [0, 1]\) stands for the value (a brightness). And hence we will be able to decompose \(f\) into three components \(f = \left(f_H, f_S, f_V\right)\).
+
+We would like to plot the values of \(H, S\) and \(V\) against \(h\) (this is the graph of \(f\) and its components) of discrete values of \(h\), and depending on the result we will attempt some fit/regression to a suitable function.
+
+\begin{figure}[!ht]
+    \centering
+    \includegraphics[scale = 0.55]{hsv-against-row.png}
+    \caption{The values of \((H, S, V)\) against pixel row \(r\)}
+    \label{fig:hsv-against-row}
+\end{figure}
+
+Notice that in this plot, all values of \((H, S, V)\) in fact range from \(0\) to \(255\).
+
+It is worth noting that the scale has some space on the top (to show the type), and some space at the bottom. Notice that when the row \(r = 17\) and \(r = 297\) have values significantly different, so we extract the rows \(r = 18\) and \(r = 296\) to correspond (linearly) to \(h = 1\) and \(h = 0\), i.e.,
+\[
+    h = 1 - \frac{r - 18}{278}.
+\]
+
+\begin{figure}[!ht]
+    \centering
+    \includegraphics[scale = 0.55]{hsv-against-h.png}
+    \caption{The values of \((H, S, V)\) against normalised height \(h\)}
+    \label{fig:hsv-against-h}
+\end{figure}
+
+From here onwards, all values of \((H, S, V)\) will be adjusted to be within the range which they should be in, i.e. \(H \in [0, 360), S \in [0, 1], V \in [0, 1]\).
+
+We consider finding \(f_H\) first, which is the cyan line. Notice that its trend can be split into 4 parts:
+\begin{itemize}
+    \item \(h \in [0, 0.1]\): linear;
+    \item \(h \in [0.1, 0.6]\): curving, ideally a cubic;
+    \item \(h \in [0.6, 0.9]\): linear;
+    \item \(h \in [0.9, 1]\): constant (0).
+\end{itemize}
+
+Furthermore, boundary conditions of \(f_H(0) = 237, f_H(0.1) = 222, f_H(0.6) = 51, f_H(0.9) = 0\) are applied to ensure that the function is continuous and nicely-behaving while matching the existing data. We use the following function to apply the fit:
+\[
+    f_H(h) = \begin{cases}
+        -150 (x - 0.1) + 222, & h \in [0, 0.1],   \\
+        \odot,               & h \in [0.1, 0.6], \\
+        -170(x-0.9),         & h \in [0.6, 0.9], \\
+        0,                   & h \in [0.9, 1].
+    \end{cases}
+\]
+
+Here,
+\begin{align*}
+    \odot & = \frac{222 \cdot (x - 0.3) \cdot (x - 0.4) \cdot (x - 0.6)}{(0.1 - 0.3) \cdot (0.1 - 0.4) \cdot (0.1 - 0.6)} \\
+          & + \frac{y_1 \cdot (x - 0.1) \cdot (x - 0.4) \cdot (x - 0.6)}{(0.3 - 0.1) \cdot (0.3 - 0.4) \cdot (0.3 - 0.6)} \\
+          & + \frac{y_2 \cdot (x - 0.1) \cdot (x - 0.3) \cdot (x - 0.6)}{(0.4 - 0.1) \cdot (0.4 - 0.3) \cdot (0.4 - 0.6)} \\
+          & + \frac{51 \cdot (x - 0.1) \cdot (x - 0.3) \cdot (x - 0.4)}{(0.6 - 0.1) \cdot (0.6 - 0.3) \cdot (0.6 - 0.4)}.
+\end{align*}
+
+Here, \(m_1\) is the gradient of the line for \(h \in [0, 0.1]\), \(y_1 = f_H(0.3), y_2 = f_H(0.4)\) for \(h \in [0.1, 0.6]\) (using Lagrange Polynomial), and the equation between \(h \in [0.6, 0.9]\) is in fact fixed due to the initial conditions.
+
+By applying a curve fit to the original data, the following results are obtained:
+\[
+    (y_1, y_2) = (115, 79.5).
+\]
+
+Plotting \(H\) and \(f_H(h)\) against \(h\) gives us the following graph, which is decent.
+
+\begin{figure}[!ht]
+    \centering
+    \includegraphics[scale = 0.55]{h-against-h.png}
+    \caption{The fit result for \(f_H: h \mapsto H\)}
+    \label{fig:v-against-h}
+\end{figure}
+
+\subparagraph{Flowchart of data and sidenotes} To summarise,
 
 It is also worth noting that an existing NuGet Library, \GitHubHref{ingen084}{KyoshinMonitorLib} which is designated to manage intensities, as well as extracting intensities from the 'Kyoshin' monitor. This NEA did refer to this for some guidance but is not dependent on this library, and its necessary functionalities within the scope of this NEA is realised again using the author's own code.
 
