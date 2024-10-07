@@ -9,27 +9,30 @@
 \usepackage{lastpage}
 \usepackage{amsfonts}
 \usepackage{amsmath}
+\usepackage{appendix}
 \usepackage{xltxtra}
 \usepackage[dvipsnames]{xcolor}
 \usepackage{fontawesome5}
 \usepackage[format=plain,justification=centering]{caption}
 
-\graphicspath{{img/}}
+\graphicspath{{./img/}{../EEETWV/PythonScript/}}
 
-\lstdefinestyle{MyStyle}{
-    basicstyle=\ttfamily,
-    numberstyle=\ttfamily\color{Gray},
+\lstset{
+    basicstyle=\footnotesize\ttfamily,
+    numberstyle=\scriptsize\ttfamily\color{Gray},
     commentstyle=\color{Green},
     keywordstyle=\color{Blue},
     stringstyle=\color{Maroon},
     numbers=left,
-    captionpos=b,
+    captionpos=bt,
     frame=single,
+    rulecolor=\color{Black},
     breakatwhitespace=true,
     breaklines=true,
     keepspaces=true,
+    showstringspaces=false,
+    inputpath={../EEETWV/},
 }
-\lstset{style=MyStyle}
 
 \AddToHook{cmd/section/before}{\clearpage}
 
@@ -926,7 +929,7 @@ It is worth noting that an existing NuGet Library, \GitHubHref{ingen084}{Kyoshin
 
 It is also worth noting that, technically, scraping the data from the 'Kyoshin' monitor page of NIED is not explicitly allowed, but not explicitly banned either. However, extracting and displaying numerical data in the application is strictly banned by the NIED, and therefore the numerical values will only serve as internal values of the application and will not be displayed in any way.
 
-This paragraph referred to \href{https://qiita.com/NoneType1/items/a4d2cf932e20b56ca444}{the blog article} written by NoneType1, author of JQuake.
+This paragraph referred to \href{https://qiita.com/NoneType1/items/a4d2cf932e20b56ca444}{the blog article} written by NoneType1, author of JQuake. The code used for this section is in Listing \ref{alg:poly-fit}.
 
 \paragraph{DM-D.S.S. Data Source}
 
@@ -1138,5 +1141,13 @@ You need to give consideration to a number of potential future improvements that
     \item The improvements/changes could result from additional functionality that has been identified as being beneficial or could be as a result of required efficiencies if some processes are clunky or require faster run-times
     \item You should then comment on how the proposed change could be implemented moving forward. i.e. what would need to be changed/developed and how? You are not expected to actually make any changes; just comment on the possibilities.
 \end{itemize}
+
+\begin{appendices}
+\section{Code Listing}
+\lstinputlisting[language=python,
+    label={alg:poly-fit},
+    caption={Polymomial Fit Code}
+]{PythonScript/poly-fit.py}
+\end{appendices}
 
 \end{document}
