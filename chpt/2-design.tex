@@ -8,7 +8,7 @@ There are two data sources this program will use: the NIED and the DM-D.S.S. Spe
 
 \subsubsection{NIED Data Source}
 
-As mentioned before, NIED has numerous 'earthquake observation nets' across Japan. Specifically, there is the \href{https://www.kyoshin.bosai.go.jp/kyoshin/}{K-NET and the KiK-net}, which is dedicated to the observation of strong seismic motion. The K-NET consists of approximately 1000 sensors located across Japan, while the KiK-net also includes some sensors which are located within the earth, which will often have different readings compared to those located on the surface. They are extremely capable of detecting strong motion of ground. Furthermore, the K-NET and the KiK-net provides real-time intensity data webpage of two types, the \href{http://www.kmoni.bosai.go.jp}{'Kyoshin' monitor} and the \href{https://www.lmoni.bosai.go.jp/monitor/}{long-period ground motion (LPGM) monitor (not working at the time of investigation)}. The \href{https://www.hinet.bosai.go.jp/?LANG=ja}{Hi-net} stands for high-sensitivity seismograph network, and it is dedicated for observation of minor motions of the ground. They release the waveforms to those who are researching seismic movements. As for the \href{https://www.fnet.bosai.go.jp/freesia/top.php?LANG=ja}{F-net} which stands for the Full Range Seismograph Network of Japan, which is used to analyse the mechanism of a certain earthquake by analysing movements. None of the three nets provide a real-time API data feed.
+As mentioned before, NIED has numerous 'earthquake observation nets' across Japan. Specifically, there is the \href{https://www.kyoshin.bosai.go.jp/kyoshin/}{K-NET and the KiK-net}, which is dedicated to the observation of strong seismic motion. The K-NET consists of approximately 1000 sensors located across Japan, while the KiK-net also includes some sensors which are located within the earth, which will often have different readings compared to those located on the surface. They are extremely capable of detecting strong motion of ground. Furthermore, the K-NET and the KiK-net provides real-time intensity data webpage of two types, the \href{http://www.kmoni.bosai.go.jp}{'Kyoshin' (強震) monitor} and the \href{https://www.lmoni.bosai.go.jp/monitor/}{long-period ground motion (LPGM, 長周期地震動) monitor} (not working at the time of investigation). The \href{https://www.hinet.bosai.go.jp/?LANG=ja}{Hi-net} stands for high-sensitivity seismograph network, and it is dedicated for observation of minor motions of the ground. They release the waveforms to those who are researching seismic movements. As for the \href{https://www.fnet.bosai.go.jp/freesia/top.php?LANG=ja}{F-net} which stands for the Full Range Seismograph Network of Japan, which is used to analyse the mechanism of a certain earthquake by analysing movements. None of the three nets provide a real-time API data feed.
 
 Having compared the functionalities described above of the K/KiK-net, Hi-net and F-net and how they feed the data sources, the most suitable data source to reflect real-time motion of ground movements will be the \textbf{K/KiK-net}'s data feed, since it detects strong ground movements and is available real-time for the purpose of the application. (This is also the data source that JQuake and KEVI use in fact.)
 
@@ -34,35 +34,35 @@ A comparison from the official website of \href{https://www.mowlas.bosai.go.jp}{
 
 \paragraph{Achieving image format data source}
 
-The data source fed by the 'Kyoshin' Monitor is split into 8 types (detailed below in Table \ref{table:kmoni-data-types}), and each type split into 2 types of data sources, surface sensors and borehole (earth) sensors, with codes in Table \ref{table:kmoni-sensor-types}. The link to the GIF image is in the following format:
+The data source fed by the 'Kyoshin' Monitor is split into 8 types (detailed below in Table \ref{tab:kmoni-data-types}), and each type split into 2 types of data sources, surface sensors and borehole (earth) sensors, with codes in Table \ref{tab:kmoni-sensor-types}. The link to the GIF image is in the following format:
 
 \begin{center}
     \url{http://www.kmoni.bosai.go.jp/data/map_img/RealTimeImg/[#1]_[#2]/[yyyyMMdd]/[yyyyMMdd][hhmmss].[#1]_[#2].gif}
 \end{center}
 
-In the link, the \lstinline{[yyyyMMdd]} and the \lstinline{[hhmmss]} part should be replaced with the date and time respectively (in JST, UTC+8), and the \lstinline{#1} replaced with the codes detailed below for the data types, and \lstinline{#2} replaced with the codes detailed below for data sources. An example of the imaged achieved is in Figure \ref{fig:sample-kmoni}.
+In the link, the \Code{[yyyyMMdd]} and the \Code{[hhmmss]} part should be replaced with the date and time respectively (in JST, UTC+8), and the \Code{#1} replaced with the codes detailed below for the data types, and \Code{#2} replaced with the codes detailed below for data sources. An example of the imaged achieved is in Figure \ref{fig:sample-kmoni}.
 
 \begin{table}[!ht]
     \centering
 
     \begin{tabular}{|c|c|c|}
         \hline
-        Data Type        & Description/Meaning                & Code in \lstinline{#1} \\
+        Data Type        & Description/Meaning                & Code in \Code{#1} \\
         \hline
-        Real-time Shindo & Real-time Measured Intensity       & \lstinline{jma}        \\
-        PGA              & Peak (Maximal) Ground Acceleration & \lstinline{acmap}      \\
-        PGV              & Peak (Maximal) Ground Velocity     & \lstinline{vcmap}      \\
-        PGD              & Peak (Maximal) Ground Displacement & \lstinline{dcmap}      \\
-        Response 0.125Hz & Response spectrum for 0.125Hz PGV  & \lstinline{rsp0125}    \\
-        Response 0.250Hz & Response spectrum for 0.250Hz PGV  & \lstinline{rsp0250}    \\
-        Response 0.500Hz & Response spectrum for 0.500Hz PGV  & \lstinline{rsp0500}    \\
-        Response 1.000Hz & Response spectrum for 1.000Hz PGV  & \lstinline{rsp1000}    \\
-        Response 2.000Hz & Response spectrum for 2.000Hz PGV  & \lstinline{rsp2000}    \\
-        Response 4.000Hz & Response spectrum for 4.000Hz PGV  & \lstinline{rsp4000}    \\
+        Real-time Shindo & Real-time Measured Intensity       & \Code{jma}        \\
+        PGA              & Peak (Maximal) Ground Acceleration & \Code{acmap}      \\
+        PGV              & Peak (Maximal) Ground Velocity     & \Code{vcmap}      \\
+        PGD              & Peak (Maximal) Ground Displacement & \Code{dcmap}      \\
+        Response 0.125Hz & Response spectrum for 0.125Hz PGV  & \Code{rsp0125}    \\
+        Response 0.250Hz & Response spectrum for 0.250Hz PGV  & \Code{rsp0250}    \\
+        Response 0.500Hz & Response spectrum for 0.500Hz PGV  & \Code{rsp0500}    \\
+        Response 1.000Hz & Response spectrum for 1.000Hz PGV  & \Code{rsp1000}    \\
+        Response 2.000Hz & Response spectrum for 2.000Hz PGV  & \Code{rsp2000}    \\
+        Response 4.000Hz & Response spectrum for 4.000Hz PGV  & \Code{rsp4000}    \\
         \hline
     \end{tabular}
     \caption{Data available in 'Kyoshin' monitor}
-    \label{table:kmoni-data-types}
+    \label{tab:kmoni-data-types}
 \end{table}
 
 \begin{table}[!ht]
@@ -70,14 +70,14 @@ In the link, the \lstinline{[yyyyMMdd]} and the \lstinline{[hhmmss]} part should
 
     \begin{tabular}{|c|c|c|}
         \hline
-        Sensor Type & Description/Meaning          & Code in \lstinline{#2} \\
+        Sensor Type & Description/Meaning          & Code in \Code{#2} \\
         \hline
-        Surface     & K-NET and KiK-net sensors    & \lstinline{s}          \\
-        Borehole    & KiK-net sensors within earth & \lstinline{b}          \\
+        Surface     & K-NET and KiK-net sensors    & \Code{s}          \\
+        Borehole    & KiK-net sensors within earth & \Code{b}          \\
         \hline
     \end{tabular}
     \caption{Sensors available in 'Kyoshin' monitor}
-    \label{table:kmoni-sensor-types}
+    \label{tab:kmoni-sensor-types}
 \end{table}
 
 \begin{figure}[!ht]
@@ -87,7 +87,7 @@ In the link, the \lstinline{[yyyyMMdd]} and the \lstinline{[hhmmss]} part should
     \label{fig:sample-kmoni}
 \end{figure}
 
-\paragraph{Extracting colour for each observation point from image}
+\paragraph{Extracting colour for each observation point}
 
 Unfortunately, it seems to the author (and is widely accepted in the EEW monitoring app development society) that the position of the points (squares) on the image does not follow any significant pattern of position, i.e. there is no obvious conversion of coordinates to us from the official longitude/latitude locations to the positions on the image. Therefore, a manual conversion one-to-one mapping has to be developed.
 
@@ -101,7 +101,7 @@ This paragraph referred to \href{https://qiita.com/ingen084/items/7e91f8da299697
 
 % TODO: Where is the list?
 
-\paragraph{Converting colour back to number format for further processing}
+\paragraph{Converting colour to number format for further processing}
 
 The true numerical data does not seem fully necessary at the first glance (since we might just as well just achieve the colour from the image and just plot them on the map, without the need to convert to a colour and back). However, for us to detect the shake in certain regions, it is necessary for us to achieve the numerical value to run the algorithm on it. Nevertheless, it is just good to have the number for us to have the numerical value for potential future developments.
 
@@ -196,10 +196,10 @@ We consider finding \(f_H\) first, which is the cyan line. Notice that its trend
         \hline
     \end{tabular}
     \caption{Initial values for \(f_H\)}
-    \label{table:h-against-h-iv}
+    \label{tab:h-against-h-iv}
 \end{table}
 
-Furthermore, boundary conditions in Table \ref{table:h-against-h-iv} are applied to ensure that the function is continuous and nicely-behaving while matching the existing data. We use the following function to apply the fit:
+Furthermore, boundary conditions in Table \ref{tab:h-against-h-iv} are applied to ensure that the function is continuous and nicely-behaving while matching the existing data. We use the following function to apply the fit:
 \[
     f_H(h) = \begin{cases}
         -150h + 237, & h \in [0, 0.1],   \\
@@ -235,7 +235,7 @@ Plotting \(H\) and \(f_H(h)\) against \(h\) gives us Figure \ref{fig:h-against-h
 
 \subparagraph{Finding \(f_S\) in terms of \(h\)}
 
-As for \(f_S(h)\), the obvious thing to do is to split it into 5 (4) piecewise functions, specifically \(f_S = 1\) for \(h \in [0, 0.2] \cup [0.5, 1]\), and three linear functions for \(h \in [0.2, 0.29], h \in [0.29, 0.4]\) and \(h \in [0.4, 0.5]\). Initial values are included in Table \ref{table:s-against-h-iv}.
+As for \(f_S(h)\), the obvious thing to do is to split it into 5 (4) piecewise functions, specifically \(f_S = 1\) for \(h \in [0, 0.2] \cup [0.5, 1]\), and three linear functions for \(h \in [0.2, 0.29], h \in [0.29, 0.4]\) and \(h \in [0.4, 0.5]\). Initial values are included in Table \ref{tab:s-against-h-iv}.
 
 \begin{table}[!ht]
     \centering
@@ -253,7 +253,7 @@ As for \(f_S(h)\), the obvious thing to do is to split it into 5 (4) piecewise f
         \hline
     \end{tabular}
     \caption{Initial values for \(f_S\)}
-    \label{table:s-against-h-iv}
+    \label{tab:s-against-h-iv}
 \end{table}
 
 This gives us that
@@ -278,7 +278,7 @@ Plotting this out gives Figure \ref{fig:s-against-h}.
 
 \subparagraph{Finding \(f_V\) in terms of \(h\)}
 
-As for \(f_V(h)\), we shall divide it into even more piecewise linear functions. Specifically, I chose the intervals \([0, 0.1], [0.1, 0.172], [0.172, 0.2], [0.2, 0.3], [0.3, 0.4], [0.4, 0.8], [0.8, 0.9]\) and \([0.9, 1]\). Initial values are included in Table \ref{table:v-against-h-iv}.
+As for \(f_V(h)\), we shall divide it into even more piecewise linear functions. Specifically, I chose to divide the interval \([0, 1]\) at \(0.1, 0.172, 0.2, 0.3, 0.4, 0.8\) and \(0.9\). Initial values are included in Table \ref{tab:v-against-h-iv}.
 
 \begin{table}[!ht]
     \centering
@@ -299,7 +299,7 @@ As for \(f_V(h)\), we shall divide it into even more piecewise linear functions.
         \hline
     \end{tabular}
     \caption{Initial values for \(f_V\)}
-    \label{table:v-against-h-iv}
+    \label{tab:v-against-h-iv}
 \end{table}
 
 This gives us the piecewise function
@@ -380,7 +380,7 @@ Their APIs are split into two types: HTTP based requests and WebSocket based con
 
 \paragraph{Authorisation} There are two types of authorisation that DM-D.S.S. supports, API Keys and OAuth2 Access Tokens.
 
-API Keys access tokens are extremely easy to program, since it simply uses Basic BasicBath64 Authorisation in the header, and uses the key as the username (without a password). However, this introduces an extra layer of complexity for the users, since they would have to go to the settings of the DM-D.S.S. webpage and achieve an API Key to paste into the application, as shown in Figure \ref{fig:api-key-control-panel}.
+API Keys access tokens are extremely easy to program, since it simply uses Basic BasicBath64 Authorisation in the header, and uses the key as the username (without a password). It uses the Basic BasicBase64 Authorisation encoding. However, this introduces an extra layer of complexity for the users, since they would have to go to the settings of the DM-D.S.S. webpage and achieve an API Key to paste into the application, as shown in Figure \ref{fig:api-key-control-panel}.
 
 \begin{figure}[!ht]
     \centering
@@ -399,33 +399,137 @@ For the purposes of this NEA, we will primarily use the API Key way of accessing
 
 \paragraph{HTTP Based Requests}
 
-Table \ref{table:necessary-permissions} shows the necessary permissions would be necessary for the application to function. How each of them functions will be discussed below.
+The base URL of all requests is \url{https://api.dmdata.jp/v2/} which will be indicated as \url{base://} from now on.
+
+Table \ref{tab:necessary-permissions} shows the necessary permissions would be necessary for the application to function. How each of them functions will be discussed below.
 
 \begin{table}[!ht]
     \centering
 
-    \begin{tabular}{|c|p{0.7\linewidth}|}
+    \begin{tabular}{|c|p{0.65\linewidth}|}
         \hline
-        Permission Code                     & Permission Details                                                        \\
+        Permission Code                & Permission Details                                                        \\
         \hline
-        \lstinline{contract.list}           & Get the list of subscriptions the user has.                               \\
-        \lstinline{gd.earthquake}           & Get list of past earthquakes.                                             \\
-        \lstinline{gd.eew}                  & Get list of past EEWs.                                                    \\
-        \lstinline{parameter.earthquake}    & Get details of observation points for earthquake intensities.             \\
-        \lstinline{parameter.tsunami}       & Get details of observation points for tsunamis.                           \\
-        \lstinline{socket.start}            & Start a new WebSocket connection.                                         \\
-        \lstinline{socket.list}             & Get list of existing WebSocket connections.                               \\
-        \lstinline{socket.close}            & Close an existing WebSocket connection.                                   \\
-        \lstinline{telegram.list}           & Get list of telegrams released by the JMA.                                \\
-        \lstinline{telegram.data}           & Get specific telegram released by the JMA.                                \\
-        \lstinline{telegram.get.earthquake} & Allows program to access telegrams on earthquake information.             \\
-        \lstinline{eew.get.forecast}        & Allows program to access telegrams on EEW forecasts (including warnings). \\
+        \Code{contract.list}           & Get the list of subscriptions the user has.                               \\
+        \Code{gd.earthquake}           & Get list of past earthquakes.                                             \\
+        \Code{gd.eew}                  & Get list of past EEWs.                                                    \\
+        \Code{parameter.earthquake}    & Get details of observation points for earthquake intensities.             \\
+        \Code{parameter.tsunami}       & Get details of observation points for tsunamis.                           \\
+        \Code{socket.start}            & Start a new WebSocket connection.                                         \\
+        \Code{socket.list}             & Get list of existing WebSocket connections.                               \\
+        \Code{socket.close}            & Close an existing WebSocket connection.                                   \\
+        \Code{telegram.list}           & Get list of telegrams released by the JMA.                                \\
+        \Code{telegram.data}           & Get specific telegram released by the JMA.                                \\
+        \Code{telegram.get.earthquake} & Allows program to access telegrams on earthquake information.             \\
+        \Code{eew.get.forecast}        & Allows program to access telegrams on EEW forecasts (including warnings). \\
         \hline
     \end{tabular}
     \caption{Necessary access permissions for DM-D.S.S.}
-    \label{table:necessary-permissions}
+    \label{tab:necessary-permissions}
 \end{table}
 
+\subparagraph{Standard Return Information and Errors}
+
+There are two status that an API call could return: a successful \Code{ok} status, or an unsuccessful \Code{error} status.
+
+Listing \ref{alg:api-response-ok} shows the JSON for a successful \Code{ok} response, and Listing \ref{alg:api-response-error} shows the JSON for a \Code{error} response.
+
+\begin{listing}[!ht]
+    \InputMinted{json}{JsonSchemas/ApiResponseOk.json}
+    \caption{\Code{ok} status for API}
+    \label{alg:api-response-ok}
+\end{listing}
+
+\begin{listing}[!ht]
+    \InputMinted{json}{JsonSchemas/ApiResponseError.json}
+    \caption{\Code{error} status for API}
+    \label{alg:api-response-error}
+\end{listing}
+
+In both responses, there is an attribute \Code{responseId} which gives the unique ID for each response as a \Code{string}, and an attribute \Code{responseTime} which gives the date and time of response in \Code{ISO8601Time} format.
+
+The \Code{status} attribute in \Code{string} indicates whether it is a successful response (in which case it will be \Code{"ok"}) and if it is an error response (in which case it will be \Code{"error"} and gives the relevant HTTP error as well). The error will be indicated in the object \Code{error} and will give the relevant message and code.
+
+The list of standard errors together with their meanings is discussed in Table \ref{tab:standard-errors}.
+
+\begin{table}[!ht]
+    \centering
+
+    \begin{tabular}{|c|l|}
+        \hline
+        Error Code & Error Message                                       \\
+        \hline
+        \Code{400} & The query parameters are required.                  \\
+        \Code{400} & The post parameters are required.                   \\
+        \Code{400} & Unexpected data of search query \Code{cursorToken}. \\
+        \Code{401} & Authorisation required.                             \\
+        \Code{403} & Insufficient scope for ....                         \\
+        \Code{403} & Requests are not allowed.                           \\
+        \hline
+    \end{tabular}
+    \caption{Standard errors for API.}
+    \label{tab:standard-errors}
+\end{table}
+
+\subparagraph{Cursor Token}
+
+For some API data calls, and specifically for \Code{telegram.list} that we are going to use, there is too much data to be returned in one API call. Therefore, in a response, there will be a specified attribute named \Code{nextToken} indicated with type \Code{string}, sometimes as well as \Code{nextPooloing} and \Code{nextPoolingInterval}, as shown in Listing \ref{alg:cursor-token} as an example call of
+\begin{center}
+    \url{base://telegram?type=VXSE53}.
+\end{center}
+
+\begin{listing}[!ht]
+    \InputMinted{json}{JsonSchemas/CursorToken.json}
+    \caption{Cursor token sample JSON.}
+    \label{alg:cursor-token}
+\end{listing}
+
+Specifically, the calls for \Code{socket.list} and \Code{gd.eew} will only return a \Code{nextToken} for the next call, while for \Code{telegram.list} and \Code{gd.earthquake} it will return a \Code{nextPooling} as well.
+
+If one would like to do the next call to find the next few items of the list, the \Code{cursorToken} parameter should be specified as the same as the \Code{nextToken} or \Code{nextPooling}, with all the rest of the parameters identical to the previous request, i.e.,
+\begin{center}
+    \url{base://telegram?type=VXSE53&cursorToken=bmV4dCAgICAgICAgNTc0MzI}
+\end{center}
+if the \Code{nextToken} is used, and
+\begin{center}
+    \url{base://telegram?type=VXSE53&cursorToken=cG9sbGluZyAgICAgNzM0MzE}
+\end{center}
+if \Code{nextPooling} is used (which should be after \Code{nextPoolingInterval} in milliseconds).
+
+The document suggested that, due to performance issues, the \Code{nextPooling} should be used wherever possible. Note that the \Code{nextToken} and \Code{nextPooling} will change for every single call of the API.
+
+\subparagraph{Contract-Related APIs}
+
+There is only one contract-related API, which is \Code{contract.list}. It is an HTTP GET request, on \url{base://contract} with no parameters.
+
+It will return a list of contracts (subscriptions) of DM-D.S.S., whether or not the user has subscribed to it.
+
+Listing \ref{alg:contract-list} shows a sample return of this API call.
+\begin{listing}[!ht]
+    \InputMinted{json}{JsonSchemas/ContractList.json}
+    \caption{Contract list sample JSON.}
+    \label{alg:contract-list}
+\end{listing}
+
+Here, \Code{items} is the list of contracts (subscription plans), with each of its element being an object representing a plan. For each of them, there are the properties:
+\begin{itemize}
+    \item \Code{id} which stands for the subscription ID (could be \Code{null} if the user is not subscribed);
+    \item \Code{planId} which stands for the subscription plan ID, which is unique for each plan;
+    \item \Code{planName} which stands for the name of the subscription plan;
+    \item \Code{classifications} which stands for the classification code of the subscription plan;
+    \item \Code{price.day} and \Code{price.month} which stands for the price of the plan per day/per month;
+    \item \Code{start} which stands for the start of the subscription;
+    \item \Code{isValid} which is a \Code{boolean} to represent whether the plan is valid; and
+    \item \Code{connectionCounts} which stands for the number of extra WebSocket connections this subscription plan provides.
+\end{itemize}
+
+This API will be used to determine if the user has an appropriate subscription plan to use the application.
+
+\subparagraph{WebSocket-Related APIs}
+
+There are three WebSocket-Related APIs, specifically, to start a socket, \Code{socket.start}, to list all sockets, \Code{socket.list} and to close a socket, \Code{socket.close}.
+
+\subparagraph{Parameter-Related APIs}
 
 
 \paragraph{WebSocket Connections}

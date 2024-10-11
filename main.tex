@@ -1,40 +1,50 @@
 \documentclass[10pt]{report}
 
 \usepackage[a4paper]{geometry}
-\usepackage{fancyhdr}
 \usepackage{graphicx}
-\usepackage{listings}
-\usepackage{textcomp}
-\usepackage{hyperref}
+
+\usepackage{fancyhdr}
 \usepackage{lastpage}
-\usepackage{amsfonts}
-\usepackage{amsmath}
 \usepackage{appendix}
-\usepackage{xltxtra}
-\usepackage[dvipsnames]{xcolor}
-\usepackage{fontawesome5}
+
+\usepackage{xeCJK}
+\setCJKmainfont{YuMincho}
+\setCJKsansfont{YuGothic}
+\setCJKmonofont{YuGothic}
+
+\usepackage[chapter]{minted}
+\usepackage{hyperref}
 \usepackage[format=plain,justification=centering]{caption}
 
-\graphicspath{{./img/}{../EEETWV/PythonScript/}}
+\usepackage{amsfonts}
+\usepackage{amsmath}
 
-\lstset{
-    basicstyle=\footnotesize\ttfamily,
-    numberstyle=\scriptsize\ttfamily\color{Gray},
-    commentstyle=\color{Green},
-    keywordstyle=\color{Blue},
-    stringstyle=\color{Maroon},
-    numbers=left,
-    captionpos=bt,
+\usepackage[dvipsnames]{xcolor}
+\usepackage{fontawesome5}
+\usepackage{xltxtra}
+\usepackage{textcomp}
+
+
+\setcounter{tocdepth}{3}
+
+\newcommand{\CodeBasePath}{../EEETWV/}
+
+\newenvironment{Listing}{\captionsetup{type=listing}}{}
+
+\newmintinline[Code]{text}{}
+
+\graphicspath{{./img/}{\CodeBasePath PythonScript/}}
+
+\setminted{
+    autogobble,
+    breaklines,
     frame=single,
-    rulecolor=\color{Black},
-    breakatwhitespace=true,
-    breaklines=true,
-    keepspaces=true,
-    showstringspaces=false,
-    inputpath={../EEETWV/},
+    labelposition=all,
+    mathescape,
 }
 
 \newcommand{\Input}[1]{\input{./chpt/#1}}
+\newcommand{\InputMinted}[2]{\inputminted{#1}{\CodeBasePath#2}}
 
 \newcommand{\Title}{Early Earthquake and Tsunami Warning Viewer}
 \newcommand{\SubTitle}{AQA A-Level Computing NEA Report}
@@ -116,7 +126,7 @@
 \tableofcontents
 \listoftables
 \listoffigures
-\lstlistoflistings
+\listoflistings
 
 \chapter{Analysis}
 \Input{1-analysis.tex}

@@ -8,14 +8,14 @@ This section introduces the background for the EEW system in place in Japan, con
 
 Earthquake is one of the most common natural disasters in the whole world, and direct consequences of earthquakes include tsunamis which could be catastrophic.
 
-Japan, sitting on the intersection of the Eurasian, the Philippine and the North-American plates, is the countries with most earthquakes. Historically, the Great Kant\=o Earthquake in 1923, the Great East Japan Earthquake in 2011 (a.k.a. the T\=ohoku Earthquake) and the recent 2024 Noto Peninsula Earthquake all caused hundreds of deaths, both due to the result of the earthquake(s) and the resulting tsunami.
+Japan, sitting on the intersection of the Eurasian, the Philippine and the North-American plates, is the countries with most earthquakes. Historically, the Great Kant\=o Earthquake (関東大震災) in 1923, the Great East Japan Earthquake (東日本大震災) in 2011 (a.k.a. the T\=ohoku Earthquake) and the recent 2024 Noto Peninsula Earthquake (能登半島地震) all caused hundreds of deaths, both due to the result of the earthquake(s) and the resulting tsunami.
 
-To provide protection to its residents, the \href{https://www.jma.go.jp/jma/index.html}{Japan Meteorological Agency} (JMA), together with the \href{https://www.bosai.go.jp}{National Research Institute for Earth Science and Disaster Resilience (NIED)} placed thousands of \textbf{earthquake sensors} across Japan (the Hi-net, the K-NET, the KiK-net and the F-NET), with several of them lying deep in the sea bed, measuring displacement, velocity and acceleration, which are connected to multiple servers, including two located in \=Osaka and T\=okyo.
+To provide protection to its residents, the \href{https://www.jma.go.jp/jma/index.html}{Japan Meteorological Agency} (JMA, 気象庁), together with the \href{https://www.bosai.go.jp}{National Research Institute for Earth Science and Disaster Resilience (NIED, 防災科研)} placed thousands of \textbf{earthquake sensors} across Japan (the Hi-net, the K-NET, the KiK-net and the F-NET), with several of them lying deep in the sea bed, measuring displacement, velocity and acceleration, which are connected to multiple servers, including two located in \=Osaka and T\=okyo.
 
-Using data obtained from the sensors, computers do some complicated algorithms (mentioned below) to send out \textbf{early earthquake warnings (EEWs)} automatically within milliseconds. There are two types of EEWs:
+Using data obtained from the sensors, computers do some complicated algorithms (mentioned below) to send out \textbf{early earthquake warnings (EEWs, 緊急地震速報)} automatically within milliseconds. There are two types of EEWs:
 \begin{enumerate}
-    \item \textbf{EEW (Forecast).} Sent out to \textbf{highly-dependent industries} (e.g. rail industry, power plants) and \textbf{subscribed users}, when maximum intensity level of more than 3, or a magnitude of more than 3.5 is expected.
-    \item \textbf{EEW (Warning).} Sent out to \textbf{everyone} via TV, Radio, Mobile Phone, SMS, etc., when a maximum intensity level of more than 4 is expected.
+    \item \textbf{EEW (Forecast, 予報).} Sent out to \textbf{highly-dependent industries} (e.g. rail industry, power plants) and \textbf{subscribed users}, when maximum intensity level of more than 3, or a magnitude of more than 3.5 is expected.
+    \item \textbf{EEW (Warning, 警報).} Sent out to \textbf{everyone} via TV, Radio, Mobile Phone, SMS, etc., when a maximum intensity level of more than 4 is expected.
 \end{enumerate}
 
 After the earthquake, JMA staff will determine the location and severity of tsunami warnings to be issued, if necessary.
@@ -23,7 +23,7 @@ After the earthquake, JMA staff will determine the location and severity of tsun
 \subsection{Earthquake Terminology}
 
 \begin{itemize}
-    \item \textbf{Intensity.} The intensity describes the intensity vibration of a point due to an earthquake. It is not unique to an earthquake - \textbf{different places can have different intensities} due to the distance to the epicentre, and intensity will also change over time. JMA measures intensity using \textbf{9 levels: 1, 2, 3, 4, 5--, 5+, 6--, 6+ and 7} in increasing order.
+    \item \textbf{Intensity (震度).} The intensity describes the intensity vibration of a point due to an earthquake. It is not unique to an earthquake - \textbf{different places can have different intensities} due to the distance to the epicentre, and intensity will also change over time. JMA measures intensity using \textbf{9 levels: 1, 2, 3, 4, 5--, 5+, 6--, 6+ and 7} in increasing order.
     \item \textbf{Magnitude/Scale.} The magnitude of an earthquake describes the energy released in the earthquake in a logarithmic scale. \textbf{It is unique to an earthquake.}
     \item \textbf{Epicentre/Hypocentre.} The epicentre is the surface point directly above the true centre of the earthquake.
     \item \textbf{Focal Depth.} The focal depth is the depth of the true centre of the earthquake.
@@ -40,7 +40,7 @@ The primary target of this application will be passionate geographers and geolog
 
 Another target client could be industries which highly rely on earthquake predictions due to the risk imposed by earthquakes. High-speed railway and nuclear power plants are good examples of this. Therefore, the staff in charge monitoring will usually have higher proficiency and would like more detailed data of the earthquake. However, they will only need the necessary data from earthquakes happening close to them and only require intensity data of the point in interest (e.g. the power plant). To put this into content, an earthquake happening 1000 km away from them does not need to be fed into their system, while they would like to see the intensity of the shock and the arrival time of the seismic waves to decide the actions. In fact, the author really likes investigating on the rail industry, whose infrastructure could be greatly affected by earthquakes.
 
-Table \ref{table:users} compares relative features of these two target users/clients.
+Table \ref{tab:users} compares relative features of these two target users/clients.
 
 \begin{table}[!ht]
     \centering
@@ -58,7 +58,7 @@ Table \ref{table:users} compares relative features of these two target users/cli
     \end{tabular}
 
     \caption{Comparison of target users and clients}
-    \label{table:users}
+    \label{tab:users}
 \end{table}
 
 \section{Research Methodology}
@@ -112,8 +112,6 @@ The author interviewed my friend Wesley Ma, who is a passionate geologist on ear
     \item \textit{What additional features would you like to have in those existing apps?}
 
           \textbf{Response:} Summarise all the useful features from different apps into one app. Stable connection. Nothing else.
-
-
 \end{enumerate}
 
 \subsection{Existing Applications and Solutions}
@@ -126,7 +124,9 @@ Based on the applications the author uses and the feedback from interviewee, the
     \item \href{https://fuku1213.github.io/quarog-site/}{Quarog}
 \end{itemize}
 
-Supported platforms of those apps are listed in Table \ref{table:exist-platform}. In particular, note that SREV is a web-based and GitHub Pages-hosted application therefore supporting all platforms. KEVI is written in .NET Framework and supports the second most platforms, with JQuake not supporting Linux and Quarog only supporting Windows.
+\subsubsection{Supported Platforms}
+
+Supported platforms of those apps are listed in Table \ref{tab:exist-platform}. In particular, note that SREV is a web-based and GitHub Pages-hosted application therefore supporting all platforms. KEVI is written in .NET Framework and supports the second most platforms, with JQuake not supporting Linux and Quarog only supporting Windows.
 
 \begin{table}[!ht]
     \centering
@@ -141,10 +141,12 @@ Supported platforms of those apps are listed in Table \ref{table:exist-platform}
         \hline
     \end{tabular}
     \caption{Supported platforms of existing solutions}
-    \label{table:exist-platform}
+    \label{tab:exist-platform}
 \end{table}
 
-An overview feature table of monitoring is analysed in Table \ref{table:exist-monitoring}. In particular, note that due to the nature of SREV being Scratch-programmed and web-based, it reached a special agreement with DM-D.S.S. to use the API without the need of all users paying for this, since it is hard to integrate such function into a web application.
+\subsubsection{Earthquake Monitoring}
+
+An overview feature table of monitoring is included in Table \ref{tab:exist-monitoring}. In particular, note that due to the nature of SREV being Scratch-programmed and web-based, it reached a special agreement with DM-D.S.S. to use the API without the need of all users paying for this, since it is hard to integrate such function into a web application.
 
 Quarog is a relatively new application and only supports basic functionalities of EEW Viewing and past earthquake listing, as shown in Figure \ref{fig:quarog-monitor-features}. JQuake is solely dedicated to earthquake and tsunami monitoring as shown in Figure \ref{fig:jquake-monitor-features}, while KEVI has features like rain clouds map and natural disaster warning which is beyond the scope of this analysis (which is a burden to users only requiring earthquake monitoring and a waste of storage space).
 
@@ -173,7 +175,7 @@ It is worth noting that for SREV, DM-D.S.S. is integrated with special permissio
     \end{tabular}
 
     \caption[Feature comparison in monitoring of existing solutions]{Feature comparison in monitoring of existing solutions}
-    \label{table:exist-monitoring}
+    \label{tab:exist-monitoring}
 \end{table}
 
 \begin{figure}[!ht]
@@ -193,7 +195,9 @@ It is worth noting that for SREV, DM-D.S.S. is integrated with special permissio
     \label{fig:quarog-monitor-features}
 \end{figure}
 
-There are also a variety of configuration options available for all apps, as listed in Table \ref{table:exist-config}. Both KEVI and Quarog supports the adjustment of the colour theme, and Quarog even supports changing the style of how blocks are displayed and coloured as shown in Figure \ref{fig:kevi-colour-cust} and \ref{fig:quarog-cust}. Playing a sound on the speaker is also common among the apps to remind the user of earthquakes.
+\subsubsection{Configuration Options}
+
+There are also a variety of configuration options available for all apps, as listed in Table \ref{tab:exist-config}. Both KEVI and Quarog supports the adjustment of the colour theme, and Quarog even supports changing the style of how blocks are displayed and coloured as shown in Figure \ref{fig:kevi-colour-cust} and \ref{fig:quarog-cust}. Playing a sound on the speaker is also common among the apps to remind the user of earthquakes.
 
 \begin{table}[!ht]
     \centering
@@ -210,7 +214,7 @@ There are also a variety of configuration options available for all apps, as lis
         \hline
     \end{tabular}
     \caption{Feature comparison in configuration and customisability of existing solutions}
-    \label{table:exist-config}
+    \label{tab:exist-config}
 \end{table}
 
 \begin{figure}[!ht]
@@ -271,7 +275,7 @@ The next 1 is to merge these two functions, specifically the functionality to sw
 
 The final \(n\) is to implement a setting page for customisation, and some extra additional features.
 
-\subsubsection{Part 1. NIED and DM-D.S.S. API/WebSocket Connection}
+\subsection{Part 1. NIED and DM-D.S.S. API/WebSocket Connection}
 \begin{enumerate}
     \item Investigate into the list of APIs/WebSockets that should be used by the application.
     \item Implement classes/DTOs to convert the information into C\# objects.
@@ -280,7 +284,7 @@ The final \(n\) is to implement a setting page for customisation, and some extra
     \item Implement OAuth 2 login to reduce complexity and increase security.
 \end{enumerate}
 
-\subsubsection{Part 2a. Real-time Monitoring Map}
+\subsection{Part 2a. Real-time Monitoring Map}
 \begin{enumerate}
     \item Implement a Japan map in the application.
     \item Achieve and store the locations of the monitoring points in Japan, using necessary information from JMA, NIED and DM-D.S.S.
@@ -299,7 +303,7 @@ The final \(n\) is to implement a setting page for customisation, and some extra
     \item Plot and display real time tsunami warnings.
 \end{enumerate}
 
-\subsubsection{Part 2b. Past-earthquake Viewing}
+\subsection{Part 2b. Past-earthquake Viewing}
 \begin{enumerate}
     \item Implement a side-list of a list of path earthquakes.
     \item Provide a button to view the detailed information on the earthquake (e.g. magnitude, epicentre, time).
@@ -307,13 +311,13 @@ The final \(n\) is to implement a setting page for customisation, and some extra
     \item Provide external link to view earthquake in the JMA website.
 \end{enumerate}
 
-\subsubsection{Part 3. Joint functionality}
+\subsection{Part 3. Joint functionality}
 \begin{enumerate}
     \item Provide sidebar to switch between real-time monitoring and past-earthquake viewing.
     \item Implement automatic functionality to switch back to real-time earthquake monitoring when a shake over a certain magnitude is detected, or an EEW/Tsunami Warning is being published.
 \end{enumerate}
 
-\subsubsection{Part 4. Setting page for customisation and some more}
+\subsection{Part 4. Setting page for customisation and some more}
 \begin{enumerate}
     \item Implement customisable voice and sound playing (e.g. when EEW (over certain magnitude) is published, when an earthquake information detail is received, etc.)
     \item Implement customisable colour scheme for the colouring of different intensity scales, with several built in default.
@@ -326,17 +330,17 @@ The final \(n\) is to implement a setting page for customisation, and some extra
 
 A detailed specification is defined here that is to be aimed to be fulfilled at the end of the project, split into four sections:
 \begin{enumerate}
-    \item \textbf{NIED and DM-D.S.S. Functionality} -- Corresponding to \textbf{Part 1}, in Table \ref{table:requirements-part-one}
-    \item \textbf{Real-Time Earthquake Monitoring} -- Corresponding to \textbf{Part 2a}, in Table \ref{table:requirements-part-two-a}
-    \item \textbf{Past-earthquake Viewing} -- Corresponding to \textbf{Part 2b}, in Table \ref{table:requirements-part-two-b}
-    \item \textbf{GUI Design} -- Corresponding to \textbf{Part 3, 4}, in Table \ref{table:requirements-part-three}
+    \item \textbf{NIED and DM-D.S.S. Functionality} -- Corresponding to \textbf{Part 1}, in Table \ref{tab:requirements-part-one}
+    \item \textbf{Real-Time Earthquake Monitoring} -- Corresponding to \textbf{Part 2a}, in Table \ref{tab:requirements-part-two-a}
+    \item \textbf{Past-earthquake Viewing} -- Corresponding to \textbf{Part 2b}, in Table \ref{tab:requirements-part-two-b}
+    \item \textbf{GUI Design} -- Corresponding to \textbf{Part 3, 4}, in Table \ref{tab:requirements-part-three}
 \end{enumerate}
 
 The objectives here are SMART, meaning they are specific, measurable, achievable, realistic and timely.
 
 Note that those marked with an * means they are optional.
 
-Table \ref{table:abbrs} for types of testing. [M] afterwards will stand for a necessary manual testing (i.e. specific user inputs), while (M) will stand for supplementary manual testing (i.e. will have stand-alone tests as well as manual tests).
+Table \ref{tab:abbrs} for types of testing. [M] afterwards will stand for a necessary manual testing (i.e. specific user inputs), while (M) will stand for supplementary manual testing (i.e. will have stand-alone tests as well as manual tests).
 
 \begin{table}[!ht]
     \centering
@@ -350,7 +354,7 @@ Table \ref{table:abbrs} for types of testing. [M] afterwards will stand for a ne
         \hline
     \end{tabular}
     \caption{Measurement methods}
-    \label{table:abbrs}
+    \label{tab:abbrs}
 \end{table}
 
 \begin{table}[!ht]
@@ -380,7 +384,7 @@ Table \ref{table:abbrs} for types of testing. [M] afterwards will stand for a ne
         \hline
     \end{tabular}
     \caption{Requirements for Part 1}
-    \label{table:requirements-part-one}
+    \label{tab:requirements-part-one}
 \end{table}
 
 \begin{table}[!ht]
@@ -414,7 +418,7 @@ Table \ref{table:abbrs} for types of testing. [M] afterwards will stand for a ne
         \hline
     \end{tabular}
     \caption{Requirements for Part 2(a)}
-    \label{table:requirements-part-two-a}
+    \label{tab:requirements-part-two-a}
 \end{table}
 
 \begin{table}[!ht]
@@ -438,7 +442,7 @@ Table \ref{table:abbrs} for types of testing. [M] afterwards will stand for a ne
         \hline
     \end{tabular}
     \caption{Requirements for Part 2(b)}
-    \label{table:requirements-part-two-b}
+    \label{tab:requirements-part-two-b}
 \end{table}
 
 \begin{table}[!ht]
@@ -466,5 +470,5 @@ Table \ref{table:abbrs} for types of testing. [M] afterwards will stand for a ne
         \hline
     \end{tabular}
     \caption{Requirements for Part 3}
-    \label{table:requirements-part-three}
+    \label{tab:requirements-part-three}
 \end{table}
