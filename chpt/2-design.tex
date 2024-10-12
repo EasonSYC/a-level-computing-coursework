@@ -703,9 +703,90 @@ This API will be called to obtain a list of past earthquakes when the program la
 
 \paragraph{WebSocket Connections}
 
-\subparagraph{Early Earthquake Warnings}
+WebSocket connections are essential to real-time applications, since it provides a real-time feed from the server to the client on latest data, without the need of the client to query (which consumes a lot of resources). DM-D.S.S. provides WebSockets to initiate real-time connection to the server to achieve the latest telegrams and earthquake warnings.
 
-\paragraph{Flowchart of data and sidenotes}
+The URL of the WebSocket will be \url{wss://{#1}.api.dmdata.jp/v2/websocket}, where the \Code{#1} part could be \Code{ws001} to \Code{ws004} (which will be assigned in the \Code{socket.start} API call).
+
+\subparagraph{WebSocket Responses}
+
+There are four types of responses that a WebSocket could return, indicated in the \Code{type} attribute:
+\begin{itemize}
+    \item a \Code{start}. This only happens when the WebSocket is started, and this includes the exact same information in the \Code{socket.start} call in Listing \ref{alg:socket-start}, with an additional \Code{time} to indicate the time of the response;
+    \item a (server-side initiated) \Code{ping}. This will happen regularly, and the server will send a JSON in the format in Listing \ref{alg:server-ping}.
+          \begin{listing}[!ht]
+              \InputMinted{json}{JsonSchemas/ServerPing.json}
+              \caption{WebSocket Ping JSON.}
+              \label{alg:server-ping}
+          \end{listing}
+
+          Upon receiving, the client should return a \Code{pong} JSON in the same format, with the same \Code{pingId}, as in Listing \ref{alg:server-pong}.
+
+          \begin{listing}[!ht]
+              \InputMinted{json}{JsonSchemas/ServerPong.json}
+              \caption{WebSocket Pong JSON.}
+              \label{alg:server-pong}
+          \end{listing}
+
+          This is in place to ensure that there are no 'dead' WebSocket connections, and the server will close the WebSocket connection after 120s of no response in such ping-pong calls, to not take up the limited number of WebSocket connection slots;
+    \item a client-side initiated \Code{ping} as in Listing \ref{alg:server-ping}, which the server will return a \Code{pong} as in Listing \ref{alg:server-pong}. This works almost identically as before, apart from that such \Code{pingId} is optional. This is in place to ensure that the application would be able to know if the connection is broken, for example due to unstable internet connections, and would be able to restart another WebSocket connection;
+    \item a \Code{data}, an example shown in Listing \ref{alg:socket-data}.
+          \begin{listing}[!ht]
+              \InputMinted{json}{JsonSchemas/SocketData.json}
+              \caption{WebSocket Data JSON.}
+              \label{alg:socket-data}
+          \end{listing}
+          This will include a \Code{classification}, a version \Code{version}, and a unique \Code{id}. An array named \Code{passing} gives the \Code{name} and \Code{time} of each passing location of this data piece inside the server. Furthermore, the \Code{head} gives some key information, and \Code{xmlReport} gives certain details in the XML body. \Code{format}, \Code{compression} (\Code{gzip}, \Code{zip} or \Code{null}) and \Code{encoding} (\Code{base64} or \Code{utf-8}) gives information on how the \Code{body} should be processed and interpreted.
+
+          This gives the key piece of information that will be passed between the data component of the software and the UI component of the software;
+    \item a \Code{error}, which will be the format in Listing \ref{alg:socket-error}. There will also be a boolean, \Code{close}, to indicate whether the WebSocket connection is closed or not. A table of possible WebSocket errors is included in \ref{tab:socket-error}, with the relevant WebSocket error codes.
+
+          \begin{listing}[!ht]
+              \InputMinted{json}{JsonSchemas/SocketError.json}
+              \caption{WebSocket Error JSON.}
+              \label{alg:socket-error}
+          \end{listing}
+
+          \begin{table}[!ht]
+              \centering
+
+              \begin{tabular}{|c|l|}
+                  \hline
+                  Error Code  & Error Details                                                    \\
+                  \hline
+                  \Code{4400} & Compulsory parameters are not specified when starting WebSocket. \\
+                  \Code{4404} & Ticket is not specified when starting WebSocket.                 \\
+                  \Code{4409} & Number of connection limit is reached.                           \\
+                  \Code{4503} & Internal server error.                                           \\
+                  \Code{4640} & \Code{pingId} does not match for a server-initiated \Code{ping}. \\
+                  \Code{4641} & Incorrect data (non-JSON) received from client.                  \\
+                  \Code{4808} & Client requested closure of WebSocket.                           \\
+                  \Code{4807} & Contracts are discontinued in connection.                        \\
+                  \hline
+              \end{tabular}
+              \caption{Errors for WebSocket connection.}
+              \label{tab:socket-error}
+          \end{table}
+\end{itemize}
+
+\subparagraph{JSON v.s. XML}
+
+Lots of data are serialised in JSON, but the JMA provides its data in XML format.DM-D.S.S. does also provide JSON formatted schemas for most of the XML data files which are also processed real time. However, there is a high chance of delay (up to 1 second) if the JSON format is used, not to say the potential of an error in processing which lead to undefined behaviour in the JSON format. Therefore, to control the delay and ensure that data is real-time, the WebSockets in this application will use the original format in XML and parse internally in the program.
+
+\subparagraph{XML Data Sources}
+
+% TODO: Detail XML Data Sources
+
+% VXSE45
+
+% VXSE51
+% VXSE52
+% VXSE53
+% VXSE61
+% VXSE62
+
+% VTSE41
+
+\paragraph{Sidenotes}
 
 It is worth noting that an existing NuGet Library, \GitHubHref{ingen084}{DmdataSharp} supports dealing with the DM-D.S.S. data flow and converting them to C\# objects (and exceptions). However, for the purposes of this NEA, we will implement our own way to interact with the APIs and the correlated C\# DTOs. The developer of this library did also mention that it is quite purpose-built so might not be suitable for general use.
 
@@ -713,15 +794,15 @@ This section referred to \href{https://dmdata.jp/docs/reference/}{the official d
 
 \subsection{OOP Model}
 
-The data achieved by the previous two data sources will certainly use objects (classes, records) to transfer between different components of the program.
+The data achieved by the previous two data sources will be parsed into objects (classes, records) to transfer between different components of the program. Those objects will then be transferred to the GUI component and be displayed.
 
-OOP modelling (classes, methods, attributes, inheritance etc.). Class diagrams would be useful (these are covered in Bond book 1 page 185 onwards). Diagrams should follow conventions for inheritance/composition and private/protected/public methods/attributes.
+The Class Diagram following the UML convention for the HTTP-based API calls is shown in Figure \ref{fig:classes-http}
 
 \begin{figure}[!ht]
     \centering
     \includegraphics[width = 0.5\linewidth]{class_diagram.png}
     \caption{Class Diagram.}
-    \label{fig:classes}
+    \label{fig:classes-http}
 \end{figure}
 
 \section{User Interface}
@@ -742,9 +823,11 @@ As discussed in the analysis section, the program consists of three parts: data-
     \label{fig:hierarchy}
 \end{figure}
 
-The whole application (apart from the polynomial fitting part which was done in Python) will be written in C\# using the .NET Core Version 8.0, since the .NET Core is designed oriented around OOP techniques. 
+The whole application (apart from the polynomial fitting part which was done in Python) will be written in C\# using the .NET Core Version 8.0, since the .NET Core is designed oriented around OOP techniques.
 
+The built-in .NET parsers for XML and JSON will be used to convert into DTOs.
 
+The GUI will be designed using Avalonia, which is designed to develop cross-platform applications in .NET.
 
 \section{Hardware \& Software Requirements}
 Draw up a hardware and software specification for items that are required.
