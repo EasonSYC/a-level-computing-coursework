@@ -45,10 +45,10 @@ Table \ref{tab:users} compares relative features of these two target users/clien
 \begin{table}[!ht]
     \centering
 
-    \begin{tabular}{|p{55pt}||p{145pt}|p{145pt}|}
+    \begin{tabular}{|c|l|p{0.36\linewidth}|}
         \hline
         Feature              & Primary Target                     & Secondary Target                                          \\
-        \hline
+        \hline\hline
         Description          & Passionate Geologists              & Earthquake-Sensitive Industries                           \\
         Age                  & Varies (Middle School -- Adults)   & Work Age                                                  \\
         Reason               & Monitor Live \& Latest Earthquakes & Monitor Risks to Infrastructure                           \\
@@ -119,7 +119,7 @@ The author interviewed my friend Wesley Ma, who is a passionate geologist on ear
 Based on the applications the author uses and the feedback from interviewee, there are the following commonly-used applications:
 \begin{itemize}
     \item \href{https://jquake.net}{JQuake}
-    \item \href{https://kotoho7.github.io/scratch-realtime-earthquake-viewer-page/}{Scratch Real-time Earthquake Viewer (SREV)}, available at \GitHubHref{kotoho7}{scratch-realtime-earthquake-viewer-page} in compiled form
+    \item \href{https://kotoho7.github.io/scratch-realtime-earthquake-viewer-page/}{Scratch Real-time Earthquake Viewer (SREV)}, available in compiled form at \GitHubHref{kotoho7}{scratch-realtime-earthquake-viewer-page}
     \item \href{https://svs.ingen084.net/kyoshineewviewer/}{Kyoshin EEW Viewer for Ingen (KEVI)}, available at \GitHubHref{ingen084}{KyoshinEewViewerIngen}
     \item \href{https://fuku1213.github.io/quarog-site/}{Quarog}
 \end{itemize}
@@ -360,7 +360,7 @@ Table \ref{tab:abbrs} for types of testing. [M] afterwards will stand for a nece
 \begin{table}[!ht]
     \centering
 
-    \begin{tabular}{|c||p{0.4\linewidth}|p{0.25\linewidth}|l|}
+    \begin{tabular}{|c||p{0.42\linewidth}|p{0.3\linewidth}|l|}
         \hline
         Req. \textnumero & Description                                              & Success Criteria                & Testing \\
         \hline \hline
@@ -390,31 +390,31 @@ Table \ref{tab:abbrs} for types of testing. [M] afterwards will stand for a nece
 \begin{table}[!ht]
     \centering
 
-    \begin{tabular}{|c||p{0.4\linewidth}|p{0.25\linewidth}|l|}
+    \begin{tabular}{|c||p{0.4\linewidth}|p{0.28\linewidth}|l|}
         \hline
-        Req. \textnumero & Description                                                                           & Success Criteria                                              & Testing    \\
+        Req. \textnumero & Description                                                               & Success Criteria                                              & Testing    \\
         \hline \hline
-        2a(i)            & Display real time shake-intensities on the map                                        & Correct coloured points at correct locations                  & IT         \\
+        2a(i)            & Display real time shake-intensities on the map                            & Coloured points at correct locations                          & IT         \\
         \hline
-        2a(ii)           & Implement algorithm to display shake detection on the map                             & Use squares to indicate shake detected in area                & UT, IT, PT \\
+        2a(ii)           & Implement algorithm to display shake detection on the map                 & Use squares to indicate shake detected in area                & UT, IT, PT \\
         \hline
-        2a(iii)          & Display the time at the corner of the UI                                              & Time displayed with less than 100ms error                     & UT         \\
+        2a(iii)          & Display the time at the corner of the UI                                  & Time displayed with less than 100ms error                     & UT         \\
         \hline
-        2a(iv)           & Display real-time EEW when issued                                                     & Epicentre at correct position                                 & IT         \\
+        2a(iv)           & Display real-time EEW when issued                                         & Epicentre at correct position                                 & IT         \\
         \hline
-        2a(v)            & Update/Cancel EEW when appropriate                                                    & Correctly updated and plotted                                 & IT         \\
+        2a(v)            & Update/Cancel EEW when appropriate                                        & Correctly updated and plotted                                 & IT         \\
         \hline
-        2a(vi)           & Calculate and display seismic wavefronts by algorithm                                 & Calculated and plotted without significant delay              & UT, IT, PT \\
+        2a(vi)           & Calculate and display seismic wavefronts by algorithm                     & Calculated and plotted without significant delay              & UT, IT, PT \\
         \hline
-        2a(vii)          & Colour map with expected maximum intensity of EEW                                     & Correctly coloured                                            & UT, IT     \\
+        2a(vii)          & Colour map with expected maximum intensity of EEW                         & Correctly coloured                                            & UT, IT     \\
         \hline
-        2a(viii)         & Display the exp. magnitude, location, depth and intensity when EEW issued             & Correctly formatted and displayed                             & UT, IT     \\
+        2a(viii)         & Display the exp. magnitude, location, depth and intensity when EEW issued & Correctly formatted and displayed                             & UT, IT     \\
         \hline
-        2a(ix)           & Provide additional EEW information (e.g. detailed time, algorithm used) when prompted & Correctly formatted and displayed                             & IT [M]     \\
+        2a(ix)           & Provide additional EEW information (e.g. detailed time, algorithm used)   & Correctly formatted and displayed                             & IT [M]     \\
         \hline
-        2a(x)            & Display tsunami warnings when issued                                                  & Coloured at correct location                                  & UT         \\
+        2a(x)            & Display tsunami warnings when issued                                      & Coloured at correct location                                  & UT         \\
         \hline
-        2a(xi)*          & Display real-time shake data at a user-defined point                                  & Display the name of the point with acceleration and intensity & IT         \\
+        2a(xi)*          & Display real-time shake data at a user-defined point                      & Display the name of the point with acceleration and intensity & IT         \\
         \hline
     \end{tabular}
     \caption{Requirements for Part 2(a)}
@@ -424,7 +424,7 @@ Table \ref{tab:abbrs} for types of testing. [M] afterwards will stand for a nece
 \begin{table}[!ht]
     \centering
 
-    \begin{tabular}{|c||p{0.4\linewidth}|p{0.25\linewidth}|l|}
+    \begin{tabular}{|c||p{0.42\linewidth}|p{0.3\linewidth}|l|}
         \hline
         Req. \textnumero & Description                                                                                             & Success Criteria                         & Testing \\
         \hline \hline
@@ -448,7 +448,7 @@ Table \ref{tab:abbrs} for types of testing. [M] afterwards will stand for a nece
 \begin{table}[!ht]
     \centering
 
-    \begin{tabular}{|c||p{0.4\linewidth}|p{0.3\linewidth}|l|}
+    \begin{tabular}{|c||p{0.42\linewidth}|p{0.3\linewidth}|l|}
         \hline
         Req. \textnumero & Description                                                               & Success Criteria                                     & Testing \\
         \hline \hline
@@ -458,15 +458,15 @@ Table \ref{tab:abbrs} for types of testing. [M] afterwards will stand for a nece
         \hline
         3(iii)           & Provide an easy-to-use GUI                                                & Potential user gives rating of more than 7 out of 10 & [M]     \\
         \hline
-        3(iv)*           & Provide page to design custom colour scheme                               & Colour scheme designed and applied to the whole UI   & UT      \\
+        3(iv)*           & Provide page to design colour scheme                                      & Functional design page and applied to the whole UI   & UT      \\
         \hline
         3(v)*            & Play sound when events happen and provide option to customise sound files & Correct sound played when required                   & UT, IT  \\
         \hline
-        3(vi)*           & Provide option to define a point on the map to monitor                    & Option provided and meet specs defined in Part 2a    & UT, IT  \\
+        3(vi)*           & Provide option to define a point on the map to monitor                    & Functioning as specified in Part 2a     & UT, IT  \\
         \hline
-        3(vii)*          & Provide zooming feature on map                                            & Map functioning with specs in Part 2                 & UT, IT  \\
+        3(vii)*          & Provide zooming feature                                                   & Map functioning as specified in Part 2               & UT, IT  \\
         \hline
-        3(viii)*         & Provide sub-map to display Okinawa Area                                   & Map functioning with specs in Part 2                 & UT, IT  \\
+        3(viii)*         & Provide sub-map to display Okinawa Area                                   & Map functioning as specified in Part 2               & UT, IT  \\
         \hline
     \end{tabular}
     \caption{Requirements for Part 3}

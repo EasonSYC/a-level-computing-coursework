@@ -531,7 +531,7 @@ This API will be used to determine if the user has an appropriate subscription p
 
 \subparagraph{WebSocket APIs}
 
-There are three WebSocket-Related APIs, specifically, to start a socket, \Code{socket.start}, to list all sockets, \Code{socket.list} and to close a socket, \Code{socket.close}. They are all called on \url{base://socket}.
+There are three WebSocket-Related APIs, specifically, \Code{socket.start}, to start a socket, \Code{socket.list} to list all sockets, and \Code{socket.close}, to close a socket. They are all called on \url{base://socket}.
 
 \Code{socket.start} is a POST method which has a request body in JSON, as shown in Listing \ref{alg:socket-start-post}.
 
@@ -688,7 +688,7 @@ The API \Code{gd.earthquake} allows us to use a GET request to obtain a series o
 
 These APIs will be used to display a list of past earthquakes. For each object representing an earthquake, this includes:
 \begin{itemize}
-    \item Its unique \Code{id}, its \Code{eventId}, its \Code{originTime} (if it is not a report on the intensity), and its \Code{arrivalTime};
+    \item Its unique \Code{id}, \Code{eventId}, \Code{originTime} (if it is not a report on the intensity), and \Code{arrivalTime};
     \item its \Code{type} (which is \Code{normal} for earthquakes in Japan, and \Code{distant} for earthquake reported by other countries);
     \item its \Code{hypocenter}, including the \Code{code}, \Code{name}, the \Code{coordinate} and the \Code{depth};
     \item its \Code{magnitude} (an object representing units and values); and
@@ -729,22 +729,15 @@ There are four types of responses that a WebSocket could return, indicated in th
 
           This is in place to ensure that there are no 'dead' WebSocket connections, and the server will close the WebSocket connection after 120s of no response in such ping-pong calls, to not take up the limited number of WebSocket connection slots;
     \item a client-side initiated \Code{ping} as in Listing \ref{alg:server-ping}, which the server will return a \Code{pong} as in Listing \ref{alg:server-pong}. This works almost identically as before, apart from that such \Code{pingId} is optional. This is in place to ensure that the application would be able to know if the connection is broken, for example due to unstable internet connections, and would be able to restart another WebSocket connection;
-    \item a \Code{data}, an example shown in Listing \ref{alg:socket-data}.
-          \begin{listing}[!ht]
-              \InputMinted{json}{JsonSchemas/SocketData.json}
-              \caption{WebSocket Data JSON.}
-              \label{alg:socket-data}
-          \end{listing}
-          This will include a \Code{classification}, a version \Code{version}, and a unique \Code{id}. An array named \Code{passing} gives the \Code{name} and \Code{time} of each passing location of this data piece inside the server. Furthermore, the \Code{head} gives some key information, and \Code{xmlReport} gives certain details in the XML body. \Code{format}, \Code{compression} (\Code{gzip}, \Code{zip} or \Code{null}) and \Code{encoding} (\Code{base64} or \Code{utf-8}) gives information on how the \Code{body} should be processed and interpreted.
-
-          This gives the key piece of information that will be passed between the data component of the software and the UI component of the software;
-    \item a \Code{error}, which will be the format in Listing \ref{alg:socket-error}. There will also be a boolean, \Code{close}, to indicate whether the WebSocket connection is closed or not. A table of possible WebSocket errors is included in \ref{tab:socket-error}, with the relevant WebSocket error codes.
+    \item a \Code{error}, which will be the format in Listing \ref{alg:socket-error}. There will also be a boolean, \Code{close}, to indicate whether the WebSocket connection is closed or not.
 
           \begin{listing}[!ht]
               \InputMinted{json}{JsonSchemas/SocketError.json}
               \caption{WebSocket Error JSON.}
               \label{alg:socket-error}
           \end{listing}
+
+          A table of possible WebSocket errors is included in \ref{tab:socket-error}, with the relevant WebSocket error codes.
 
           \begin{table}[!ht]
               \centering
@@ -766,6 +759,17 @@ There are four types of responses that a WebSocket could return, indicated in th
               \caption{Errors for WebSocket connection.}
               \label{tab:socket-error}
           \end{table}
+
+          The program should be designed to be able to handle these errors, and restart the connection if necessary;
+    \item a \Code{data}, an example shown in Listing \ref{alg:socket-data}.
+          \begin{listing}[!ht]
+              \InputMinted{json}{JsonSchemas/SocketData.json}
+              \caption{WebSocket Data JSON.}
+              \label{alg:socket-data}
+          \end{listing}
+          This will include a \Code{classification}, a version \Code{version}, and a unique \Code{id}. An array named \Code{passing} gives the \Code{name} and \Code{time} of each passing location of this data piece inside the server. Furthermore, the \Code{head} gives some key information, and \Code{xmlReport} gives certain details in the XML body. \Code{format}, \Code{compression} (\Code{gzip}, \Code{zip} or \Code{null}) and \Code{encoding} (\Code{base64} or \Code{utf-8}) gives information on how the \Code{body} should be processed and interpreted.
+
+          This gives the key piece of information that will be passed between the data component of the software and the UI component of the software;
 \end{itemize}
 
 \subparagraph{JSON v.s. XML}
@@ -805,6 +809,8 @@ The Class Diagram following the UML convention for the HTTP-based API calls is s
     \label{fig:classes-http}
 \end{figure}
 
+\subsection{Algorithms}
+
 \section{User Interface}
 You will need to draw up a prototype for the user interface. You may do this within the software package you implement your solution in.
 \begin{itemize}
@@ -818,8 +824,8 @@ As discussed in the analysis section, the program consists of three parts: data-
 
 \begin{figure}[!ht]
     \centering
-    \includegraphics[width = 0.5\linewidth]{hierarchy_chart.png}
-    \caption{Hierarchy Chart.}
+    \includegraphics[width = \linewidth]{hierarchy.png}
+    \caption{Hierarchy chart of the whole application}
     \label{fig:hierarchy}
 \end{figure}
 
