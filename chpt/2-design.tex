@@ -498,7 +498,7 @@ if \Code{nextPooling} is used (which should be after \Code{nextPoolingInterval} 
 
 The document suggested that, due to performance issues, the \Code{nextPooling} should be used wherever possible. Note that the \Code{nextToken} and \Code{nextPooling} will change for every single call of the API.
 
-From this part onwards, in the API sample results, all \Code{nextToken}, \Code{nextPooling} and \Code{nextPoolingInterval} will be removed, but if they are included in the result, it would be explicitly stated.
+From here onwards, in the API sample results, \Code{nextToken}, \Code{nextPooling} and \Code{nextPoolingInterval} will not be included.
 
 \subparagraph{Contract API}
 
@@ -678,13 +678,28 @@ Apart from standard errors, it might also return a \Code{400} error with message
 
 \subparagraph{Past Earthquake API}
 
-The 
+The API \Code{gd.earthquake} allows us to use a GET request to obtain a series of earthquake on \url{base://gd/earthquake}, with the option to obtain a list, or to obtain only a certain event.
 
 \begin{listing}[!ht]
     \InputMinted{json}{JsonSchemas/GdEarthquakeList.json}
     \caption{Past earthquake list sample response JSON.}
     \label{alg:earthquake-list}
 \end{listing}
+
+These APIs will be used to display a list of past earthquakes. For each object representing an earthquake, this includes:
+\begin{itemize}
+    \item Its unique \Code{id}, its \Code{eventId}, its \Code{originTime} (if it is not a report on the intensity), and its \Code{arrivalTime};
+    \item its \Code{type} (which is \Code{normal} for earthquakes in Japan, and \Code{distant} for earthquake reported by other countries);
+    \item its \Code{hypocenter}, including the \Code{code}, \Code{name}, the \Code{coordinate} and the \Code{depth};
+    \item its \Code{magnitude} (an object representing units and values); and
+    \item its \Code{maxInt}, the maximum intensity observed.
+\end{itemize}
+
+It might also include LPGM information, in \Code{maxLgint} and \Code{lgCategory}.
+
+If the call \url{base://gd/earthquake/:eventId} is used, it will return the object representing the earthquake, as well as a list of telegram XML, which was detailed above in the \Code{telegram.list} section. However, it is worth noting that all data here will be parsed into JSON using DM-D.S.S.'s JSON Schema.
+
+This API will be called to obtain a list of past earthquakes when the program launches, and at regular intervals. This is because the WebSocket connection will feed in information on earthquakes as well, so there is no need to call this API every second.
 
 \paragraph{WebSocket Connections}
 
