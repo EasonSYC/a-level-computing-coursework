@@ -412,9 +412,7 @@ Table \ref{tab:necessary-permissions} shows the necessary permissions would be n
         \hline
         \Code{contract.list}           & Get the list of subscriptions the user has.                               \\
         \Code{gd.earthquake}           & Get list of past earthquakes.                                             \\
-        \Code{gd.eew}                  & Get list of past EEWs.                                                    \\
         \Code{parameter.earthquake}    & Get details of observation points for earthquake intensities.             \\
-        \Code{parameter.tsunami}       & Get details of observation points for tsunamis.                           \\
         \Code{socket.start}            & Start a new WebSocket connection.                                         \\
         \Code{socket.list}             & Get list of existing WebSocket connections.                               \\
         \Code{socket.close}            & Close an existing WebSocket connection.                                   \\
@@ -471,6 +469,8 @@ The list of standard errors together with their meanings is discussed in Table \
     \label{tab:standard-errors}
 \end{table}
 
+From here onwards, the \Code{responseId}, \Code{responseTime} and \Code{status} will be removed from the sample response by default.
+
 \subparagraph{Cursor Token}
 
 For some API data calls, and specifically for \Code{telegram.list} that we are going to use, there is too much data to be returned in one API call. Therefore, in a response, there will be a specified attribute named \Code{nextToken} indicated with type \Code{string}, sometimes as well as \Code{nextPooloing} and \Code{nextPoolingInterval}, as shown in Listing \ref{alg:cursor-token} as an example call of
@@ -498,7 +498,9 @@ if \Code{nextPooling} is used (which should be after \Code{nextPoolingInterval} 
 
 The document suggested that, due to performance issues, the \Code{nextPooling} should be used wherever possible. Note that the \Code{nextToken} and \Code{nextPooling} will change for every single call of the API.
 
-\subparagraph{Contract-Related APIs}
+From this part onwards, in the API sample results, all \Code{nextToken}, \Code{nextPooling} and \Code{nextPoolingInterval} will be removed, but if they are included in the result, it would be explicitly stated.
+
+\subparagraph{Contract API}
 
 There is only one contract-related API, which is \Code{contract.list}. It is an HTTP GET request, on \url{base://contract} with no parameters.
 
@@ -513,28 +515,180 @@ Listing \ref{alg:contract-list} shows a sample return of this API call.
 
 Here, \Code{items} is the list of contracts (subscription plans), with each of its element being an object representing a plan. For each of them, there are the properties:
 \begin{itemize}
-    \item \Code{id} which stands for the subscription ID (could be \Code{null} if the user is not subscribed);
+    \item \Code{id} (nullable) which stands for the subscription ID (could be \Code{null} if the user is not subscribed);
     \item \Code{planId} which stands for the subscription plan ID, which is unique for each plan;
     \item \Code{planName} which stands for the name of the subscription plan;
     \item \Code{classifications} which stands for the classification code of the subscription plan;
     \item \Code{price.day} and \Code{price.month} which stands for the price of the plan per day/per month;
-    \item \Code{start} which stands for the start of the subscription;
+    \item \Code{start} (nullable) which stands for the start of the subscription;
     \item \Code{isValid} which is a \Code{boolean} to represent whether the plan is valid; and
     \item \Code{connectionCounts} which stands for the number of extra WebSocket connections this subscription plan provides.
 \end{itemize}
 
+Note that how \Code{id} and \Code{start} can be \Code{null} since it lists all the subscriptions, whether or not the user has been subscribed to it.
+
 This API will be used to determine if the user has an appropriate subscription plan to use the application.
 
-\subparagraph{WebSocket-Related APIs}
+\subparagraph{WebSocket APIs}
 
-There are three WebSocket-Related APIs, specifically, to start a socket, \Code{socket.start}, to list all sockets, \Code{socket.list} and to close a socket, \Code{socket.close}.
+There are three WebSocket-Related APIs, specifically, to start a socket, \Code{socket.start}, to list all sockets, \Code{socket.list} and to close a socket, \Code{socket.close}. They are all called on \url{base://socket}.
 
-\subparagraph{Parameter-Related APIs}
+\Code{socket.start} is a POST method which has a request body in JSON, as shown in Listing \ref{alg:socket-start-post}.
 
+\begin{listing}[!ht]
+    \InputMinted{json}{JsonSchemas/SocketStartPost.json}
+    \caption{Socket start sample request JSON.}
+    \label{alg:socket-start-post}
+\end{listing}
+
+The attributes are:
+\begin{itemize}
+    \item \Code{classifications}, which is a list of classifications of the subscription plans (which include all the types below);
+    \item \Code{types} (optional), which is a list of telegram wished to be transmitted through the WebSocket;
+    \item \Code{test} (optional, default to \Code{"no"}), which indicates whether test telegrams should be received (\Code{"including"}) or not (\Code{"no"});
+    \item \Code{appName} (optional), which is the name of the application to be recorded with the WebSocket; and
+    \item \Code{formatMode} (optional, default to \Code{"raw"}), which is either \Code{"json"} or \Code{"raw"} depending on the desired return type.
+\end{itemize}
+
+The detailed classifications and types will be discussed in the next section on WebSocket connections. When the \Code{types} is excluded, the WebSocket will return all the telegrams included in the classification.
+
+It will have a response as in Listing \ref{alg:socket-start}.
+
+\begin{listing}[!ht]
+    \InputMinted{json}{JsonSchemas/SocketStart.json}
+    \caption{Socket start sample response JSON.}
+    \label{alg:socket-start}
+\end{listing}
+
+Some attributes are exactly the same as the JSON sent has header, \Code{classifications}, \Code{types} (nullable), \Code{test} and \Code{appName}. The additional attributes are:
+\begin{itemize}
+    \item \Code{ticket}, which is a code in \Code{string} for the connection. This is also included in the \Code{websocket} object.
+    \item \Code{websocket}, which is the object containing details for the connections. Its attribute \Code{id} is unique for each connection and \Code{url} is the WebSocket (\Code{wss://}) URL to use to connect to. \Code{protocal} being a constant array containing \Code{"dmdata.v2"} indicating that this is the 2nd version of the protocol. \Code{expiration} is in seconds the time the connection will expire if no transmission handshakes are made (see below), and is always \Code{300} as constant.
+    \item \Code{formats}, which is a list of formats used to encode the data transmitted in the WebSocket. This is a constant list including \Code{"xml"}, \Code{"a/n"} and \Code{"binary"} if \Code{formatMode} is set to \Code{"raw"}, and a list with only \Code{"json"} if set to \Code{"json"} in the request JSON.
+\end{itemize}
+
+Apart from the standard errors, it will also output errors shown in Table \ref{tab:socket-start-err}
+
+\begin{table}[!ht]
+    \centering
+
+    \begin{tabular}{|c|l|}
+        \hline
+        Error Code & Error Message                                                       \\
+        \hline
+        \Code{400} & The body of the request is not JSON.                                \\
+        \Code{400} & At least one element of \Code{classifications} is required.         \\
+        \Code{400} & The \Code{types} is not a string or has more than 30 elements.      \\
+        \Code{400} & The \Code{appName} is up to 24 bytes.                               \\
+        \Code{400} & You have entered a string that is not defined in \Code{formatMode}. \\
+        \Code{402} & No contract.                                                        \\
+        \Code{409} & The maximum number of simultaneous connections is full.             \\
+        \hline
+    \end{tabular}
+    \caption{Errors for \Code{socket.start}.}
+    \label{tab:socket-start-err}
+\end{table}
+
+\Code{socket.close} is a DELETE method, which specifies the ID of the WebSocket port to be closed in the URL parameter \Code{:id}, e.g., \url{base://socket/30}. If the result is successful, the request will not return anything. If the status is error, it will return a standard error (detailed above), or a \Code{404} error, which indicates that the specified WebSocket \Code{id} is not found.
+
+\Code{socket.list} is a GET method which supports \Code{cursorToken} (optional) as discussed above. There are other parameters in the query:
+\begin{itemize}
+    \item \Code{id} (optional), which stands for the ID of the WebSocket connection that details is wished to be retrieved;
+    \item \Code{status} (optional), a \Code{string} indicating the status of the WebSocket, including \Code{open} which stands for operating live, \Code{waiting} which means idle, and \Code{closed} standing for closed connections;
+    \item \Code{limit} (optional, default 20), of type \Code{integer} with a maximum of 100, indicating the number of WebSockets listed in a single response.
+\end{itemize}
+
+Listing \ref{alg:socket-list} shows a response from the call. The \Code{items} is a list of objects, each representing a WebSocket, with the following properties:
+\begin{itemize}
+    \item \Code{id}, \Code{ticket}, \Code{classifications}, \Code{test}, \Code{types}, \Code{formats}, \Code{appName}, identical to described above;
+    \item \Code{start}, a \Code{ISO0601Time} representing the time of the start of the connection;
+    \item \Code{end}, a nullable \Code{ISO0601Time} representing the time of the end of the connection;
+    \item \Code{ping}, a nullable \Code{ISO0601Time} representing the previous time of ping-pong;
+    \item \Code{ipAddress}, a nullable \Code{string} representing the IP address of the source of connection;
+    \item \Code{server}, a nullable \Code{string} representing the connected WebSocket server; and
+    \item \Code{status}, a \Code{string} representing the connection status.
+\end{itemize}
+
+\begin{listing}[!ht]
+    \InputMinted{json}{JsonSchemas/SocketList.json}
+    \caption{Socket list sample response JSON.}
+    \label{alg:socket-list}
+\end{listing}
+
+These will be used to manage (open new, list existing and close) WebSockets in the application.
+
+\subparagraph{Parameter API}
+
+The program would need to have a list of observation points of earthquakes to plot on the graph. Therefore, we would need to call \Code{parameter.earthquake}, which is available at \url{base://parameter/earthquake/station}.
+
+This is a GET request with no parameters to specify, and will return all stations in one go. Listing \ref{alg:parameter-earthquake} shows a sample response.
+
+\begin{listing}[!ht]
+    \InputMinted{json}{JsonSchemas/ParameterEarthquake.json}
+    \caption{Earthquake parameter sample response JSON.}
+    \label{alg:parameter-earthquake}
+\end{listing}
+
+The \Code{changeTime} and \Code{version} of this list of parameters is often the same for calls since the list is rarely updated, and they give the version of the list and the last time of the update.
+
+For each object in \Code{items}, they represent an earthquake observation point. The attributes are:
+\begin{itemize}
+    \item \Code{region} and \Code{city}, both containing \Code{code}, \Code{name} and \Code{kana} (Kana (カナ, 仮名) represents the pronunciation), which is unique for each region and city;
+    \item \Code{noCode}, the unique code, and \Code{code}, the code used in XML (WebSocket data feeds);
+    \item the \Code{name} and \Code{kana}, which are not necessarily unique for each observation point;
+    \item \Code{status} standing for whether the station is in use. \Code{"現"} (now) means the data hasn't changed in the update, \Code{"変更"} (change) means the data has been altered, \Code{"新規"} (new) stands for a new observation point, and \Code{"廃止"} (abolished) means the observation point has been discontinued;
+    \item the \Code{owner}, representing the owner of the observation point; and
+    \item the \Code{latitude} and \Code{longitude}, which as the name suggests, represent the position of the observation point.
+\end{itemize}
+
+Due to the nature of JSON being very long and barely updated (an email will be sent to users of DM-D.S.S. every time its updated in fact), it will be stored locally in the application's local storage, and updated automatically every day only.
+
+\subparagraph{Telegram API}
+
+JMA release telegrams (mostly in XML format) through DM-D.S.S., and to achieve them, we can use the \Code{telegram.list} GET request, which is available at \url{base://telegram}. It supports \Code{cursorToken} with pooling.
+
+Furthermore, the following query parameters are available:
+\begin{itemize}
+    \item \Code{type} (optional), which indicates the type of telegram wishing to retrieve. Note that there can be a maximum of 5 types of telegrams specified due to the need for a perfect match;
+    \item \Code{xmlReport} (optional, default \Code{false}), which specifies whether some details of the XML report should be included in the JSON;
+    \item \Code{test} (optional, default \Code{no}), which specifies whether test telegrams should be included. Options are \Code{no}, \Code{including} and \Code{only};
+    \item \Code{formatMode} (optional, default \Code{raw}) indicates whether the XML reports should be converted to JSON;
+    \item \Code{limit} (optional, default 20) indicates the number of telegrams returned in one response.
+\end{itemize}
+
+Listing \ref{alg:telegram-list} gives a sample response of this API call.
+
+\begin{listing}[!ht]
+    \InputMinted{json}{JsonSchemas/TelegramList.json}
+    \caption{Telegram list sample response JSON.}
+    \label{alg:telegram-list}
+\end{listing}
+
+In the \Code{items} list, each object represents a telegram, with certain properties:
+\begin{itemize}
+    \item \Code{serial} stands for the serial ID of this transmission, while \Code{id} is a unique ID for the telegram (non-serial);
+    \item \Code{classification} gives the classification of this telegram. For the purpose of this application, all classification will be of type \Code{telegram.earthquake};
+    \item \Code{head} gives the head of this telegram, including the \Code{type}, the \Code{author}, the \Code{time}, and whether it is \Code{test};
+    \item \Code{receivedTime} gives the time of this telegram being released,
+    \item \Code{xmlReport} details parts of information encoded in the XML, if the \Code{xmlReport} option in the query is set to true;
+    \item \Code{url} gives the URL for the detailed information of this telegram (that can be retrieved using another GET request), and \Code{format} gives its format.
+\end{itemize}
+
+Apart from standard errors, it might also return a \Code{400} error with message 'You have entered a string that is not defined in \Code{formatMode}.'
+
+\subparagraph{Past Earthquake API}
+
+The 
+
+\begin{listing}[!ht]
+    \InputMinted{json}{JsonSchemas/GdEarthquakeList.json}
+    \caption{Past earthquake list sample response JSON.}
+    \label{alg:earthquake-list}
+\end{listing}
 
 \paragraph{WebSocket Connections}
 
-
+\subparagraph{Early Earthquake Warnings}
 
 \paragraph{Flowchart of data and sidenotes}
 
@@ -543,19 +697,10 @@ It is worth noting that an existing NuGet Library, \GitHubHref{ingen084}{DmdataS
 This section referred to \href{https://dmdata.jp/docs/reference/}{the official document for DM-D.S.S}.
 
 \subsection{OOP Model}
+
+The data achieved by the previous two data sources will certainly use objects (classes, records) to transfer between different components of the program.
+
 OOP modelling (classes, methods, attributes, inheritance etc.). Class diagrams would be useful (these are covered in Bond book 1 page 185 onwards). Diagrams should follow conventions for inheritance/composition and private/protected/public methods/attributes.
-
-\section{Hierarchy Chart}
-As discussed in the analysis section, the program consists of three parts: data-parsing from external data sources, GUI functionalities and joint functionalities, where the GUI part will be divided into two parts focusing on real-time monitoring and past-earthquake information, respectively. A detailed discussion into how different modules can be further split up while at the same time being interacted is discussed, and Figure \ref{fig:hierarchy} is a hierarchy diagram for the whole application. This shows how \textbf{decomposition} technique is applied to reduce a sophisticated problem into more attackable problems.
-
-A top-down approach to problem-solving will lead to the identification of tasks with sub-tasks. i.e. modules and functions required.
-
-\begin{figure}[!ht]
-    \centering
-    \includegraphics[width = 0.5\linewidth]{hierarchy_chart.png}
-    \caption{Hierarchy Chart.}
-    \label{fig:hierarchy}
-\end{figure}
 
 \begin{figure}[!ht]
     \centering
@@ -571,6 +716,20 @@ You will need to draw up a prototype for the user interface. You may do this wit
     \item Menu options/sequences
     \item Buttons/keys/commands (command line)
 \end{itemize}
+
+\section{Hierarchy Chart}
+As discussed in the analysis section, the program consists of three parts: data-parsing from external data sources, GUI functionalities and joint functionalities, where the GUI part will be divided into two parts focusing on real-time monitoring and past-earthquake information, respectively. A detailed discussion into how different modules can be further split up while at the same time being interacted was discussed, and Figure \ref{fig:hierarchy} is a hierarchy diagram for the whole application. This shows how \textbf{decomposition} technique is applied to reduce a sophisticated problem into more attackable problems.
+
+\begin{figure}[!ht]
+    \centering
+    \includegraphics[width = 0.5\linewidth]{hierarchy_chart.png}
+    \caption{Hierarchy Chart.}
+    \label{fig:hierarchy}
+\end{figure}
+
+The whole application (apart from the polynomial fitting part which was done in Python) will be written in C\# using the .NET Core Version 8.0, since the .NET Core is designed oriented around OOP techniques. 
+
+
 
 \section{Hardware \& Software Requirements}
 Draw up a hardware and software specification for items that are required.
