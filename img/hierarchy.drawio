@@ -160,10 +160,10 @@
           <mxGeometry x="720" y="200" width="120" height="40" as="geometry" />
         </mxCell>
         <mxCell id="p5hKiyaJYvkIPfFwVbu1-48" value="EEWs" style="rounded=1;whiteSpace=wrap;html=1;fontFamily=STIX;" vertex="1" parent="1">
-          <mxGeometry x="520" y="500" width="120" height="40" as="geometry" />
+          <mxGeometry x="520" y="560" width="120" height="40" as="geometry" />
         </mxCell>
         <mxCell id="p5hKiyaJYvkIPfFwVbu1-49" value="Tsunami Warnings" style="rounded=1;whiteSpace=wrap;html=1;fontFamily=STIX;" vertex="1" parent="1">
-          <mxGeometry x="520" y="440" width="120" height="40" as="geometry" />
+          <mxGeometry x="520" y="500" width="120" height="40" as="geometry" />
         </mxCell>
         <mxCell id="p5hKiyaJYvkIPfFwVbu1-50" value="Real Time&lt;div&gt;Observation Points&lt;/div&gt;" style="rounded=1;whiteSpace=wrap;html=1;fontFamily=STIX;" vertex="1" parent="1">
           <mxGeometry x="520" y="260" width="120" height="40" as="geometry" />
@@ -219,10 +219,10 @@
           <mxGeometry relative="1" as="geometry" />
         </mxCell>
         <mxCell id="p5hKiyaJYvkIPfFwVbu1-80" value="P/S Wavefronts" style="rounded=1;whiteSpace=wrap;html=1;fontFamily=STIX;" vertex="1" parent="1">
-          <mxGeometry x="560" y="560" width="120" height="40" as="geometry" />
+          <mxGeometry x="560" y="620" width="120" height="40" as="geometry" />
         </mxCell>
         <mxCell id="p5hKiyaJYvkIPfFwVbu1-81" value="Predicted Intensity Colouring" style="rounded=1;whiteSpace=wrap;html=1;fontFamily=STIX;" vertex="1" parent="1">
-          <mxGeometry x="560" y="620" width="120" height="40" as="geometry" />
+          <mxGeometry x="560" y="680" width="120" height="40" as="geometry" />
         </mxCell>
         <mxCell id="p5hKiyaJYvkIPfFwVbu1-85" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0;exitY=0.5;exitDx=0;exitDy=0;entryX=0.167;entryY=1;entryDx=0;entryDy=0;entryPerimeter=0;endArrow=none;endFill=0;" edge="1" parent="1" source="p5hKiyaJYvkIPfFwVbu1-80" target="p5hKiyaJYvkIPfFwVbu1-48">
           <mxGeometry relative="1" as="geometry" />
@@ -270,6 +270,28 @@
           <mxGeometry x="780" y="320" width="120" height="40" as="geometry" />
         </mxCell>
         <mxCell id="p5hKiyaJYvkIPfFwVbu1-104" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0;exitY=0.5;exitDx=0;exitDy=0;entryX=0.167;entryY=1;entryDx=0;entryDy=0;entryPerimeter=0;endArrow=none;endFill=0;" edge="1" parent="1" source="p5hKiyaJYvkIPfFwVbu1-102" target="p5hKiyaJYvkIPfFwVbu1-52">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="p5hKiyaJYvkIPfFwVbu1-106" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0;exitY=0.5;exitDx=0;exitDy=0;endArrow=none;endFill=0;" edge="1" parent="1" source="p5hKiyaJYvkIPfFwVbu1-107">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="760" y="660" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="p5hKiyaJYvkIPfFwVbu1-107" value="External Weather Provider" style="rounded=1;whiteSpace=wrap;html=1;fontFamily=STIX;" vertex="1" parent="1">
+          <mxGeometry x="780" y="740" width="120" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="p5hKiyaJYvkIPfFwVbu1-108" value="JMA Website" style="rounded=1;whiteSpace=wrap;html=1;fontFamily=STIX;" vertex="1" parent="1">
+          <mxGeometry x="780" y="680" width="120" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="p5hKiyaJYvkIPfFwVbu1-109" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0;exitY=0.5;exitDx=0;exitDy=0;entryX=0.167;entryY=1;entryDx=0;entryDy=0;entryPerimeter=0;endArrow=none;endFill=0;" edge="1" parent="1" source="p5hKiyaJYvkIPfFwVbu1-108">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="760" y="660" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="p5hKiyaJYvkIPfFwVbu1-110" value="Shake Detection" style="rounded=1;whiteSpace=wrap;html=1;fontFamily=STIX;" vertex="1" parent="1">
+          <mxGeometry x="560" y="440" width="120" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="p5hKiyaJYvkIPfFwVbu1-112" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0;exitY=0.5;exitDx=0;exitDy=0;entryX=0.169;entryY=1.088;entryDx=0;entryDy=0;entryPerimeter=0;endArrow=none;endFill=0;" edge="1" parent="1" source="p5hKiyaJYvkIPfFwVbu1-110" target="p5hKiyaJYvkIPfFwVbu1-50">
           <mxGeometry relative="1" as="geometry" />
         </mxCell>
       </root>
