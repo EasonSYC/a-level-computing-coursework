@@ -1,6 +1,6 @@
 <mxfile host="app.diagrams.net" agent="Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/18.1 Safari/605.1.15" version="24.7.17">
   <diagram name="Page-1" id="eFVO6PPTAemuELiHzvEy">
-    <mxGraphModel dx="1047" dy="678" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1169" pageHeight="827" math="0" shadow="0">
+    <mxGraphModel dx="1264" dy="819" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1169" pageHeight="827" math="0" shadow="0">
       <root>
         <mxCell id="0" />
         <mxCell id="1" parent="0" />
@@ -198,16 +198,16 @@
         <mxCell id="p5hKiyaJYvkIPfFwVbu1-56" value="Configuration" style="rounded=1;whiteSpace=wrap;html=1;fontFamily=STIX;" vertex="1" parent="1">
           <mxGeometry x="940" y="180" width="120" height="40" as="geometry" />
         </mxCell>
-        <mxCell id="p5hKiyaJYvkIPfFwVbu1-58" value="HTTP Requests" style="rounded=1;whiteSpace=wrap;html=1;fontFamily=STIX;" vertex="1" parent="1">
+        <mxCell id="p5hKiyaJYvkIPfFwVbu1-58" value="Colour Scheme" style="rounded=1;whiteSpace=wrap;html=1;fontFamily=STIX;" vertex="1" parent="1">
           <mxGeometry x="960" y="240" width="120" height="40" as="geometry" />
         </mxCell>
-        <mxCell id="p5hKiyaJYvkIPfFwVbu1-59" value="HTTP Requests" style="rounded=1;whiteSpace=wrap;html=1;fontFamily=STIX;" vertex="1" parent="1">
+        <mxCell id="p5hKiyaJYvkIPfFwVbu1-59" value="Sound Settings" style="rounded=1;whiteSpace=wrap;html=1;fontFamily=STIX;" vertex="1" parent="1">
           <mxGeometry x="960" y="300" width="120" height="40" as="geometry" />
         </mxCell>
-        <mxCell id="p5hKiyaJYvkIPfFwVbu1-60" value="HTTP Requests" style="rounded=1;whiteSpace=wrap;html=1;fontFamily=STIX;" vertex="1" parent="1">
+        <mxCell id="p5hKiyaJYvkIPfFwVbu1-60" value="Colour Style" style="rounded=1;whiteSpace=wrap;html=1;fontFamily=STIX;" vertex="1" parent="1">
           <mxGeometry x="960" y="360" width="120" height="40" as="geometry" />
         </mxCell>
-        <mxCell id="p5hKiyaJYvkIPfFwVbu1-61" value="HTTP Requests" style="rounded=1;whiteSpace=wrap;html=1;fontFamily=STIX;" vertex="1" parent="1">
+        <mxCell id="p5hKiyaJYvkIPfFwVbu1-61" value="Authorisation" style="rounded=1;whiteSpace=wrap;html=1;fontFamily=STIX;" vertex="1" parent="1">
           <mxGeometry x="960" y="420" width="120" height="40" as="geometry" />
         </mxCell>
         <mxCell id="p5hKiyaJYvkIPfFwVbu1-75" value="Position" style="rounded=1;whiteSpace=wrap;html=1;fontFamily=STIX;" vertex="1" parent="1">
@@ -234,6 +234,20 @@
           <mxGeometry relative="1" as="geometry" />
         </mxCell>
         <mxCell id="p5hKiyaJYvkIPfFwVbu1-86" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0;exitY=0.5;exitDx=0;exitDy=0;entryX=0.165;entryY=0.993;entryDx=0;entryDy=0;entryPerimeter=0;endArrow=none;endFill=0;" edge="1" parent="1" source="p5hKiyaJYvkIPfFwVbu1-81" target="p5hKiyaJYvkIPfFwVbu1-48">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="p5hKiyaJYvkIPfFwVbu1-87" value="API Key" style="rounded=1;whiteSpace=wrap;html=1;fontFamily=STIX;" vertex="1" parent="1">
+          <mxGeometry x="1000" y="480" width="120" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="p5hKiyaJYvkIPfFwVbu1-93" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0;exitY=0.5;exitDx=0;exitDy=0;endArrow=none;endFill=0;" edge="1" parent="1" source="p5hKiyaJYvkIPfFwVbu1-90">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="980" y="460" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="p5hKiyaJYvkIPfFwVbu1-90" value="OAuth 2.0" style="rounded=1;whiteSpace=wrap;html=1;fontFamily=STIX;" vertex="1" parent="1">
+          <mxGeometry x="1000" y="540" width="120" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="p5hKiyaJYvkIPfFwVbu1-91" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0;exitY=0.5;exitDx=0;exitDy=0;entryX=0.167;entryY=1;entryDx=0;entryDy=0;entryPerimeter=0;endArrow=none;endFill=0;" edge="1" parent="1" source="p5hKiyaJYvkIPfFwVbu1-87" target="p5hKiyaJYvkIPfFwVbu1-61">
           <mxGeometry relative="1" as="geometry" />
         </mxCell>
       </root>
