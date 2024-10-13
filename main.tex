@@ -26,6 +26,7 @@
 
 
 \setcounter{tocdepth}{3}
+\setcounter{secnumdepth}{3}
 
 \newcommand{\CodeBasePath}{../EEETWV/}
 
@@ -44,7 +45,7 @@
 }
 
 \newcommand{\Input}[1]{\input{./chpt/#1}}
-\newcommand{\InputMinted}[2]{\inputminted{#1}{\CodeBasePath#2}}
+\newcommand{\InputMinted}[3][]{\inputminted[#1]{#2}{\CodeBasePath#3}}
 
 \newcommand{\Title}{Early Earthquake and Tsunami Warning Viewer}
 \newcommand{\SubTitle}{AQA A-Level Computing NEA Report}

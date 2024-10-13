@@ -18,14 +18,14 @@ A comparison from the official website of \href{https://www.mowlas.bosai.go.jp}{
 
 \begin{figure}[!ht]
     \centering
-    \includegraphics[width = 0.75\linewidth]{net-comparison.png}
+    \includegraphics[width=0.75\linewidth]{net-comparison.png}
     \caption{A comparison of the K-NET, F-net and Hi-net.}
     \label{fig:net-comparison}
 \end{figure}
 
 \begin{figure}[!ht]
     \centering
-    \includegraphics[width = 0.75\linewidth]{net-distribution.png}
+    \includegraphics[width=0.75\linewidth]{net-distribution.png}
     \caption{Distribution of the sensors of different nets.}
     \label{fig:net-distribution}
 \end{figure}
@@ -82,7 +82,7 @@ In the link, the \Code{[yyyyMMdd]} and the \Code{[hhmmss]} part should be replac
 
 \begin{figure}[!ht]
     \centering
-    \includegraphics[width = 0.5\linewidth]{sample-kmoni.png}
+    \includegraphics[width=0.5\linewidth]{sample-kmoni.png}
     \caption{Sample GIF image achieved from 'Kyoshin' Monitor}
     \label{fig:sample-kmoni}
 \end{figure}
@@ -346,14 +346,14 @@ Figure \ref{fig:kmoni-data-flow} shows the data flow, Figure \ref{fig:variable-r
 
 \begin{figure}[!ht]
     \centering
-    \includegraphics[width = 0.8\linewidth]{kmoni-data-flow.png}
+    \includegraphics[width=0.8\linewidth]{kmoni-data-flow.pdf}
     \caption{Flow of data in NIED data sources}
     \label{fig:kmoni-data-flow}
 \end{figure}
 
 \begin{figure}[!ht]
     \centering
-    \includegraphics[width = 0.9\linewidth]{variable-relation.png}
+    \includegraphics[width=0.9\linewidth]{variable-relation.pdf}
     \caption{Relation between abstract variables}
     \label{fig:variable-relation}
 \end{figure}
@@ -384,7 +384,7 @@ API Keys access tokens are extremely easy to program, since it simply uses Basic
 
 \begin{figure}[!ht]
     \centering
-    \includegraphics[width = 0.7\linewidth]{api-key-control-panel.png}
+    \includegraphics[width=0.7\linewidth]{api-key-control-panel.png}
     \caption{Control panel for API Keys}
     \label{fig:api-key-control-panel}
 \end{figure}
@@ -641,7 +641,7 @@ For each object in \Code{items}, they represent an earthquake observation point.
     \item the \Code{latitude} and \Code{longitude}, which as the name suggests, represent the position of the observation point.
 \end{itemize}
 
-Due to the nature of JSON being very long and barely updated (an email will be sent to users of DM-D.S.S. every time its updated in fact), it will be stored locally in the application's local storage, and updated automatically every day only.
+Due to the nature of JSON being very long and barely updated (an email will be sent to users of DM-D.S.S. every time its updated in fact), it will be stored locally in the application's local storage, and updated automatically every day only. Upon program launch, the application will read the local data into the main memory.
 
 \subparagraph{Telegram API}
 
@@ -798,18 +798,82 @@ This section referred to \href{https://dmdata.jp/docs/reference/}{the official d
 
 \subsection{OOP Model}
 
+% TODO: OOP
+
 The data achieved by the previous two data sources will be parsed into objects (classes, records) to transfer between different components of the program. Those objects will then be transferred to the GUI component and be displayed.
 
 The Class Diagram following the UML convention for the HTTP-based API calls is shown in Figure \ref{fig:classes-http}
 
 \begin{figure}[!ht]
     \centering
-    \includegraphics[width = 0.5\linewidth]{class_diagram.png}
+    \includegraphics[width=0.5\linewidth]{class_diagram.png}
     \caption{Class Diagram.}
     \label{fig:classes-http}
 \end{figure}
 
 \subsection{Algorithms}
+
+There are two key 'algorithms' that this application will use: the first one used to calculate the position of the P/S wavefronts, and the other one used to detect shake on the real-time monitoring screen.
+
+\subsubsection{Wavefront Calculation}
+
+Earthquake waves do not travel at uniform rate as they spread out due to the decrease in energy, and so there is no uniform velocity that the seismic waves travel in. We cannot do a simple equation like \(s = vt\) to calculate the distance of the wavefront of a seismic wave from the epicentre.
+
+However, JMA provides tables for the time that seismic waves take to travel a certain distance in \href{https://www.data.jma.go.jp/svd/eqev/data/bulletin/catalog/appendix/trtime/trt_j.html}{their data bank}, together with \href{https://www.data.jma.go.jp/svd/eqev/data/bulletin/catalog/appendix/trtime/trt_j.html}{the format definition}. It will be possible for us to look up the table and plot the seismic waves at correct distance at a certain time.
+
+Comparing the different wave travel tables that JMA provides, the most suitable one for this application will be the \textbf{JMA 2001}, since it is designed for general purpose uses for both land-based and ocean-based earthquakes, and does not take into account the effect of the altitude of the observation points. Listing \ref{alg:jma-2001} provides a preview of the first 10 lines of this file.
+
+\begin{listing}[!ht]
+    \InputMinted[lastline=10,showspaces]{text}{PlainText/tjma2001.txt}
+    \caption{JMA 2001 Wave Travel Tables.}
+    \label{alg:jma-2001}
+\end{listing}
+
+The table is a lookup table from horizontal distance to time in terms of the depth of the epicentre and the type of wave (P or S) to the time needed to travel such distance. Each row represents the P-Wave, time taken for the P-wave to travel (in seconds), S-wave, time taken for the S-wave to travel (in seconds), depth of epicentre (in kilometres), distance from epicentres (in kilometres).
+
+The depth and the distance from epicentre is provided in the intervals specified in \ref{tab:dist-jma-2001}. They are provided for distances up to 2000 kilometres and depths up to 700 kilometres.
+
+\begin{table}[!ht]
+    \centering
+
+    \begin{tabular}{|c|c|c|}
+        \hline
+        Distance                  & Interval for Depth & Interval for distance \\
+        \hline
+        0 \textasciitilde\ 50     & 2                  & 2                     \\
+        50 \textasciitilde\ 200   & 5                  & 5                     \\
+        200 \textasciitilde\ 700  & 10                 & 10                    \\
+        700 \textasciitilde\ 2000 & --                 & 10                    \\
+        \hline
+    \end{tabular}
+    \caption{Distance intervals in JMA 2001.}
+    \label{tab:dist-jma-2001}
+\end{table}
+
+However, this does not provide us with the distance we would like, which is drawing a circle based on how long it has been since the earthquake has happened -- the other way around. Luckily, for a fixed depth, the list is sorted since the distance is always increasing, so is the time. We can apply a binary search on the list given a depth, and find the neighbouring two times such that the current time elapsed from the earthquake happening is between them. After doing this, a linear interpolation will be done on the neighbouring time-distance \((t, d)\) pairs to find the accurate distance (radius) corresponding with the time and the depth.
+
+This file will be read by the program upon launch every time and stored in the active memory when the program is running.
+
+\subsubsection{Shake Detection}
+
+As discussed in the analysis section, one of the common features of applications with real-time intensity display map is the shake detecting feature. Specifically, if the measured intensities within a certain region shows an increasing tendency, the application will display a box around that area to indicate there is a chance that the earthquake will happen.
+
+However, there is a chance that certain observation points will malfunction and suddenly show a big increase in intensity, which does not indicate an earthquake, and we would like to prevent this from happening. Furthermore, we wish to be able to distinguish between a big earthquake and a small earthquake on the display when such shake event has occurred.
+
+It is worth thinking how human would see an earthquake from the real-time intensity map. First, we would notice a certain observation point has an increase in the intensity for a certain observation point. Then, we will naturally look at the observation points near it, and see whether they also have an increase, or if that was just an anomaly. If the points nearby also has increasing intensity, then we would think it is probably an event, and we will look at the observation points near that, etc. If after a certain time period, that the intensity is no longer increasing, then we may say that the shake event is over.
+
+The algorithm used in KEVI used a similar idea, and this is the algorithm that we are going to implement in our solution. Specifically, it will create a list of observation points that are near each of the observation points (we will refer to them as neighbouring points) upon launch of the program. When there is a significant increase of the measured value of an observation point, the program will look at the neighbouring points, and if they show an increase (not necessarily significant), this will create a new event including the observation point and the neighbouring points. If, further, that the neighbouring points also observe a significant increase in intensity, then they will be added to the event, and their neighbouring points will be added to the list of neighbouring points as well.
+
+Figure \ref{fig:shake-detection-diag} shows the concept of an observation point and neighbouring points together with a flowchart of how the algorithm operates.
+
+\begin{figure}[!ht]
+    \centering
+    \includegraphics[width=0.8\linewidth]{shake-detection.pdf}
+    \caption{Shake detection flowchart and diagram.}
+    \label{fig:shake-detection-diag}
+\end{figure}
+
+This section referred to \href{https://qiita.com/ingen084/items/82985e8d3227c97c608d}{this blog article} written by Ingen.
 
 \section{User Interface}
 You will need to draw up a prototype for the user interface. You may do this within the software package you implement your solution in.
@@ -819,12 +883,14 @@ You will need to draw up a prototype for the user interface. You may do this wit
     \item Buttons/keys/commands (command line)
 \end{itemize}
 
+% TODO: UI
+
 \section{Hierarchy Chart}
 As discussed in the analysis section, the program consists of three parts: data-parsing from external data sources, GUI functionalities and joint functionalities, where the GUI part will be divided into two parts focusing on real-time monitoring and past-earthquake information, respectively. A detailed discussion into how different modules can be further split up while at the same time being interacted was discussed, and Figure \ref{fig:hierarchy} is a hierarchy diagram for the whole application. This shows how \textbf{decomposition} technique is applied to reduce a sophisticated problem into more attackable problems.
 
 \begin{figure}[!ht]
     \centering
-    \includegraphics[width = \linewidth]{hierarchy.png}
+    \includegraphics[width=\linewidth]{hierarchy.pdf}
     \caption{Hierarchy chart of the whole application}
     \label{fig:hierarchy}
 \end{figure}
@@ -837,3 +903,5 @@ The GUI will be designed using Avalonia, which is designed to develop cross-plat
 
 \section{Hardware \& Software Requirements}
 Draw up a hardware and software specification for items that are required.
+
+% TODO: Hardware & Software Requirements
