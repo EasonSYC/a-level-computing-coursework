@@ -850,7 +850,7 @@ The depth and the distance from epicentre is provided in the intervals specified
     \label{tab:dist-jma-2001}
 \end{table}
 
-However, this does not provide us with the distance we would like, which is drawing a circle based on how long it has been since the earthquake has happened -- the other way around. Luckily, for a fixed depth, the list is sorted since the distance is always increasing, so is the time. We can apply a binary search on the list given a depth, and find the neighbouring two times such that the current time elapsed from the earthquake happening is between them. After doing this, a linear interpolation will be done on the neighbouring time-distance \((t, d)\) pairs to find the accurate distance (radius) corresponding with the time and the depth.
+However, this does not provide us with the distance we would like, which is drawing a circle based on how long it has been since the earthquake has happened -- the other way around. Luckily, for a fixed depth, the list is sorted since the distance is always increasing, so is the time. We can apply a binary search on the list given a depth (by first pinpointing the start and the end rows for that depth, and this is trivial since there is a fixed number of rows for each depth), and find the neighbouring two times such that the current time elapsed from the earthquake happening is between them. After doing this, a linear interpolation will be done on the neighbouring time-distance \((t, d)\) pairs to find the accurate distance (radius) corresponding with the time and the depth.
 
 This file will be read by the program upon launch every time and stored in the active memory when the program is running.
 
@@ -864,7 +864,11 @@ It is worth thinking how human would see an earthquake from the real-time intens
 
 The algorithm used in KEVI used a similar idea, and this is the algorithm that we are going to implement in our solution. Specifically, it will create a list of observation points that are near each of the observation points (we will refer to them as neighbouring points) upon launch of the program. When there is a significant increase of the measured value of an observation point, the program will look at the neighbouring points, and if they show an increase (not necessarily significant), this will create a new event including the observation point and the neighbouring points. If, further, that the neighbouring points also observe a significant increase in intensity, then they will be added to the event, and their neighbouring points will be added to the list of neighbouring points as well.
 
-Figure \ref{fig:shake-detection-diag} shows the concept of an observation point and neighbouring points together with a flowchart of how the algorithm operates.
+An event could be represented by three things: the time it has happened, the observation point in the event, and the neighbouring points of those points. The neighbouring points will become observation points themselves if they have significant increase in intensity, and then their neighbouring points will become some new neighbouring points. If no such increase has been found, then after a certain time period of waiting, this event would end, and it could be seen that the primary motion of the earthquake is over.
+
+Classification of the significance of an event is straightforward -- it can be determined by the maximum intensity observed within the event. A suitable scale would be split at intensity 1 (which is which human can feel a shake), and at intensity 3 (which is when earthquake might actually cause damage), and it has to have minimum measured intensity 0.0. Most real-time measurements have negative measured intensity, so this should not lead to detection of anomalies.
+
+Figure \ref{fig:shake-detection-diag} shows the concept of an observation point and neighbouring points together with a flowchart of how the algorithm operates. The time constants of 10 seconds and 30 seconds are chosen to reflect the behaviour of common applications including JQuake and KEVI, but should be left to be adjustable in the code to ensure the maintainability.
 
 \begin{figure}[!ht]
     \centering
@@ -876,14 +880,78 @@ Figure \ref{fig:shake-detection-diag} shows the concept of an observation point 
 This section referred to \href{https://qiita.com/ingen084/items/82985e8d3227c97c608d}{this blog article} written by Ingen.
 
 \section{User Interface}
-You will need to draw up a prototype for the user interface. You may do this within the software package you implement your solution in.
+
+The nature of this application decided that the UI will be a graphical interface. Comparing MAUI in .NET with Avalonia, due to the fact that MAUI is more suitable for a mobile touch-based platform (that also works on desktop), while Avalonia is designed to support the desktop paradigm, the latter will be used to implement the graphical interface.
+
+As discussed in the previous sections, there are three main pages that the program will include: the page for real-time observations, the page for viewing past earthquakes, and the page for controls and settings.
+
+A sidebar is used to switch between the three pages.
+
+\subsection{Real-Time Monitoring Screen}
+
+The real-time monitoring screen holds the following three functionalities:
 \begin{itemize}
-    \item Screen designs
-    \item Menu options/sequences
-    \item Buttons/keys/commands (command line)
+    \item real-time intensity display (including shake detection boxes);
+    \item tsunami warning display; and
+    \item EEW display (including predicted intensity colouring and real-time wavefront positions).
 \end{itemize}
 
-% TODO: UI
+\begin{figure}[!ht]
+    \centering
+    \includegraphics[width=\linewidth]{gui-mockup-rt.pdf}
+    \caption{Design of GUI for Real-Time Page.}
+    \label{fig:gui-mockup-rt}
+\end{figure}
+
+Figure \ref{fig:gui-mockup-rt} shows a design of this page that will be implemented. The real-time intensity colour points, the current time and the colour scale will be displayed at all times.
+
+The shake detection boxes will only be displayed when there is shake detected as described in the algorithm section, and would be coloured into red, yellow or green in accordance to the intensity of the event.
+
+The tsunami warning will be displayed only if it is released (or updated). It will consistently flash at 0.5 Hz to warn the users and to signify its presence.
+
+The EEW warning display will only be present when an EEW is ongoing, until 1 minute after the final EEW warning. The top-left box will display key properties of the earthquake (including the predicted maximum intensity in the corresponding colour), with relatively smaller text displaying the details, such as the shake detection algorithm used (e.g. IPF/PLUM etc.). The map will be coloured in accordance to the predicted intensities released in the EEW.
+
+There are no buttons or interactions for the user to interact with. However, this page will have a relatively high refresh rate to ensure that the data displayed is up-to-date.
+
+\subsection{Past Earthquakes}
+
+The past-earthquake screen regularly displays a sidebar to select the earthquake from, with by default the latest earthquake selected, with a map in the middle. Figure \ref{fig:gui-mockup-pe} shows a design of this page.
+
+\begin{figure}[!ht]
+    \centering
+    \includegraphics[width=\linewidth]{gui-mockup-pe.pdf}
+    \caption{Design of GUI for Past Earthquakes Page.}
+    \label{fig:gui-mockup-pe}
+\end{figure}
+
+For each earthquake, the sidebar should display the time of the earthquake, the epicentre of the earthquake (position and depth), the maximum intensity of the earthquake (in the correct corresponding colour), and its magnitude.
+
+In the centre, there should be a map colouring the observed intensity of the earthquake, together with a cross to indicate the position of the epicentre.
+
+On the left, there should be the details displayed in a bigger font, and an expandable sidebar to see the intensity of each observation point, in a hierarchy according to the province and the county. There should be two buttons, one corresponding to the JMA website to view the details, and another to jump to a weather service provider to view the details of the earthquake.
+
+\subsection{Customisation Page}
+
+In the customisation page, there should be a place to input an API Key from DM-D.S.S., and in the future this should be upgraded to a button to provide a login using OAuth 2 and the default browser.
+
+There should also be a page to customise sound files for different events, a page to customise the intensity colour scheme, and to define a key point on the map to observe the intensity.
+
+Figure \ref{fig:gui-mockup-customisation} shows a mock-up of the design of the customisation page.
+
+\begin{figure}[!ht]
+    \centering
+    \includegraphics[width=\linewidth]{gui-mockup-customisation.pdf}
+    \caption{Design of GUI for Customisation Page.}
+    \label{fig:gui-mockup-customisation}
+\end{figure}
+
+\subsection{Joint Functionalities and Technicalities}
+
+There is a joint functionality between the real-time page and the past earthquakes page, that is, when a new EEW/Tsunami Warning is released, the application should automatically jump to the real-time page to display the latest earthquake information to the user.
+
+Since this a GUI-based application, there will be a significant use of asynchronous programming and events. Specifically, EEWs should be treated as events for the GUI application to handle and display, and user inputs are also events that the program should respond to.
+
+% TODO: Talk about events more
 
 \section{Hierarchy Chart}
 As discussed in the analysis section, the program consists of three parts: data-parsing from external data sources, GUI functionalities and joint functionalities, where the GUI part will be divided into two parts focusing on real-time monitoring and past-earthquake information, respectively. A detailed discussion into how different modules can be further split up while at the same time being interacted was discussed, and Figure \ref{fig:hierarchy} is a hierarchy diagram for the whole application. This shows how \textbf{decomposition} technique is applied to reduce a sophisticated problem into more attackable problems.
