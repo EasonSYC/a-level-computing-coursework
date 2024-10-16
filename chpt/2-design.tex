@@ -972,6 +972,33 @@ The built-in .NET parsers for XML and JSON will be used to convert into DTOs.
 The GUI will be designed using Avalonia, which is designed to develop cross-platform applications in .NET.
 
 \section{Hardware \& Software Requirements}
-Draw up a hardware and software specification for items that are required.
 
-% TODO: Hardware & Software Requirements
+Table \ref{tab:hardware-spec} outlines basic hardware requirements for the application.
+
+\begin{table}[!ht]
+    \centering
+
+    \begin{tabular}{|c|c|c|}
+        \hline
+        Type               & Minimum                        & Recommended                     \\
+        \hline
+        RAM                & 4 GB                           & 8 GB                            \\
+        Storage Space      & 1 GB                           & 2 GB                            \\
+        CPU                & Intel Core 8th Gen (or equiv.) & Intel Core 10th Gen (or equiv.) \\
+        Display Resolution & 720p                           & 1080p                           \\
+        Display Size       & 9''                            & 12''                            \\
+        \hline
+    \end{tabular}
+    \caption{Hardware Specification for App}
+    \label{tab:hardware-spec}
+\end{table}
+
+The amount of RAM is due to the amount of data that is processed (and considering other applications running as well). Storage space is not a substantial requirement of this application, while the CPU has to be of high standards to process all the data. To display the application properly (with appropriate size), a display of 1080p 12'' is recommended.
+
+It will be able to run on up-to-date Windows, macOS and Linux distributions (both x64 and ARM) due to the cross-platform nature of .NET, but x86 platforms will not be supported.
+
+The author uses a macOS 14.0 (beta) machine with Intel Core i5-1038NG7 (with Intel Iris Plus Graphics) and 16 GB of RAM (MacBook Pro 2020, 4 Thunderbolt Ports) and a Windows 11 (beta) machine with AMD Ryzen 7 5800H and 32 GB of RAM (with RTX 3070 for Laptop) (Legion R9000K 2021) to test the application. An Ubuntu 22.04 virtual machine will be used to test the compatibility for Linux systems.
+
+The application will be self-contained (i.e. comes with .NET runtime) to prevent the user from unnecessary technical complications.
+
+The device needs to have stable connection to the internet using Wi-Fi/Ethernet/other means, to establish connection with the relevant APIs.
