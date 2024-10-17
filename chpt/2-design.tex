@@ -30,6 +30,8 @@ A comparison from the official website of \href{https://www.mowlas.bosai.go.jp}{
     \label{fig:net-distribution}
 \end{figure}
 
+\ToDo{NIED asks for proper citation}
+
 % TODO: Citation
 
 \paragraph{Achieving image format data source}
@@ -98,6 +100,8 @@ Unfortunately, 1000 is still quite a lot for us to deal with. Luckily, Ingen who
 Due to the limited time for this NEA, the author will primarily use the pre-determined observation points for the K-net, and will use the existing application to map the points for KiK-net, which is still a considerable amount of work, but significantly less.
 
 This paragraph referred to \href{https://qiita.com/ingen084/items/7e91f8da2996972ac586}{this blog article} written by Ingen.
+
+\ToDo{Outline the list of observation points}
 
 % TODO: Where is the list?
 
@@ -392,6 +396,8 @@ API Keys access tokens are extremely easy to program, since it simply uses Basic
 As for OAuth2, it will be much simpler for the users, since it will provide the user with a login interface on the website, and ask them to give the program certain permissions, which is just a few simple clicks. Rather than the user sharing the credentials with the application, they are shared between the authorisation server (DM-D.S.S.) and the application directly, without the need for the user to deal with such human-unreadable codes.
 
 How the OAuth2 works for DM-D.S.S. is outlined below:
+
+\ToDo{Outline OAuth 2}
 
 % TODO: Outline OAuth 2
 
@@ -778,6 +784,8 @@ Lots of data are serialised in JSON, but the JMA provides its data in XML format
 
 \subparagraph{XML Data Sources}
 
+\ToDo{Detail XML Data Sources where necessary}
+
 % TODO: Detail XML Data Sources
 
 % VXSE45
@@ -798,18 +806,44 @@ This section referred to \href{https://dmdata.jp/docs/reference/}{the official d
 
 \subsection{OOP Model}
 
-% TODO: OOP
+\ToDo{Finish up class diagram with text explanation}
+
+% TODO: Finish OOP
 
 The data achieved by the previous two data sources will be parsed into objects (classes, records) to transfer between different components of the program. Those objects will then be transferred to the GUI component and be displayed.
 
-The Class Diagram following the UML convention for the HTTP-based API calls is shown in Figure \ref{fig:classes-http}
+The data achieved using the NIED Kyoshin Monitor (observation points) will be converted into objects. The class diagram is shown in is shown in Figure \ref{fig:classes-kmoni}.
 
 \begin{figure}[!ht]
     \centering
     \includegraphics[width=0.5\linewidth]{class_diagram.png}
-    \caption{Class Diagram.}
+    \caption{Class Diagram for Kyoshin Monitor data objects}
+    \label{fig:classes-kmoni}
+\end{figure}
+
+The GIF images will be parsed with the built-in \Code{SkiaSharp} module by mono, which could also be used to draw the map.
+
+The class diagram following the UML convention for the HTTP-based API calls is shown in Figure \ref{fig:classes-http}. The JSON responses will be converted to C\# objects using \Code{System.Text.Json} modules.
+
+\begin{figure}[!ht]
+    \centering
+    \includegraphics[width=0.8\linewidth]{class-http.pdf}
+    \caption{Class Diagram for HTTP data objects}
     \label{fig:classes-http}
 \end{figure}
+
+This shows the use of composition and inheritance. The use of generics is also demonstrated.
+
+The class diagram for the WebSocket based calls is shown in Figure \ref{fig:classes-ws}.
+
+\begin{figure}[!ht]
+    \centering
+    \includegraphics[width=0.5\linewidth]{class_diagram.png}
+    \caption{Class Diagram for WebSocket data objects}
+    \label{fig:classes-ws}
+\end{figure}
+
+The XML telegrams will be parsed with the built-in \Code{System.Xml} modules.
 
 \subsection{Algorithms}
 
@@ -952,6 +986,8 @@ Figure \ref{fig:gui-mockup-customisation} shows a mock-up of the design of the c
 There is a joint functionality between the real-time page and the past earthquakes page, that is, when a new EEW/Tsunami Warning is released, the application should automatically jump to the real-time page to display the latest earthquake information to the user.
 
 Since this a GUI-based application, there will be a significant use of asynchronous programming and events. Specifically, EEWs should be treated as events for the GUI application to handle and display, and user inputs are also events that the program should respond to.
+
+\ToDo{Talk about events more}
 
 % TODO: Talk about events more
 

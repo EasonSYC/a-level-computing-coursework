@@ -44,13 +44,15 @@
     mathescape,
 }
 
+\newcommand{\ToDo}[1]{\textbf{\color{red}{\large{To-Do: #1}}}}
+
 \newcommand{\Input}[1]{\input{./chpt/#1}}
 \newcommand{\InputMinted}[3][]{\inputminted[#1]{#2}{\CodeBasePath#3}}
 
 \newcommand{\Title}{Early Earthquake and Tsunami Warning Viewer}
 \newcommand{\SubTitle}{AQA A-Level Computing NEA Report}
 \newcommand{\Author}{Yicheng Shao (Eason)}
-\newcommand{\CandNo}{[1234]} % TODO: Candidate Number
+\newcommand{\CandNo}{\ToDo{[1234]}} % TODO: Candidate Number
 \newcommand{\Date}{\today}
 
 \newcommand{\SetFooter}{
