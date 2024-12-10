@@ -2,18 +2,21 @@
 
 \usepackage[a4paper,margin=1in]{geometry}
 \usepackage{graphicx}
+% \usepackage[utf8]{inputenc}
+\usepackage[chapter]{minted}
+\usepackage{csquotes}
+\usepackage[english]{babel}
+\usepackage[backend=biber]{biblatex}
 
 \usepackage{fancyhdr}
 \usepackage{lastpage}
 \usepackage{appendix}
 
-\usepackage{xeCJK}
+\usepackage[AutoFakeSlant=true]{xeCJK}
 \setCJKmainfont{YuMincho}
 \setCJKsansfont{YuGothic}
 \setCJKmonofont{YuGothic}
 
-\usepackage[chapter]{minted}
-\usepackage{hyperref}
 \usepackage[format=plain,justification=centering]{caption}
 
 \usepackage{amsfonts}
@@ -23,6 +26,10 @@
 \usepackage{fontawesome5}
 \usepackage{xltxtra}
 \usepackage{textcomp}
+
+\usepackage{hyperref}
+
+\addbibresource{ref.bib}
 
 
 \setcounter{tocdepth}{3}
@@ -111,7 +118,7 @@
 \thispagestyle{nohead}
 
 \clearpage
-\noindent \copyright 2024--2025 Yicheng Shao (Eason).
+\noindent \copyright 2024--2025 Yicheng Shao (Eason).\nocite{*}
 
 \noindent This work is licensed under a \href{https://creativecommons.org/licenses/by-nc-nd/4.0/}{CC BY-NC-ND 4.0} licence.
 
@@ -149,5 +156,7 @@
 \appendix
 \chapter{Code Listing}
 \Input{6-listing.tex}
+
+\printbibliography
 
 \end{document}
