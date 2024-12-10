@@ -621,6 +621,8 @@ Listing \ref{alg:socket-list} shows a response from the call. The \Code{items} i
     \label{alg:socket-list}
 \end{listing}
 
+However, it is worth noting that even though the document claims that \Code{ticket} is not \Code{null}, it will only be not null when the WebSocket is waiting connection, and null otherwise. Furthermore, \Code{formats} never appears in the result, even though the document claims that it should always appear.
+
 These will be used to manage (open new, list existing and close) WebSockets in the application.
 
 \subparagraph{Parameter API}
@@ -1001,9 +1003,9 @@ As discussed in the analysis section, the program consists of three parts: data-
     \label{fig:hierarchy}
 \end{figure}
 
-The whole application (apart from the polynomial fitting part which was done in Python) will be written in C\# using the .NET Core Version 8.0, since the .NET Core is designed oriented around OOP techniques.
+The whole application (apart from the polynomial fitting part which was done in Python) will be written in C\# using the .NET Core Version 9.0, since the .NET Core is designed oriented around OOP techniques, and some JSON properties (e.g. the \Code{JsonStringEnumMemberName} to customise the parsing of enums) will require the use of .NET 9.
 
-The built-in .NET parsers for XML and JSON will be used to convert into DTOs.
+The built-in .NET parsers for XML and JSON (\Code{System.Text.Json}) will be used to convert into DTOs.
 
 The GUI will be designed using Avalonia, which is designed to develop cross-platform applications in .NET.
 
