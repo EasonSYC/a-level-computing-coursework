@@ -6,7 +6,7 @@
 \usepackage[chapter]{minted}
 \usepackage{csquotes}
 \usepackage[british]{babel}
-\usepackage[backend=biber,sorting=debug]{biblatex}
+\usepackage[backend=biber,sortcites,style=numeric,sorting=nty,giveninits=true]{biblatex}
 
 \usepackage{fancyhdr}
 \usepackage{lastpage}
@@ -29,7 +29,8 @@
 
 \usepackage{hyperref}
 
-\addbibresource{ref.bib}
+\addbibresource{ref/microsoft-docs.bib}
+\addbibresource{ref/others.bib}
 
 
 \setcounter{tocdepth}{3}
@@ -41,7 +42,7 @@
 
 \newmintinline[Code]{text}{}
 
-\graphicspath{{./img/}{\CodeBasePath PythonScript/}}
+\graphicspath{{./fig/}{\CodeBasePath PythonScript/}}
 
 \setminted{
     autogobble,
@@ -53,7 +54,7 @@
 
 \newcommand{\ToDo}[1]{\textbf{\color{red}{\large{To-Do: #1}}}}
 
-\newcommand{\Input}[1]{\input{./chpt/#1}}
+\newcommand{\Input}[1]{\input{./tex/#1}}
 \newcommand{\InputMinted}[3][]{\inputminted[#1]{#2}{\CodeBasePath#3}}
 
 \newcommand{\Title}{Early Earthquake and Tsunami Warning Viewer}
@@ -124,7 +125,7 @@
 
 \noindent This work is formatted using \XeLaTeX.
 
-\noindent The references are managed using JabRef \cite{soft-jabref} and compiled using Bib\LaTeX.
+\noindent The references are managed using JabRef \autocite{soft-jabref} and compiled using Bib\LaTeX.
 
 \noindent The source code is available at \GitHubHref{EasonSYC}{nea-report}.
 
@@ -163,6 +164,6 @@
 \chapter{Use of AI}
 \Input{b-ai.tex}
 
-\printbibliography[heading=bibnumbered,title=References]
+\printbibliography[heading=bibnumbered,title=Bibliography]
 
 \end{document}
