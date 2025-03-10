@@ -1,88 +1,8 @@
 \documentclass[10pt]{report}
 
-\usepackage[a4paper,margin=1in]{geometry}
-\usepackage{graphicx}
-% \usepackage[utf8]{inputenc}
-\usepackage[chapter]{minted}
-\usepackage{csquotes}
-\usepackage[british]{babel}
-\usepackage[backend=biber,sortcites,style=numeric,sorting=nty,giveninits=true]{biblatex}
-
-\usepackage{fancyhdr}
-\usepackage{lastpage}
-\usepackage{appendix}
-
-\usepackage[AutoFakeSlant=true]{xeCJK}
-\setCJKmainfont{YuMincho}
-\setCJKsansfont{YuGothic}
-\setCJKmonofont{YuGothic}
-
-\usepackage[format=plain,justification=centering]{caption}
-
-\usepackage{amsfonts}
-\usepackage{amsmath}
-
-\usepackage[dvipsnames]{xcolor}
-\usepackage{fontawesome5}
-\usepackage{xltxtra}
-\usepackage{textcomp}
-
-\usepackage{hyperref}
-
-\addbibresource{ref/microsoft-docs.bib}
-\addbibresource{ref/others.bib}
-
-
-\setcounter{tocdepth}{3}
-\setcounter{secnumdepth}{3}
-
-\newcommand{\CodeBasePath}{../EEETWV/}
-
-\newenvironment{Listing}{\captionsetup{type=listing}}{}
-
-\newmintinline[Code]{text}{}
-
-\graphicspath{{./fig/}{\CodeBasePath PythonScript/}}
-
-\setminted{
-    autogobble,
-    breaklines,
-    frame=single,
-    labelposition=all,
-    mathescape,
-}
-
-\newcommand{\ToDo}[1]{\textbf{\color{red}{\large{To-Do: #1}}}}
-
 \newcommand{\Input}[1]{\input{./tex/#1}}
-\newcommand{\InputMinted}[3][]{\inputminted[#1]{#2}{\CodeBasePath#3}}
 
-\newcommand{\Title}{Early Earthquake and Tsunami Warning Viewer}
-\newcommand{\SubTitle}{AQA A-Level Computing NEA Report}
-\newcommand{\Author}{Yicheng Shao (Eason)}
-\newcommand{\CandNo}{\ToDo{[1234]}} % TODO: Candidate Number
-\newcommand{\Date}{\today}
-
-\newcommand{\SetFooter}{
-    \lfoot{Candidate \textnumero: \CandNo}
-    \rfoot{Page \thepage\space of \pageref*{LastPage}}
-}
-\newcommand{\GitHubHref}[2]{
-    \href{https://github.com/#1/#2}{\faGithub\space #1/#2}
-}
-
-\newcommand{\SetMainStyle}{
-    \fancyhf{}
-    \lhead{\Author}
-    \rhead{\Title}
-    \SetFooter
-}
-
-\fancypagestyle{nohead}{
-    \renewcommand{\headrulewidth}{0pt}
-    \fancyhf{}
-    \SetFooter
-}
+\Input{0-premeable.tex}
 
 % TODO: Diagrams in English as well as Japanese
 
@@ -113,24 +33,12 @@
     \end{center}
 
     \section*{Abstract}
-    \Input{0-abstract.tex}
+    \Input{0a-abstract.tex}
 \end{titlepage}
 
 \thispagestyle{nohead}
 
-\clearpage
-\noindent \copyright 2024--2025 Yicheng Shao (Eason).\nocite{*}
-
-\noindent This work is licensed under a \href{https://creativecommons.org/licenses/by-nc-nd/4.0/}{CC BY-NC-ND 4.0} licence.
-
-\noindent This work is formatted using \XeLaTeX.
-
-\noindent The references are managed using JabRef \autocite{soft-jabref} and compiled using Bib\LaTeX.
-
-\noindent The source code is available at \GitHubHref{EasonSYC}{nea-report}.
-
-\noindent The relevant program source code is available at \GitHubHref{EasonSYC}{EEETWV}, licensed under the MIT Licence.
-
+\Include{0b-copyright.tex}
 \thispagestyle{nohead}
 
 \SetMainStyle
@@ -141,28 +49,15 @@
 \listoffigures
 \listoflistings
 
-\chapter{Analysis}
-\Input{1-analysis.tex}
-
-\chapter{Design}
-\Input{2-design.tex}
-
-\chapter{Technical Implementation}
-\Input{3-implementation.tex}
-
-\chapter{Testing}
-\Input{4-testing.tex}
-
-\chapter{Evaluation}
-\Input{5-evaluation.tex}
+\Include{1-analysis.tex}
+\Include{2-design.tex}
+\Include{3-implementation.tex}
+\Include{4-testing.tex}
+\Include{5-evaluation.tex}
 
 \appendix
-
-\chapter{Code Listing}
-\Input{a-listing.tex}
-
-\chapter{Use of AI}
-\Input{b-ai.tex}
+\Include{a-listing.tex}
+\Include{b-ai.tex}
 
 \printbibliography[heading=bibnumbered,title=Bibliography]
 

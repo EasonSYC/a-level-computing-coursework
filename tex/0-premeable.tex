@@ -1,0 +1,87 @@
+\usepackage[a4paper,margin=1in]{geometry}
+\usepackage{graphicx}
+% \usepackage[utf8]{inputenc}
+\usepackage[chapter]{minted}
+\usepackage{csquotes}
+\usepackage[british]{babel}
+\usepackage[backend=biber,sortcites,style=numeric,sorting=nty,giveninits=true]{biblatex}
+
+\usepackage{fancyhdr}
+\usepackage{lastpage}
+\usepackage{appendix}
+
+\usepackage[AutoFakeSlant=true]{xeCJK}
+\setCJKmainfont{YuMincho}
+\setCJKsansfont{YuGothic}
+\setCJKmonofont{YuGothic}
+
+\usepackage[format=plain,justification=centering]{caption}
+
+\usepackage{amsfonts}
+\usepackage{amsmath}
+
+\usepackage[dvipsnames]{xcolor}
+\usepackage{fontawesome5}
+\usepackage{xltxtra}
+\usepackage{textcomp}
+
+\usepackage{hyperref}
+
+\addbibresource{ref/microsoft-docs.bib}
+\addbibresource{ref/others.bib}
+
+
+\setcounter{tocdepth}{3}
+\setcounter{secnumdepth}{3}
+
+\newcommand{\CodeBasePath}{../EEETWV/}
+
+\newenvironment{Listing}{\captionsetup{type=listing}}{}
+
+\newmintinline[Code]{text}{}
+
+\graphicspath{{./fig/}{\CodeBasePath PythonScript/}}
+
+\setminted{
+    autogobble,
+    breaklines,
+    frame=single,
+    labelposition=all,
+    mathescape,
+}
+
+\newcommand{\ToDo}[1]{\textbf{\color{red}{\large{To-Do: #1}}}}
+
+\newcommand{\Include}[1]{\include{./tex/#1}}
+\newcommand{\InputMinted}[3][]{\inputminted[#1]{#2}{\CodeBasePath#3}}
+
+\newcommand{\Title}{Early Earthquake and Tsunami Warning Viewer}
+\newcommand{\SubTitle}{AQA A-Level Computing NEA Report}
+\newcommand{\Author}{Yicheng Shao (Eason)}
+\newcommand{\CandNo}{\ToDo{[1234]}} % TODO: Candidate Number
+\newcommand{\Date}{\today}
+
+\title{\Title}
+\author{\Author}
+\date{\Date}
+
+\newcommand{\SetFooter}{
+    \lfoot{Candidate \textnumero: \CandNo}
+    \rfoot{Page \thepage\space of \pageref*{LastPage}}
+}
+\newcommand{\GitHubHref}[2]{
+    \href{https://github.com/#1/#2}{\faGithub\space #1/#2}
+}
+
+\newcommand{\SetMainStyle}{
+    \fancyhf{}
+    \lhead{\Author}
+    \rhead{\Title}
+    \SetFooter
+}
+
+\fancypagestyle{nohead}{
+    \renewcommand{\headrulewidth}{0pt}
+    \fancyhf{}
+    \SetFooter
+}
