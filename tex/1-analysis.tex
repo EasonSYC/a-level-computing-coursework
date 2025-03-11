@@ -32,7 +32,7 @@ After the earthquake, JMA staff will determine the location and severity of tsun
 \end{itemize}
 
 \section{Problem Area}
-The main goal of this application is to provide a visualisation of the earthquake/tsunami related data feed(s) provided by JMA's affiliated institution, \href{https://dmdata.jp}{Disaster Mitigation Data Send Service (DM-D.S.S)}. There are numerous apps providing a list of recent earthquakes, the real-time data measured by the sensors, and the real time earthquake warning displayed on a map, but rarely are there good apps that combine all those features together satisfyingly, with just the necessary features the author needs.
+The main goal of this application is to provide a visualisation of the earthquake/tsunami related data feed(s) provided by JMA's affiliated institution, \href{https://dmdata.jp}{Disaster Mitigation Data Send Service (DM-D.S.S)}, and some other data feeds as well. There are numerous apps providing a list of recent earthquakes, the real-time data measured by the sensors, and the real time earthquake warning displayed on a map, but rarely are there good apps that combine all those features together satisfyingly, with just the necessary features the author needs.
 
 Some applications are no longer being updated due to change in the user's policy of the related data feed. Furthermore, most of the apps available are only in Japanese, not in English or my home language Chinese, which can create trouble for the author to understand.
 
@@ -46,16 +46,14 @@ Table \ref{tab:users} compares relative features of these two target users/clien
 \begin{table}[!ht]
     \centering
 
-    \begin{tabular}{|c|l|p{0.36\linewidth}|}
-        \hline
-        Feature              & Primary Target                     & Secondary Target                                          \\
+    \begin{tabular}{c|l|p{0.36\linewidth}}
+        Feature              & Primary Target                     & Secondary Target                                     \\
         \hline\hline
-        Description          & Passionate Geologists              & Earthquake-Sensitive Industries                           \\
-        Age                  & Varies (Middle School -- Adults)   & Work Age                                                  \\
-        Reason               & Monitor Live \& Latest Earthquakes & Monitor Risks to Infrastructure                           \\
-        Proficiency          & Varies (Beginner -- Amateur)       & Trained Professional                                      \\
-        General Requirements & Monitor Overall Movement           & Alert about intensity and arrival time at specific points \\
-        \hline
+        Description          & Passionate Geologists              & Earthquake-Sensitive Industries                      \\
+        Age                  & Varies (Middle School -- Adults)   & Work Age                                             \\
+        Reason               & Monitor Live \& Latest Earthquakes & Monitor Risks to Infrastructure                      \\
+        Proficiency          & Varies (Beginner -- Amateur)       & Trained Professional                                 \\
+        General Requirements & Monitor Overall Movement           & Alert intensity and arrival time at certain location \\
     \end{tabular}
 
     \caption{Comparison of target users and clients}
@@ -131,15 +129,13 @@ Supported platforms of those apps are listed in Table \ref{tab:exist-platform}. 
 
 \begin{table}[!ht]
     \centering
-    \begin{tabular}{|c||c|c|c|c|}
-        \hline
+    \begin{tabular}{c|cccc}
         Platform    & JQuake     & SREV       & KEVI       & Quarog     \\
-        \hline
+        \hline\hline
         Windows     & \checkmark & \checkmark & \checkmark & \checkmark \\
         macOS       & \checkmark & \checkmark & \checkmark &            \\
         Linux       & \checkmark & \checkmark & \checkmark &            \\
         Android/iOS &            & \checkmark &            &            \\
-        \hline
     \end{tabular}
     \caption{Supported platforms of existing solutions}
     \label{tab:exist-platform}
@@ -151,15 +147,14 @@ An overview feature table of monitoring is included in Table \ref{tab:exist-moni
 
 Quarog is a relatively new application and only supports basic functionalities of EEW Viewing and past earthquake listing, as shown in Figure \ref{fig:quarog-monitor-features}. JQuake is solely dedicated to earthquake and tsunami monitoring as shown in Figure \ref{fig:jquake-monitor-features}, while KEVI has features like rain clouds map and natural disaster warning which is beyond the scope of this analysis (which is a burden to users only requiring earthquake monitoring and a waste of storage space).
 
-It is worth noting that for SREV, DM-D.S.S. is integrated with special permission with no login required. For JQuake, although it has tsunami warnings/special warnings, the tsunami forecast is not available.
+It is worth noting that for SREV, DM-D.S.S. is integrated with special permission with no login required. For JQuake, although it has tsunami warnings/special warnings, the tsunami forecast is not available, since they use a different data source.
 
 \begin{table}[!ht]
     \centering
 
-    \begin{tabular}{|c||c|c|c|c|}
-        \hline
+    \begin{tabular}{c|cccc}
         Feature                        & JQuake     & SREV       & KEVI       & Quarog     \\
-        \hline
+        \hline\hline
         NIED Real-time Shake Support   & \checkmark & \checkmark & \checkmark &            \\
         DM-D.S.S. WebSocket Support    & \checkmark & \checkmark & \checkmark & \checkmark \\
         Real-time Sensor Data          & \checkmark & \checkmark & \checkmark &            \\
@@ -172,7 +167,6 @@ It is worth noting that for SREV, DM-D.S.S. is integrated with special permissio
         User-Defined Key Monitor Point & \checkmark &            & \checkmark &            \\
         Sub-Map for the Okinawa Area   & \checkmark &            & \checkmark &            \\
         Replay                         & \checkmark &            & \checkmark &            \\
-        \hline
     \end{tabular}
 
     \caption[Feature comparison in monitoring of existing solutions]{Feature comparison in monitoring of existing solutions}
@@ -203,16 +197,14 @@ There are also a variety of configuration options available for all apps, as lis
 \begin{table}[!ht]
     \centering
 
-    \begin{tabular}{|c||c|c|c|c|}
-        \hline
+    \begin{tabular}{c|cccc}
         Feature             & JQuake     & SREV       & KEVI       & Quarog     \\
-        \hline
+        \hline\hline
         DM-D.S.S. Login     & \checkmark &            & \checkmark & \checkmark \\
         Sound Alert         & \checkmark & \checkmark & \checkmark & \checkmark \\
         System Notification &            &            & \checkmark &            \\
         Colour Theme        &            &            & \checkmark & \checkmark \\
         Map Colouring Style &            & \checkmark &            & \checkmark \\
-        \hline
     \end{tabular}
     \caption{Feature comparison in configuration and customisability of existing solutions}
     \label{tab:exist-config}
@@ -234,6 +226,8 @@ There are also a variety of configuration options available for all apps, as lis
     \label{fig:quarog-cust}
 \end{figure}
 
+\subsubsection{GUI Analysis}
+
 \ToDo{Include analysis on GUI as well}
 
 % TODO: Include analysis on GUI
@@ -243,32 +237,31 @@ There are also a variety of configuration options available for all apps, as lis
 Based on the potential user/client interview results, and the research into the existing solutions, the following key features should appear in the solution, since they are essential to earthquake monitoring applications:
 \begin{enumerate}
     \item DM-D.S.S. Login functionality (for the data source)
-    \item Real-Time Sensor Shake Intensity Data (w/ vibration alert)
+    \item Real-Time Sensor Shake Intensity Data
     \item EEW Visualisation (w/ Calculated Seismic Wavefronts)
     \item Past Earthquake List (w/ Option to review details)
-    \item Tsunami Warning Visualisation (w/ Related Sounds)
+    \item Tsunami Warning Visualisation
 \end{enumerate}
 
-However, due to the limitation of time and the difficulty of implementation, the following functionalities are not the key to implementation, which include mostly the customisation parts, ranked in decreasing importance:
+However, due to the limitation of time, the following functionalities are excluded from the scope of this project, which include mostly the customisation parts, ranked in decreasing importance:
 \begin{enumerate}
+    \item Shake detection algorithm (based on real-time sensor data)
     \item User-Defined Key Monitor Point
-    \item Customisable Sound Alert
+    \item (Customisable) Sound Alert
     \item Customisable Colour Theme
-    \item Customisable Map Colouring Style
 \end{enumerate}
 
-The following features might not be available due to the time constraints and the complexity behind such system:
+The following features are considered too complicated for the scope for this project and the time constraints, hence not considered:
 \begin{enumerate}
     \item Replay (due to a server needing to store past data)
     \item Sub-Map for the Okinawa Area (due to the difficulty in implementation)
-    \item Map Zooming Feature (due to the complexity in the map colouring functionality)
 \end{enumerate}
 
 With those key features implemented, the application should mirror all essential functionalities of an earthquake monitoring application, as compared to the four existing solutions above.
 
 \section{Critical Path}
 
-The functionality of this application can essentially be divided into \(1+2+1+n\) steps, where the 1 is to receive information from the API/WebSocket provided by DM-D.S.S. and NIED, and 2 is to, briefly saying:
+The functionality of this application can essentially be divided into \(1+2+1+a+b\) steps, where the 1 is to receive information from the API/WebSocket provided by DM-D.S.S. and NIED, and 2 is to, briefly saying:
 \begin{enumerate}
     \item Real-time Monitoring: Produce a real-time map to monitor real time vibration and plot real-time EEW/tsunami warnings
     \item Past-earthquake Viewing: Produce a menu to select an earthquake to display information on the map.
@@ -276,57 +269,70 @@ The functionality of this application can essentially be divided into \(1+2+1+n\
 
 The next 1 is to merge these two functions, specifically the functionality to switch back to the real-time monitoring option immediately when a new EEW is released (to make sure the user does not miss any information on real-time EEWs while looking at past earthquake information).
 
-The final \(n\) is to implement a setting page for customisation, and some extra additional features.
+The \(a\) is to implement a setting page for customisation and some additional features, and the \(b\) is to implement additional functionalities that are excluded from this project, but could be completed if there is time.
 
 \subsection{Part 1. NIED and DM-D.S.S. API/WebSocket Connection}
 \begin{enumerate}
     \item Investigate into the list of APIs/WebSockets that should be used by the application.
+    \item Investigate into patterns of the response data, and design the classes/DTOs using correct OOP patterns such as inheritance and composition.
     \item Implement classes/DTOs to convert the information into C\# objects.
-    \item Implement classes to transfer real-time WebSocket XML/JSON to the classes and DTOs.
-    \item Use simple API Key to test the functionality of this sub-system.
-    \item Implement OAuth 2 login to reduce complexity and increase security.
+    \item Implement classes/DTOs to convert telegrams into C\# objects.
+    \item Use API Key to test the functionality of this system.
+    \item Implement OAuth 2 login functionality to reduce complexity and increase security.
 \end{enumerate}
 
 \subsection{Part 2a. Real-time Monitoring Map}
 \begin{enumerate}
-    \item Implement a Japan map in the application.
-    \item Achieve and store the locations of the monitoring points in Japan, using necessary information from JMA, NIED and DM-D.S.S.
+    \item Display a map in the application.
+    \item Extract the data from the real-time measured intensities of observation stations from the data source.
+    \item Display the data on the map using a default colour scheme at the correct positions.
     \item Colour the monitoring points using a colour scheme on the map.
-    \item Investigate into and implement an algorithm to detect shake in a certain area of the map.
-    \item Achieve and store the names of areas of earthquake epicentres from JMA.
-    \item Investigate into and implement an algorithm to calculate seismic wave fronts.
-    \item Plot and display real time EEWs, considering special cases such as:
+    \item Investigate into and implement an algorithm to calculate seismic wave fronts, using necessary data provided by the JMA.
+    \item Plot and colour real time EEWs, considering special cases such as:
           \begin{itemize}
               \item Cancellation of EEW;
               \item Upgrade from EEW Forecast to EEW Warning;
-              \item Multiple Earthquakes (hence displaying epicentres with labels).
+              \item Multiple Earthquakes (hence displaying multiple epicentres, and switching between earthquakes in details display);
+              \item Assumed Hypocentre (hence using a different hypocentre symbol to display).
           \end{itemize}
-    \item Implement functionality of colouring areas on the map with the maximum expected intensity.
-    \item Achieve and store the names of shorelines from JMA.
-    \item Plot and display real time tsunami warnings.
+    \item Colour areas on the map with the maximum expected intensity.
+    \item Plot on the map the hypocentre of the earthquake, using the correct symbol.
+    \item Plot and colour real time tsunami warnings.
 \end{enumerate}
 
 \subsection{Part 2b. Past-earthquake Viewing}
 \begin{enumerate}
-    \item Implement a side-list of a list of path earthquakes.
-    \item Provide a button to view the detailed information on the earthquake (e.g. magnitude, epicentre, time).
-    \item Implement functionality to plot the detected maximum intensities on the map, from where they are detected.
-    \item Provide external link to view earthquake in the JMA website.
+    \item Plot a sidebar of a list to display path earthquakes.
+    \item Provide a button to refresh the sidebar, and another one to load more earthquakes.
+    \item Provide a functionality to choose an earthquake from the sidebar to view the detailed information on the earthquake (e.g. magnitude, epicentre, time, additional message).
+    \item Plot the hypocentre of the earthquake.
+    \item Plot the observed maximum intensities on the map by regions.
+    \item Plot the intensities measured by each observation station on the map.
+    \item Provide external link to view earthquake in the weather service provider website.
 \end{enumerate}
 
 \subsection{Part 3. Joint functionality}
 \begin{enumerate}
-    \item Provide sidebar to switch between real-time monitoring and past-earthquake viewing.
-    \item Implement automatic functionality to switch back to real-time earthquake monitoring when a shake over a certain magnitude is detected, or an EEW/Tsunami Warning is being published.
+    \item Provide sidebar to switch between real-time monitoring and past-earthquake viewing, and settings options.
+    \item Implement automatic functionality to switch back to real-time earthquake when an EEW/Tsunami Warning is being published.
 \end{enumerate}
 
-\subsection{Part 4. Setting page for customisation and some more}
+\subsection{Part 4. Setting page for customisation}
 \begin{enumerate}
-    \item Implement customisable voice and sound playing (e.g. when EEW (over certain magnitude) is published, when an earthquake information detail is received, etc.)
-    \item Implement customisable colour scheme for the colouring of different intensity scales, with several built in default.
-    \item Implement key monitoring point with special warnings when an earthquake with more than a certain intensity is expected to hit that point.
-    \item Implement a map-zooming feature.
-    \item Implement a sub-map for the Okinawa Area.
+    \item Provide a text box to input the API Key, and a button to confirm the API Key.
+    \item Provide a button to connect and authorise with OAuth 2.0.
+    \item Provide a button to connect to the WebSocket.
+    \item Display a list of current WebSocket connections, and provide a button to refresh such list.
+    \item Provide two dropdown menus, to choose the sensors to display on the real-time map (all sensors, or borehole only), and the data to display (real time intensity, PGA, PGV, PGD, etc.).
+\end{enumerate}
+
+\subsection{Part 5. Additional functionalities}
+\begin{enumerate}
+    \item Investigate into and implement an algorithm to detect shakes based on the observed data.
+    \item Provide functionality to define a specific point on the map, and display the measured intensity at that point.
+    \item Play sound alerts when EEW/Tsunami warnings are received.
+    \item Provide custom sound alert settings to specify the file to the sound alert.
+    \item Provide custom colour theme settings to specify the colour scheme of the colouring on the map.
 \end{enumerate}
 
 \section{Requirements Specification}
