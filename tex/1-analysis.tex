@@ -342,25 +342,22 @@ A detailed specification is defined here that is to be aimed to be fulfilled at 
     \item \textbf{NIED and DM-D.S.S. Functionality} -- Corresponding to \textbf{Part 1}, in Table \ref{tab:requirements-part-one}
     \item \textbf{Real-Time Earthquake Monitoring} -- Corresponding to \textbf{Part 2a}, in Table \ref{tab:requirements-part-two-a}
     \item \textbf{Past-earthquake Viewing} -- Corresponding to \textbf{Part 2b}, in Table \ref{tab:requirements-part-two-b}
-    \item \textbf{GUI Design} -- Corresponding to \textbf{Part 3, 4}, in Table \ref{tab:requirements-part-three}
+    \item \textbf{GUI Design} -- Corresponding to \textbf{Part 3, 4 and 5}, in Table \ref{tab:requirements-part-three}
 \end{enumerate}
+
+Those objectives marked with an * are optional depending on time, since they are not core functionalities for the project.
 
 The objectives here are SMART, meaning they are specific, measurable, achievable, realistic and timely.
 
-Note that those marked with an * means they are optional.
-
-Table \ref{tab:abbrs} for types of testing. [M] afterwards will stand for a necessary manual testing (i.e. specific user inputs), while (M) will stand for supplementary manual testing (i.e. will have stand-alone tests as well as manual tests).
+Table \ref{tab:abbrs} gives abbreviations for the types of testing.
 
 \begin{table}[!ht]
     \centering
-    \begin{tabular}{|c|c|}
+    \begin{tabular}{cc}
+        Test Method        & Abbr. \\
         \hline
-        Test Method         & Abbr. \\
-        \hline
-        Unit Testing        & UT    \\
-        Integrated Testing  & IT    \\
-        Performance Testing & PT    \\
-        \hline
+        Unit Testing       & UT    \\
+        Integrated Testing & IT    \\
     \end{tabular}
     \caption{Measurement methods}
     \label{tab:abbrs}
@@ -369,28 +366,21 @@ Table \ref{tab:abbrs} for types of testing. [M] afterwards will stand for a nece
 \begin{table}[!ht]
     \centering
 
-    \begin{tabular}{|c||p{0.42\linewidth}|p{0.3\linewidth}|l|}
+    \begin{tabular}{c|l|p{15em}|l}
+        Req. \textnumero & Description                               & Success Criteria                                                 & Test \\
         \hline
-        Req. \textnumero & Description                                              & Success Criteria                & Testing \\
-        \hline \hline
-        1(i)             & Login to DM-D.S.S. using an API Key                      & Login successful                & UT [M]  \\
-        \hline
-        1(ii)            & Call HTTP-Based APIs                                     & Successful calls                & UT (M)  \\
-        \hline
-        1(iii)           & Connect to WebSocket Data Feed                           & Successful calls                & UT [M]  \\
-        \hline
-        1(iv)            & Obtain stable connection on WS                           & Connected for 30min             & PT (M)  \\
-        \hline
-        1(v)             & Successfully parse JSON and XML into C\# objects         & Information successfully parsed & UT      \\
-        \hline
-        1(vi)            & Exception handling for incorrect JSON and XML            & Exceptions thrown               & UT      \\
-        \hline
-        1(vii)           & Exception handling for failed connections                & Exceptions thrown               & UT (M)  \\
-        \hline
-        1(viii)          & Integrated functionality from login to providing objects & Correct objects created         & IT [M]  \\
-        \hline
-        1(ix)*           & Login to DM-D.S.S. using OAuth2                          & Login successful                & UT (M)  \\
-        \hline
+        1(i)             & Connect to DM-D.S.S. using an API Key     & Included in header for requests                                  & UT   \\
+        1(ii)            & Call HTTP-Based APIs                      & Calls to correct URLs with specified parameters where applicable & UT   \\
+        1(iii)           & Connect to WebSocket Data Feed            & Successful connection with regular pings/pongs                   & IT   \\
+        1(iv)            & Obtain stable connection on WebSocket     & Connected for 1 hour under reliable internet connection          & IT   \\
+        1(v)             & Parse API calls JSON into C\# objects     & Information parsed with correct values                           & UT   \\
+        1(vi)            & Recognise schema for JSON Telegrams       & Correct JSON schema recognised                                   & UT   \\
+        1(vii)           & Parse JSON Telegrams into C\# objects     & Parsed into correct type with correct values                     & UT   \\
+        1(viii)          & Exception handling for incorrect JSON     & Exceptions thrown                                                & UT   \\
+        1(ix)            & Exception handling for failed connections & Exceptions thrown                                                & UT   \\
+        1(x)             & Integrated DM-D.S.S. functionalities      & Correct objects created                                          & IT   \\
+        1(xi)            & Connect to DM-D.S.S. using OAuth2         & Access token included in header for requests                     & IT   \\
+        1(xii)           & Refresh tokens when expired using OAuth2  & New access token successfully obtained with the refresh token    & IT   \\
     \end{tabular}
     \caption{Requirements for Part 1}
     \label{tab:requirements-part-one}
