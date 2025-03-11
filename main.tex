@@ -1,8 +1,6 @@
 \documentclass[10pt]{report}
 
-\newcommand{\Input}[1]{\input{./tex/#1}}
-
-\Input{0-premeable.tex}
+\input{tex/0-premeable}
 
 % TODO: Diagrams in English as well as Japanese
 
@@ -33,12 +31,12 @@
     \end{center}
 
     \section*{Abstract}
-    \Input{0a-abstract.tex}
+    \input{tex/0a-abstract}
 \end{titlepage}
 
 \thispagestyle{nohead}
 
-\Include{0b-copyright.tex}
+\include{tex/0b-copyright.tex}
 \thispagestyle{nohead}
 
 \SetMainStyle
@@ -49,15 +47,15 @@
 \listoffigures
 \listoflistings
 
-\Include{1-analysis.tex}
-\Include{2-design.tex}
-\Include{3-implementation.tex}
-\Include{4-testing.tex}
-\Include{5-evaluation.tex}
+\include{tex/1-analysis}
+\include{tex/2-design}
+\include{tex/3-implementation}
+\include{tex/4-testing}
+\include{tex/5-evaluation}
 
 \appendix
-\Include{a-listing.tex}
-\Include{b-ai.tex}
+\include{tex/a-listing}
+\include{tex/b-ai}
 
 \printbibliography[heading=bibnumbered,title=Bibliography]
 
