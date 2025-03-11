@@ -389,32 +389,20 @@ Table \ref{tab:abbrs} gives abbreviations for the types of testing.
 \begin{table}[!ht]
     \centering
 
-    \begin{tabular}{|c||p{0.4\linewidth}|p{0.28\linewidth}|l|}
+    \begin{tabular}{c|l|p{15em}|l}
+        Req. \textnumero & Description                               & Success Criteria                                    & Test \\
         \hline
-        Req. \textnumero & Description                                                               & Success Criteria                                              & Testing    \\
-        \hline \hline
-        2a(i)            & Display real time shake-intensities on the map                            & Coloured points at correct locations                          & IT         \\
-        \hline
-        2a(ii)           & Implement algorithm to display shake detection on the map                 & Use squares to indicate shake detected in area                & UT, IT, PT \\
-        \hline
-        2a(iii)          & Display the time at the corner of the UI                                  & Time displayed with less than 100ms error                     & UT         \\
-        \hline
-        2a(iv)           & Display real-time EEW when issued                                         & Epicentre at correct position                                 & IT         \\
-        \hline
-        2a(v)            & Update/Cancel EEW when appropriate                                        & Correctly updated and plotted                                 & IT         \\
-        \hline
-        2a(vi)           & Calculate and display seismic wavefronts by algorithm                     & Calculated and plotted without significant delay              & UT, IT, PT \\
-        \hline
-        2a(vii)          & Colour map with expected maximum intensity of EEW                         & Correctly coloured                                            & UT, IT     \\
-        \hline
-        2a(viii)         & Display the exp. magnitude, location, depth and intensity when EEW issued & Correctly formatted and displayed                             & UT, IT     \\
-        \hline
-        2a(ix)           & Provide additional EEW information (e.g. detailed time, algorithm used)   & Correctly formatted and displayed                             & IT [M]     \\
-        \hline
-        2a(x)            & Display tsunami warnings when issued                                      & Coloured at correct location                                  & UT         \\
-        \hline
-        2a(xi)*          & Display real-time shake data at a user-defined point                      & Display the name of the point with acceleration and intensity & IT         \\
-        \hline
+        2a(i)            & Display real-time observed data on map    & Coloured points at correct locations                & IT   \\
+        2a(ii)           & Display current time at the corner        & Time displayed and refreshing every second          & IT   \\
+        2a(iii)          & Display details of current EEW            & Details displaying correctly                        & IT   \\
+        2a(iv)           & Plot epicentre of EEW on map              & Epicentre at correct position with correct symbol   & IT   \\
+        2a(v)            & Calculate seismic wavefronts position     & Correct result from dataset                         & UT   \\
+        2a(vi)           & Plot seismic wavefronts                   & Correct wavefronts at correct positions             & IT   \\
+        2a(vii)          & Colour expected max. intensity of regions & Correctly coloured                                  & IT   \\
+        2a(viii)         & Update/Cancel EEW when appropriate        & Update reflecting on both the details and the map   & IT   \\
+        2a(ix)           & Handle multiple simultaneous EEWs         & Switch between details of EEWs at regular intervals & IT   \\
+        2a(x)            & Display tsunami warnings when issued      & Details displaying correctly                        & IT   \\
+        2a(xi)           & Colour shorelines from tsunami warnings   & Coloured at correct location                        & IT   \\
     \end{tabular}
     \caption{Requirements for Part 2(a)}
     \label{tab:requirements-part-two-a}
@@ -423,22 +411,15 @@ Table \ref{tab:abbrs} gives abbreviations for the types of testing.
 \begin{table}[!ht]
     \centering
 
-    \begin{tabular}{|c||p{0.42\linewidth}|p{0.3\linewidth}|l|}
-        \hline
+    \begin{tabular}{c|p{0.42\linewidth}|p{0.3\linewidth}|l}
         Req. \textnumero & Description                                                                                             & Success Criteria                         & Testing \\
-        \hline \hline
+        \hline
         2b(i)            & Display past-earthquake side list using data from DM-D.S.S.                                             & Displayed and updated                    & UT, IT  \\
-        \hline
         2b(ii)           & Display the time, location, depth, intensity and magnitude of earthquake on the side list               & Correctly formatted and displayed        & UT, IT  \\
-        \hline
         2b(iii)          & Colouring of the map by the maximum intensity of an earthquake when prompted                            & Correctly coloured                       & UT, IT  \\
-        \hline
         2b(iv)           & Display details of shake and other additional information provided by JMA when prompted on a sub-window & Correctly formatted and displayed        & UT, IT  \\
-        \hline
         2b(v)            & Provide link to external weather services for details                                                   & Linked to correct website and earthquake & UT [M]  \\
-        \hline
         2b(vi)           & Provide link to JMA Earthquake details                                                                  & Linked to correct earthquake             & UT [M]  \\
-        \hline
     \end{tabular}
     \caption{Requirements for Part 2(b)}
     \label{tab:requirements-part-two-b}
@@ -447,26 +428,18 @@ Table \ref{tab:abbrs} gives abbreviations for the types of testing.
 \begin{table}[!ht]
     \centering
 
-    \begin{tabular}{|c||p{0.42\linewidth}|p{0.3\linewidth}|l|}
+    \begin{tabular}{c|p{0.42\linewidth}|p{0.3\linewidth}|l}
+        Req. \textnumero & Description                                                               & Success Criteria                                              & Testing \\
         \hline
-        Req. \textnumero & Description                                                               & Success Criteria                                     & Testing \\
-        \hline \hline
-        3(i)             & Provide sidebar to switch between real-time, past earthquake and settings & Sidebar functioning                                  & IT [M]  \\
-        \hline
-        3(ii)            & Switch to real-time monitoring map when EEWs are issued                   & Switch with delay less than 1s                       & IT, PT  \\
-        \hline
-        3(iii)           & Provide an easy-to-use GUI                                                & Potential user gives rating of more than 7 out of 10 & [M]     \\
-        \hline
-        3(iv)*           & Provide page to design colour scheme                                      & Functional design page and applied to the whole UI   & UT      \\
-        \hline
-        3(v)*            & Play sound when events happen and provide option to customise sound files & Correct sound played when required                   & UT, IT  \\
-        \hline
-        3(vi)*           & Provide option to define a point on the map to monitor                    & Functioning as specified in Part 2a                  & UT, IT  \\
-        \hline
-        3(vii)*          & Provide zooming feature                                                   & Map functioning as specified in Part 2               & UT, IT  \\
-        \hline
-        3(viii)*         & Provide sub-map to display Okinawa Area                                   & Map functioning as specified in Part 2               & UT, IT  \\
-        \hline
+        3(i)             & Provide sidebar to switch between real-time, past earthquake and settings & Sidebar functioning                                           & IT [M]  \\
+        3(ii)            & Switch to real-time monitoring map when EEWs are issued                   & Switch with delay less than 1s                                & IT, PT  \\
+        3(iii)           & Provide an easy-to-use GUI                                                & Potential user gives rating of more than 7 out of 10          & [M]     \\
+        3(iv)*           & Provide page to design colour scheme                                      & Functional design page and applied to the whole UI            & UT      \\
+        3(v)*            & Play sound when events happen and provide option to customise sound files & Correct sound played when required                            & UT, IT  \\
+        3(vi)*           & Provide option to define a point on the map to monitor                    & Functioning as specified in Part 2a                           & UT, IT  \\
+        3(vii)*          & Provide zooming feature                                                   & Map functioning as specified in Part 2                        & UT, IT  \\
+        3(viii)*         & Provide sub-map to display Okinawa Area                                   & Map functioning as specified in Part 2                        & UT, IT  \\
+        2a(ix)*          & Display real-time shake data at a user-defined point                      & Display the name of the point with acceleration and intensity & IT      \\
     \end{tabular}
     \caption{Requirements for Part 3}
     \label{tab:requirements-part-three}
