@@ -540,11 +540,120 @@ Table \ref{tab:abbrs} gives abbreviations for the types of testing.
 \section{Initial Modelling}
 Some initial ideas on the applications are considered in this section, but more detailed design will be reflected in the GUI design section in the next chapter.
 
+\subsection{Colour Scheme to Use}
+Although most built-in applications tend to introduce their own colour schemes, the author decided to follow the standard guidance provided by the JMA \autocite{jma-colour-guidance} and use the official colour scheme, to prevent any confusion and make the application generally accessible.
+
+Figure \ref{fig:jma-colour-scheme-intensity} shows the JMA Colour Scheme for measured intensities, and Figure \ref{fig:jma-colour-scheme-tsunami} shows the JMA Colour Scheme for different levels of tsunami warnings (the row for the tsunami is highlighted).
+
+\begin{figure}[htp]
+    \centering
+
+    \includegraphics[width=0.8\linewidth]{jma-colour-scheme-intensity.png}
+    \caption{JMA Colour Scheme for Measured Intensities}
+    \label{fig:jma-colour-scheme-intensity}
+\end{figure}
+
+\begin{figure}[htp]
+    \centering
+
+    \includegraphics[width=0.8\linewidth]{jma-colour-scheme-tsunami.png}
+    \caption[JMA Colour Scheme for Tsunamis]{JMA Colour Scheme for Tsunamis\\
+        Purple: Special Warning; Red: Tsunami Warning; Yellow: Tsunami Caution}
+    \label{fig:jma-colour-scheme-tsunami}
+\end{figure}
+
+In addition to these colours, for tsunami informational advisory, the colour \Colour{80FFFF} is used, in accordance with the colour used for no release of river flooding warning, and for endings of tsunamis warnings, the colour \Colour{F2F2FF} is used, in accordance with the minimal level (the extremely light grey) in Figure \ref{fig:jma-colour-scheme-tsunami}.
+
+The colour \Colour{F0F0F0} is used for intensity zero (i.e. any intensity less than intensity 1), and \Colour{C8C8CB} is used for unknown intensities.
+
+A similar colour scheme is used for EEW warnings. Specifically, the same colour as tsunami warning is used for EEW warnings, and the same colour as endings of tsunami warnings is used for EEW cancellation. For EEW forecasts, the colour \Colour{FFAA00} (in accordance with the orange colour in Figure \ref{fig:jma-colour-scheme-tsunami}) is used, and for EEW final reports, the same colour is used as unknown intensities.
+
+A summary of the colours used is in the table below.
+
+\begin{table}[htp]
+    \centering
+    \begin{tabular}{c|c}
+        Intensity & Colour          \\
+        \hline
+        ?         & \Colour{C8C8CB} \\
+        0         & \Colour{F0F0F0} \\
+        1         & \Colour{F2F2FF} \\
+        2         & \Colour{00AAFF} \\
+        3         & \Colour{0041FF} \\
+        4         & \Colour{FAE696} \\
+        5-        & \Colour{FFE600} \\
+        5+        & \Colour{FF9900} \\
+        6-        & \Colour{FF2800} \\
+        6+        & \Colour{A50021} \\
+        7         & \Colour{B40068}
+    \end{tabular}
+    \begin{tabular}{c|c}
+        EEW Level & Colour          \\
+        \hline
+        Forecast  & \Colour{FFAA00} \\
+        Warning   & \Colour{FF2800} \\
+        Final     & \Colour{C8C8CB} \\
+        Cancelled & \Colour{F2F2FF}
+    \end{tabular}
+    \begin{tabular}{c|c}
+        Tsunami Warning Level & Colour          \\
+        \hline
+        Information           & \Colour{80FFFF} \\
+        Caution               & \Colour{FAF500} \\
+        Warning               & \Colour{FF2800} \\
+        Special Warning       & \Colour{C800FF} \\
+        None                  & \Colour{F2F2FF}
+    \end{tabular}
+    \caption{Colour Scheme for Application}
+    \label{tab:colour-scheme}
+\end{table}
+
 \subsection{Details to Display}
+Comparing the information provided by the different applications, the following information about an earthquake will be displayed in the sidebar, as consistent with most applications analysed:
+\begin{itemize}
+    \item Maximum observed intensity of earthquake;
+    \item Time of the earthquake;
+    \item Name of position of hypocentre;
+    \item Depth of hypocentre;
+    \item Magnitude of the earthquake.
+\end{itemize}
 
+In addition to these, on the side panel, the following information will be displayed in addition to the previous ones:
+\begin{itemize}
+    \item Last updated time of information;
+    \item The tree of intensities measured by observation stations, in hierarchy structure of:
+          \begin{enumerate}
+              \item Intensity; then by
+              \item Prefecture; then by
+              \item Regions; then by
+              \item Cities/Districts; finally
+              \item Observation Stations.
+          \end{enumerate}
+    \item Any additional text provided by the JMA on the report, where applicable.
+\end{itemize}
 
-\subsection{GUI Overview}
+Note there is an extra level of regions in the hierarchy tree, compared to KEVI.
 
+As for the EEW warning, there are slightly different information displayed, due to different information provided, and the nature of the EEW. The following information will be displayed:
+\begin{itemize}
+    \item The level of the EEW warning;
+    \item The serial number of the EEW warning,
+    \item Maximum predicted intensity of earthquake;
+    \item Origin time of the earthquake;
+    \item Name of position of hypocentre;
+    \item Warning text if the hypocentre is assumed (as a JMA requirement);
+    \item Depth of hypocentre;
+    \item Magnitude of the earthquake;
+    \item Precision/Accuracy of information on hypocentre, depth and magnitude;
+    \item Warning text if the earthquake has low accuracy (as a JMA requirement);
+    \item Last updated time of the information,
+    \item Any additional text provided by the JMA on the report, where applicable.
+\end{itemize}
 
-\ToDo{Initial modelling.}
-% TODO: Initial modelling
+Note that (as a JMA requirement), if the hypocentre is assumed for algorithmic reasons, then the hypocentre details and the magnitude have no seismological meaning, and the information on origin time, the position of hypocentre, the depth of hypocentre and the magnitude of the earthquake will be hidden
+
+The information displayed for a tsunami warning will be relatively simple:
+\begin{itemize}
+    \item The level of the tsunami warning;
+    \item Any additional text provided by the JMA on the report, where applicable.
+\end{itemize}

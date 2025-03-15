@@ -22,6 +22,7 @@
 
 \usepackage[dvipsnames]{xcolor}
 \usepackage{fontawesome5}
+\usepackage{amssymb}
 \usepackage{xltxtra}
 \usepackage{textcomp}
 
@@ -40,6 +41,7 @@
 \newenvironment{Listing}{\captionsetup{type=listing}}{}
 
 \newmintinline[Code]{text}{}
+\newcommand{\Colour}[1]{\Code{#1}\space\textcolor[HTML]{#1}{\(\blacksquare\)}}
 
 \graphicspath{{./fig/}{\CodeBasePath PythonScript/}}
 
