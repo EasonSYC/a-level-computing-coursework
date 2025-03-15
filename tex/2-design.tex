@@ -17,14 +17,14 @@ In fact, in addition to these three networks, there are also the S-net, the DONE
 
 A comparison from the official website of \href{https://www.mowlas.bosai.go.jp}{MOWLAS (Monitoring of Waves on Land and Seafloor)} of the three nets are included in Figure \ref{fig:net-comparison} and a map of the distribution of the sensors are included in Figure \ref{fig:net-distribution}.
 
-\begin{figure}[!ht]
+\begin{figure}[htp]
     \centering
     \includegraphics[width=0.75\linewidth]{net-comparison.png}
     \caption{A comparison of the K-NET, F-net and Hi-net.}
     \label{fig:net-comparison}
 \end{figure}
 
-\begin{figure}[!ht]
+\begin{figure}[htp]
     \centering
     \includegraphics[width=0.75\linewidth]{net-distribution.png}
     \caption{Distribution of the sensors of different nets.}
@@ -45,7 +45,7 @@ The data source fed by the 'Kyoshin' Monitor is split into 8 types (detailed bel
 
 In the link, the \Code{[yyyyMMdd]} and the \Code{[hhmmss]} part should be replaced with the date and time respectively (in JST, UTC+8), and the \Code{#1} replaced with the codes detailed below for the data types, and \Code{#2} replaced with the codes detailed below for data sources. An example of the imaged achieved is in Figure \ref{fig:sample-kmoni}.
 
-\begin{table}[!ht]
+\begin{table}[htp]
     \centering
 
     \begin{tabular}{|c|c|c|}
@@ -68,7 +68,7 @@ In the link, the \Code{[yyyyMMdd]} and the \Code{[hhmmss]} part should be replac
     \label{tab:kmoni-data-types}
 \end{table}
 
-\begin{table}[!ht]
+\begin{table}[htp]
     \centering
 
     \begin{tabular}{|c|c|c|}
@@ -83,7 +83,7 @@ In the link, the \Code{[yyyyMMdd]} and the \Code{[hhmmss]} part should be replac
     \label{tab:kmoni-sensor-types}
 \end{table}
 
-\begin{figure}[!ht]
+\begin{figure}[htp]
     \centering
     \includegraphics[width=0.5\linewidth]{sample-kmoni.png}
     \caption{Sample GIF image achieved from 'Kyoshin' Monitor}
@@ -110,7 +110,7 @@ This paragraph referred to \href{https://qiita.com/ingen084/items/7e91f8da299697
 
 The true numerical data does not seem fully necessary at the first glance (since we might just as well just achieve the colour from the image and just plot them on the map, without the need to convert to a colour and back). However, for us to detect the shake in certain regions, it is necessary for us to achieve the numerical value to run the algorithm on it. Nevertheless, it is just good to have the number for us to have the numerical value for potential future developments.
 
-\begin{figure}[!ht]
+\begin{figure}[htp]
     \centering
     \includegraphics[scale = 0.6]{jma-scale.png}
     \includegraphics[scale = 0.6]{pga-scale.png}
@@ -140,7 +140,7 @@ The next step is to develop a mapping from this colour space \(\mathcal{C}\) to 
 
 We consider using a suitable base to decompose \(\mathcal{C}\). The colour of the given scale is an immediate suggestion to use a base containing \textbf{hue}, which in fact is designed to describe how human perceive colour, and unlike RGB and CMYK which uses principle colours to describe colour. A hue scale is shown in Figure \ref{fig:hue-scale}.
 
-\begin{figure}[!ht]
+\begin{figure}[htp]
     \centering
     \includegraphics[scale = 0.15]{hue-scale.png}
     \caption{The hue scale in HSL/HSV encoding}
@@ -151,7 +151,7 @@ Therefore, a colour in the colour space \(\mathcal{C}\) can be represented as a 
 
 Figure \ref{fig:hsv-against-row} plots the values of \(H, S\) and \(V\) against \(h\) (this is the graph of \(f\) and its components) of discrete values of \(h\), and depending on the result we will attempt some fit/regression to a suitable function.
 
-\begin{figure}[!ht]
+\begin{figure}[htp]
     \centering
     \includegraphics[scale = 0.55]{hsv-against-row.png}
     \caption{The values of \((H, S, V)\) against pixel row \(r\)}
@@ -167,7 +167,7 @@ It is worth noting that the scale has some space on the top (to show the type), 
 
 Figure \ref{fig:hsv-against-h} shows the result of this transformation being applied.
 
-\begin{figure}[!ht]
+\begin{figure}[htp]
     \centering
     \includegraphics[scale = 0.55]{hsv-against-h.png}
     \caption{The values of \((H, S, V)\) against normalised height \(h\)}
@@ -186,7 +186,7 @@ We consider finding \(f_H\) first, which is the cyan line. Notice that its trend
     \item \(h \in [0.9, 1]\): constant (0).
 \end{itemize}
 
-\begin{table}[!ht]
+\begin{table}[htp]
     \centering
 
     \begin{tabular}{|c|c|}
@@ -231,7 +231,7 @@ By applying a curve fit to the original data, the following results are obtained
 
 Plotting \(H\) and \(f_H(h)\) against \(h\) gives us Figure \ref{fig:h-against-h}, which is decent.
 
-\begin{figure}[!ht]
+\begin{figure}[htp]
     \centering
     \includegraphics[scale = 0.55]{h-against-h.png}
     \caption{The fit result for \(f_H: h \mapsto H\)}
@@ -242,7 +242,7 @@ Plotting \(H\) and \(f_H(h)\) against \(h\) gives us Figure \ref{fig:h-against-h
 
 As for \(f_S(h)\), the obvious thing to do is to split it into 5 (4) piecewise functions, specifically \(f_S = 1\) for \(h \in [0, 0.2] \cup [0.5, 1]\), and three linear functions for \(h \in [0.2, 0.29], h \in [0.29, 0.4]\) and \(h \in [0.4, 0.5]\). Initial values are included in Table \ref{tab:s-against-h-iv}.
 
-\begin{table}[!ht]
+\begin{table}[htp]
     \centering
 
     \begin{tabular}{|c|c|}
@@ -274,7 +274,7 @@ This gives us that
 
 Plotting this out gives Figure \ref{fig:s-against-h}.
 
-\begin{figure}[!ht]
+\begin{figure}[htp]
     \centering
     \includegraphics[scale = 0.55]{s-against-h.png}
     \caption{The fit result for \(f_S: h \mapsto S\)}
@@ -285,7 +285,7 @@ Plotting this out gives Figure \ref{fig:s-against-h}.
 
 As for \(f_V(h)\), we shall divide it into even more piecewise linear functions. Specifically, I chose to divide the interval \([0, 1]\) at \(0.1, 0.172, 0.2, 0.3, 0.4, 0.8\) and \(0.9\). Initial values are included in Table \ref{tab:v-against-h-iv}.
 
-\begin{table}[!ht]
+\begin{table}[htp]
     \centering
 
     \begin{tabular}{|c|c|}
@@ -323,7 +323,7 @@ This gives us the piecewise function
 
 Plotting this out gives us Figure \ref{fig:v-against-h}.
 
-\begin{figure}[!ht]
+\begin{figure}[htp]
     \centering
     \includegraphics[scale = 0.55]{v-against-h.png}
     \caption{The fit result for \(f_V: h \mapsto V\)}
@@ -349,21 +349,21 @@ Notice that for \(h \in [0.1, 0.6]\), \(f_H\) is a cubic and is not easily inver
 
 Figure \ref{fig:kmoni-data-flow} shows the data flow, Figure \ref{fig:variable-relation} shows the relation between abstract variables, and \ref{fig:generated-colour} shows the result of colour generated compared with the original.
 
-\begin{figure}[!ht]
+\begin{figure}[htp]
     \centering
     \includegraphics[width=0.8\linewidth]{kmoni-data-flow.pdf}
     \caption{Flow of data in NIED data sources}
     \label{fig:kmoni-data-flow}
 \end{figure}
 
-\begin{figure}[!ht]
+\begin{figure}[htp]
     \centering
     \includegraphics[width=0.9\linewidth]{variable-relation.pdf}
     \caption{Relation between abstract variables}
     \label{fig:variable-relation}
 \end{figure}
 
-\begin{figure}[!ht]
+\begin{figure}[htp]
     \centering
     \includegraphics[scale = 0.6]{jma-scale.png}
     \includegraphics[scale = 0.6]{generated-colour.png}
@@ -387,7 +387,7 @@ Their APIs are split into two types: HTTP based requests and WebSocket based con
 
 API Keys access tokens are extremely easy to program, since it simply uses Basic BasicBath64 Authorisation in the header, and uses the key as the username (without a password). It uses the Basic BasicBase64 Authorisation encoding. However, this introduces an extra layer of complexity for the users, since they would have to go to the settings of the DM-D.S.S. webpage and achieve an API Key to paste into the application, as shown in Figure \ref{fig:api-key-control-panel}.
 
-\begin{figure}[!ht]
+\begin{figure}[htp]
     \centering
     \includegraphics[width=0.7\linewidth]{api-key-control-panel.png}
     \caption{Control panel for API Keys}
@@ -410,7 +410,7 @@ The base URL of all requests is \url{https://api.dmdata.jp/v2/} which will be in
 
 Table \ref{tab:necessary-permissions} shows the necessary permissions would be necessary for the application to function. How each of them functions will be discussed below.
 
-\begin{table}[!ht]
+\begin{table}[htp]
     \centering
 
     \begin{tabular}{|c|p{0.65\linewidth}|}
@@ -439,13 +439,13 @@ There are two status that an API call could return: a successful \Code{ok} statu
 
 Listing \ref{alg:api-response-ok} shows the JSON for a successful \Code{ok} response, and Listing \ref{alg:api-response-error} shows the JSON for a \Code{error} response.
 
-\begin{listing}[!ht]
+\begin{listing}[htp]
     \InputMinted{json}{JsonSchemas/ApiResponseOk.json}
     \caption{\Code{ok} status for API}
     \label{alg:api-response-ok}
 \end{listing}
 
-\begin{listing}[!ht]
+\begin{listing}[htp]
     \InputMinted{json}{JsonSchemas/ApiResponseError.json}
     \caption{\Code{error} status for API}
     \label{alg:api-response-error}
@@ -457,7 +457,7 @@ The \Code{status} attribute in \Code{string} indicates whether it is a successfu
 
 The list of standard errors together with their meanings is discussed in Table \ref{tab:standard-errors}.
 
-\begin{table}[!ht]
+\begin{table}[htp]
     \centering
 
     \begin{tabular}{|c|l|}
@@ -485,7 +485,7 @@ For some API data calls, and specifically for \Code{telegram.list} that we are g
     \url{base://telegram?type=VXSE53}.
 \end{center}
 
-\begin{listing}[!ht]
+\begin{listing}[htp]
     \InputMinted{json}{JsonSchemas/CursorToken.json}
     \caption{Cursor token sample JSON.}
     \label{alg:cursor-token}
@@ -514,7 +514,7 @@ There is only one contract-related API, which is \Code{contract.list}. It is an 
 It will return a list of contracts (subscriptions) of DM-D.S.S., whether or not the user has subscribed to it.
 
 Listing \ref{alg:contract-list} shows a sample return of this API call.
-\begin{listing}[!ht]
+\begin{listing}[htp]
     \InputMinted{json}{JsonSchemas/ContractList.json}
     \caption{Contract list sample JSON.}
     \label{alg:contract-list}
@@ -542,7 +542,7 @@ There are three WebSocket-Related APIs, specifically, \Code{socket.start}, to st
 
 \Code{socket.start} is a POST method which has a request body in JSON, as shown in Listing \ref{alg:socket-start-post}.
 
-\begin{listing}[!ht]
+\begin{listing}[htp]
     \InputMinted{json}{JsonSchemas/SocketStartPost.json}
     \caption{Socket start sample request JSON.}
     \label{alg:socket-start-post}
@@ -561,7 +561,7 @@ The detailed classifications and types will be discussed in the next section on 
 
 It will have a response as in Listing \ref{alg:socket-start}.
 
-\begin{listing}[!ht]
+\begin{listing}[htp]
     \InputMinted{json}{JsonSchemas/SocketStart.json}
     \caption{Socket start sample response JSON.}
     \label{alg:socket-start}
@@ -576,7 +576,7 @@ Some attributes are exactly the same as the JSON sent has header, \Code{classifi
 
 Apart from the standard errors, it will also output errors shown in Table \ref{tab:socket-start-err}
 
-\begin{table}[!ht]
+\begin{table}[htp]
     \centering
 
     \begin{tabular}{|c|l|}
@@ -616,7 +616,7 @@ Listing \ref{alg:socket-list} shows a response from the call. The \Code{items} i
     \item \Code{status}, a \Code{string} representing the connection status.
 \end{itemize}
 
-\begin{listing}[!ht]
+\begin{listing}[htp]
     \InputMinted{json}{JsonSchemas/SocketList.json}
     \caption{Socket list sample response JSON.}
     \label{alg:socket-list}
@@ -632,7 +632,7 @@ The program would need to have a list of observation points of earthquakes to pl
 
 This is a GET request with no parameters to specify, and will return all stations in one go. Listing \ref{alg:parameter-earthquake} shows a sample response.
 
-\begin{listing}[!ht]
+\begin{listing}[htp]
     \InputMinted{json}{JsonSchemas/ParameterEarthquake.json}
     \caption{Earthquake parameter sample response JSON.}
     \label{alg:parameter-earthquake}
@@ -667,7 +667,7 @@ Furthermore, the following query parameters are available:
 
 Listing \ref{alg:telegram-list} gives a sample response of this API call.
 
-\begin{listing}[!ht]
+\begin{listing}[htp]
     \InputMinted{json}{JsonSchemas/TelegramList.json}
     \caption{Telegram list sample response JSON.}
     \label{alg:telegram-list}
@@ -689,7 +689,7 @@ Apart from standard errors, it might also return a \Code{400} error with message
 
 The API \Code{gd.earthquake} allows us to use a GET request to obtain a series of earthquake on \url{base://gd/earthquake}, with the option to obtain a list, or to obtain only a certain event.
 
-\begin{listing}[!ht]
+\begin{listing}[htp]
     \InputMinted{json}{JsonSchemas/GdEarthquakeList.json}
     \caption{Past earthquake list sample response JSON.}
     \label{alg:earthquake-list}
@@ -722,7 +722,7 @@ There are four types of responses that a WebSocket could return, indicated in th
 \begin{itemize}
     \item a \Code{start}. This only happens when the WebSocket is started, and this includes the exact same information in the \Code{socket.start} call in Listing \ref{alg:socket-start}, with an additional \Code{time} to indicate the time of the response;
     \item a (server-side initiated) \Code{ping}. This will happen regularly, and the server will send a JSON in the format in Listing \ref{alg:server-ping}.
-          \begin{listing}[!ht]
+          \begin{listing}[htp]
               \InputMinted{json}{JsonSchemas/ServerPing.json}
               \caption{WebSocket Ping JSON.}
               \label{alg:server-ping}
@@ -730,7 +730,7 @@ There are four types of responses that a WebSocket could return, indicated in th
 
           Upon receiving, the client should return a \Code{pong} JSON in the same format, with the same \Code{pingId}, as in Listing \ref{alg:server-pong}.
 
-          \begin{listing}[!ht]
+          \begin{listing}[htp]
               \InputMinted{json}{JsonSchemas/ServerPong.json}
               \caption{WebSocket Pong JSON.}
               \label{alg:server-pong}
@@ -740,7 +740,7 @@ There are four types of responses that a WebSocket could return, indicated in th
     \item a client-side initiated \Code{ping} as in Listing \ref{alg:server-ping}, which the server will return a \Code{pong} as in Listing \ref{alg:server-pong}. This works almost identically as before, apart from that such \Code{pingId} is optional. This is in place to ensure that the application would be able to know if the connection is broken, for example due to unstable internet connections, and would be able to restart another WebSocket connection;
     \item a \Code{error}, which will be the format in Listing \ref{alg:socket-error}. There will also be a boolean, \Code{close}, to indicate whether the WebSocket connection is closed or not.
 
-          \begin{listing}[!ht]
+          \begin{listing}[htp]
               \InputMinted{json}{JsonSchemas/SocketError.json}
               \caption{WebSocket Error JSON.}
               \label{alg:socket-error}
@@ -748,7 +748,7 @@ There are four types of responses that a WebSocket could return, indicated in th
 
           A table of possible WebSocket errors is included in \ref{tab:socket-error}, with the relevant WebSocket error codes.
 
-          \begin{table}[!ht]
+          \begin{table}[htp]
               \centering
 
               \begin{tabular}{|c|l|}
@@ -771,7 +771,7 @@ There are four types of responses that a WebSocket could return, indicated in th
 
           The program should be designed to be able to handle these errors, and restart the connection if necessary;
     \item a \Code{data}, an example shown in Listing \ref{alg:socket-data}.
-          \begin{listing}[!ht]
+          \begin{listing}[htp]
               \InputMinted{json}{JsonSchemas/SocketData.json}
               \caption{WebSocket Data JSON.}
               \label{alg:socket-data}
@@ -817,7 +817,7 @@ The data achieved by the previous two data sources will be parsed into objects (
 
 The data achieved using the NIED Kyoshin Monitor (observation points) will be converted into objects. The class diagram is shown in is shown in Figure \ref{fig:classes-kmoni}.
 
-\begin{figure}[!ht]
+\begin{figure}[htp]
     \centering
     \includegraphics[width=0.5\linewidth]{class_diagram.png}
     \caption{Class Diagram for Kyoshin Monitor data objects}
@@ -828,7 +828,7 @@ The GIF images will be parsed with the built-in \Code{SkiaSharp} module by mono,
 
 The class diagram following the UML convention for the HTTP-based API calls is shown in Figure \ref{fig:classes-http}. The JSON responses will be converted to C\# objects using \Code{System.Text.Json} modules.
 
-\begin{figure}[!ht]
+\begin{figure}[htp]
     \centering
     \includegraphics[width=\linewidth]{class-http.pdf}
     \caption{Class Diagram for HTTP data objects}
@@ -839,7 +839,7 @@ This shows the use of composition and inheritance. The use of generics is also d
 
 The class diagram for the WebSocket based calls is shown in Figure \ref{fig:classes-ws}.
 
-\begin{figure}[!ht]
+\begin{figure}[htp]
     \centering
     \includegraphics[width=0.5\linewidth]{class_diagram.png}
     \caption{Class Diagram for WebSocket data objects}
@@ -860,7 +860,7 @@ However, JMA provides tables for the time that seismic waves take to travel a ce
 
 Comparing the different wave travel tables that JMA provides, the most suitable one for this application will be the \textbf{JMA 2001}, since it is designed for general purpose uses for both land-based and ocean-based earthquakes, and does not take into account the effect of the altitude of the observation points. Listing \ref{alg:jma-2001} provides a preview of the first 10 lines of this file.
 
-\begin{listing}[!ht]
+\begin{listing}[htp]
     \InputMinted[lastline=10,showspaces]{text}{PlainText/tjma2001.txt}
     \caption{JMA 2001 Wave Travel Tables.}
     \label{alg:jma-2001}
@@ -870,7 +870,7 @@ The table is a lookup table from horizontal distance to time in terms of the dep
 
 The depth and the distance from epicentre is provided in the intervals specified in \ref{tab:dist-jma-2001}. They are provided for distances up to 2000 kilometres and depths up to 700 kilometres.
 
-\begin{table}[!ht]
+\begin{table}[htp]
     \centering
 
     \begin{tabular}{|c|c|c|}
@@ -907,7 +907,7 @@ Classification of the significance of an event is straightforward -- it can be d
 
 Figure \ref{fig:shake-detection-diag} shows the concept of an observation point and neighbouring points together with a flowchart of how the algorithm operates. The time constants of 10 seconds and 30 seconds are chosen to reflect the behaviour of common applications including JQuake and KEVI, but should be left to be adjustable in the code to ensure the maintainability.
 
-\begin{figure}[!ht]
+\begin{figure}[htp]
     \centering
     \includegraphics[width=0.8\linewidth]{shake-detection.pdf}
     \caption{Shake detection flowchart and diagram.}
@@ -935,7 +935,7 @@ The real-time monitoring screen holds the following three functionalities:
     \item EEW display (including predicted intensity colouring and real-time wavefront positions).
 \end{itemize}
 
-\begin{figure}[!ht]
+\begin{figure}[htp]
     \centering
     \includegraphics[width=\linewidth]{gui-mockup-rt.pdf}
     \caption{Design of GUI for Real-Time Page.}
@@ -956,7 +956,7 @@ There are no buttons or interactions for the user to interact with. However, thi
 
 The past-earthquake screen regularly displays a sidebar to select the earthquake from, with by default the latest earthquake selected, with a map in the middle. Figure \ref{fig:gui-mockup-pe} shows a design of this page.
 
-\begin{figure}[!ht]
+\begin{figure}[htp]
     \centering
     \includegraphics[width=\linewidth]{gui-mockup-pe.pdf}
     \caption{Design of GUI for Past Earthquakes Page.}
@@ -977,7 +977,7 @@ There should also be a page to customise sound files for different events, a pag
 
 Figure \ref{fig:gui-mockup-customisation} shows a mock-up of the design of the customisation page.
 
-\begin{figure}[!ht]
+\begin{figure}[htp]
     \centering
     \includegraphics[width=\linewidth]{gui-mockup-customisation.pdf}
     \caption{Design of GUI for Customisation Page.}
@@ -997,7 +997,7 @@ Since this a GUI-based application, there will be a significant use of asynchron
 \section{Hierarchy Chart}
 As discussed in the analysis section, the program consists of three parts: data-parsing from external data sources, GUI functionalities and joint functionalities, where the GUI part will be divided into two parts focusing on real-time monitoring and past-earthquake information, respectively. A detailed discussion into how different modules can be further split up while at the same time being interacted was discussed, and Figure \ref{fig:hierarchy} is a hierarchy diagram for the whole application. This shows how \textbf{decomposition} technique is applied to reduce a sophisticated problem into more attackable problems.
 
-\begin{figure}[!ht]
+\begin{figure}[htp]
     \centering
     \includegraphics[width=\linewidth]{hierarchy.pdf}
     \caption{Hierarchy chart of the whole application}
@@ -1014,7 +1014,7 @@ The GUI will be designed using Avalonia, which is designed to develop cross-plat
 
 Table \ref{tab:hardware-spec} outlines basic hardware requirements for the application.
 
-\begin{table}[!ht]
+\begin{table}[htp]
     \centering
 
     \begin{tabular}{|c|c|c|}
