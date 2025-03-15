@@ -1,3 +1,9 @@
+# minted
+
+_minted/
+*.index.minted
+*.data.minted
+
 # draw.io
 
 .$*.drawio.bkp
