@@ -331,7 +331,49 @@ To find \(f^{-1}: \mathcal{C} \to [0, 1]\), we do not need necessarily to find a
     \end{cases}
 \]
 
-Notice that for \(h \in [0.1, 0.6]\), \(f_H\) is a cubic and is not easily invertible. However, it would be plausible to use a binary-search algorithm to find \(h\) based on \(H\) since it is monotonic, and it is within a reasonable amount of time, to relatively good accuracy. Otherwise, on the linear parts, it is fine to simply mathematically invert it.
+Notice that for \(h \in [0.1, 0.6]\), \(f_H\) is a cubic and is not easily invertible. However, it would be plausible to use a binary-search algorithm to find \(h\) based on \(H\) since it is monotonic, and it is within a reasonable amount of time, to relatively good precision. Otherwise, on the linear parts, it is fine to simply mathematically invert it.
+
+Algorithm \ref{alg:cap} describes the logic. Note that, this algorithm uses different \(V\) ranges from before (which is consistent with SkiaSharp library in C\#), and the ranges is \(V \in [0, 100]\). Notice that, \(\epsilon(h)n\) and \(\epsilon(H)\) are two constant values that determines the precision of such binary search, and they are chosen to be \(0.01\) and \(0.5\) in the implementation.
+
+\begin{algorithm}[htp]
+    \caption{Algorithm for \(f^{-1}\)}\label{alg:cap}
+    \begin{algorithmic}
+        \Require \(H \in [0, 360)\)
+        \Require \(S \in [0, 100]\)
+        \Require \(V \in [0, 100]\)
+        \Ensure \(h \in [0, 1]\)
+        \State \(V \gets V / 100\) \Comment{Normalise \(V\)}
+        \If{\(V\) is \(0\)} \Comment{Use \(V\)}
+        \State \Return \((V - 3.50) / (-2.9)\)
+        \Else \Comment{Use \(H\)}
+        \LComment{Deal with out-of-range \(H\)s, and use inverse linear functions}
+        \If{\(H \geq 222\)}
+        \State \Return \((H - 237) / (-150)\)
+        \ElsIf{\(H \leq 51\)}
+        \State \Return \((H - 153) / (-170)\)
+        \LComment{Inverse-Cubic by Binary Search, with set errors}
+        \Else
+        \State \(l \gets 0.1\)
+        \State \(r \gets 0.6\)
+        \LComment{Checks if the normalised height is already precise enough}
+        \While{\(r - l \geq \epsilon(h)\)}
+        \State \(m \gets (l + r) / 2\)
+        \State \(c \gets \Call{Height to Hue}{m}\)
+        \LComment{Checks if the calculated hue is already precise enough}
+        \If{\(\left\lvert c - H\right\rvert \leq \epsilon(H)\)}
+        \State \Return \(m\)
+        \ElsIf{\(c > H\)}
+        \State \(l \gets m\)
+        \ElsIf{\(c < H\)}
+        \State \(r \gets m\)
+        \EndIf
+        \EndWhile
+
+        \State \Return \((l + r) / 2\)
+        \EndIf
+        \EndIf
+    \end{algorithmic}
+\end{algorithm}
 
 \paragraph{Flowchart of data and sidenotes} To summarise, we discussed the mapping from the colour space\(\mathcal{C}\) to the normalised height \(h\), and back, and we also discussed how \(h\) is related with the measured intensity \(I\), the PGA \(a\), the PGV \(v\), and the PGD \(x\). They can be transformed forwards and backwards using simple mathematical explicit relations, and specifically for \(f_H^{-1}(H)\) will use a binary search algorithm.
 
@@ -363,13 +405,13 @@ It is worth noting that an existing NuGet Library, \GitHubHref{ingen084}{Kyoshin
 
 It is also worth noting that, technically, scraping the data from the 'Kyoshin' monitor page of NIED is not explicitly allowed, but not explicitly banned either. However, extracting and displaying numerical data in the application is strictly banned by the NIED, and therefore the numerical values will only serve as internal values of the application and will not be displayed to the users in any way.
 
-This paragraph referred to \autocite{blog-jquake-poly-fit}. The code used for this section is in Listing \ref{alg:poly-fit}.
+This paragraph referred to \autocite{blog-jquake-poly-fit}. The code used for this section is in Listing \ref{code:poly-fit}.
 
 \subsubsection{DM-D.S.S. Data Source}
 
 DM-D.S.S. is a well-structured official data source with low latency and reliable information and services. This is going to be the primary data source for most part of the application.
 
-Their APIs are split into two types: HTTP based requests and WebSocket based connections. HTTP based requests are typically for more static information, while WebSocket connections are for live time-essential data feeds, such as the EEW warnings and latest earthquake information.
+Their APIs are split into two types: HTTP based requests and WebSocket based connections. HTTP based requests are typically for more static information, while WebSocket connections are for live time-essential data feeds, such as the EEW warnings, tsunami warnings and latest earthquake information.
 
 \paragraph{Authorisation} There are two types of authorisation that DM-D.S.S. supports, API Keys and OAuth2 Access Tokens.
 
@@ -425,18 +467,18 @@ Table \ref{tab:necessary-permissions} shows the necessary permissions would be n
 
 There are two status that an API call could return: a successful \Code{ok} status, or an unsuccessful \Code{error} status.
 
-Listing \ref{alg:api-response-ok} shows the JSON for a successful \Code{ok} response, and Listing \ref{alg:api-response-error} shows the JSON for a \Code{error} response.
+Listing \ref{code:api-response-ok} shows the JSON for a successful \Code{ok} response, and Listing \ref{code:api-response-error} shows the JSON for a \Code{error} response.
 
 \begin{listing}[htp]
     \InputMinted{json}{JsonSchemas/ApiResponseOk.json}
     \caption{\Code{ok} status for API}
-    \label{alg:api-response-ok}
+    \label{code:api-response-ok}
 \end{listing}
 
 \begin{listing}[htp]
     \InputMinted{json}{JsonSchemas/ApiResponseError.json}
     \caption{\Code{error} status for API}
-    \label{alg:api-response-error}
+    \label{code:api-response-error}
 \end{listing}
 
 In both responses, there is an attribute \Code{responseId} which gives the unique ID for each response as a \Code{string}, and an attribute \Code{responseTime} which gives the date and time of response in \Code{ISO8601Time} format.
@@ -468,7 +510,7 @@ From here onwards, the \Code{responseId}, \Code{responseTime} and \Code{status} 
 
 \subparagraph{Cursor Token}
 
-For some API data calls, and specifically for \Code{telegram.list} that we are going to use, there is too much data to be returned in one API call. Therefore, in a response, there will be a specified attribute named \Code{nextToken} indicated with type \Code{string}, sometimes as well as \Code{nextPooloing} and \Code{nextPoolingInterval}, as shown in Listing \ref{alg:cursor-token} as an example call of
+For some API data calls, and specifically for \Code{telegram.list} that we are going to use, there is too much data to be returned in one API call. Therefore, in a response, there will be a specified attribute named \Code{nextToken} indicated with type \Code{string}, sometimes as well as \Code{nextPooloing} and \Code{nextPoolingInterval}, as shown in Listing \ref{code:cursor-token} as an example call of
 \begin{center}
     \url{base://telegram?type=VXSE53}.
 \end{center}
@@ -476,7 +518,7 @@ For some API data calls, and specifically for \Code{telegram.list} that we are g
 \begin{listing}[htp]
     \InputMinted{json}{JsonSchemas/CursorToken.json}
     \caption{Cursor token sample JSON.}
-    \label{alg:cursor-token}
+    \label{code:cursor-token}
 \end{listing}
 
 Specifically, the calls for \Code{socket.list} and \Code{gd.eew} will only return a \Code{nextToken} for the next call, while for \Code{telegram.list} and \Code{gd.earthquake} it will return a \Code{nextPooling} as well.
@@ -501,11 +543,11 @@ There is only one contract-related API, which is \Code{contract.list}. It is an 
 
 It will return a list of contracts (subscriptions) of DM-D.S.S., whether or not the user has subscribed to it.
 
-Listing \ref{alg:contract-list} shows a sample return of this API call.
+Listing \ref{code:contract-list} shows a sample return of this API call.
 \begin{listing}[htp]
     \InputMinted{json}{JsonSchemas/ContractList.json}
     \caption{Contract list sample JSON.}
-    \label{alg:contract-list}
+    \label{code:contract-list}
 \end{listing}
 
 Here, \Code{items} is the list of contracts (subscription plans), with each of its element being an object representing a plan. For each of them, there are the properties:
@@ -528,12 +570,12 @@ This API will be used to determine if the user has an appropriate subscription p
 
 There are three WebSocket-Related APIs, specifically, \Code{socket.start}, to start a socket, \Code{socket.list} to list all sockets, and \Code{socket.close}, to close a socket. They are all called on \url{base://socket}.
 
-\Code{socket.start} is a POST method which has a request body in JSON, as shown in Listing \ref{alg:socket-start-post}.
+\Code{socket.start} is a POST method which has a request body in JSON, as shown in Listing \ref{code:socket-start-post}.
 
 \begin{listing}[htp]
     \InputMinted{json}{JsonSchemas/SocketStartPost.json}
     \caption{Socket start sample request JSON.}
-    \label{alg:socket-start-post}
+    \label{code:socket-start-post}
 \end{listing}
 
 The attributes are:
@@ -547,12 +589,12 @@ The attributes are:
 
 The detailed classifications and types will be discussed in the next section on WebSocket connections. When the \Code{types} is excluded, the WebSocket will return all the telegrams included in the classification.
 
-It will have a response as in Listing \ref{alg:socket-start}.
+It will have a response as in Listing \ref{code:socket-start}.
 
 \begin{listing}[htp]
     \InputMinted{json}{JsonSchemas/SocketStart.json}
     \caption{Socket start sample response JSON.}
-    \label{alg:socket-start}
+    \label{code:socket-start}
 \end{listing}
 
 Some attributes are exactly the same as the JSON sent has header, \Code{classifications}, \Code{types} (nullable), \Code{test} and \Code{appName}. The additional attributes are:
@@ -593,7 +635,7 @@ Apart from the standard errors, it will also output errors shown in Table \ref{t
     \item \Code{limit} (optional, default 20), of type \Code{integer} with a maximum of 100, indicating the number of WebSockets listed in a single response.
 \end{itemize}
 
-Listing \ref{alg:socket-list} shows a response from the call. The \Code{items} is a list of objects, each representing a WebSocket, with the following properties:
+Listing \ref{code:socket-list} shows a response from the call. The \Code{items} is a list of objects, each representing a WebSocket, with the following properties:
 \begin{itemize}
     \item \Code{id}, \Code{ticket}, \Code{classifications}, \Code{test}, \Code{types}, \Code{formats}, \Code{appName}, identical to described above;
     \item \Code{start}, a \Code{ISO0601Time} representing the time of the start of the connection;
@@ -607,7 +649,7 @@ Listing \ref{alg:socket-list} shows a response from the call. The \Code{items} i
 \begin{listing}[htp]
     \InputMinted{json}{JsonSchemas/SocketList.json}
     \caption{Socket list sample response JSON.}
-    \label{alg:socket-list}
+    \label{code:socket-list}
 \end{listing}
 
 However, it is worth noting that even though the document claims that \Code{ticket} is not \Code{null}, it will only be not null when the WebSocket is waiting connection, and null otherwise. Furthermore, \Code{formats} never appears in the result, even though the document claims that it should always appear.
@@ -618,12 +660,12 @@ These will be used to manage (open new, list existing and close) WebSockets in t
 
 The program would need to have a list of observation points of earthquakes to plot on the graph. Therefore, we would need to call \Code{parameter.earthquake}, which is available at \url{base://parameter/earthquake/station}.
 
-This is a GET request with no parameters to specify, and will return all stations in one go. Listing \ref{alg:parameter-earthquake} shows a sample response.
+This is a GET request with no parameters to specify, and will return all stations in one go. Listing \ref{code:parameter-earthquake} shows a sample response.
 
 \begin{listing}[htp]
     \InputMinted{json}{JsonSchemas/ParameterEarthquake.json}
     \caption{Earthquake parameter sample response JSON.}
-    \label{alg:parameter-earthquake}
+    \label{code:parameter-earthquake}
 \end{listing}
 
 The \Code{changeTime} and \Code{version} of this list of parameters is often the same for calls since the list is rarely updated, and they give the version of the list and the last time of the update.
@@ -653,12 +695,12 @@ Furthermore, the following query parameters are available:
     \item \Code{limit} (optional, default 20) indicates the number of telegrams returned in one response.
 \end{itemize}
 
-Listing \ref{alg:telegram-list} gives a sample response of this API call.
+Listing \ref{code:telegram-list} gives a sample response of this API call.
 
 \begin{listing}[htp]
     \InputMinted{json}{JsonSchemas/TelegramList.json}
     \caption{Telegram list sample response JSON.}
-    \label{alg:telegram-list}
+    \label{code:telegram-list}
 \end{listing}
 
 In the \Code{items} list, each object represents a telegram, with certain properties:
@@ -680,7 +722,7 @@ The API \Code{gd.earthquake} allows us to use a GET request to obtain a series o
 \begin{listing}[htp]
     \InputMinted{json}{JsonSchemas/GdEarthquakeList.json}
     \caption{Past earthquake list sample response JSON.}
-    \label{alg:earthquake-list}
+    \label{code:earthquake-list}
 \end{listing}
 
 These APIs will be used to display a list of past earthquakes. For each object representing an earthquake, this includes:
@@ -708,30 +750,30 @@ The URL of the WebSocket will be \url{wss://{#1}.api.dmdata.jp/v2/websocket}, wh
 
 There are four types of responses that a WebSocket could return, indicated in the \Code{type} attribute:
 \begin{itemize}
-    \item a \Code{start}. This only happens when the WebSocket is started, and this includes the exact same information in the \Code{socket.start} call in Listing \ref{alg:socket-start}, with an additional \Code{time} to indicate the time of the response;
-    \item a (server-side initiated) \Code{ping}. This will happen regularly, and the server will send a JSON in the format in Listing \ref{alg:server-ping}.
+    \item a \Code{start}. This only happens when the WebSocket is started, and this includes the exact same information in the \Code{socket.start} call in Listing \ref{code:socket-start}, with an additional \Code{time} to indicate the time of the response;
+    \item a (server-side initiated) \Code{ping}. This will happen regularly, and the server will send a JSON in the format in Listing \ref{code:server-ping}.
           \begin{listing}[htp]
               \InputMinted{json}{JsonSchemas/ServerPing.json}
               \caption{WebSocket Ping JSON.}
-              \label{alg:server-ping}
+              \label{code:server-ping}
           \end{listing}
 
-          Upon receiving, the client should return a \Code{pong} JSON in the same format, with the same \Code{pingId}, as in Listing \ref{alg:server-pong}.
+          Upon receiving, the client should return a \Code{pong} JSON in the same format, with the same \Code{pingId}, as in Listing \ref{code:server-pong}.
 
           \begin{listing}[htp]
               \InputMinted{json}{JsonSchemas/ServerPong.json}
               \caption{WebSocket Pong JSON.}
-              \label{alg:server-pong}
+              \label{code:server-pong}
           \end{listing}
 
           This is in place to ensure that there are no 'dead' WebSocket connections, and the server will close the WebSocket connection after 120s of no response in such ping-pong calls, to not take up the limited number of WebSocket connection slots;
-    \item a client-side initiated \Code{ping} as in Listing \ref{alg:server-ping}, which the server will return a \Code{pong} as in Listing \ref{alg:server-pong}. This works almost identically as before, apart from that such \Code{pingId} is optional. This is in place to ensure that the application would be able to know if the connection is broken, for example due to unstable internet connections, and would be able to restart another WebSocket connection;
-    \item a \Code{error}, which will be the format in Listing \ref{alg:socket-error}. There will also be a boolean, \Code{close}, to indicate whether the WebSocket connection is closed or not.
+    \item a client-side initiated \Code{ping} as in Listing \ref{code:server-ping}, which the server will return a \Code{pong} as in Listing \ref{code:server-pong}. This works almost identically as before, apart from that such \Code{pingId} is optional. This is in place to ensure that the application would be able to know if the connection is broken, for example due to unstable internet connections, and would be able to restart another WebSocket connection;
+    \item a \Code{error}, which will be the format in Listing \ref{code:socket-error}. There will also be a boolean, \Code{close}, to indicate whether the WebSocket connection is closed or not.
 
           \begin{listing}[htp]
               \InputMinted{json}{JsonSchemas/SocketError.json}
               \caption{WebSocket Error JSON.}
-              \label{alg:socket-error}
+              \label{code:socket-error}
           \end{listing}
 
           A table of possible WebSocket errors is included in \ref{tab:socket-error}, with the relevant WebSocket error codes.
@@ -758,11 +800,11 @@ There are four types of responses that a WebSocket could return, indicated in th
           \end{table}
 
           The program should be designed to be able to handle these errors, and restart the connection if necessary;
-    \item a \Code{data}, an example shown in Listing \ref{alg:socket-data}.
+    \item a \Code{data}, an example shown in Listing \ref{code:socket-data}.
           \begin{listing}[htp]
               \InputMinted{json}{JsonSchemas/SocketData.json}
               \caption{WebSocket Data JSON.}
-              \label{alg:socket-data}
+              \label{code:socket-data}
           \end{listing}
           This will include a \Code{classification}, a version \Code{version}, and a unique \Code{id}. An array named \Code{passing} gives the \Code{name} and \Code{time} of each passing location of this data piece inside the server. Furthermore, the \Code{head} gives some key information, and \Code{xmlReport} gives certain details in the XML body. \Code{format}, \Code{compression} (\Code{gzip}, \Code{zip} or \Code{null}) and \Code{encoding} (\Code{base64} or \Code{utf-8}) gives information on how the \Code{body} should be processed and interpreted.
 
@@ -846,12 +888,12 @@ Earthquake waves do not travel at uniform rate as they spread out due to the dec
 
 However, JMA provides tables for the time that seismic waves take to travel a certain distance in \href{https://www.data.jma.go.jp/svd/eqev/data/bulletin/catalog/appendix/trtime/trt_j.html}{their data bank}, together with \href{https://www.data.jma.go.jp/svd/eqev/data/bulletin/catalog/appendix/trtime/trt_j.html}{the format definition}. It will be possible for us to look up the table and plot the seismic waves at correct distance at a certain time.
 
-Comparing the different wave travel tables that JMA provides, the most suitable one for this application will be the \textbf{JMA 2001}, since it is designed for general purpose uses for both land-based and ocean-based earthquakes, and does not take into account the effect of the altitude of the observation points. Listing \ref{alg:jma-2001} provides a preview of the first 10 lines of this file.
+Comparing the different wave travel tables that JMA provides, the most suitable one for this application will be the \textbf{JMA 2001}, since it is designed for general purpose uses for both land-based and ocean-based earthquakes, and does not take into account the effect of the altitude of the observation points. Listing \ref{code:jma-2001} provides a preview of the first 10 lines of this file.
 
 \begin{listing}[htp]
     \InputMinted[lastline=10,showspaces]{text}{PlainText/tjma2001.txt}
     \caption{JMA 2001 Wave Travel Tables.}
-    \label{alg:jma-2001}
+    \label{code:jma-2001}
 \end{listing}
 
 The table is a lookup table from horizontal distance to time in terms of the depth of the epicentre and the type of wave (P or S) to the time needed to travel such distance. Each row represents the P-Wave, time taken for the P-wave to travel (in seconds), S-wave, time taken for the S-wave to travel (in seconds), depth of epicentre (in kilometres), distance from epicentres (in kilometres).
