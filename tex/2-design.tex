@@ -415,7 +415,7 @@ Their APIs are split into two types: HTTP based requests and WebSocket based con
 
 \paragraph{Authorisation} There are two types of authorisation that DM-D.S.S. supports, API Keys and OAuth2 Access Tokens.
 
-API Keys access tokens are extremely easy to program, since it simply uses Basic BasicBath64 Authorisation in the header, and uses the key as the username (without a password). It uses the Basic BasicBase64 Authorisation encoding. However, this introduces an extra layer of complexity for the users, since they would have to go to the settings of the DM-D.S.S. webpage and achieve an API Key to paste into the application, as shown in Figure \ref{fig:api-key-control-panel}.
+API Keys access tokens are extremely easy to program, since it simply uses Basic Authorisation in the header, and uses the key as the username (without a password). It uses the Basic BasicBase64 Authorisation encoding. However, this introduces an extra layer of complexity for the users, since they would have to go to the settings of the DM-D.S.S. webpage and achieve an API Key to paste into the application, as shown in Figure \ref{fig:api-key-control-panel}.
 
 \begin{figure}[htp]
     \centering
@@ -424,13 +424,86 @@ API Keys access tokens are extremely easy to program, since it simply uses Basic
     \label{fig:api-key-control-panel}
 \end{figure}
 
-As for OAuth2, it will be much simpler for the users, since it will provide the user with a login interface on the website, and ask them to give the program certain permissions, which is just a few simple clicks. Rather than the user sharing the credentials with the application, they are shared between the authorisation server (DM-D.S.S.) and the application directly, without the need for the user to deal with such human-unreadable codes.
+As for OAuth2, it will be much simpler for the users, since it will provide the user with a login interface on the website, and ask them to give the program certain permissions, which is just a few simple clicks. Rather than using the user as a bridge for sharing the credentials with the application, they are shared between the authorisation server (DM-D.S.S.) and the application directly, without the need for the user to deal with such human-unreadable codes.
 
-How the OAuth2 works for DM-D.S.S. is outlined below:
+\subparagraph{OAuth 2.0}
 
-\ToDo{Outline OAuth 2}
+OAuth 2.0 is a standard protocol that allows a user to authorise an application without sharing any of their credentials. Figure \ref{fig:oauth-outline} gives a brief outline of the procedure involved.
 
-% TODO: Outline OAuth 2
+\begin{figure}[htp]
+    \centering
+    \includegraphics[width=\linewidth]{oauth-outline.drawio.pdf}
+    \caption{OAuth Procedure Outline}
+    \label{fig:oauth-outline}
+\end{figure}
+
+The authorisation begins with the application requesting an \textbf{authorisation token} from the authorisation endpoint, via the user's browser. This is the only step where the user has to be involved, but all they have to do is log-in to their DM-D.S.S. account and click the 'grant' button on the page.
+
+First, the user launches the browser to the authorisation endpoint (Step 1)
+\begin{center}
+    \url{https://manager.dmdata.jp/account/oauth2/v1/auth}
+\end{center}
+with the following parameters:
+\begin{itemize}
+    \item \Code{client_id}: the client ID for the application to grant (which is public and safe to be seen by the user);
+    \item \Code{redirect_uri}: redirect URL for the endpoint to redirect to, to inform the application of the authorisation results;
+    \item \Code{response_type}: \Code{code}
+    \item \Code{response_mode}: the way to response to the application (we will only use the response type \Code{query});
+    \item \Code{scope}: the string containing the permissions the application is requesting, separated by a space;
+    \item \Code{state}: the state which will be returned by the return query to prevent CSRF attacks;
+    \item \Code{code_challenge}: the code challenge for PKCE;
+    \item \Code{code_challenge_method}: the way to encode the code challenge (we will use \Code{S256}).
+\end{itemize}
+
+At the same time as launching the browser, the program should start a listener on the local IP address and port specified in the redirect URL, and wait until it receives a request from the browser. In the response (Step 2), it will contain two parameters: \Code{code} which contains the authorisation code, and \Code{state} which should be the same as the state sent in the request.
+
+The reason why the \textbf{state} is essential is to prevent CSRF (Cross-Site Request Forgery) attacks, where the application can make sure the response is truly corresponding to the request the application made (not by any other applications), and no one forged a response to the application (pretended to be the browser acting as authorisation endpoint). Verifying the state is essential for the security of the application.
+
+If the request fails, the return query will return the \Code{error}, and with the \Code{state} as well. Table \ref{tab:oauth2-auth-code-errors} includes a table of errors that could occur in the authorisation code request.
+
+\begin{table}
+    \centering
+    \begin{tabular}{cc}
+        Error Code                               & Description                                            \\
+        \hline
+        \Code{invalid_request}                   & The parameters are invalid.                            \\
+        \Code{invalid_client}                    & The Client ID is invalid.                              \\
+        \Code{invalid_redirect_url}              & The redirect URL is not supported by the Client ID.    \\
+        \Code{invalid_scope}                     & The scope string is invalid.                           \\
+        \Code{unauthorized_client}               & The client to authorise using this method.             \\
+        \Code{access_denied}                     & The access is denied.                                  \\
+        \Code{recaptcha_verification_failed}     & The reCAPTCHA verification failed.                     \\
+        \Code{unsupported_response_type}         & The response type is not recognised.                   \\
+        \Code{unsupported_code_challenge_method} & The code challenge method is not recognised.           \\
+        \Code{no_signin}                         & The user is not signed in (usually should not happen). \\
+        \Code{server_error}                      & The internal server encountered an error.
+    \end{tabular}
+    \caption{Error codes for authorisation code step OAuth2}
+    \label{tab:oauth2-auth-code-errors}
+\end{table}
+
+In the application, only the errors \Code{access_denied}, \Code{recaptcha_verification_failed}, \Code{no_signin} and \Code{server_error} should appear (and the final two shouldn't appear usually), since all other errors are due to issue with design of the application.
+
+After this step, the program will use the authorisation token to request an \textbf{access token} which comes with a \textbf{request token} (Step 3). The program will send an HTTP POST request to the token endpoint
+\begin{center}
+    \url{https://manager.dmdata.jp/account/oauth2/v1/token}
+\end{center}
+with the following query parameters, in URL Encoded form:
+\begin{itemize}
+    \item \Code{client_id}: the client ID for the application to grant (which is public and safe to be seen by the user);
+    \item \Code{grant_type}: \Code{authorization_code};
+    \item \Code{code}: the authorisation code received from the previous step;
+    \item \Code{redirect_uri}: the redirect URL used in the previous step;
+    \item \Code{code_verifier}: the original version of the code challenge used in the previous step.
+\end{itemize}
+
+Now the reason of the code challenge and code verifier is apparent (they are part of PKCE, Proof Key for Code Exchange): since the code challenge is a hashed version of the code verifier and is exchanged in the first step, the code verifier (the plain version) is used to prove that the application is the same as the one that requested the authorisation code. This means, if a man-in-the-middle acquired the authorisation code and the code challenge, they would not be able to use it, since it requires them to reverse hash the code challenge to get the code verifier, which is impossible in a reasonable amount of time. To ensure the security, the code verifier should be generated randomly and be very long, and disposed after each use.
+
+The response (Step 4) will be JSON format.
+
+% TODO: OAuth 2.0
+
+Step 5 and 6 will be repeated multiple times in the application, to request a new access token using the provided refresh token.
 
 For the purposes of this NEA, we will primarily use the API Key way of accessing DM-D.S.S. since it will be easier to code and debug, and OAuth2 will introduce quite a lot of complexity to the program. However, the program should be designed to be able to modify to OAuth2 authentication without much modification, and if time permits OAuth2 will be implemented in the application.
 
