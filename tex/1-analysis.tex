@@ -230,9 +230,41 @@ There are also a variety of configuration options available for all apps, as lis
 
 All applications are similar in a way, that their past earthquakes list is displayed on a sidebar.
 
-For Quarog and KEVI, an earthquake can be selected from the sidebar to view the details of. They will both colour on the map the maximum observed intensities by regions. While KEVI chooses to display the regions as colours and also provide an overlay of the observed intensities by observation stations (which will only appear after zoomed in enough), Quarog chooses to have a separate button to switch between display of regions, and the display of observation stations.
+For Quarog and KEVI, an earthquake can be selected from the sidebar to view the details of, as in \ref{fig:kevi-past-page} for KEVI, and \ref{fig:srev-past-page} for SREV. They will both colour on the map the maximum observed intensities by regions. While KEVI chooses to display the regions as colours and also provide an overlay of the observed intensities by observation stations (which will only appear after zoomed in enough, as in \ref{fig:kevi-map}), Quarog chooses to have a separate button to switch between display of regions, and the display of observation stations.
 
-In particular for KEVI, there is also a tree structure on a panel displaying the details of the observed intensities by hierarchy structure, consisting of prefectures, skipping regions, then districts, then the exact observation stations.
+\begin{figure}[htp]
+    \centering
+
+    \includegraphics[width=0.6\linewidth]{kevi-past-page.png}
+    \caption{Past earthquake page of KEVI.}
+    \label{fig:kevi-past-page}
+\end{figure}
+
+\begin{figure}[htp]
+    \centering
+
+    \includegraphics[width=0.6\linewidth]{srev-past-page.png}
+    \caption{Past earthquake page of SREV.}
+    \label{fig:srev-past-page}
+\end{figure}
+
+\begin{figure}[htp]
+    \centering
+
+    \includegraphics[width=0.6\linewidth]{kevi-map.png}
+    \caption{Past earthquake page map of KEVI.}
+    \label{fig:kevi-map}
+\end{figure}
+
+In particular for KEVI, there is also a tree structure on a panel displaying the details of the observed intensities by hierarchy structure, consisting of prefectures, skipping regions, then districts, then the exact observation stations, as shown in \ref{fig:kevi-intensity-tree}.
+
+\begin{figure}[htp]
+    \centering
+
+    \includegraphics[width=0.6\linewidth]{kevi-intensity-tree.png}
+    \caption{Intensity tree on side panel of KEVI.}
+    \label{fig:kevi-intensity-tree}
+\end{figure}
 
 As for SREV, the selected earthquake will be displayed on the map and coloured by region, but no information on observation stations will be provided. For JQuake, it is impossible to select a particular earthquake, but only possible to replay the past earthquake, and jump to an external weather service to view the details, as shown in \ref{fig:jquake-sidebar-options}.
 
@@ -240,10 +272,10 @@ As for SREV, the selected earthquake will be displayed on the map and coloured b
     \centering
 
     \includegraphics[width=0.3\linewidth]{jquake-sidebar-options.png}
-    \label{fig:jquake-sidebar-options}
     \caption{Sidebar options of JQuake.\\
         Globe: Link to Yahoo! weather service page for earthquake;\\
         Time-lapse: Replay of earthquake.}
+    \label{fig:jquake-sidebar-options}
 \end{figure}
 
 A significant difference between the applications is how they split the different functionalities. For KEVI and SREV, there are separate pages for real-time monitoring, past-earthquake viewing and tsunami warnings. On the contrary, since JQuake's map only supports replay and real-time functionality (EEW and tsunami), there is only one page, as shown in \ref{fig:jquake-main-page}. Quarog will automatically switch the map to display EEWs if EEWs are issued, and change the sidebar to display the predicted intensities of EEWs, as shown in \ref{fig:quarog-monitor-features}.
@@ -252,8 +284,8 @@ A significant difference between the applications is how they split the differen
     \centering
 
     \includegraphics[width=0.6\linewidth]{jquake-main-page.png}
-    \label{fig:jquake-main-page}
     \caption{Main page for JQuake.}
+    \label{fig:jquake-main-page}
 \end{figure}
 
 \ToDo{Include diagrams}
