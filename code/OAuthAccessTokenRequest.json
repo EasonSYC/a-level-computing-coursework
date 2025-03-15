@@ -1,0 +1,7 @@
+{
+    "access_token": "ATn.TTTTTTTTTTTTTTTTTTTTTTTTTTT",
+    "token_type": "Bearer",
+    "expires_in": 21600,
+    "refresh_token": "ARh.RRRRRRRRRRRRRRRRRRRRRRRRRRR",
+    "scope": "telegram.list telegram.get.earthquake telegram.data"
+}

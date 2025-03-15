@@ -2,12 +2,31 @@
 \section*{Overview}
 This section includes a breakdown of the application into sections of data processing, GUI functionalities and joint functionalities. The use of external sources including DM-D.S.S. and NIED data sources is discussed, together with the relevant formats (JSON) and the objects related. UML class diagrams are included to discuss OOP relations of classes, records (record classes) and enums including the use of inheritance, composition, association and aggregation. They also implement different interfaces. Design patterns that should be included in the application are also introduced and outlined. An outline of the design of the user interface is included. The expected hardware requirements of the systems are also listed, but any laptop with an up-to-date operating system (running Windows or macOS) should be able to run the program.
 
-\section{Data Structures/Data modelling}
+\section{Hierarchy Chart}
+As discussed in the analysis section, the program consists of three parts: data-parsing from external data sources, GUI functionalities and joint functionalities, where the GUI part will be divided into two parts focusing on real-time monitoring and past-earthquake information, respectively. Here, functionalities for each particular module is further split up. Figure \ref{fig:hierarchy} is a hierarchy diagram for the whole application. This shows how \textbf{decomposition} technique is applied to reduce a sophisticated problem into more attackable problems.
 
-\subsection{External Data Sources}
+\begin{figure}[htp]
+    \centering
+    \includegraphics[width=\linewidth]{hierarchy.pdf}
+    \caption{Hierarchy chart of the whole application}
+    \label{fig:hierarchy}
+\end{figure}
+
+Since the GUI part is quite complicated, it is included in this separate diagram, in Figure \ref{fig:hierarchy-gui}.
+
+\begin{figure}[htp]
+    \centering
+    \includegraphics[width=\linewidth]{hierarchy-gui.pdf}
+    \caption{Hierarchy chart of the GUI Component}
+    \label{fig:hierarchy-gui}
+\end{figure}
+
+The whole application (apart from the polynomial fitting part which was done in Python) will be written in C\# using the .NET Core Version 9.0, since the .NET Core is designed oriented around OOP techniques, and some JSON properties (e.g. the \Code{JsonStringEnumMemberName} to customise the parsing of enums) will require the use of .NET 9.
+
+\section{External Data Sources}
 There are two data sources this program will use: the NIED and the DM-D.S.S. Specifically, the former one is used to achieve the real-time shake data of the sensor points which were set up by the government (whose data is free to use), and the latter one is used to achieve past earthquake information and EEW information sent out by the JMA (which is pay-to-use). Note that DM-D.S.S. does also provide the real-time intensity data of the observation points, however it is pay-to-use only for companies and institutions on request. Therefore, it will not be feasible to use this data source in the program since one of and the principle target users is people passionate in monitoring earthquakes.
 
-\subsubsection{NIED Data Source}
+\subsection{NIED Data Source}
 
 As mentioned before, NIED has numerous 'earthquake observation nets' across Japan. Specifically, there is the K-NET and KiK-net \autocite{nied-k-kik-net}, which is dedicated to the observation of strong seismic motion. The K-NET consists of approximately 1000 sensors located across Japan, while the KiK-net also includes some sensors which are located within the earth, which will often have different readings compared to those located on the surface. They are extremely capable of detecting strong motion of ground. Furthermore, the K-NET and the KiK-net provides real-time intensity data webpage of two types, the \href{http://www.kmoni.bosai.go.jp}{'Kyoshin' (強震) monitor} and the \href{https://www.lmoni.bosai.go.jp/monitor/}{long-period ground motion (LPGM, 長周期地震動) monitor} (not working at the time of investigation). The Hi-net \autocite{nied-hi-net} stands for high-sensitivity seismograph network, and it is dedicated for observation of minor motions of the ground. They release the waveforms to those who are researching seismic movements. As for the F-net \autocite{nied-f-net} which stands for the Full Range Seismograph Network of Japan, which is used to analyse the mechanism of a certain earthquake by analysing movements. None of the three nets provide a real-time API data feed.
 
@@ -31,7 +50,7 @@ A comparison from the official website of MOWLAS (Monitoring of Waves on Land an
     \label{fig:net-distribution}
 \end{figure}
 
-\paragraph{Achieving image format data source}
+\subsubsection{Achieving image format data source}
 
 The data source fed by the 'Kyoshin' Monitor is split into 8 types (detailed below in Table \ref{tab:kmoni-data-types}), and each type split into 2 types of data sources, surface sensors and borehole (earth) sensors, with codes in Table \ref{tab:kmoni-sensor-types}. The link to the GIF image is in the following format:
 
@@ -82,7 +101,7 @@ In the link, the \Code{[yyyyMMdd]} and the \Code{[hhmmss]} part should be replac
     \label{fig:sample-kmoni}
 \end{figure}
 
-\paragraph{Extracting colour for each observation point}
+\subsubsection{Extracting colour for each observation point}
 
 Unfortunately, it seems to the author (and is widely accepted in the EEW monitoring app development society) that the position of the points (squares) on the image does not follow any significant pattern of position, i.e. there is no obvious conversion of coordinates to us from the official longitude/latitude locations to the positions on the image. Therefore, a manual conversion one-to-one mapping has to be developed.
 
@@ -94,7 +113,7 @@ Due to the limited time for this NEA, the author will primarily use the pre-dete
 
 This paragraph referred to \autocite{blog-ingen-kmoni-data}.
 
-\paragraph{Converting colour to number format for further processing}
+\subsubsection{Converting colour to number format for further processing}
 
 The true numerical data does not seem fully necessary at the first glance (since we might just as well just achieve the colour from the image and just plot them on the map, without the need to convert to a colour and back). However, for us to detect the shake in certain regions, it is necessary for us to achieve the numerical value to run the algorithm on it. Nevertheless, it is just good to have the number for us to have the numerical value for potential future developments.
 
@@ -110,7 +129,7 @@ The true numerical data does not seem fully necessary at the first glance (since
 
 As shown in Figure \ref{fig:scale-colour}, the NIED 'Kyoshin' Monitor does indeed provide a scale of colours and reference to numerical values. However, there is a chance that a certain colour is not 'exactly' mapped on the scale, and further concerning that it is very slow and difficult to 'loop over' a colour legend, it is necessary to have an algorithmic-approach (numerical mapping-based approach) to map the colours in the colour space to numerical values (and back) is necessary.
 
-\subparagraph{Abstraction of colour scale}
+\paragraph{Abstraction of colour scale}
 
 Notice that the scale for PGA/PGV/PGD follow a logarithmic scale, while measured intensity follows a linear scale (though noting that the way intensity and magnitude is calculated is logarithmic as well). Therefore, if we normalise the vertical distance from the bottom of the axis \(h\) to \(0 \leq h \leq 1\) (i.e. \(h = 0\) at the bottom of the scale, \(h = 1\) at the top of the scale), and if we denote intensity using \(I\) in JMA scale, PGA as \(a\) in gal, PGV as \(v\) in cm per second, and PGD as \(s\) in cm, from the scale, the following transforming formulae obviously hold:
 \begin{align*}
@@ -124,7 +143,7 @@ However, it is worth noting that NIED did use \(1, 2, 5, 10\) on the logarithmic
 
 The next step is to develop a mapping from this colour space \(\mathcal{C}\) to \(h\), which of course should be invertible. Denote this as \(f: [0, 1] \to \mathcal{C}\).
 
-\subparagraph{Describing colour numerically}
+\paragraph{Describing colour numerically}
 
 We consider using a suitable base to decompose \(\mathcal{C}\). The colour of the given scale is an immediate suggestion to use a base containing \textbf{hue}, which in fact is designed to describe how human perceive colour, and unlike RGB and CMYK which uses principle colours to describe colour. A hue scale is shown in Figure \ref{fig:hue-scale}.
 
@@ -164,7 +183,7 @@ Figure \ref{fig:hsv-against-h} shows the result of this transformation being app
 
 From here onwards, all values of \((H, S, V)\) will be adjusted to be within the range which they should be in, i.e. \(H \in [0, 360), S \in [0, 1], V \in [0, 1]\).
 
-\subparagraph{Finding \(f_H\) in terms of \(h\)}
+\paragraph{Finding \(f_H\) in terms of \(h\)}
 
 We consider finding \(f_H\) first, which is the cyan line. Notice that its trend can be split into 4 parts:
 \begin{itemize}
@@ -226,7 +245,7 @@ Plotting \(H\) and \(f_H(h)\) against \(h\) gives us Figure \ref{fig:h-against-h
     \label{fig:h-against-h}
 \end{figure}
 
-\subparagraph{Finding \(f_S\) in terms of \(h\)}
+\paragraph{Finding \(f_S\) in terms of \(h\)}
 
 As for \(f_S(h)\), the obvious thing to do is to split it into 5 (4) piecewise functions, specifically \(f_S = 1\) for \(h \in [0, 0.2] \cup [0.5, 1]\), and three linear functions for \(h \in [0.2, 0.29], h \in [0.29, 0.4]\) and \(h \in [0.4, 0.5]\). Initial values are included in Table \ref{tab:s-against-h-iv}.
 
@@ -269,7 +288,7 @@ Plotting this out gives Figure \ref{fig:s-against-h}.
     \label{fig:s-against-h}
 \end{figure}
 
-\subparagraph{Finding \(f_V\) in terms of \(h\)}
+\paragraph{Finding \(f_V\) in terms of \(h\)}
 
 As for \(f_V(h)\), we shall divide it into even more piecewise linear functions. Specifically, I chose to divide the interval \([0, 1]\) at \(0.1, 0.172, 0.2, 0.3, 0.4, 0.8\) and \(0.9\). Initial values are included in Table \ref{tab:v-against-h-iv}.
 
@@ -320,7 +339,7 @@ Plotting this out gives us Figure \ref{fig:v-against-h}.
 
 Note that in this plot, \(V\) when \(h = 0\) or \(h = 1\) is excluded, since just like every \(h = 0.1 k\) for some \(k \in \mathbb{N}\), they are anomalies created by the horizontal black line in the scale.
 
-\subparagraph{Finding \(f^{-1}\)}
+\paragraph{Finding \(f^{-1}\)}
 
 To find \(f^{-1}: \mathcal{C} \to [0, 1]\), we do not need necessarily to find an expression of \(h\) in terms of \((H, V, S)\). If we notice that \(f_H\) is one-to-one on \(h \in [0, 0.9]\), and \(f_V\) is one-to-one on \(h \in [0.9, 1]\), we can use \(f_H^{-1}\) to determine \(h\) from \(H\) only if \(H\) is non-zero, and use \(f_V^{-1}\) otherwise.
 
@@ -375,7 +394,9 @@ Algorithm \ref{alg:cap} describes the logic. Note that, this algorithm uses diff
     \end{algorithmic}
 \end{algorithm}
 
-\paragraph{Flowchart of data and sidenotes} To summarise, we discussed the mapping from the colour space\(\mathcal{C}\) to the normalised height \(h\), and back, and we also discussed how \(h\) is related with the measured intensity \(I\), the PGA \(a\), the PGV \(v\), and the PGD \(x\). They can be transformed forwards and backwards using simple mathematical explicit relations, and specifically for \(f_H^{-1}(H)\) will use a binary search algorithm.
+\subsubsection{Flowchart of data and sidenotes}
+
+To summarise, we discussed the mapping from the colour space\(\mathcal{C}\) to the normalised height \(h\), and back, and we also discussed how \(h\) is related with the measured intensity \(I\), the PGA \(a\), the PGV \(v\), and the PGD \(x\). They can be transformed forwards and backwards using simple mathematical explicit relations, and specifically for \(f_H^{-1}(H)\) will use a binary search algorithm.
 
 Figure \ref{fig:kmoni-data-flow} shows the data flow, Figure \ref{fig:variable-relation} shows the relation between abstract variables, and \ref{fig:generated-colour} shows the result of colour generated compared with the original.
 
@@ -407,13 +428,15 @@ It is also worth noting that, technically, scraping the data from the 'Kyoshin' 
 
 This paragraph referred to \autocite{blog-jquake-poly-fit}. The code used for this section is in Listing \ref{code:poly-fit}.
 
-\subsubsection{DM-D.S.S. Data Source}
+\subsection{DM-D.S.S. Data Source}
 
 DM-D.S.S. is a well-structured official data source with low latency and reliable information and services. This is going to be the primary data source for most part of the application.
 
 Their APIs are split into two types: HTTP based requests and WebSocket based connections. HTTP based requests are typically for more static information, while WebSocket connections are for live time-essential data feeds, such as the EEW warnings, tsunami warnings and latest earthquake information.
 
-\paragraph{Authorisation} There are two types of authorisation that DM-D.S.S. supports, API Keys and OAuth2 Access Tokens.
+\subsubsection{Authorisation}
+
+There are two types of authorisation that DM-D.S.S. supports, API Keys and OAuth2 Access Tokens.
 
 API Keys access tokens are extremely easy to program, since it simply uses Basic Authorisation in the header, and uses the key as the username (without a password). It uses the Basic BasicBase64 Authorisation encoding. However, this introduces an extra layer of complexity for the users, since they would have to go to the settings of the DM-D.S.S. webpage and achieve an API Key to paste into the application, as shown in Figure \ref{fig:api-key-control-panel}.
 
@@ -426,16 +449,18 @@ API Keys access tokens are extremely easy to program, since it simply uses Basic
 
 As for OAuth2, it will be much simpler for the users, since it will provide the user with a login interface on the website, and ask them to give the program certain permissions, which is just a few simple clicks. Rather than using the user as a bridge for sharing the credentials with the application, they are shared between the authorisation server (DM-D.S.S.) and the application directly, without the need for the user to deal with such human-unreadable codes.
 
-\subparagraph{OAuth 2.0}
+\paragraph{OAuth 2.0}
 
 OAuth 2.0 is a standard protocol that allows a user to authorise an application without sharing any of their credentials. Figure \ref{fig:oauth-outline} gives a brief outline of the procedure involved.
 
 \begin{figure}[htp]
     \centering
-    \includegraphics[width=\linewidth]{oauth-outline.drawio.pdf}
+    \includegraphics[width=\linewidth]{oauth-outline.pdf}
     \caption{OAuth Procedure Outline}
     \label{fig:oauth-outline}
 \end{figure}
+
+\subparagraph{Authorisation Code}
 
 The authorisation begins with the application requesting an \textbf{authorisation token} from the authorisation endpoint, via the user's browser. This is the only step where the user has to be involved, but all they have to do is log-in to their DM-D.S.S. account and click the 'grant' button on the page.
 
@@ -455,7 +480,7 @@ with the following parameters:
     \item \Code{code_challenge_method}: the way to encode the code challenge (we will use \Code{S256}).
 \end{itemize}
 
-At the same time as launching the browser, the program should start a listener on the local IP address and port specified in the redirect URL, and wait until it receives a request from the browser. In the response (Step 2), it will contain two parameters: \Code{code} which contains the authorisation code, and \Code{state} which should be the same as the state sent in the request.
+At the same time as launching the browser, the program should start a listener on the local IP address and port specified in the redirect URL, and wait until it receives a request from the browser. In the response (Step 2), it will contain two parameters: \Code{code} which contains the authorisation code (which is only valid for 10 minutes), and \Code{state} which should be the same as the state sent in the request.
 
 The reason why the \textbf{state} is essential is to prevent CSRF (Cross-Site Request Forgery) attacks, where the application can make sure the response is truly corresponding to the request the application made (not by any other applications), and no one forged a response to the application (pretended to be the browser acting as authorisation endpoint). Verifying the state is essential for the security of the application.
 
@@ -470,7 +495,7 @@ If the request fails, the return query will return the \Code{error}, and with th
         \Code{invalid_client}                    & The Client ID is invalid.                              \\
         \Code{invalid_redirect_url}              & The redirect URL is not supported by the Client ID.    \\
         \Code{invalid_scope}                     & The scope string is invalid.                           \\
-        \Code{unauthorized_client}               & The client to authorise using this method.             \\
+        \Code{unauthorized_client}               & The client to authorise using this method is invalid.  \\
         \Code{access_denied}                     & The access is denied.                                  \\
         \Code{recaptcha_verification_failed}     & The reCAPTCHA verification failed.                     \\
         \Code{unsupported_response_type}         & The response type is not recognised.                   \\
@@ -478,11 +503,13 @@ If the request fails, the return query will return the \Code{error}, and with th
         \Code{no_signin}                         & The user is not signed in (usually should not happen). \\
         \Code{server_error}                      & The internal server encountered an error.
     \end{tabular}
-    \caption{Error codes for authorisation code step OAuth2}
+    \caption{Error codes for authorisation code step in OAuth2}
     \label{tab:oauth2-auth-code-errors}
 \end{table}
 
 In the application, only the errors \Code{access_denied}, \Code{recaptcha_verification_failed}, \Code{no_signin} and \Code{server_error} should appear (and the final two shouldn't appear usually), since all other errors are due to issue with design of the application.
+
+\subparagraph{Refresh and Access Token}
 
 After this step, the program will use the authorisation token to request an \textbf{access token} which comes with a \textbf{request token} (Step 3). The program will send an HTTP POST request to the token endpoint
 \begin{center}
@@ -499,15 +526,65 @@ with the following query parameters, in URL Encoded form:
 
 Now the reason of the code challenge and code verifier is apparent (they are part of PKCE, Proof Key for Code Exchange): since the code challenge is a hashed version of the code verifier and is exchanged in the first step, the code verifier (the plain version) is used to prove that the application is the same as the one that requested the authorisation code. This means, if a man-in-the-middle acquired the authorisation code and the code challenge, they would not be able to use it, since it requires them to reverse hash the code challenge to get the code verifier, which is impossible in a reasonable amount of time. To ensure the security, the code verifier should be generated randomly and be very long, and disposed after each use.
 
-The response (Step 4) will be JSON format.
+The response (Step 4) will be JSON format, as shown in Listing \ref{code:oauth-access-token-request}.
 
-% TODO: OAuth 2.0
+\begin{listing}[htp]
+    \inputminted{json}{code/OAuthAccessTokenRequest.json}
+    \caption{Response for OAuth Access Token Request}
+    \label{code:oauth-access-token-request}
+\end{listing}
 
-Step 5 and 6 will be repeated multiple times in the application, to request a new access token using the provided refresh token.
+The properties \Code{token_type}, and \Code{expires_in} are constants, the \Code{scope} are the scopes which are authorised for, and the most important two are the \Code{access_token} and \Code{refresh_token}.
+
+The refresh token is a long-living token, and it has lifetime 183 days in DM-D.S.S., resetting every time a new access token is acquired (see below). On the other hand, the access token is a short-living token, and it has lifetime 6 hours only. This does not mean that the access token should be disposed per-use -- it should be reused within the application, and only when it expires, a new access token should be requested using the refresh token. However, when the application is closed, only the refresh token should be stored, and the access token revoked -- next time the application launches, the access token should be acquired again.
+
+If the request failed, then an error will be returned, also in JSON format, as shown in Listing \ref{code:oauth-error}.
+
+\begin{listing}[htp]
+    \inputminted{json}{code/OAuthError.json}
+    \caption{Error for OAuth Access Token Request}
+    \label{code:oauth-error}
+\end{listing}
+
+Table \ref{tab:oauth2-access-token-errors} includes a table of errors that could occur in the authorisation code request.
+
+\begin{table}
+    \centering
+    \begin{tabular}{cc}
+        Error Code                    & Description                                           \\
+        \hline
+        \Code{invalid_request}        & The parameters are invalid.                           \\
+        \Code{invalid_client}         & The Client ID is invalid.                             \\
+        \Code{invalid_redirect_url}   & The redirect URL is not supported by the Client ID.   \\
+        \Code{invalid_grant}          & The authorisation code is invalid.                    \\
+        \Code{invalid_code_verifier}  & The PKCE verification failed.                         \\
+        \Code{unauthorized_client}    & The client to authorise using this method is invalid. \\
+        \Code{unsupported_grant_type} & The grant type is not recognised.                     \\
+        \Code{server_error}           & The internal server encountered an error.
+    \end{tabular}
+    \caption{Error codes for access token step in OAuth2}
+    \label{tab:oauth2-access-token-errors}
+\end{table}
+
+The only error that should occur here is \Code{server_error}.
+
+\subparagraph{Refreshing Access Token}
+
+Finally, Step 5 and 6 will be repeated multiple times in the application, to request a new access token using the provided refresh token. Similarly, the request will be a post request, but only requiring the \Code{client_id}, the \Code{grant_type} (as \Code{refresh_token}) and \Code{refresh_token} in the URL Encoded form, to the same endpoint.
+
+The response JSON will be exactly the same, except the refresh token is not included again. It includes the newly acquired access token. In case of an error, all errors in Table \ref{tab:oauth2-access-token-errors} apart from \Code{invalid_redirect_url} and \Code{invalid_code_verifier} could occur. In this case however, there could be a chance of \Code{invalid_grant}, if the application is closed for a very long period of time and the refresh token expired. In this case, the user should be asked to re-authorise the application.
+
+\subparagraph{Flowchart}
+
+In terms of the design of classes to support OAuth 2.0, there should be two separate classes responsible for this: one for acquiring the authorisation code and the refresh token, and the other for acquiring the access token using the refresh token.
+
+% TODO: Flowchart for implementation of OAuth 2
+
+\subparagraph{Notes}
 
 For the purposes of this NEA, we will primarily use the API Key to test the application for accessing  way of accessing DM-D.S.S. since it will be easier to code and debug, and OAuth2 will introduce quite a lot of complexity to the program. However, the program should be designed to be able to modify to OAuth2 authentication without much modification, and if time permits OAuth2 will be implemented in the application.
 
-\paragraph{HTTP Based Requests}
+\subsubsection{HTTP Based Requests}
 
 The base URL of all requests is \url{https://api.dmdata.jp/v2/} which will be indicated as \url{base://} from now on.
 
@@ -536,7 +613,7 @@ Table \ref{tab:necessary-permissions} shows the necessary permissions would be n
     \label{tab:necessary-permissions}
 \end{table}
 
-\subparagraph{Standard Return Information and Errors}
+\paragraph{Standard Return Information and Errors}
 
 There are two status that an API call could return: a successful \Code{ok} status, or an unsuccessful \Code{error} status.
 
@@ -581,7 +658,7 @@ The list of standard errors together with their meanings is discussed in Table \
 
 From here onwards, the \Code{responseId}, \Code{responseTime} and \Code{status} will be removed from the sample response by default.
 
-\subparagraph{Cursor Token}
+\paragraph{Cursor Token}
 
 For some API data calls, and specifically for \Code{telegram.list} that we are going to use, there is too much data to be returned in one API call. Therefore, in a response, there will be a specified attribute named \Code{nextToken} indicated with type \Code{string}, sometimes as well as \Code{nextPooloing} and \Code{nextPoolingInterval}, as shown in Listing \ref{code:cursor-token} as an example call of
 \begin{center}
@@ -610,7 +687,7 @@ The document suggested that, due to performance issues, the \Code{nextPooling} s
 
 From here onwards, in the API sample results, \Code{nextToken}, \Code{nextPooling} and \Code{nextPoolingInterval} will not be included.
 
-\subparagraph{Contract API}
+\paragraph{Contract API}
 
 There is only one contract-related API, which is \Code{contract.list}. It is an HTTP GET request, on \url{base://contract} with no parameters.
 
@@ -639,7 +716,7 @@ Note that how \Code{id} and \Code{start} can be \Code{null} since it lists all t
 
 This API will be used to determine if the user has an appropriate subscription plan to use the application.
 
-\subparagraph{WebSocket APIs}
+\paragraph{WebSocket APIs}
 
 There are three WebSocket-Related APIs, specifically, \Code{socket.start}, to start a socket, \Code{socket.list} to list all sockets, and \Code{socket.close}, to close a socket. They are all called on \url{base://socket}.
 
@@ -729,7 +806,7 @@ However, it is worth noting that even though the document claims that \Code{tick
 
 These will be used to manage (open new, list existing and close) WebSockets in the application.
 
-\subparagraph{Parameter API}
+\paragraph{Parameter API}
 
 The program would need to have a list of observation points of earthquakes to plot on the graph. Therefore, we would need to call \Code{parameter.earthquake}, which is available at \url{base://parameter/earthquake/station}.
 
@@ -755,7 +832,7 @@ For each object in \Code{items}, they represent an earthquake observation point.
 
 Due to the nature of JSON being very long and barely updated (an email will be sent to users of DM-D.S.S. every time its updated in fact), it will be stored locally in the application's local storage, and updated automatically every day only. Upon program launch, the application will read the local data into the main memory.
 
-\subparagraph{Telegram API}
+\paragraph{Telegram API}
 
 JMA release telegrams (mostly in XML format) through DM-D.S.S., and to achieve them, we can use the \Code{telegram.list} GET request, which is available at \url{base://telegram}. It supports \Code{cursorToken} with pooling.
 
@@ -788,7 +865,7 @@ In the \Code{items} list, each object represents a telegram, with certain proper
 
 Apart from standard errors, it might also return a \Code{400} error with message 'You have entered a string that is not defined in \Code{formatMode}.'
 
-\subparagraph{Past Earthquake API}
+\paragraph{Past Earthquake API}
 
 The API \Code{gd.earthquake} allows us to use a GET request to obtain a series of earthquake on \url{base://gd/earthquake}, with the option to obtain a list, or to obtain only a certain event.
 
@@ -813,13 +890,13 @@ If the call \url{base://gd/earthquake/:eventId} is used, it will return the obje
 
 This API will be called to obtain a list of past earthquakes when the program launches, and at regular intervals. This is because the WebSocket connection will feed in information on earthquakes as well, so there is no need to call this API every second.
 
-\paragraph{WebSocket Connections}
+\subsubsection{WebSocket Connections}
 
 WebSocket connections are essential to real-time applications, since it provides a real-time feed from the server to the client on latest data, without the need of the client to query (which consumes a lot of resources). DM-D.S.S. provides WebSockets to initiate real-time connection to the server to achieve the latest telegrams and earthquake warnings.
 
 The URL of the WebSocket will be \url{wss://{#1}.api.dmdata.jp/v2/websocket}, where the \Code{#1} part could be \Code{ws001} to \Code{ws004} (which will be assigned in the \Code{socket.start} API call).
 
-\subparagraph{WebSocket Responses}
+\paragraph{WebSocket Responses}
 
 There are four types of responses that a WebSocket could return, indicated in the \Code{type} attribute:
 \begin{itemize}
@@ -884,11 +961,11 @@ There are four types of responses that a WebSocket could return, indicated in th
           This gives the key piece of information that will be passed between the data component of the software and the UI component of the software;
 \end{itemize}
 
-\subparagraph{JSON v.s. XML}
+\paragraph{JSON v.s. XML}
 
 Lots of data are serialised in JSON, but the JMA provides its data in XML format.DM-D.S.S. does also provide JSON formatted schemas for most of the XML data files which are also processed real time. However, there is a high chance of delay (up to 1 second) if the JSON format is used, not to say the potential of an error in processing which lead to undefined behaviour in the JSON format. Therefore, to control the delay and ensure that data is real-time, the WebSockets in this application will use the original format in XML and parse internally in the program.
 
-\subparagraph{XML Data Sources}
+\paragraph{XML Data Sources}
 
 \ToDo{Detail XML Data Sources where necessary}
 
@@ -904,58 +981,17 @@ Lots of data are serialised in JSON, but the JMA provides its data in XML format
 
 % VTSE41
 
-\paragraph{Sidenotes}
+\subsubsection{Sidenotes}
 
 It is worth noting that an existing NuGet Library, \GitHubHref{ingen084}{DmdataSharp} supports dealing with the DM-D.S.S. data flow and converting them to C\# objects (and exceptions). However, for the purposes of this NEA, we will implement our own way to interact with the APIs and the correlated C\# DTOs. The developer of this library did also mention that it is quite purpose-built so might not be suitable for general use.
 
-This section referred to \href{https://dmdata.jp/docs/reference/}{the official document for DM-D.S.S}.
+This section referred to \autocite{dmdata-references-api}, \autocite{dmdata-references-json}, \autocite{dmdata-references-oauth} and \autocite{dmdata-references-telegram}.
 
-\subsection{OOP Model}
-
-\ToDo{Finish up class diagram with text explanation}
-
-% TODO: Finish OOP
-
-The data achieved by the previous two data sources will be parsed into objects (classes, records) to transfer between different components of the program. Those objects will then be transferred to the GUI component and be displayed.
-
-The data achieved using the NIED Kyoshin Monitor (observation points) will be converted into objects. The class diagram is shown in is shown in Figure \ref{fig:classes-kmoni}.
-
-\begin{figure}[htp]
-    \centering
-    \includegraphics[width=0.5\linewidth]{class_diagram.png}
-    \caption{Class Diagram for Kyoshin Monitor data objects}
-    \label{fig:classes-kmoni}
-\end{figure}
-
-The GIF images will be parsed with the built-in \Code{SkiaSharp} module by mono, which could also be used to draw the map.
-
-The class diagram following the UML convention for the HTTP-based API calls is shown in Figure \ref{fig:classes-http}. The JSON responses will be converted to C\# objects using \Code{System.Text.Json} modules.
-
-\begin{figure}[htp]
-    \centering
-    \includegraphics[width=\linewidth]{class-http.pdf}
-    \caption{Class Diagram for HTTP data objects}
-    \label{fig:classes-http}
-\end{figure}
-
-This shows the use of composition and inheritance. The use of generics is also demonstrated.
-
-The class diagram for the WebSocket based calls is shown in Figure \ref{fig:classes-ws}.
-
-\begin{figure}[htp]
-    \centering
-    \includegraphics[width=0.5\linewidth]{class_diagram.png}
-    \caption{Class Diagram for WebSocket data objects}
-    \label{fig:classes-ws}
-\end{figure}
-
-The XML telegrams will be parsed with the built-in \Code{System.Xml} modules.
-
-\subsection{Algorithms}
+\section{Algorithms}
 
 There are two key 'algorithms' that this application will use: the first one used to calculate the position of the P/S wavefronts, and the other one used to detect shake on the real-time monitoring screen.
 
-\subsubsection{Wavefront Calculation}
+\subsection{Wavefront Calculation}
 
 Earthquake waves do not travel at uniform rate as they spread out due to the decrease in energy, and so there is no uniform velocity that the seismic waves travel in. We cannot do a simple equation like \(s = vt\) to calculate the distance of the wavefront of a seismic wave from the epicentre.
 
@@ -994,7 +1030,7 @@ However, this does not provide us with the distance we would like, which is draw
 
 This file will be read by the program upon launch every time and stored in the active memory when the program is running.
 
-\subsubsection{Shake Detection}
+\subsection{Shake Detection}
 
 As discussed in the analysis section, one of the common features of applications with real-time intensity display map is the shake detecting feature. Specifically, if the measured intensities within a certain region shows an increasing tendency, the application will display a box around that area to indicate there is a chance that the earthquake will happen.
 
@@ -1020,6 +1056,10 @@ Figure \ref{fig:shake-detection-diag} shows the concept of an observation point 
 This section referred to \href{https://qiita.com/ingen084/items/82985e8d3227c97c608d}{this blog article} written by Ingen.
 
 \section{User Interface}
+
+The GUI will be designed using Avalonia, which is designed to develop cross-platform applications in .NET.
+
+The package MapsUI \autocite{mapsui-github} will be used to draw the maps in the application, since it is one of the best-supported candidates in .NET.
 
 The nature of this application decided that the UI will be a graphical interface. Comparing MAUI in .NET with Avalonia, due to the fact that MAUI is more suitable for a mobile touch-based platform (that also works on desktop), while Avalonia is designed to support the desktop paradigm, the latter will be used to implement the graphical interface.
 
@@ -1097,21 +1137,52 @@ Since this a GUI-based application, there will be a significant use of asynchron
 
 % TODO: Talk about events more
 
-\section{Hierarchy Chart}
-As discussed in the analysis section, the program consists of three parts: data-parsing from external data sources, GUI functionalities and joint functionalities, where the GUI part will be divided into two parts focusing on real-time monitoring and past-earthquake information, respectively. A detailed discussion into how different modules can be further split up while at the same time being interacted was discussed, and Figure \ref{fig:hierarchy} is a hierarchy diagram for the whole application. This shows how \textbf{decomposition} technique is applied to reduce a sophisticated problem into more attackable problems.
+\section{OOP Model}
+
+\subsection{Design Patterns}
+
+\subsection{Abstractions (Interfaces, Options) and Services (Classes)}
+
+\subsection{Design of DTOs (Record Classes)}
+
+\ToDo{Finish up class diagram with text explanation}
+
+% TODO: Finish OOP
+
+The data achieved by the previous two data sources will be parsed into objects (classes, records) to transfer between different components of the program. Those objects will then be transferred to the GUI component and be displayed.
+
+The data achieved using the NIED Kyoshin Monitor (observation points) will be converted into objects. The class diagram is shown in is shown in Figure \ref{fig:classes-kmoni}.
 
 \begin{figure}[htp]
     \centering
-    \includegraphics[width=\linewidth]{hierarchy.pdf}
-    \caption{Hierarchy chart of the whole application}
-    \label{fig:hierarchy}
+    \includegraphics[width=0.5\linewidth]{class_diagram.png}
+    \caption{Class Diagram for Kyoshin Monitor data objects}
+    \label{fig:classes-kmoni}
 \end{figure}
 
-The whole application (apart from the polynomial fitting part which was done in Python) will be written in C\# using the .NET Core Version 9.0, since the .NET Core is designed oriented around OOP techniques, and some JSON properties (e.g. the \Code{JsonStringEnumMemberName} to customise the parsing of enums) will require the use of .NET 9.
+The GIF images will be parsed with the built-in \Code{SkiaSharp} module by mono, which could also be used to draw the map.
 
-The built-in .NET parsers for XML and JSON (\Code{System.Text.Json}) will be used to convert into DTOs.
+The class diagram following the UML convention for the HTTP-based API calls is shown in Figure \ref{fig:classes-http}. The JSON responses will be converted to C\# objects using \Code{System.Text.Json} modules.
 
-The GUI will be designed using Avalonia, which is designed to develop cross-platform applications in .NET.
+\begin{figure}[htp]
+    \centering
+    \includegraphics[width=\linewidth]{class-http.pdf}
+    \caption{Class Diagram for HTTP data objects}
+    \label{fig:classes-http}
+\end{figure}
+
+This shows the use of composition and inheritance. The use of generics is also demonstrated.
+
+The class diagram for the WebSocket based calls is shown in Figure \ref{fig:classes-ws}.
+
+\begin{figure}[htp]
+    \centering
+    \includegraphics[width=0.5\linewidth]{class_diagram.png}
+    \caption{Class Diagram for WebSocket data objects}
+    \label{fig:classes-ws}
+\end{figure}
+
+\subsection{The MVVM Pattern}
 
 \section{Hardware \& Software Requirements}
 
