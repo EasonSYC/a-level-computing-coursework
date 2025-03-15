@@ -574,11 +574,43 @@ Finally, Step 5 and 6 will be repeated multiple times in the application, to req
 
 The response JSON will be exactly the same, except the refresh token is not included again. It includes the newly acquired access token. In case of an error, all errors in Table \ref{tab:oauth2-access-token-errors} apart from \Code{invalid_redirect_url} and \Code{invalid_code_verifier} could occur. In this case however, there could be a chance of \Code{invalid_grant}, if the application is closed for a very long period of time and the refresh token expired. In this case, the user should be asked to re-authorise the application.
 
+\subparagraph{Revoking Tokens}
+
+Tokens should be revoked whenever they are no longer used. The revoke is done by sending a POST request to the revoke endpoint, which is
+\begin{center}
+    \url{https://manager.dmdata.jp/account/oauth2/v1/revoke},
+\end{center}
+with the following parameters:
+\begin{itemize}
+    \item \Code{client_id}, the client ID;
+    \item \Code{token}, the token to be revoked.
+\end{itemize}
+
+The API will not return anything if successful, and if the token is already invalid, it will still be successful.
+
+An error will be similar to that in Table \ref{tab:oauth2-access-token-errors}, but only \Code{invalid_request}, \Code{invalid_client} and \Code{server_error} could occur. Nonetheless, only \Code{server_error} should occur in the application.
+
 \subparagraph{Flowchart}
 
 In terms of the design of classes to support OAuth 2.0, there should be two separate classes responsible for this: one for acquiring the authorisation code and the refresh token, and the other for acquiring the access token using the refresh token.
 
-% TODO: Flowchart for implementation of OAuth 2
+Figure \ref{fig:oauth-flowchart-authorisation-refresh} shows the flowchart for the former, and \ref{fig:oauth-flowchart-access-check} shows the flowchart for the latter.
+
+\begin{figure}[htp]
+    \centering
+    \includegraphics[width=\linewidth]{oauth-flowchart-authorisation-refresh.pdf}
+    \caption{Flowchart for OAuth 2.0 Authorisation Code and New Refresh Token}
+    \label{fig:oauth-flowchart-authorisation-refresh}
+\end{figure}
+
+\begin{figure}[htp]
+    \centering
+    \includegraphics[width=\linewidth]{oauth-flowchart-access-check.pdf}
+    \caption{Flowchart for OAuth 2.0 Acquire Access Token using Refresh Token}
+    \label{fig:oauth-flowchart-access-check}
+\end{figure}
+
+Figure \ref{fig:oauth-flowchart-access-check} represents the behaviour of the OAuth2 main class for authentication, while the previous figure \ref{fig:oauth-flowchart-authorisation-refresh} represents the behaviour of the helper.
 
 \subparagraph{Notes}
 
