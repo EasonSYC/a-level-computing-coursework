@@ -505,7 +505,7 @@ The response (Step 4) will be JSON format.
 
 Step 5 and 6 will be repeated multiple times in the application, to request a new access token using the provided refresh token.
 
-For the purposes of this NEA, we will primarily use the API Key way of accessing DM-D.S.S. since it will be easier to code and debug, and OAuth2 will introduce quite a lot of complexity to the program. However, the program should be designed to be able to modify to OAuth2 authentication without much modification, and if time permits OAuth2 will be implemented in the application.
+For the purposes of this NEA, we will primarily use the API Key to test the application for accessing  way of accessing DM-D.S.S. since it will be easier to code and debug, and OAuth2 will introduce quite a lot of complexity to the program. However, the program should be designed to be able to modify to OAuth2 authentication without much modification, and if time permits OAuth2 will be implemented in the application.
 
 \paragraph{HTTP Based Requests}
 
@@ -543,13 +543,13 @@ There are two status that an API call could return: a successful \Code{ok} statu
 Listing \ref{code:api-response-ok} shows the JSON for a successful \Code{ok} response, and Listing \ref{code:api-response-error} shows the JSON for a \Code{error} response.
 
 \begin{listing}[htp]
-    \InputMinted{json}{JsonSchemas/ApiResponseOk.json}
+    \inputminted{json}{code/ApiResponseOk.json}
     \caption{\Code{ok} status for API}
     \label{code:api-response-ok}
 \end{listing}
 
 \begin{listing}[htp]
-    \InputMinted{json}{JsonSchemas/ApiResponseError.json}
+    \inputminted{json}{code/ApiResponseError.json}
     \caption{\Code{error} status for API}
     \label{code:api-response-error}
 \end{listing}
@@ -589,7 +589,7 @@ For some API data calls, and specifically for \Code{telegram.list} that we are g
 \end{center}
 
 \begin{listing}[htp]
-    \InputMinted{json}{JsonSchemas/CursorToken.json}
+    \inputminted{json}{code/CursorToken.json}
     \caption{Cursor token sample JSON.}
     \label{code:cursor-token}
 \end{listing}
@@ -618,7 +618,7 @@ It will return a list of contracts (subscriptions) of DM-D.S.S., whether or not 
 
 Listing \ref{code:contract-list} shows a sample return of this API call.
 \begin{listing}[htp]
-    \InputMinted{json}{JsonSchemas/ContractList.json}
+    \inputminted{json}{code/ContractList.json}
     \caption{Contract list sample JSON.}
     \label{code:contract-list}
 \end{listing}
@@ -646,7 +646,7 @@ There are three WebSocket-Related APIs, specifically, \Code{socket.start}, to st
 \Code{socket.start} is a POST method which has a request body in JSON, as shown in Listing \ref{code:socket-start-post}.
 
 \begin{listing}[htp]
-    \InputMinted{json}{JsonSchemas/SocketStartPost.json}
+    \inputminted{json}{code/SocketStartPost.json}
     \caption{Socket start sample request JSON.}
     \label{code:socket-start-post}
 \end{listing}
@@ -665,7 +665,7 @@ The detailed classifications and types will be discussed in the next section on 
 It will have a response as in Listing \ref{code:socket-start}.
 
 \begin{listing}[htp]
-    \InputMinted{json}{JsonSchemas/SocketStart.json}
+    \inputminted{json}{code/SocketStart.json}
     \caption{Socket start sample response JSON.}
     \label{code:socket-start}
 \end{listing}
@@ -720,7 +720,7 @@ Listing \ref{code:socket-list} shows a response from the call. The \Code{items} 
 \end{itemize}
 
 \begin{listing}[htp]
-    \InputMinted{json}{JsonSchemas/SocketList.json}
+    \inputminted{json}{code/SocketList.json}
     \caption{Socket list sample response JSON.}
     \label{code:socket-list}
 \end{listing}
@@ -736,7 +736,7 @@ The program would need to have a list of observation points of earthquakes to pl
 This is a GET request with no parameters to specify, and will return all stations in one go. Listing \ref{code:parameter-earthquake} shows a sample response.
 
 \begin{listing}[htp]
-    \InputMinted{json}{JsonSchemas/ParameterEarthquake.json}
+    \inputminted{json}{code/ParameterEarthquake.json}
     \caption{Earthquake parameter sample response JSON.}
     \label{code:parameter-earthquake}
 \end{listing}
@@ -771,7 +771,7 @@ Furthermore, the following query parameters are available:
 Listing \ref{code:telegram-list} gives a sample response of this API call.
 
 \begin{listing}[htp]
-    \InputMinted{json}{JsonSchemas/TelegramList.json}
+    \inputminted{json}{code/TelegramList.json}
     \caption{Telegram list sample response JSON.}
     \label{code:telegram-list}
 \end{listing}
@@ -793,7 +793,7 @@ Apart from standard errors, it might also return a \Code{400} error with message
 The API \Code{gd.earthquake} allows us to use a GET request to obtain a series of earthquake on \url{base://gd/earthquake}, with the option to obtain a list, or to obtain only a certain event.
 
 \begin{listing}[htp]
-    \InputMinted{json}{JsonSchemas/GdEarthquakeList.json}
+    \inputminted{json}{code/GdEarthquakeList.json}
     \caption{Past earthquake list sample response JSON.}
     \label{code:earthquake-list}
 \end{listing}
@@ -826,7 +826,7 @@ There are four types of responses that a WebSocket could return, indicated in th
     \item a \Code{start}. This only happens when the WebSocket is started, and this includes the exact same information in the \Code{socket.start} call in Listing \ref{code:socket-start}, with an additional \Code{time} to indicate the time of the response;
     \item a (server-side initiated) \Code{ping}. This will happen regularly, and the server will send a JSON in the format in Listing \ref{code:server-ping}.
           \begin{listing}[htp]
-              \InputMinted{json}{JsonSchemas/ServerPing.json}
+              \inputminted{json}{code/ServerPing.json}
               \caption{WebSocket Ping JSON.}
               \label{code:server-ping}
           \end{listing}
@@ -834,7 +834,7 @@ There are four types of responses that a WebSocket could return, indicated in th
           Upon receiving, the client should return a \Code{pong} JSON in the same format, with the same \Code{pingId}, as in Listing \ref{code:server-pong}.
 
           \begin{listing}[htp]
-              \InputMinted{json}{JsonSchemas/ServerPong.json}
+              \inputminted{json}{code/ServerPong.json}
               \caption{WebSocket Pong JSON.}
               \label{code:server-pong}
           \end{listing}
@@ -844,7 +844,7 @@ There are four types of responses that a WebSocket could return, indicated in th
     \item a \Code{error}, which will be the format in Listing \ref{code:socket-error}. There will also be a boolean, \Code{close}, to indicate whether the WebSocket connection is closed or not.
 
           \begin{listing}[htp]
-              \InputMinted{json}{JsonSchemas/SocketError.json}
+              \inputminted{json}{code/SocketError.json}
               \caption{WebSocket Error JSON.}
               \label{code:socket-error}
           \end{listing}
@@ -875,7 +875,7 @@ There are four types of responses that a WebSocket could return, indicated in th
           The program should be designed to be able to handle these errors, and restart the connection if necessary;
     \item a \Code{data}, an example shown in Listing \ref{code:socket-data}.
           \begin{listing}[htp]
-              \InputMinted{json}{JsonSchemas/SocketData.json}
+              \inputminted{json}{code/SocketData.json}
               \caption{WebSocket Data JSON.}
               \label{code:socket-data}
           \end{listing}
@@ -964,7 +964,7 @@ However, JMA provides tables for the time that seismic waves take to travel a ce
 Comparing the different wave travel tables that JMA provides, the most suitable one for this application will be the \textbf{JMA 2001}, since it is designed for general purpose uses for both land-based and ocean-based earthquakes, and does not take into account the effect of the altitude of the observation points. Listing \ref{code:jma-2001} provides a preview of the first 10 lines of this file.
 
 \begin{listing}[htp]
-    \InputMinted[lastline=10,showspaces]{text}{PlainText/tjma2001.txt}
+    \inputminted[lastline=10,showspaces]{text}{code/tjma2001.txt}
     \caption{JMA 2001 Wave Travel Tables.}
     \label{code:jma-2001}
 \end{listing}
