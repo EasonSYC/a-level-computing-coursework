@@ -1,6 +1,6 @@
 \chapter{Design}
 \section*{Overview}
-This section includes a breakdown of the application into sections of data processing, GUI functionalities and joint functionalities. The use of external sources including DM-D.S.S. and NIED data sources is discussed, together with the relevant formats (XML, JSON) and the objects related. UML class diagrams are included to discuss OOP relations of classes, records (record classes) and enums including use of inheritance, composition, association and aggregation. They also implement different interfaces. Design patterns that should be included in the application are also introduced and outlined. An outline of the design of the user interface is included. The expected hardware requirements of the systems are also listed, but any laptop with an up-to-date operating system (running Windows or macOS) should be able to run the program.
+This section includes a breakdown of the application into sections of data processing, GUI functionalities and joint functionalities. The use of external sources including DM-D.S.S. and NIED data sources is discussed, together with the relevant formats (JSON) and the objects related. UML class diagrams are included to discuss OOP relations of classes, records (record classes) and enums including the use of inheritance, composition, association and aggregation. They also implement different interfaces. Design patterns that should be included in the application are also introduced and outlined. An outline of the design of the user interface is included. The expected hardware requirements of the systems are also listed, but any laptop with an up-to-date operating system (running Windows or macOS) should be able to run the program.
 
 \section{Data Structures/Data modelling}
 
@@ -141,12 +141,12 @@ Figure \ref{fig:hsv-against-row} plots the values of \(H, S\) and \(V\) against 
 
 \begin{figure}[htp]
     \centering
-    \includegraphics[scale = 0.55]{hsv-against-row.png}
+    \includegraphics[scale = 0.60]{hsv-against-row.png}
     \caption{The values of \((H, S, V)\) against pixel row \(r\)}
     \label{fig:hsv-against-row}
 \end{figure}
 
-Notice that in this plot, all values of \((H, S, V)\) in fact range from \(0\) to \(255\).
+Notice that in this plot, all values of \((H, S, V)\) in fact range from \(0\) to \(255\), as in an 8-bit binary.
 
 It is worth noting that the scale has some space on the top (to show the type), and some space at the bottom. Notice that when the row \(r = 17\) and \(r = 297\) have values significantly different, so we extract the rows \(r = 18\) and \(r = 296\) to correspond (linearly) to \(h = 1\) and \(h = 0\), i.e.,
 \[
@@ -157,7 +157,7 @@ Figure \ref{fig:hsv-against-h} shows the result of this transformation being app
 
 \begin{figure}[htp]
     \centering
-    \includegraphics[scale = 0.55]{hsv-against-h.png}
+    \includegraphics[scale = 0.60]{hsv-against-h.png}
     \caption{The values of \((H, S, V)\) against normalised height \(h\)}
     \label{fig:hsv-against-h}
 \end{figure}
@@ -221,7 +221,7 @@ Plotting \(H\) and \(f_H(h)\) against \(h\) gives us Figure \ref{fig:h-against-h
 
 \begin{figure}[htp]
     \centering
-    \includegraphics[scale = 0.55]{h-against-h.png}
+    \includegraphics[scale = 0.60]{h-against-h.png}
     \caption{The fit result for \(f_H: h \mapsto H\)}
     \label{fig:h-against-h}
 \end{figure}
@@ -264,7 +264,7 @@ Plotting this out gives Figure \ref{fig:s-against-h}.
 
 \begin{figure}[htp]
     \centering
-    \includegraphics[scale = 0.55]{s-against-h.png}
+    \includegraphics[scale = 0.60]{s-against-h.png}
     \caption{The fit result for \(f_S: h \mapsto S\)}
     \label{fig:s-against-h}
 \end{figure}
@@ -313,7 +313,7 @@ Plotting this out gives us Figure \ref{fig:v-against-h}.
 
 \begin{figure}[htp]
     \centering
-    \includegraphics[scale = 0.55]{v-against-h.png}
+    \includegraphics[scale = 0.60]{v-against-h.png}
     \caption{The fit result for \(f_V: h \mapsto V\)}
     \label{fig:v-against-h}
 \end{figure}
