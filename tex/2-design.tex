@@ -625,8 +625,7 @@ Table \ref{tab:necessary-permissions} shows the necessary permissions would be n
 \begin{table}[htp]
     \centering
 
-    \begin{tabular}{|c|p{0.65\linewidth}|}
-        \hline
+    \begin{tabular}{cp{0.65\linewidth}}
         Permission Code                & Permission Details                                                        \\
         \hline
         \Code{contract.list}           & Get the list of subscriptions the user has.                               \\
@@ -635,11 +634,10 @@ Table \ref{tab:necessary-permissions} shows the necessary permissions would be n
         \Code{socket.start}            & Start a new WebSocket connection.                                         \\
         \Code{socket.list}             & Get list of existing WebSocket connections.                               \\
         \Code{socket.close}            & Close an existing WebSocket connection.                                   \\
-        \Code{telegram.list}           & Get list of telegrams released by the JMA.                                \\
+        % \Code{telegram.list}           & Get list of telegrams released by the JMA.                                \\
         \Code{telegram.data}           & Get specific telegram released by the JMA.                                \\
         \Code{telegram.get.earthquake} & Allows program to access telegrams on earthquake information.             \\
         \Code{eew.get.forecast}        & Allows program to access telegrams on EEW forecasts (including warnings). \\
-        \hline
     \end{tabular}
     \caption{Necessary access permissions for DM-D.S.S.}
     \label{tab:necessary-permissions}
@@ -672,21 +670,20 @@ The list of standard errors together with their meanings is discussed in Table \
 \begin{table}[htp]
     \centering
 
-    \begin{tabular}{|c|l|}
-        \hline
+    \begin{tabular}{cl}
         Error Code & Error Message                                       \\
-        \hline
         \Code{400} & The query parameters are required.                  \\
         \Code{400} & The post parameters are required.                   \\
         \Code{400} & Unexpected data of search query \Code{cursorToken}. \\
         \Code{401} & Authorisation required.                             \\
         \Code{403} & Insufficient scope for ....                         \\
         \Code{403} & Requests are not allowed.                           \\
-        \hline
     \end{tabular}
     \caption{Standard errors for API.}
     \label{tab:standard-errors}
 \end{table}
+
+None of the errors here should occur in the application.
 
 From here onwards, the \Code{responseId}, \Code{responseTime} and \Code{status} will be removed from the sample response by default.
 
@@ -746,11 +743,13 @@ Here, \Code{items} is the list of contracts (subscription plans), with each of i
 
 Note that how \Code{id} and \Code{start} can be \Code{null} since it lists all the subscriptions, whether or not the user has been subscribed to it.
 
-This API will be used to determine if the user has an appropriate subscription plan to use the application.
+This API will be used to calculate the number of WebSocket connections, to display empty WebSocket slots in the listing WebSocket functionality.
 
 \paragraph{WebSocket APIs}
 
 There are three WebSocket-Related APIs, specifically, \Code{socket.start}, to start a socket, \Code{socket.list} to list all sockets, and \Code{socket.close}, to close a socket. They are all called on \url{base://socket}.
+
+\subparagraph{Socket Start}
 
 \Code{socket.start} is a POST method which has a request body in JSON, as shown in Listing \ref{code:socket-start-post}.
 
@@ -791,8 +790,7 @@ Apart from the standard errors, it will also output errors shown in Table \ref{t
 \begin{table}[htp]
     \centering
 
-    \begin{tabular}{|c|l|}
-        \hline
+    \begin{tabular}{cl}
         Error Code & Error Message                                                       \\
         \hline
         \Code{400} & The body of the request is not JSON.                                \\
@@ -801,14 +799,21 @@ Apart from the standard errors, it will also output errors shown in Table \ref{t
         \Code{400} & The \Code{appName} is up to 24 bytes.                               \\
         \Code{400} & You have entered a string that is not defined in \Code{formatMode}. \\
         \Code{402} & No contract.                                                        \\
-        \Code{409} & The maximum number of simultaneous connections is full.             \\
-        \hline
+        \Code{409} & The maximum number of simultaneous connections is exceeded.         \\
     \end{tabular}
     \caption{Errors for \Code{socket.start}.}
     \label{tab:socket-start-err}
 \end{table}
 
+The only error that should occur in the application is the final one, where the maximum number of simultaneous connections is exceeded. To allow the user to deal with this situation, a disconnect button for each connection in the current WebSocket list is provided.
+
+\subparagraph{Socket Close}
+
 \Code{socket.close} is a DELETE method, which specifies the ID of the WebSocket port to be closed in the URL parameter \Code{:id}, e.g., \url{base://socket/30}. If the result is successful, the request will not return anything. If the status is error, it will return a standard error (detailed above), or a \Code{404} error, which indicates that the specified WebSocket \Code{id} is not found.
+
+There is a chance of a \Code{404} error for WebSocket ID not found, if the list has not been refreshed, and the user attempts to disconnect to the WebSocket which was already disconnected. Due to this, the refresh WebSocket list button is provided should such error occur.
+
+\subparagraph{Socket List}
 
 \Code{socket.list} is a GET method which supports \Code{cursorToken} (optional) as discussed above. There are other parameters in the query:
 \begin{itemize}
@@ -836,13 +841,13 @@ Listing \ref{code:socket-list} shows a response from the call. The \Code{items} 
 
 However, it is worth noting that even though the document claims that \Code{ticket} is not \Code{null}, it will only be not null when the WebSocket is waiting connection, and null otherwise. Furthermore, \Code{formats} never appears in the result, even though the document claims that it should always appear.
 
-These will be used to manage (open new, list existing and close) WebSockets in the application.
+These API calls will be used to manage (open new, list existing and close) WebSockets in the application.
 
 \paragraph{Parameter API}
 
-The program would need to have a list of observation points of earthquakes to plot on the graph. Therefore, we would need to call \Code{parameter.earthquake}, which is available at \url{base://parameter/earthquake/station}.
+The program would need to have a list of observation points of earthquakes to plot on the map the observed stations' intensity on the past-page map. Therefore, we would need to call \Code{parameter.earthquake}, which is available at \url{base://parameter/earthquake/station}.
 
-This is a GET request with no parameters to specify, and will return all stations in one go. Listing \ref{code:parameter-earthquake} shows a sample response.
+This is a GET request with no parameters to specify, and will return all stations in one go (which is time-costly). Listing \ref{code:parameter-earthquake} shows a sample response.
 
 \begin{listing}[htp]
     \inputminted{json}{code/ParameterEarthquake.json}
@@ -862,40 +867,40 @@ For each object in \Code{items}, they represent an earthquake observation point.
     \item the \Code{latitude} and \Code{longitude}, which as the name suggests, represent the position of the observation point.
 \end{itemize}
 
-Due to the nature of JSON being very long and barely updated (an email will be sent to users of DM-D.S.S. every time its updated in fact), it will be stored locally in the application's local storage, and updated automatically every day only. Upon program launch, the application will read the local data into the main memory.
+Due to the nature of JSON being very long and barely updated (an email will be sent to users of DM-D.S.S. every time its updated in fact), it will be obtained upon application launch/authentication by the user, and stored in the main memory for the lifetime of the application, rather than obtaining such every time when necessary.
 
-\paragraph{Telegram API}
+% \paragraph{Telegram API}
 
-JMA release telegrams (mostly in XML format) through DM-D.S.S., and to achieve them, we can use the \Code{telegram.list} GET request, which is available at \url{base://telegram}. It supports \Code{cursorToken} with pooling.
+% JMA release telegrams (mostly in XML format) through DM-D.S.S., and to achieve them, we can use the \Code{telegram.list} GET request, which is available at \url{base://telegram}. It supports \Code{cursorToken} with pooling.
 
-Furthermore, the following query parameters are available:
-\begin{itemize}
-    \item \Code{type} (optional), which indicates the type of telegram wishing to retrieve. Note that there can be a maximum of 5 types of telegrams specified due to the need for a perfect match;
-    \item \Code{xmlReport} (optional, default \Code{false}), which specifies whether some details of the XML report should be included in the JSON;
-    \item \Code{test} (optional, default \Code{no}), which specifies whether test telegrams should be included. Options are \Code{no}, \Code{including} and \Code{only};
-    \item \Code{formatMode} (optional, default \Code{raw}) indicates whether the XML reports should be converted to JSON;
-    \item \Code{limit} (optional, default 20) indicates the number of telegrams returned in one response.
-\end{itemize}
+% Furthermore, the following query parameters are available:
+% \begin{itemize}
+%     \item \Code{type} (optional), which indicates the type of telegram wishing to retrieve. Note that there can be a maximum of 5 types of telegrams specified due to the need for a perfect match;
+%     \item \Code{xmlReport} (optional, default \Code{false}), which specifies whether some details of the XML report should be included in the JSON;
+%     \item \Code{test} (optional, default \Code{no}), which specifies whether test telegrams should be included. Options are \Code{no}, \Code{including} and \Code{only};
+%     \item \Code{formatMode} (optional, default \Code{raw}) indicates whether the XML reports should be converted to JSON;
+%     \item \Code{limit} (optional, default 20) indicates the number of telegrams returned in one response.
+% \end{itemize}
 
-Listing \ref{code:telegram-list} gives a sample response of this API call.
+% Listing \ref{code:telegram-list} gives a sample response of this API call.
 
-\begin{listing}[htp]
-    \inputminted{json}{code/TelegramList.json}
-    \caption{Telegram list sample response JSON.}
-    \label{code:telegram-list}
-\end{listing}
+% \begin{listing}[htp]
+%     \inputminted{json}{code/TelegramList.json}
+%     \caption{Telegram list sample response JSON.}
+%     \label{code:telegram-list}
+% \end{listing}
 
-In the \Code{items} list, each object represents a telegram, with certain properties:
-\begin{itemize}
-    \item \Code{serial} stands for the serial ID of this transmission, while \Code{id} is a unique ID for the telegram (non-serial);
-    \item \Code{classification} gives the classification of this telegram. For the purpose of this application, all classification will be of type \Code{telegram.earthquake};
-    \item \Code{head} gives the head of this telegram, including the \Code{type}, the \Code{author}, the \Code{time}, and whether it is \Code{test};
-    \item \Code{receivedTime} gives the time of this telegram being released,
-    \item \Code{xmlReport} details parts of information encoded in the XML, if the \Code{xmlReport} option in the query is set to true;
-    \item \Code{url} gives the URL for the detailed information of this telegram (that can be retrieved using another GET request), and \Code{format} gives its format.
-\end{itemize}
+% In the \Code{items} list, each object represents a telegram, with certain properties:
+% \begin{itemize}
+%     \item \Code{serial} stands for the serial ID of this transmission, while \Code{id} is a unique ID for the telegram (non-serial);
+%     \item \Code{classification} gives the classification of this telegram. For the purpose of this application, all classification will be of type \Code{telegram.earthquake};
+%     \item \Code{head} gives the head of this telegram, including the \Code{type}, the \Code{author}, the \Code{time}, and whether it is \Code{test};
+%     \item \Code{receivedTime} gives the time of this telegram being released,
+%     \item \Code{xmlReport} details parts of information encoded in the XML, if the \Code{xmlReport} option in the query is set to true;
+%     \item \Code{url} gives the URL for the detailed information of this telegram (that can be retrieved using another GET request), and \Code{format} gives its format.
+% \end{itemize}
 
-Apart from standard errors, it might also return a \Code{400} error with message 'You have entered a string that is not defined in \Code{formatMode}.'
+% Apart from standard errors, it might also return a \Code{400} error with message 'You have entered a string that is not defined in \Code{formatMode}.'
 
 \paragraph{Past Earthquake API}
 
