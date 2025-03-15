@@ -1,6 +1,6 @@
 \chapter{Design}
 \section*{Overview}
-This section includes a breakdown of the application into sections of data processing, GUI functionalities and joint functionalities. The use of external sources including DM-D.S.S. and NIED data sources is discussed, together with the relevant formats (XML, JSON) and the objects related. A UML class diagram is included to discuss OOP relations of classes, records (record classes) and enums including use of inheritance, composition, association and aggregation. They also implement different interfaces. An outline of the design of the user interface is included. The expected hardware requirements of the systems are also listed, but any laptop with an up-to-date operating system (running Windows or macOS) should be able to run the program.
+This section includes a breakdown of the application into sections of data processing, GUI functionalities and joint functionalities. The use of external sources including DM-D.S.S. and NIED data sources is discussed, together with the relevant formats (XML, JSON) and the objects related. UML class diagrams are included to discuss OOP relations of classes, records (record classes) and enums including use of inheritance, composition, association and aggregation. They also implement different interfaces. Design patterns that should be included in the application are also introduced and outlined. An outline of the design of the user interface is included. The expected hardware requirements of the systems are also listed, but any laptop with an up-to-date operating system (running Windows or macOS) should be able to run the program.
 
 \section{Data Structures/Data modelling}
 
@@ -9,13 +9,13 @@ There are two data sources this program will use: the NIED and the DM-D.S.S. Spe
 
 \subsubsection{NIED Data Source}
 
-As mentioned before, NIED has numerous 'earthquake observation nets' across Japan. Specifically, there is the \href{https://www.kyoshin.bosai.go.jp/kyoshin/}{K-NET and the KiK-net}, which is dedicated to the observation of strong seismic motion. The K-NET consists of approximately 1000 sensors located across Japan, while the KiK-net also includes some sensors which are located within the earth, which will often have different readings compared to those located on the surface. They are extremely capable of detecting strong motion of ground. Furthermore, the K-NET and the KiK-net provides real-time intensity data webpage of two types, the \href{http://www.kmoni.bosai.go.jp}{'Kyoshin' (強震) monitor} and the \href{https://www.lmoni.bosai.go.jp/monitor/}{long-period ground motion (LPGM, 長周期地震動) monitor} (not working at the time of investigation). The \href{https://www.hinet.bosai.go.jp/?LANG=ja}{Hi-net} stands for high-sensitivity seismograph network, and it is dedicated for observation of minor motions of the ground. They release the waveforms to those who are researching seismic movements. As for the \href{https://www.fnet.bosai.go.jp/freesia/top.php?LANG=ja}{F-net} which stands for the Full Range Seismograph Network of Japan, which is used to analyse the mechanism of a certain earthquake by analysing movements. None of the three nets provide a real-time API data feed.
+As mentioned before, NIED has numerous 'earthquake observation nets' across Japan. Specifically, there is the K-NET and KiK-net \autocite{nied-k-kik-net}, which is dedicated to the observation of strong seismic motion. The K-NET consists of approximately 1000 sensors located across Japan, while the KiK-net also includes some sensors which are located within the earth, which will often have different readings compared to those located on the surface. They are extremely capable of detecting strong motion of ground. Furthermore, the K-NET and the KiK-net provides real-time intensity data webpage of two types, the \href{http://www.kmoni.bosai.go.jp}{'Kyoshin' (強震) monitor} and the \href{https://www.lmoni.bosai.go.jp/monitor/}{long-period ground motion (LPGM, 長周期地震動) monitor} (not working at the time of investigation). The Hi-net \autocite{nied-hi-net} stands for high-sensitivity seismograph network, and it is dedicated for observation of minor motions of the ground. They release the waveforms to those who are researching seismic movements. As for the F-net \autocite{nied-f-net} which stands for the Full Range Seismograph Network of Japan, which is used to analyse the mechanism of a certain earthquake by analysing movements. None of the three nets provide a real-time API data feed.
 
 Having compared the functionalities described above of the K/KiK-net, Hi-net and F-net and how they feed the data sources, the most suitable data source to reflect real-time motion of ground movements will be the \textbf{K/KiK-net}'s data feed, since it detects strong ground movements and is available real-time for the purpose of the application. (This is also the data source that JQuake and KEVI use in fact.)
 
 In fact, in addition to these three networks, there are also the S-net, the DONET and the N-net, which detects the ground seismic movements in the sea. These data were adapted by SREV, but this is beyond the scope of this NEA analysis.
 
-A comparison from the official website of \href{https://www.mowlas.bosai.go.jp}{MOWLAS (Monitoring of Waves on Land and Seafloor)} of the three nets are included in Figure \ref{fig:net-comparison} and a map of the distribution of the sensors are included in Figure \ref{fig:net-distribution}.
+A comparison from the official website of MOWLAS (Monitoring of Waves on Land and Seafloor) \autocite{nied-mowlas} of the three nets are included in Figure \ref{fig:net-comparison} and a map of the distribution of the sensors are included in Figure \ref{fig:net-distribution}.
 
 \begin{figure}[htp]
     \centering
@@ -44,8 +44,7 @@ In the link, the \Code{[yyyyMMdd]} and the \Code{[hhmmss]} part should be replac
 \begin{table}[htp]
     \centering
 
-    \begin{tabular}{|c|c|c|}
-        \hline
+    \begin{tabular}{ccc}
         Data Type        & Description/Meaning                & Code in \Code{#1} \\
         \hline
         Real-time Shindo & Real-time Measured Intensity       & \Code{jma}        \\
@@ -57,8 +56,7 @@ In the link, the \Code{[yyyyMMdd]} and the \Code{[hhmmss]} part should be replac
         Response 0.500Hz & Response spectrum for 0.500Hz PGV  & \Code{rsp0500}    \\
         Response 1.000Hz & Response spectrum for 1.000Hz PGV  & \Code{rsp1000}    \\
         Response 2.000Hz & Response spectrum for 2.000Hz PGV  & \Code{rsp2000}    \\
-        Response 4.000Hz & Response spectrum for 4.000Hz PGV  & \Code{rsp4000}    \\
-        \hline
+        Response 4.000Hz & Response spectrum for 4.000Hz PGV  & \Code{rsp4000}
     \end{tabular}
     \caption{Data available in 'Kyoshin' monitor}
     \label{tab:kmoni-data-types}
@@ -67,13 +65,11 @@ In the link, the \Code{[yyyyMMdd]} and the \Code{[hhmmss]} part should be replac
 \begin{table}[htp]
     \centering
 
-    \begin{tabular}{|c|c|c|}
-        \hline
+    \begin{tabular}{ccc}
         Sensor Type & Description/Meaning          & Code in \Code{#2} \\
         \hline
         Surface     & K-NET and KiK-net sensors    & \Code{s}          \\
-        Borehole    & KiK-net sensors within earth & \Code{b}          \\
-        \hline
+        Borehole    & KiK-net sensors within earth & \Code{b}
     \end{tabular}
     \caption{Sensors available in 'Kyoshin' monitor}
     \label{tab:kmoni-sensor-types}
@@ -94,13 +90,9 @@ NIED does have an official released list of observation points, which include th
 
 Unfortunately, 1000 is still quite a lot for us to deal with. Luckily, Ingen who used a similar approach to develop the KEVI application has already made such a mapping inside his open-source application in the file \href{https://github.com/ingen084/KyoshinEewViewerIngen/blob/develop/src/KyoshinEewViewer/Assets/ShindoObsPoints.mpk.lz4}{ShindoObsPoints.mpk.lz4} within \GitHubHref{ingen084}{KyoshinEewViewerIngen}, and even developed an editor for this at \GitHubHref{ingen084}{KyoshinShindoPlaceEditor}.
 
-Due to the limited time for this NEA, the author will primarily use the pre-determined observation points for the K-net, and will use the existing application to map the points for KiK-net, which is still a considerable amount of work, but significantly less.
+Due to the limited time for this NEA, the author will primarily use the pre-determined observation points for the K-NET and the KiK-net by Ingen in JSON format.
 
-This paragraph referred to \href{https://qiita.com/ingen084/items/7e91f8da2996972ac586}{this blog article} written by Ingen.
-
-\ToDo{Outline the list of observation points}
-
-% TODO: Where is the list?
+This paragraph referred to \autocite{blog-ingen-kmoni-data}.
 
 \paragraph{Converting colour to number format for further processing}
 
@@ -367,11 +359,11 @@ Figure \ref{fig:kmoni-data-flow} shows the data flow, Figure \ref{fig:variable-r
     \label{fig:generated-colour}
 \end{figure}
 
-It is worth noting that an existing NuGet Library, \GitHubHref{ingen084}{KyoshinMonitorLib} which is designated to manage intensities, as well as extracting intensities from the 'Kyoshin' monitor. This NEA did refer to this for some guidance but is not dependent on this library, and its necessary functionalities within the scope of this NEA is realised again using the author's own code. The developer of this library did also mention that it is quite purpose-built so might not be suitable for general use.
+It is worth noting that an existing NuGet Library, \GitHubHref{ingen084}{KyoshinMonitorLib} and introduced in \autocite{blog-ingen-kmoni-nuget-lib} which is designated to manage intensities, as well as extracting intensities from the 'Kyoshin' monitor. This NEA did refer to this for some guidance but is not dependent on this library, and its necessary functionalities within the scope of this NEA is realised again using the author's own code. The developer of this library did also mention that it is quite purpose-built so might not be suitable for general use.
 
-It is also worth noting that, technically, scraping the data from the 'Kyoshin' monitor page of NIED is not explicitly allowed, but not explicitly banned either. However, extracting and displaying numerical data in the application is strictly banned by the NIED, and therefore the numerical values will only serve as internal values of the application and will not be displayed in any way.
+It is also worth noting that, technically, scraping the data from the 'Kyoshin' monitor page of NIED is not explicitly allowed, but not explicitly banned either. However, extracting and displaying numerical data in the application is strictly banned by the NIED, and therefore the numerical values will only serve as internal values of the application and will not be displayed to the users in any way.
 
-This paragraph referred to \href{https://qiita.com/NoneType1/items/a4d2cf932e20b56ca444}{the blog article} written by NoneType1, author of JQuake. The code used for this section is in Listing \ref{alg:poly-fit}.
+This paragraph referred to \autocite{blog-jquake-poly-fit}. The code used for this section is in Listing \ref{alg:poly-fit}.
 
 \subsubsection{DM-D.S.S. Data Source}
 
