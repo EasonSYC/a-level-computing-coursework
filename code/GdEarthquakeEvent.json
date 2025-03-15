@@ -1,0 +1,46 @@
+{
+    "event": {
+        "telegrams": [
+            {
+                "serial": 0,
+                "id": "...",
+                "originalId": "...",
+                "classification": "telegram.earthquake",
+                "head": {
+                    "type": "VXSE53",
+                    "author": "RJTD",
+                    "time": "2021-08-07T23:58:00.000Z",
+                    "designation": null,
+                    "test": false
+                },
+                "receivedTime": "2021-08-07T23:58:10.311Z",
+                "xmlReport": {
+                    "head": {
+                        "title": "震源・震度情報",
+                        "serial": "1",
+                        "eventId": "20210808085414",
+                        "headline": "　８日０８時５４分ころ、地震がありました。",
+                        "infoKind": "地震情報",
+                        "infoType": "発表",
+                        "reportDateTime": "2021-08-08T08:58:00+09:00",
+                        "targetDateTime": "2021-08-08T08:58:00+09:00",
+                        "infoKindVersion": "1.0_1"
+                    },
+                    "control": {
+                        "title": "震源・震度に関する情報",
+                        "status": "通常",
+                        "dateTime": "2021-08-07T23:58:08Z",
+                        "editorialOffice": "気象庁本庁",
+                        "publishingOffice": "気象庁"
+                    }
+                },
+                "schema": {
+                    "type": "earthquake-information",
+                    "version": "1.0.0"
+                },
+                "format": "json",
+                "url": "https://data.api.dmdata.jp/v1/..."
+            }
+        ]
+    }
+}

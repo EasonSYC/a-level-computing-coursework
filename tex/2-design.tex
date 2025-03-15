@@ -616,7 +616,7 @@ Figure \ref{fig:oauth-flowchart-access-check} represents the behaviour of the OA
 
 For the purposes of this NEA, we will primarily use the API Key to test the application for accessing  way of accessing DM-D.S.S. since it will be easier to code and debug, and OAuth2 will introduce quite a lot of complexity to the program. However, the program should be designed to be able to modify to OAuth2 authentication without much modification, and if time permits OAuth2 will be implemented in the application.
 
-\subsubsection{HTTP Based Requests}
+\subsubsection{HTTP Based API Requests}
 
 The base URL of all requests is \url{https://api.dmdata.jp/v2/} which will be indicated as \url{base://} from now on.
 
@@ -906,6 +906,16 @@ Due to the nature of JSON being very long and barely updated (an email will be s
 
 The API \Code{gd.earthquake} allows us to use a GET request to obtain a series of earthquake on \url{base://gd/earthquake}, with the option to obtain a list, or to obtain only a certain event.
 
+\subparagraph{Past Earthquake List} The API call \Code{gd.earthquake.list}, which supports \Code{cursorToken} and \Code{poolingToken} allows us to obtain a list of past earthquakes, with the ability to specify the following parameters:
+\begin{itemize}
+    \item \Code{hypocenter}, the 3-digit code to filer the hypocentre position;
+    \item \Code{maxInt}, the lower bound of the filter for the maximum measured intensity of the earthquake;
+    \item \Code{date}, the date when the earthquake is observed;
+    \item \Code{limit}, the number of earthquakes returned in one go, with a maximum of 100.
+\end{itemize}
+
+A sample response is shown in Listing \ref{code:earthquake-list}.
+
 \begin{listing}[htp]
     \inputminted{json}{code/GdEarthquakeList.json}
     \caption{Past earthquake list sample response JSON.}
@@ -921,17 +931,39 @@ These APIs will be used to display a list of past earthquakes. For each object r
     \item its \Code{maxInt}, the maximum intensity observed.
 \end{itemize}
 
-It might also include LPGM information, in \Code{maxLgint} and \Code{lgCategory}.
+It might also include LPGM information, in \Code{maxLgint} and \Code{lgCategory}, if such information is released, usually only for huge earthquakes.
 
-If the call \url{base://gd/earthquake/:eventId} is used, it will return the object representing the earthquake, as well as a list of telegram XML, which was detailed above in the \Code{telegram.list} section. However, it is worth noting that all data here will be parsed into JSON using DM-D.S.S.'s JSON Schema.
+The data used will be used to create the sidebar (list of past earthquakes) of the past page in the application, and will be called upon the click of refresh button/load more button.
 
-This API will be called to obtain a list of past earthquakes when the program launches, and at regular intervals. This is because the WebSocket connection will feed in information on earthquakes as well, so there is no need to call this API every second.
+\subparagraph{Past Earthquake Event} If the call \url{base://gd/earthquake/:eventId} is used, it will return the object representing the earthquake in the \Code{event} attribute (most attributes removed since identical to Listing \ref{code:earthquake-list}), as well as a list of telegrams in the \Code{telegrams} attribute, which was detailed above in the \Code{telegram.list} section, as shown in Listing \ref{code:earthquake-event}.
+
+\begin{listing}[htp]
+    \inputminted{json}{code/GdEarthquakeEvent.json}
+    \caption{Past earthquake event sample response JSON.}
+    \label{code:earthquake-event}
+\end{listing}
+
+In the \Code{telegrams} list, each object represents a telegram, with certain properties:
+\begin{itemize}
+    \item \Code{serial} stands for the serial ID of this transmission, while \Code{id} is a unique ID for the JSON telegram (non-serial);
+    \item \Code{originalId} gives the original ID of the telegram in XML format;
+    \item \Code{classification} gives the classification of this telegram. For the purpose of this application, all classification will be of type \Code{telegram.earthquake};
+    \item \Code{head} gives the head information of this telegram, including the \Code{type}, the \Code{author}, the \Code{time}, and whether it is \Code{test};
+    \item \Code{receivedTime} gives the time of this telegram being released,
+    \item \Code{xmlReport} details parts of information encoded in the XML;
+    \item \Code{schema} details the JSON schema used for the telegram, including the \Code{type} and \Code{version} of the schema used;
+    \item \Code{url} gives the URL for the detailed information of this telegram (that can be retrieved using another GET request), and \Code{format} gives its format.
+\end{itemize}
+
+All telegrams provided in this list are in JSON format.
+
+This API will be used to load the details for a certain earthquake to display on the sidebar panel.
 
 \subsubsection{WebSocket Connections}
 
 WebSocket connections are essential to real-time applications, since it provides a real-time feed from the server to the client on latest data, without the need of the client to query (which consumes a lot of resources). DM-D.S.S. provides WebSockets to initiate real-time connection to the server to achieve the latest telegrams and earthquake warnings.
 
-The URL of the WebSocket will be \url{wss://{#1}.api.dmdata.jp/v2/websocket}, where the \Code{#1} part could be \Code{ws001} to \Code{ws004} (which will be assigned in the \Code{socket.start} API call).
+The URL of the WebSocket will be \url{wss://{#1}.api.dmdata.jp/v2/websocket}, where the \Code{#1} part could be \Code{ws001} to \Code{ws004}, but it is optional. If not included, the server will simply distribute the load.
 
 \paragraph{WebSocket Responses}
 
