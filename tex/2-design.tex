@@ -672,6 +672,7 @@ The list of standard errors together with their meanings is discussed in Table \
 
     \begin{tabular}{cl}
         Error Code & Error Message                                       \\
+        \hline
         \Code{400} & The query parameters are required.                  \\
         \Code{400} & The post parameters are required.                   \\
         \Code{400} & Unexpected data of search query \Code{cursorToken}. \\
@@ -1065,19 +1066,82 @@ The overall flow structure is shown in Figure \ref{fig:websocket-flowchart} for 
 
 \subsubsection{Telegrams}
 
-\ToDo{Detail XML Data Sources where necessary}
+As discussed in the previous section, JSON telegrams is going to be used in the application, and there is no particular reason why telegrams in general (i.e. for the earthquake telegrams in \Code{gd.earthquake.event} for the past-page) should be retrieved in XML format compared to JSON format. In this section we will discuss the telegrams used, and the structure of a telegram in DM-D.S.S.
 
-% TODO: Detail XML Data Sources
+\paragraph{Telegrams Used}
 
-% VXSE45
+Considering the uses of the application, Table \ref{tab:telegrams-used} gives an overview of the telegrams used in the application.
 
-% VXSE51
-% VXSE52
-% VXSE53
-% VXSE61
-% VXSE62
+\begin{table}[htp]
+    \centering
+    \begin{tabular}{cccp{15em}}
+        Code   & Telegram Classification    & JSON Schema                   & Description                                                 \\
+        \hline
+        VXSE45 & \Code{eew.forecast}        & \Code{eew-information}        & All EEW telegrams including forecasts and warnings.         \\
+        VXSE51 & \Code{telegram.earthquake} & \Code{earthquake-information} & Preliminary report on the measured intensity of earthquake. \\
+        VXSE52 & \Code{telegram.earthquake} & \Code{earthquake-information} & Preliminary report on the hypocentre of earthquake.         \\
+        VXSE53 & \Code{telegram.earthquake} & \Code{earthquake-information} & Full report on intensity and hypocentre of earthquake.      \\
+        VTSE41 & \Code{telegram.earthquake} & \Code{tsunami-information}    & Tsunami warnings of all types.
+    \end{tabular}
+    \caption{Telegrams used in the application}
+    \label{tab:telegrams-used}
+\end{table}
 
-% VTSE41
+In the real-time page, VXSE45 and VTSE41 telegrams are fed via the WebSocket connection detailed above to be displayed. On the past page, VXSE51~53 telegrams are used to display the past earthquake information. In specific, the following logic will be used to determine which telegram to use: (in the following, \(x = 1, 2, 3\))
+\begin{itemize}
+    \item Filter the telegram to only include VXSE5\(x\);
+    \item Group telegrams by the telegram code;
+    \item Find the latest telegram (by serial number) in each of the category;
+    \item Use the telegram with the biggest \(x\) (i.e. VXSE53 > VXSE52 > VXSE51).
+\end{itemize}
+
+The particular choice for the final one is due to the fact that VXSE53 usually contains the most information, while VXSE51 and VXSE52 usually contains less information than VXSE53. (They are usually released earlier than VXSE53 though).
+
+\paragraph{JSON Schemas}
+
+All JSON Schemas include a part called the \textbf{schema head}, and a sample is shown in Listing \ref{code:telegram-head}.
+
+\begin{listing}
+    \inputminted{json}{code/TelegramHead.json}
+    \caption{Head of JSON Schema}
+    \label{code:telegram-head}
+\end{listing}
+
+There are the following properties:
+\begin{itemize}
+    \item \Code{_originalId}, the original ID of the telegram;
+    \item \Code{_schema}, the DM-D.S.S. JSON Schema used for this telegram, including the type and the version;
+    \item \Code{type}, the name of the telegram, and \Code{title}, the title of the telegram;
+    \item \Code{status}, the status of the telegram, whether it is normal (\Code{通常}), a training telegram (\Code{訓練}), or a test telegram (\Code{試験}). Note that telegrams should be filtered in the application to only display normal telegrams to the user;
+    \item \Code{infoType}, the type of information, whether it is a release (\Code{発表}), a correction (\Code{訂正}), a delay (\Code{遅延}), or a cancellation (\Code{取消}). Note that in EEW telegrams, there is also an indication in the \Code{body} part whether it is a cancellation;
+    \item \Code{editorialOffice}, and a list of \Code{publishingOffice};
+    \item \Code{pressDateTime} when the telegram is made, \Code{reportDateTime} when the telegram is released;
+    \item \Code{targetDateTime} which is nullable, describes the base time of the report, and \Code{targetDatetimeDubious} giving the error;
+    \item \Code{validDateTime} for which the report is valid until (e.g. for tsunami information, there will not be cancellation reports, only a date time the information is valid until);
+    \item \Code{eventId}, the unique ID for the event that this describes. This should be used to identify earthquakes in the EEW;
+    \item \Code{serialNo}, the number that is released for the specific event. In EEW, if a telegram with lower serial is received after a telegram with a higher serial (e.g. due to delay reasons), then the telegram should not be used and should be disposed of;
+    \item \Code{infoKind} and \Code{infoKindVersion}, the schema used in the XML report;
+    \item \Code{headline}, which includes the summary headline of the information;
+    \item \Code{body}, the body of all the information.
+\end{itemize}
+
+In particular, the information of \Code{_schema}, \Code{status}, \Code{pressDateTime} (for displaying the last updated time of the information), \Code{eventId}, \Code{serialNo} and the \Code{body} will be useful for the application.
+
+The \Code{body} part of the telegram will be omitted for brevity, since they are mostly just convoluted JSON objects. Anything interesting in particular will be mentioned later in the design for the DTOs.
+
+\subparagraph{Text and Comments component of the body} For all schemas used in the application, in the \Code{body} component, there will be properties \Code{text} (of type string) and \Code{comments} which includes text and comments on the telegram.
+
+In the \Code{comments} property, there could always be a \Code{free} property where any string could be recorded, and some other properties (whose names may vary: \Code{warning} for \Code{tsunami-information} and \Code{eew-information}, and \Code{forecast} and \Code{var} for \Code{earthquake-information}), each containing a list of strings and codes which are paired, where the code is a 3-digit code representing the code of the comment.
+
+An example of this is shown in Listing
+
+\begin{listing}[htp]
+    \inputminted{json}{code/TelegramComments.json}
+    \caption{Comments in JSON Schema}
+    \label{code:telegram-comments}
+\end{listing}
+
+These should be used, together with the headline property, to create the informational text to display with a telegram.
 
 \subsubsection{Sidenotes}
 

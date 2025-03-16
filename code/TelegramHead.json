@@ -1,0 +1,24 @@
+{
+    "_originalId": "...",
+    "_schema": {
+        "type": "earthquake-information",
+        "version": "1.0.0"
+    },
+    "type": "震源・震度に関する情報",
+    "title": "震源・震度情報",
+    "status": "通常",
+    "infoType": "発表",
+    "editorialOffice": "気象庁本庁",
+    "publishingOffice": [
+        "気象庁"
+    ],
+    "pressDateTime": "2021-08-12T06:05:36Z",
+    "reportDateTime": "2021-08-12T15:05:00+09:00",
+    "targetDateTime": "2021-08-12T15:05:00+09:00",
+    "eventId": "20210812150301",
+    "serialNo": "1",
+    "infoKind": "地震情報",
+    "infoKindVersion": "1.0_1",
+    "headline": "１２日１５時０２分ころ、地震がありました。",
+    "body": {}
+}
