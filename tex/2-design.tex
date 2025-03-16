@@ -1157,40 +1157,125 @@ There are two key 'algorithms' that was designed for this application (in additi
 
 Earthquake waves do not travel at uniform rate as they spread out due to the decrease in energy, and so there is no uniform velocity that the seismic waves travel in. We cannot do a simple equation like \(s = vt\) to calculate the distance of the wavefront of a seismic wave from the epicentre.
 
-However, JMA provides tables for the time that seismic waves take to travel a certain distance in \href{https://www.data.jma.go.jp/svd/eqev/data/bulletin/catalog/appendix/trtime/trt_j.html}{their data bank}, together with \href{https://www.data.jma.go.jp/svd/eqev/data/bulletin/catalog/appendix/trtime/trt_j.html}{the format definition}. It will be possible for us to look up the table and plot the seismic waves at correct distance at a certain time.
+However, JMA provides tables for the time that seismic waves take to travel a certain distance in \autocite{jma-timetable-2001}, together with \autocite{jma-timetable-format}. It will be possible for us to look up the table and plot the seismic waves at correct distance at a certain time.
 
 Comparing the different wave travel tables that JMA provides, the most suitable one for this application will be the \textbf{JMA 2001}, since it is designed for general purpose uses for both land-based and ocean-based earthquakes, and does not take into account the effect of the altitude of the observation points. Listing \ref{code:jma-2001} provides a preview of the first 10 lines of this file.
 
 \begin{listing}[htp]
     \inputminted[lastline=10,showspaces]{text}{code/tjma2001.txt}
-    \caption{JMA 2001 Wave Travel Tables.}
+    \caption{JMA 2001 Wave Travel Tables}
     \label{code:jma-2001}
 \end{listing}
 
 The table is a lookup table from horizontal distance to time in terms of the depth of the epicentre and the type of wave (P or S) to the time needed to travel such distance. Each row represents the P-Wave, time taken for the P-wave to travel (in seconds), S-wave, time taken for the S-wave to travel (in seconds), depth of epicentre (in kilometres), distance from epicentres (in kilometres).
+
+This file will be read by the program upon launch every time and stored in the active memory when the program is running.
+
+\subsubsection{Format of Rows}
+
+The format of the table is as follows:
+\begin{itemize}
+    \item \textbf{Column 1.} The wave (P);
+    \item \textbf{Column 2.} Whitespace;
+    \item \textbf{Column 3-10.} The time in seconds, with exactly 4 characters (whitespace padding to the left) before the decimal point, and 3 after;
+    \item \textbf{Column 11.} Whitespace;
+    \item \textbf{Column 12.} The wave (S);
+    \item \textbf{Column 13.} Whitespace;
+    \item \textbf{Column 14-21.} The time in seconds, with exactly 4 characters (whitespace padding to the left) before the decimal point, and 3 after;
+    \item \textbf{Column 22.} Whitespace;
+    \item \textbf{Column 23-25.} The depth of the epicentre in kilometres, with spaces padding to the left;
+    \item \textbf{Column 26-27.} Whitespace;
+    \item \textbf{Column 28-32.} The distance from the epicentre in kilometres, with spaces padding to the left.
+\end{itemize}
+
+Therefore, the following regular expression is designed to match each row (with the \^ anchor at the start, and \$ anchor at the end):
+\begin{center}
+    \Code{P ((?=.{4}) *\d+)\.\d{3} S ((?=.{4}) *\d+)\.\d{3} ((?=.{3}) *\d+)  ((?=.{5}) *\d+)}
+\end{center}
+
+Most part of this is quite straightforward, but it is worth explaining what \Code{((?=.{x}) *\d+)} means here. The \Code{(?=.{x})} is a positive lookahead looking \(x\) digits afterwards, but it is not really part of the match. The pattern \Code{ *\d+} is the pattern that this lookahead should match to. Therefore, \Code{((?=.{x}) *\d+)} matches to a number that has left padding to reach exactly \(x\) digits, which is exactly what is required for the numbers in the time, depth and distance column, providing the matching for the padding.
+
+\subsubsection{Format of Table}
 
 The depth and the distance from epicentre is provided in the intervals specified in \ref{tab:dist-jma-2001}. They are provided for distances up to 2000 kilometres and depths up to 700 kilometres.
 
 \begin{table}[htp]
     \centering
 
-    \begin{tabular}{|c|c|c|}
-        \hline
+    \begin{tabular}{ccc}
         Distance                  & Interval for Depth & Interval for distance \\
         \hline
         0 \textasciitilde\ 50     & 2                  & 2                     \\
         50 \textasciitilde\ 200   & 5                  & 5                     \\
         200 \textasciitilde\ 700  & 10                 & 10                    \\
-        700 \textasciitilde\ 2000 & --                 & 10                    \\
-        \hline
+        700 \textasciitilde\ 2000 & --                 & 10
     \end{tabular}
     \caption{Distance intervals in JMA 2001.}
     \label{tab:dist-jma-2001}
 \end{table}
 
-However, this does not provide us with the distance we would like, which is drawing a circle based on how long it has been since the earthquake has happened -- the other way around. Luckily, for a fixed depth, the list is sorted since the distance is always increasing, so is the time. We can apply a binary search on the list given a depth (by first pinpointing the start and the end rows for that depth, and this is trivial since there is a fixed number of rows for each depth), and find the neighbouring two times such that the current time elapsed from the earthquake happening is between them. After doing this, a linear interpolation will be done on the neighbouring time-distance \((t, d)\) pairs to find the accurate distance (radius) corresponding with the time and the depth.
+The table is ordered in increasing order of depth, then by distance. This means that there are
+\[
+    \frac{50}{2} + \frac{200 - 50}{5} + \frac{700 - 200}{10} + \frac{2000 - 700}{10} + 1 = 25 + 30 + 50 + 130 + 1 = 236
+\]
+rows corresponding to each depth.
 
-This file will be read by the program upon launch every time and stored in the active memory when the program is running.
+\subsubsection{Algorithm of Finding Distance from Time and Depth}
+
+However, the table gives times based on distance and depth, but this does not provide us with the distance we would like, which is drawing a circle based on how long it has been since the earthquake has happened -- the other way around.
+
+Luckily, for a fixed depth, the list is sorted since the distance is always increasing, and so is the time. Therefore, after fixing the region of rows for the given depth, we could apply a linear search (a binary search would not make much of a difference here since there are only so few rows for each depth), and find the neighbouring two times such that the current time elapsed from the earthquake happening is between them. After doing this, a linear interpolation will be done on the neighbouring time-distance \((t, d)\) pairs to find the accurate distance (radius) corresponding with the time and the depth.
+
+The algorithm is outlined in Algorithm \ref{alg:wavefront}.
+
+\begin{algorithm}[htp]
+    \caption{Algorithm for Finding Distance based on Time}
+    \label{alg:wavefront}
+    \begin{algorithmic}
+        \Require \(0 \leq d \leq 700, d \in \mathbb{Z}\) \Comment{Depth of earthquake}
+        \Require \(0 < t, t \in \mathbb{R}\) \Comment{Time of travel}
+        \Require \(i \in \{0, 1\}\) \Comment{Index of time for the particular wave (0 for P, 1 for S)}
+
+        \State \(r \gets 236\) \Comment{Number of rows per depth}
+
+        \LComment{Find Starting Line}
+        \If{\(d \geq 0\) \textbf{and} \(d \leq 50\)}
+        \State \(s \gets d / 2 * r\)
+        \ElsIf{\(d \geq 50\) \textbf{and} \(d \leq 200\)}
+        \State \(s \gets 25 + (d - 5) / 5 * r\)
+        \ElsIf{\(d \geq 200\) \textbf{and} \(d \leq 700\)}
+        \State \(s \gets 55 + (d - 200) / 10 * r\)
+        \Else
+        \State \Return \null
+        \EndIf
+
+        \State \(e \gets s + r\) \Comment{End Line is exclusive}
+
+        \State \(l \gets s\) \Comment{Index of Left Point used for Linear Inter/Extrapolation}
+        \If{\(T[s][i] < t\)}
+        \LComment{Time is shorter than first time (i.e. seismic wave hasn't reached surface)}
+        \State \Return 0
+        \ElsIf{\(T[e - 1][i] > t\)}
+        \LComment{Time is longer than final time}
+        \State \(l \gets e - 2\)
+        \Else
+        \LComment{Find the time before the given time}
+        \While{\(l < e\) \textbf{and} \(T[l][i] \leq t\)}
+        \EndWhile
+
+        \State \(l \gets l - 1\)
+        \EndIf
+
+        \LComment{Coordinates for Linear Interpolation}
+        \State \(x_1 = T[l][i]\)
+        \State \(y_1 = T[l].R\)
+        \State \(x_2 = T[l + 1][i]\)
+        \State \(y_2 = T[l + 1].R\)
+
+        \LComment{Linear Interpolation}
+        \State \Return \(y_1 + (t - x_1) * (y_2 - y_1) / (x_2 - x_1)\)
+    \end{algorithmic}
+\end{algorithm}
 
 \subsection{Shake Detection}
 
