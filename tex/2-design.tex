@@ -1000,8 +1000,7 @@ There are four types of responses that a WebSocket could return, indicated in th
           \begin{table}[htp]
               \centering
 
-              \begin{tabular}{|c|l|}
-                  \hline
+              \begin{tabular}{cl}
                   Error Code  & Error Details                                                    \\
                   \hline
                   \Code{4400} & Compulsory parameters are not specified when starting WebSocket. \\
@@ -1012,29 +1011,59 @@ There are four types of responses that a WebSocket could return, indicated in th
                   \Code{4641} & Incorrect data (non-JSON) received from client.                  \\
                   \Code{4808} & Client requested closure of WebSocket.                           \\
                   \Code{4807} & Contracts are discontinued in connection.                        \\
-                  \hline
               \end{tabular}
               \caption{Errors for WebSocket connection.}
               \label{tab:socket-error}
           \end{table}
 
-          The program should be designed to be able to handle these errors, and restart the connection if necessary;
+          In the application, only \Code{4409} (when the connection number exceeded the maximum), \Code{4503} (when the server has an internal error), \Code{4808} (when the client requested closure of WebSocket), and \Code{4807} (contract discontinued) should occur in the application.
+
+          The program should be designed to be able to handle these errors, and to close the connection if necessary;
     \item a \Code{data}, an example shown in Listing \ref{code:socket-data}.
           \begin{listing}[htp]
               \inputminted{json}{code/SocketData.json}
               \caption{WebSocket Data JSON.}
               \label{code:socket-data}
           \end{listing}
-          This will include a \Code{classification}, a version \Code{version}, and a unique \Code{id}. An array named \Code{passing} gives the \Code{name} and \Code{time} of each passing location of this data piece inside the server. Furthermore, the \Code{head} gives some key information, and \Code{xmlReport} gives certain details in the XML body. \Code{format}, \Code{compression} (\Code{gzip}, \Code{zip} or \Code{null}) and \Code{encoding} (\Code{base64} or \Code{utf-8}) gives information on how the \Code{body} should be processed and interpreted.
 
-          This gives the key piece of information that will be passed between the data component of the software and the UI component of the software;
+          This will include a \Code{classification}, a version \Code{version}, and a unique \Code{id}. A list named \Code{passing} gives the \Code{name} and \Code{time} of each passing location of this data piece inside the server.
+
+          Furthermore, the \Code{head} and \Code{xmlReport} gives details of the telegram received, similar to in Listing \ref{code:earthquake-event}.
+
+          The \Code{format}, \Code{compression} (\Code{gzip}, \Code{zip} or \Code{null}) and \Code{encoding} (\Code{base64} or \Code{utf-8}) gives information on how the \Code{body} should be processed and interpreted.
+
+          Note that the body should always be dealt with in the following sequence: decode; decompress; and deserialise.
+
+          This gives the key piece of information that will be passed between the data component of the software and the UI component of the software.
 \end{itemize}
 
 \paragraph{JSON v.s. XML}
 
-Lots of data are serialised in JSON, but the JMA provides its data in XML format.DM-D.S.S. does also provide JSON formatted schemas for most of the XML data files which are also processed real time. However, there is a high chance of delay (up to 1 second) if the JSON format is used, not to say the potential of an error in processing which lead to undefined behaviour in the JSON format. Therefore, to control the delay and ensure that data is real-time, the WebSockets in this application will use the original format in XML and parse internally in the program.
+Most data nowadays on the internet are serialised in JSON, but the JMA provides its data in XML format. DM-D.S.S. does also provide JSON formatted schemas for most of the XML data files which are also processed real time. Even though there is a high chance of delay (up to 1 second) if the JSON format is used, not to say the potential of an error in processing which lead to undefined behaviour in the JSON format, the JSON format is much easier to parse and deserialise into C\# DTO objects, and the schemas are very well-defined on the DM-D.S.S. references \autocite{dmdata-references-json}, in contrast to the JMA documentation \autocite{jma-xml-format} which is in Japanese (which the author is not an expert in). Therefore, JSON format telegrams and data will be used in the application.
 
-\paragraph{XML Data Sources}
+\paragraph{Design of WebSocket Wrapper}
+
+.NET has a built-in sealed \Code{ClientWebSocket} class, and therefore to use it, we would have to wrap a class around it (i.e. a class that composites \Code{ClientWebSocket} class), since it is responsible for the life-cycle of the WebSocket as well. The wrapper is re-used over multiple connections, while the backing \Code{ClientWebSocket} class is disposed per-use.
+
+Events are used here (Data Received and Status Changed) to use callbacks to send back the data to the necessary component, such as the View Model for the GUI (introduced later). Furthermore, the FIFO data structure queue is used to store pings sent by the client, since a later ping received would indicate that the connection is still alive, and the ping, together with all pings before that ping (and including that ping itself), could be removed from the queue.
+
+The overall flow structure is shown in Figure \ref{fig:websocket-flowchart} for the overall functionality of the WebSocket flowchart, and in Figure \ref{fig:websocket-response} for dealing with the received response.
+
+\begin{figure}
+    \centering
+    \includegraphics[width=\linewidth]{websocket-flowchart.pdf}
+    \caption{Flowchart of WebSocket Wrapper}
+    \label{fig:websocket-flowchart}
+\end{figure}
+
+\begin{figure}
+    \centering
+    \includegraphics[width=\linewidth]{websocket-response.pdf}
+    \caption{Flowchart of dealing with WebSocket Response}
+    \label{fig:websocket-response}
+\end{figure}
+
+\subsubsection{Telegrams}
 
 \ToDo{Detail XML Data Sources where necessary}
 
@@ -1054,11 +1083,11 @@ Lots of data are serialised in JSON, but the JMA provides its data in XML format
 
 It is worth noting that an existing NuGet Library, \GitHubHref{ingen084}{DmdataSharp} supports dealing with the DM-D.S.S. data flow and converting them to C\# objects (and exceptions). However, for the purposes of this NEA, we will implement our own way to interact with the APIs and the correlated C\# DTOs. The developer of this library did also mention that it is quite purpose-built so might not be suitable for general use.
 
-This section referred to \autocite{dmdata-references-api}, \autocite{dmdata-references-json}, \autocite{dmdata-references-oauth} and \autocite{dmdata-references-telegram}.
+This section referred to \autocite{dmdata-references-api, dmdata-references-json, dmdata-references-oauth, dmdata-references-telegram}.
 
 \section{Algorithms}
 
-There are two key 'algorithms' that this application will use: the first one used to calculate the position of the P/S wavefronts, and the other one used to detect shake on the real-time monitoring screen.
+There are two key 'algorithms' that was designed for this application (in addition to the inverse-cubic for converting colours as described previously): the first one used to calculate the position of the P/S wavefronts, and the other one used to detect shake on the real-time monitoring screen.
 
 \subsection{Wavefront Calculation}
 
