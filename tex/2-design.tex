@@ -1306,87 +1306,138 @@ This section referred to \autocite{blog-ingen-shake-detection}.
 
 The GUI will be designed using Avalonia, which is designed to develop cross-platform applications in .NET.
 
-The package MapsUI \autocite{mapsui-github} will be used to draw the maps in the application, since it is one of the best-supported candidates in .NET.
-
 The nature of this application decided that the UI will be a graphical interface. Comparing MAUI in .NET with Avalonia, due to the fact that MAUI is more suitable for a mobile touch-based platform (that also works on desktop), while Avalonia is designed to support the desktop paradigm, the latter will be used to implement the graphical interface.
 
 As discussed in the previous sections, there are three main pages that the program will include: the page for real-time observations, the page for viewing past earthquakes, and the page for controls and settings.
 
 A sidebar is used to switch between the three pages.
 
-Note that the following mock-up images are for demonstration purposes only -- it is not an actual earthquake.
+The mock-ups of GUI Pages are demonstrated using \autocite{soft-balsamiq}.
+
+Note that the following mock-up images are for demonstration purposes only -- it is not an actual earthquake. They only include functionalities identified as 'key' in the analysis section, and therefore additional functionalities like shake-detection boxes, as well as customisation features are not included.
+
+\subsection{Map}
+
+The package Mapsui \autocite{mapsui-github} will be used to draw the maps in the application, since it is one of the best-supported candidates in .NET.
+
+The OpenStreetMap layer will be used as the background, first because it is free to use and supported very well, also does it allow users to see the actual map of the area of which the earthquake occurred.
+
+To colour the regions and the shorelines, Shape Files (\Code{.shp}) has to be used in the application. The Shape Files are sourced from the JMA webpage \autocite{jma-shapefiles}.
+
+However, the shape files are extremely precise and accurate, tracing each and every coastline and border of the regions. However, this is not necessary for the purposes of the application (it does not make much difference zoomed out), and this will cause performance issues (loading the original shape files will cause a performance issue using more than 4 GB of RAM and will cause the application to halt).
+
+Therefore, using the tool available on \autocite{soft-mapshaper}, the shape files are simplified using the Ramer--Douglas--Peucker algorithm, preserving 5\% of the original details (which is still extremely accurate), and the line intersections are also repaired (which is a natural consequence of the algorithm). However, this algorithm is not a key part to this application, so the existing implementation on \autocite{soft-mapshaper} is used.
 
 \subsection{Real-Time Monitoring Screen}
 
 The real-time monitoring screen holds the following three functionalities:
 \begin{itemize}
-    \item real-time intensity display (including shake detection boxes);
-    \item tsunami warning display; and
-    \item EEW display (including predicted intensity colouring and real-time wavefront positions).
+    \item real-time intensity display;
+    \item tsunami warning display (including shoreline colouring); and
+    \item EEW display (including hypocentre marking, predicted intensity colouring and real-time wavefront positions).
 \end{itemize}
 
 \begin{figure}[htp]
     \centering
     \includegraphics[width=\linewidth]{gui-mockup-rt.pdf}
-    \caption{Design of GUI for Real-Time Page.}
+    \caption{Design of GUI for Real-Time Page}
     \label{fig:gui-mockup-rt}
 \end{figure}
 
-Figure \ref{fig:gui-mockup-rt} shows a design of this page that will be implemented. The real-time intensity colour points, the current time and the colour scale will be displayed at all times.
+Figure \ref{fig:gui-mockup-rt} shows a design of this page that should be implemented.
 
-The shake detection boxes will only be displayed when there is shake detected as described in the algorithm section, and would be coloured into red, yellow or green in accordance to the intensity of the event.
+The real-time intensity colour points, the current time and the colour scale will be displayed at all times. On the colour scale, there will be the name of the current data displayed, with the number to indicate the scale of the colour. The colour scale and time are situated in the bottom-left corner of the page.
 
-The tsunami warning will be displayed only if it is released (or updated). It will consistently flash at 0.5 Hz to warn the users and to signify its presence.
+If a EEW is received, there will be a side panel appearing in the top-left corner of the screen. It should display the level of the EEW, together with the serial of the EEW. The level of the EEW has priority follows: Cancellation > Final > Warning > Forecast. The EEW will take level the first in the list that it is in. The details of the EEW are displayed, together with the informational text in scrollable form.
 
-The EEW warning display will only be present when an EEW is ongoing, until 1 minute after the final EEW warning. The top-left box will display key properties of the earthquake (including the predicted maximum intensity in the corresponding colour), with relatively smaller text displaying the details, such as the shake detection algorithm used (e.g. IPF/PLUM etc.). The map will be coloured in accordance to the predicted intensities released in the EEW.
+Upon receiving or updating an EEW, the hypocentre of the earthquake will be marked on the map. If the hypocentre is a seismological hypocentre, a red cross will be used. However, if the hypocentre is assumed and does not seismological meaning, as discussed in the analysis section, a different symbol will be used. The author chose to use a dashed circle.
 
-There are no buttons or interactions for the user to interact with. However, this page will have a relatively high refresh rate to ensure that the data displayed is up-to-date.
+The predicted maximum intensity of regions will also be coloured, and the wavefronts as well, with the P-Wave being blue (since less destructive) and S-Wave being orange (since more destructive).
+
+If multiple EEWs are in affect simultaneously, then the top-left panel will switch between the earthquakes at a fixed rate. However, the information on the map for both earthquakes will be displayed simultaneously.
+
+The EEW shall be removed (and the layers on the map as well) after a certain amount of time.
+
+The tsunami warning will be displayed only if it is released, or updated. The shorelines will be coloured in accordance of the predicted warning level of the tsunami on that particular shore line region. In the bottom-right corner, the level of the tsunami warning (which is the maximum of the tsunami warnings for each shoreline) will be displayed including its colour, and the last update time. There will be a scrollable bar for the informational text, since it is usually very long.
+
+There are no buttons for the user to interact with. However, there will be scroll bars for users to view the informational text for the particular earthquake, and the user will be able to zoom/move the map (as supported by Mapsui).
 
 \subsection{Past Earthquakes}
 
-The past-earthquake screen regularly displays a sidebar to select the earthquake from, with by default the latest earthquake selected, with a map in the middle. Figure \ref{fig:gui-mockup-pe} shows a design of this page.
+The past-earthquake screen regularly displays a sidebar to select the earthquake from, with a map in the middle, and on the left a panel displaying the detailed information of the selected earthquake. Figure \ref{fig:gui-mockup-pe} shows a design of this page.
 
 \begin{figure}[htp]
     \centering
     \includegraphics[width=\linewidth]{gui-mockup-pe.pdf}
-    \caption{Design of GUI for Past Earthquakes Page.}
+    \caption{Design of GUI for Past Earthquakes Page}
     \label{fig:gui-mockup-pe}
 \end{figure}
 
-For each earthquake, the sidebar should display the time of the earthquake, the epicentre of the earthquake (position and depth), the maximum intensity of the earthquake (in the correct corresponding colour), and its magnitude.
+On the sidebar, for each earthquake, the intensity will be displayed, coloured as defined in the colour scheme. The name of the hypocentre's location, the depth, the magnitude, and the time of the earthquake is also included.
 
-In the centre, there should be a map colouring the observed intensity of the earthquake, together with a cross to indicate the position of the epicentre.
+Notice that there are special cases of magnitudes, such as in different units/huge earthquakes/unknown, and special cases of depths as well, such as very deep/shallow or unknown.
 
-On the left, there should be the details displayed in a bigger font, and an expandable sidebar to see the intensity of each observation point, in a hierarchy according to the province and the county. There should be two buttons, one corresponding to the JMA website to view the details, and another to jump to a weather service provider to view the details of the earthquake.
+Above the sidebar there is a load/refresh button, and below a button to load earthquakes. The sidebar is scrollable.
 
-\subsection{Customisation Page}
+In the centre of the map, there is a red cross indicating the position of the hypocentre. Regions are coloured based on the maximum observed intensity in the region, and there are dots on the map indicating the observed intensity at that particular observation station.
 
-In the customisation page, there should be a place to input an API Key from DM-D.S.S., and in the future this should be upgraded to a button to provide a login using OAuth 2 and the default browser.
+On the left, the details of the selected earthquake will be displayed. On the top there is the button to link to Yahoo Earthquake Information. The information will be displayed more accurately here, together with the last updated time of the information. Then, there is the additional text and comments in scrollable form (since they could be quite long), and finally there is the intensity tree, first grouping by intensity, then by region, then by city, and finally the exact observation stations. The intensity level should be coloured in correspondence with the colour for that intensity.
 
-There should also be a page to customise sound files for different events, a page to customise the intensity colour scheme, and to define a key point on the map to observe the intensity.
+The interactions the users is allowed to do on a page is to select an earthquake from the sidebar, and to click the load/refresh button to load the earthquakes. The user is also allowed to click on the Yahoo Earthquake Information button to view the information on the Yahoo Earthquake Information page. They are allowed to interact with the map (zoom/move), as well as using the scrollbars.
 
-Figure \ref{fig:gui-mockup-customisation} shows a mock-up of the design of the customisation page.
+\subsection{Settings Page}
+
+Figure \ref{fig:gui-mockup-se} shows a mock-up of the design of the customisation page.
 
 \begin{figure}[htp]
     \centering
-    \includegraphics[width=\linewidth]{gui-mockup-customisation.pdf}
-    \caption{Design of GUI for Customisation Page.}
-    \label{fig:gui-mockup-customisation}
+    \includegraphics[width=\linewidth]{gui-mockup-se.pdf}
+    \caption{Design of GUI for Settings Page}
+    \label{fig:gui-mockup-se}
 \end{figure}
+
+In the settings page, according to the JMA requirements, there has to be explanatory text explaining the limitations and possible errors of EEWs.
+
+There then should be a section to set up DM-D.S.S., where the user is allowed to enter an API Key and there should be a place to input an API Key from DM-D.S.S., or click a button to connect to OAuth 2.0.
+
+Since OAuth 2.0 takes priority over API Key, the connect/disconnect button for OAuth is enabled all the time, allowing the user to authorise/revoke authorisation of the application.
+
+The button to confirm the API Key should only be enabled if and only if all the following conditions are satisfied:
+\begin{enumerate}
+    \item The API Key input box has changed;
+    \item The API Key has the correct format (begins with \Code{AKe.});
+    \item OAuth 2.0 is not in use.
+\end{enumerate}
+
+Next up there is the section for the WebSocket, where a button is provided to connect to/disconnect from the WebSocket, and to load/refresh the list of WebSockets. In the list of WebSockets, the ID, App Name, and Connection Name of a connection is displayed, and a disconnect button is provided per line for each line, which will be disabled upon successful disconnection.
+
+Finally, there are two dropdowns corresponding to the sensors and data of the real-time monitoring screen. The user should be able to select the sensors/data that they would like to view in the dropdown, and the data in the real-time page will reflect accordingly to the user's choice, including the text and the numbers on the scale.
+
+At the end there is also a dropdown for the user to select the language of the application, which will change the language of the application, necessarily working upon restart.
 
 \subsection{Joint Functionalities and Technicalities}
 
 There is a joint functionality between the real-time page and the past earthquakes page, that is, when a new EEW/Tsunami Warning is released, the application should automatically jump to the real-time page to display the latest earthquake information to the user.
 
-Since this a GUI-based application, there will be a significant use of asynchronous programming and events. Specifically, EEWs should be treated as events for the GUI application to handle and display, and user inputs are also events that the program should respond to.
-
-\ToDo{Talk about events more}
-
-% TODO: Talk about events more
+Since this a GUI-based application, there will be a significant use of asynchronous programming and events, which will be detailed later in the OOP section.
 
 \section{OOP Model}
 
 \subsection{Design Patterns}
+
+\subsubsection{Dependency Injection and Singleton}
+
+\subsubsection{Logging}
+
+\subsubsection{Adaptor Pattern}
+
+\subsubsection{Options Pattern}
+
+\subsubsection{Factory Pattern}
+
+\subsubsection{MVVM Pattern}
+
+\subsection{Events}
 
 \subsection{Abstractions (Interfaces, Options) and Services (Classes)}
 
@@ -1429,25 +1480,21 @@ The class diagram for the WebSocket based calls is shown in Figure \ref{fig:clas
     \label{fig:classes-ws}
 \end{figure}
 
-\subsection{The MVVM Pattern}
+\section{Hardware and Software Requirements}
 
-\section{Hardware \& Software Requirements}
-
-Table \ref{tab:hardware-spec} outlines basic hardware requirements for the application.
+Table \ref{tab:hardware-spec} outlines the expected basic hardware requirements for the application.
 
 \begin{table}[htp]
     \centering
 
-    \begin{tabular}{|c|c|c|}
-        \hline
+    \begin{tabular}{ccc}
         Type               & Minimum                        & Recommended                     \\
         \hline
         RAM                & 4 GB                           & 8 GB                            \\
-        Storage Space      & 1 GB                           & 2 GB                            \\
+        Storage Device     & HDD                            & SSD                             \\
         CPU                & Intel Core 8th Gen (or equiv.) & Intel Core 10th Gen (or equiv.) \\
         Display Resolution & 720p                           & 1080p                           \\
-        Display Size       & 9''                            & 12''                            \\
-        \hline
+        Display Size       & 9''                            & 12''
     \end{tabular}
     \caption{Hardware Specification for App}
     \label{tab:hardware-spec}
@@ -1455,7 +1502,7 @@ Table \ref{tab:hardware-spec} outlines basic hardware requirements for the appli
 
 The amount of RAM is due to the amount of data that is processed (and considering other applications running as well). Storage space is not a substantial requirement of this application, while the CPU has to be of high standards to process all the data. To display the application properly (with appropriate size), a display of 1080p 12'' is recommended.
 
-It will be able to run on up-to-date Windows, macOS and Linux distributions (both x64 and ARM) due to the cross-platform nature of .NET, but x86 platforms will not be supported.
+It will be able to run on up-to-date Windows, macOS and Linux distributions (both x64 and ARM) due to the cross-platform nature of .NET, but out-of-date x86 platforms will not be explicitly supported.
 
 The author uses a macOS 15 (beta) machine with 2.5K 13'' display, Intel Core i5-1038NG7 (with Intel Iris Plus Graphics) and 16 GB of RAM (MacBook Pro 2020, 4 Thunderbolt Ports) and a Windows 11 (beta) machine with 2.5K 15'' display, AMD Ryzen 7 5800H and 32 GB of RAM (with RTX 3070 for Laptop) (Legion R9000K 2021) to test the application, and with 2.5K 24'' external display as well. An Ubuntu 22.04 virtual machine will be used to test the compatibility for Linux systems.
 
