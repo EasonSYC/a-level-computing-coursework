@@ -1422,26 +1422,10 @@ There is a joint functionality between the real-time page and the past earthquak
 Since this a GUI-based application, there will be a significant use of asynchronous programming and events, which will be detailed later in the OOP section.
 
 \section{OOP Model}
+
 The program mainly uses the OOP (Object-Oriented Programming) paradigm, since it allows code object to be modelled like real-live objects. This is particularly useful in this application, since each service could be represented by an object (e.g. the API caller, the WebSocket connection), and each operation on it is modelled as a method.
 
 This section will discuss some design patterns to use in the application, and will include class diagrams for modelling of services and DTOs.
-
-\subsection{Abstractions (Interfaces), Options and Services (Classes)}
-Interfaces is an abstraction of a service, and is a contract between the service and the user on what the service will be able to do. It defines the functionality of the service, but does not provide the implementation. This is especially useful for mocking the service for unit testing purposes, and provide the possibility for polymorphism, which could be achieved by different implementation of the same service.
-
-Options on the other hand gives the service the necessary setup data. In most cases, it makes the constructor more meaningful, and allows for the options pattern and binding to an external settings file (see later for a detailed description of the settings pattern).
-
-\subsubsection{JMA Time Table}
-
-\subsubsection{Kyoshin Monitor}
-
-\subsubsection{DM-D.S.S. Authentication}
-
-\subsubsection{DM-D.S.S. API Calls}
-
-\subsubsection{DM-D.S.S. Telegram Fetching and Parsing}
-
-\subsubsection{DM-D.S.S. WebSocket}
 
 \subsection{Design Patterns}
 
@@ -1456,6 +1440,77 @@ Options on the other hand gives the service the necessary setup data. In most ca
 \subsubsection{Factory Pattern}
 
 \subsubsection{MVVM Pattern}
+
+\subsection{Abstractions (Interfaces), Options and Services (Classes)}
+
+Interfaces is an abstraction of a service, and is a contract between the service and the user on what the service will be able to do. It defines the functionality of the service, but does not provide the implementation. This is especially useful for mocking the service for unit testing purposes, and provide the possibility for polymorphism, which could be achieved by different implementation of the same service.
+
+Options on the other hand gives the service the necessary setup data. In most cases, it makes the constructor more meaningful, and allows for the options pattern and binding to an external settings file (see later for a detailed description of the settings pattern).
+
+Each section below is the description of one particular responsibility (service) that is necessary for the application, and in separate namespaces.
+
+\subsubsection{JMA Time Table}
+
+For the service of the JMA Time Table, \textbf{options pattern} is used to provide the location of the raw text file (the only setup required).
+
+\textbf{Abstraction} is provided for the service that calculates the distance based on the time and depth, and this is the only responsibility of the interface, \Code{ITimeTable}.
+
+The services will be split into two parts: the actual service for the Time Table, \Code{TimeTable}, and the builder of the Time Table Database, \Code{TimeTableBuilder}, which is responsible for reading the file, verifying that it has the correct format via the Regular Expression, and parsing the raw text file into the DTO format to be transferred into the Time Table service provider. This is an example of the \textbf{factory pattern}, and it will return an object with the type of the interface, rather than the concrete class itself. This hides the detail implementation from the user, and provides the user with only an interface to interact with.
+
+Logging will be provided for the service class \Code{TimeTable}.
+
+Extension methods on \Code{IServiceCollection} is provided to \textbf{inject} a singleton of \Code{ITimeTable} into the service collection, and the options pattern is used to provide the location of the file. This also hides the factory from the user as well.
+
+This functionality does not have any dependencies on other functionalities.
+
+Figure \ref{fig:class-diagram-timetable} is the class diagram for this functionality.
+
+\begin{figure}[htp]
+    \centering
+    \includegraphics[width=\linewidth]{class-diagram-timetable.pdf}
+    \caption{Class Diagram for JMA Time Table}
+    \label{fig:class-diagram-timetable}
+\end{figure}
+
+\subsubsection{Kyoshin Monitor}
+
+To manipulate with colours and images, the C\# library SkiaSharp is used, specifically the classes \Code{SKColor}, \Code{SKBitmap} and \Code{SKImage}.
+
+The functionality is split into two parts, the fetching of the images from the webpage, and the extraction of the points using give data on the extraction of points in JSON format. As for the first functionality, the \textbf{abstraction} used is the interface \Code{IImageFetch}, and \Code{ImageFetch} is the concrete implementation of it. They all depend on two enumerations, the \Code{MeasurementType} and the \Code{SensorType}, with an extension class providing conversion of the enumerations to a string in the URI. \textbf{Logging} is achieved by \Code{ImageFetchLogs}.
+
+The second functionality is the extraction of the points from the JSON data, and the \textbf{abstraction} used is the interface \Code{IPointExtraction}, and \Code{PointExtraction} is the concrete implementation of it.
+
+For the DTOs to deserialise the JSON file which stores the mapping information of pixel position and geographical location, the DTO \Code{ObservationPoint} is used, \textbf{composed} in the class \Code{PointExtract} (i.e. they have the same life-cycle). \Code{GeographicCoordinate}, \Code{PixelCoordinate} and the enumeration \Code{PointType} has composition relationship with the \Code{ObservationPoint} class as well, since they are considered part of the observation point.
+
+To achieve \textbf{dependency injection}, extension methods on \Code{IServiceCollection} is provided to inject \Code{IImageFetch} and \Code{IPointExtract} into the service collection, using \textbf{options pattern} to set up the base URI, relative URI format string, and the file path to the JSON file storing the mapping of pixels to geographical locations.
+
+This functionality does not have any dependencies on other functionalities.
+
+Figure \ref{fig:class-diagram-kmoni} is the class diagram for this functionality.
+
+\begin{figure}[htp]
+    \centering
+    \includegraphics[width=\linewidth]{class-diagram-kmoni.pdf}
+    \caption{Class Diagram for Kmoni}
+    \label{fig:class-diagram-kmoni}
+\end{figure}
+
+Apart from those basic services, the colour conversion is included as extension methods provided in a static class. Also, an extension method is used in the conversion from the \Code{byte[]} to \Code{SKBitmap} to connect between \Code{IImageFetch} and \Code{IPointExtraction}. Figure \ref{fig:class-diagram-kmoni-extra} gives the class diagram for these two Functionalities.
+
+\begin{figure}[htp]
+    \centering
+    \includegraphics[width=0.6\linewidth]{class-diagram-kmoni-extra.pdf}
+    \caption{Class Diagram for Extra Services of Kmoni}
+    \label{fig:class-diagram-kmoni-extra}
+\end{figure}
+
+\subsubsection{DM-D.S.S. Authentication}
+
+\subsubsection{DM-D.S.S. API Calls}
+
+\subsubsection{DM-D.S.S. Telegram Fetching and Parsing}
+
+\subsubsection{DM-D.S.S. WebSocket}
 
 \subsection{Events}
 
