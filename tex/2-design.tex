@@ -1422,6 +1422,26 @@ There is a joint functionality between the real-time page and the past earthquak
 Since this a GUI-based application, there will be a significant use of asynchronous programming and events, which will be detailed later in the OOP section.
 
 \section{OOP Model}
+The program mainly uses the OOP (Object-Oriented Programming) paradigm, since it allows code object to be modelled like real-live objects. This is particularly useful in this application, since each service could be represented by an object (e.g. the API caller, the WebSocket connection), and each operation on it is modelled as a method.
+
+This section will discuss some design patterns to use in the application, and will include class diagrams for modelling of services and DTOs.
+
+\subsection{Abstractions (Interfaces), Options and Services (Classes)}
+Interfaces is an abstraction of a service, and is a contract between the service and the user on what the service will be able to do. It defines the functionality of the service, but does not provide the implementation. This is especially useful for mocking the service for unit testing purposes, and provide the possibility for polymorphism, which could be achieved by different implementation of the same service.
+
+Options on the other hand gives the service the necessary setup data. In most cases, it makes the constructor more meaningful, and allows for the options pattern and binding to an external settings file (see later for a detailed description of the settings pattern).
+
+\subsubsection{JMA Time Table}
+
+\subsubsection{Kyoshin Monitor}
+
+\subsubsection{DM-D.S.S. Authentication}
+
+\subsubsection{DM-D.S.S. API Calls}
+
+\subsubsection{DM-D.S.S. Telegram Fetching and Parsing}
+
+\subsubsection{DM-D.S.S. WebSocket}
 
 \subsection{Design Patterns}
 
@@ -1439,13 +1459,7 @@ Since this a GUI-based application, there will be a significant use of asynchron
 
 \subsection{Events}
 
-\subsection{Abstractions (Interfaces, Options) and Services (Classes)}
-
 \subsection{Design of DTOs (Record Classes)}
-
-\ToDo{Finish up class diagram with text explanation}
-
-% TODO: Finish OOP
 
 The data achieved by the previous two data sources will be parsed into objects (classes, records) to transfer between different components of the program. Those objects will then be transferred to the GUI component and be displayed.
 
