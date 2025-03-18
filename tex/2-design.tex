@@ -1443,6 +1443,8 @@ This section will discuss some design patterns to use in the application, and wi
 
 \subsubsection{Events}
 
+\subsubsection{Exceptions}
+
 \subsection{Abstractions (Interfaces), Options and Services (Classes)}
 
 Interfaces is an abstraction of a service, and is a contract between the service and the user on what the service will be able to do. It defines the functionality of the service, but does not provide the implementation. This is especially useful for mocking the service for unit testing purposes, and provide the possibility for polymorphism, which could be achieved by different implementation of the same service.
@@ -1554,22 +1556,57 @@ This service depends on the authentication service, and the common DTOs.
 
 \subsubsection{DM-D.S.S. Telegram Fetching and Parsing}
 
-\subsubsection{DM-D.S.S. WebSocket}
+The responsibilities of parsing the schema for the JSON telegram and parsing the telegram, is separate responsibilities from fetching the JSON telegram. Therefore, there are two \textbf{interfaces} involved here: \Code{ITelegramParser} for parsing the JSON into the DTO of the corresponding schema, and determining the C\# type of the object corresponding to a schema; and \Code{ITelegramRetriever} for acquiring the telegram itself from the API.
 
-\subsection{Design of DTOs (Record Classes)}
+Their concrete services are \Code{TelegramParser} and \Code{TelegramRetriever} respectively. However, notice that \Code{TelegramRetriever} would aggregate an object of \Code{TelegramParser}. This is an \textbf{aggregation} since their life cycle are not fully (though highly) correlated -- the parser is provided in the constructor for the retriever, and could as well exist without the retriever.
 
-The data achieved by the previous two data sources will be parsed into objects (classes, records) to transfer between different components of the program. Those objects will then be transferred to the GUI component and be displayed.
+Both concrete services have \textbf{logging}, and extension methods for \textbf{dependency injection} is also provided. Similar to previous classes, due to the existance of the dependency injection methods, the service classes are not exposed to external code, and the only way to create an instance of the service is through the dependency injection container.
 
-The data achieved using the NIED Kyoshin Monitor (observation points) will be converted into objects. The class diagram is shown in is shown in Figure \ref{fig:classes-kmoni}.
+The class diagram is in Figure \ref{fig:class-diagram-dmdata-telegram}.
 
 \begin{figure}[htp]
     \centering
-    \includegraphics[width=0.5\linewidth]{class_diagram.png}
-    \caption{Class Diagram for Kyoshin Monitor data objects}
-    \label{fig:classes-kmoni}
+    \includegraphics[width=\linewidth]{class-diagram-dmdata-telegram.pdf}
+    \caption{Class Diagram for DM-D.S.S Telegram Fetching and Parsing}
+    \label{fig:class-diagram-dmdata-telegram}
 \end{figure}
 
-The GIF images will be parsed with the built-in \Code{SkiaSharp} module by mono, which could also be used to draw the map.
+This component has dependency on the authentication class, and the shared common DTOs.
+
+\subsubsection{DM-D.S.S. WebSocket}
+
+There is one \textbf{interface} for this, \Code{IWebSocketClient}, and the concrete \textbf{service} is \Code{WebSocketClient}.
+
+There are two events: data received (with event arguments \Code{DataReceivedEventArgs}, containing the telegram received), and status changed (with event arguments \Code{StatusChangedEventArgs}, containing a boolean indicating if the new connection is connected). \textbf{Exceptions} are designed as well, but this is mainly for internal purposes, and they will not be exposed to the users of this (all handled internally).
+
+The class diagram is in Figure \ref{fig:class-diagram-dmdata-ws}. Note that DTOs are excluded from this.
+
+\begin{figure}[htp]
+    \centering
+    \includegraphics[width=\linewidth]{class-diagram-dmdata-ws.pdf}
+    \caption{Class Diagram for DM-D.S.S WebSocket}
+    \label{fig:class-diagram-dmdata-ws}
+\end{figure}
+
+
+The modelling of the DTOs for WebSocket is particularly interesting. They are all internal, since they are just designed for internal usage, and not for exposing to external code. First, a \textbf{base record class} \Code{ResponseBase} is implemented, which contains the type of the response in an enumeration, \Code{MessageType}. Contra-intuitively, it is \textbf{not virtual}, since we would like to first parse the data to this, determine the type, and then parse further to get the concrete type of the response depending on the type received. Different concrete types will have different \Code{MessageType}, which is an example of \textbf{polymorphism}.
+
+The five different types of responses, and including the two requests are all inherited from this. The reason is that they all share the same behaviour with the \Code{MessageType}.
+
+The \Code{CompressionType} and \Code{EncodingType} are described as enumerations rather than strings, since they can only take finitely many values, and this allows for easier comparison, and preserves type safety (unlike strings, which might lead to meaningless results).
+
+Apart from this, other compositions of record classes to represents DTOs is just normal behaviour, same as what the API described. Figure \ref{fig:class-diagram-dmdata-ws-dto} gives the class diagram for the DTOs involved. Notice how inheritance and polymorphism is involved.
+
+\begin{figure}[htp]
+    \centering
+    \includegraphics[width=\linewidth]{class-diagram-dmdata-ws-dto.pdf}
+    \caption{Class Diagram for DM-D.S.S WebSocket DTOs}
+    \label{fig:class-diagram-dmdata-ws-dto}
+\end{figure}
+
+This service depends on the common DTOs, and the telegram parser (but not the telegram fetcher, which releases its dependency on the authentication). This means that \Code{ITelegramParser} is \textbf{aggregated} within \Code{IWebSocketClient}, but not \textbf{composed}, just like with \Code{ITelegramRetriever}. In the dependency injection, the \Code{ITelegramParser} will be injected as well, but \textbf{singleton} pattern ensures there is only one of them in play, commonly shared.
+
+\subsection{Design of DTOs (Record Classes)}
 
 The class diagram following the UML convention for the HTTP-based API calls is shown in Figure \ref{fig:classes-http}. The JSON responses will be converted to C\# objects using \Code{System.Text.Json} modules.
 
@@ -1581,15 +1618,6 @@ The class diagram following the UML convention for the HTTP-based API calls is s
 \end{figure}
 
 This shows the use of composition and inheritance. The use of generics is also demonstrated.
-
-The class diagram for the WebSocket based calls is shown in Figure \ref{fig:classes-ws}.
-
-\begin{figure}[htp]
-    \centering
-    \includegraphics[width=0.5\linewidth]{class_diagram.png}
-    \caption{Class Diagram for WebSocket data objects}
-    \label{fig:classes-ws}
-\end{figure}
 
 \section{Hardware and Software Requirements}
 
