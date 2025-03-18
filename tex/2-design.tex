@@ -1449,6 +1449,8 @@ Microsoft has a built-in \Code{ILogger} and \Code{ILoggerProvider} service. \Cod
 
 When the application is debugging, the built-in .NET Debug Logger will be used, and the logs will be logger to the output in debug. However, when the application is in production, the custom file logger will be used, and the logs will be logged to a file (a \Code{StreamWriter} which is a file stream).
 
+Logging is used in almost every service class of the application, unless the functionality is trivial, or any actions on the class is always visible.
+
 This section referred to \autocite{dotnet-tutorial-logging} introducing the Microsoft \Code{ILogging} interface, and how to use it with dependency injection.
 
 \subsubsection{Adaptor Pattern}
@@ -1464,6 +1466,12 @@ On the other hand, Mapsui uses a delegate (a callback function) to achieve loggi
 This section referred to \autocite{mapsui-logging, avalonia-logging} on how logging is achieved in MapsUI and Avalonia.
 
 \subsubsection{Options Pattern}
+
+It is almost certainly a bad idea to hard-encode some configurations (especially strings) in different services, such as the location of the file for the JMA Time Table, the base URI of API Calls, and the location to store the authenticator. Therefore, a commonly-used approach in .NET is to use a file named \Code{appsettings.json}. The bad thing about this approach, is that it is not typed, and it is stored like a dictionary with strings as keys. Luckily, Microsoft has a Options Binding pattern, which allows us to bind sections of the configuration JSON file, to an options class, which could then be injected into the dependency injection container, and used by the services.
+
+The options pattern is used for the configuration for the JMA Time Table (for the location of the file), the configuration for the DM-D.S.S. (for the base URIs, the OAuth 2 setup options, and the start post data for WebSocket), and the configuration for the Kmoni components (for the base URI, relative URI, and the file path to which the observation points are stored). Other options will not be type bound, but retrieved in a similar method as the string key dictionary as described before.
+
+A small caveat here is that the options bound using type \Code{T} will be used as a \Code{IOptions<T>} in the dependency injection container, and the options will be retrieved using the \Code{Value} property of the \Code{IOptions<T>}.
 
 This section referred to \autocite{dotnet-tutorial-configuration} on best practices in binding options and how to do this with dependency injection.
 
@@ -1641,6 +1649,8 @@ Apart from this, other compositions of record classes to represents DTOs is just
 \end{figure}
 
 This service depends on the common DTOs, and the telegram parser (but not the telegram fetcher, which releases its dependency on the authentication). This means that \Code{ITelegramParser} is \textbf{aggregated} within \Code{IWebSocketClient}, but not \textbf{composed}, just like with \Code{ITelegramRetriever}. In the dependency injection, the \Code{ITelegramParser} will be injected as well, but \textbf{singleton} pattern ensures there is only one of them in play, commonly shared.
+
+\subsection{Design of UI Classes with MVVM Pattern}
 
 \subsection{Design of DTOs (Record Classes)}
 
