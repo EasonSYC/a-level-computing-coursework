@@ -1431,19 +1431,55 @@ This section will discuss some design patterns to use in the application, and wi
 
 \subsubsection{Dependency Injection and Singleton Pattern}
 
+\textbf{Dependency injection} is an extremely helpful tool dealing with complex classes with multiple dependencies to initialise. It would be a terrible idea for each class to instantiate the dependency themselves (e.g. the View Model for the Real-Time, Past, Setting Page instantiating their own services for API Calls, Authentications, Telegrams, etc., or the telegram fetcher and the WebSocket both each instantiating their own services to parse telegrams), since firstly it breaks the principle of single responsibility, and secondly it is performance-costly (the garbage collector has to collect garbage all the time, heap has to be assigned and de-assigned), and will lead to a lot of code duplication.
+
+Dependency injection is achieved by sharing a \textbf{common container} of services, which .NET has a built-in \Code{IServiceCollection} with concrete implementation \Code{ServiceCollection}. The service container will deal with how to provide in the correct dependencies to the class that requires it. This avoids the need of complicated constructors in the code.
+
+\textbf{Singleton pattern} is a pattern commonly used with dependency injection. Restricted to this application, \textbf{all services are registered as singletons}, meaning that there will only be \textbf{one} instance of each service in the application, and all services which depends on it, will \textbf{share this common instance}. Its lifetime will be managed by the container of the dependency injection (and we will not worry about it, it will get dealt with after the application stops).
+
+The only exception to this rule is the loggers, since two loggers are involved, both implementing \Code{ILogger}: the debug logger (by Microsoft) and my custom file logger, having different concrete implementations to the same base interface. This means they are to be registered as \textbf{enumerable} in the logger builder.
+
+This section referred to \autocite{dotnet-tutorial-dependency-injection}, introducing the basics of dependency injection and how to use dependency injection with the Microsoft packages.
+
 \subsubsection{Logging}
+
+\textbf{Logging} is essential to the application, since it allows the developer to see what is happening, and allows the developer to deal with bugs that are reported by the users. It allows for tracking of what is happening with the application at all times.
+
+Microsoft has a built-in \Code{ILogger} and \Code{ILoggerProvider} service. \Code{ILogger} is the actual logger, and \Code{ILoggerProvider} is a provider (factory) of the logger.
+
+When the application is debugging, the built-in .NET Debug Logger will be used, and the logs will be logger to the output in debug. However, when the application is in production, the custom file logger will be used, and the logs will be logged to a file (a \Code{StreamWriter} which is a file stream).
+
+This section referred to \autocite{dotnet-tutorial-logging} introducing the Microsoft \Code{ILogging} interface, and how to use it with dependency injection.
 
 \subsubsection{Adaptor Pattern}
 
+\textbf{Adaptor pattern} is about adapting one interface to another. Here, we will not detail in about the adaptor pattern involved between the results achieved from the API calls and the models that stores the data for the UI (this will be discussed later in the MVVM pattern).
+
+The only two other adaptor patterns involved here, is the adaptor for logging for Avalonia and Mapsui.
+
+Avalonia uses a very similar (but different) logging interface \Code{ILogSink} to log, however we used the more modern \Code{ILogSink} interface, and we will need to adapt the \Code{ILogger} to \Code{ILogSink}. This is achieved by a adaptor class \Code{AvaloniaToMicrosoftLoggingAdaptor}, which will implement the \Code{ILogSink} interface, and aggregate a \Code{ILogger}. The \Code{Log} method will be implemented to call the \Code{Log} method of the \Code{ILogger}, and \Code{IsEnabled} to call the \Code{IsEnabled} method of the \Code{ILogger} as well. The \Code{ILogger} provided to the adaptor class will be retrieved from the dependency injection container.
+
+On the other hand, Mapsui uses a delegate (a callback function) to achieve logging. This is relatively simpler to achieve, since we could just attach to the \Code{Logger.LogDelegate} method of Mapsui the log delegate we want, in our case the \Code{ILogger.Log} method, where the \Code{ILogger} is retrieved from the dependency injection container.
+
+This section referred to \autocite{mapsui-logging, avalonia-logging} on how logging is achieved in MapsUI and Avalonia.
+
 \subsubsection{Options Pattern}
+
+This section referred to \autocite{dotnet-tutorial-configuration} on best practices in binding options and how to do this with dependency injection.
 
 \subsubsection{Factory Pattern}
 
 \subsubsection{MVVM Pattern}
 
+\subsubsection{Reflection}
+
 \subsubsection{Events}
 
+This section referred to \autocite{dotnet-tutorial-events}, the .NET guidance on how to raise and handle events.
+
 \subsubsection{Exceptions}
+
+This section referred to \autocite{dotnet-tutorial-exception}, the .NET guidance on how to create custom exceptions, and best practices on handling exceptions.
 
 \subsection{Abstractions (Interfaces), Options and Services (Classes)}
 
