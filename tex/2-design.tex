@@ -1429,7 +1429,7 @@ This section will discuss some design patterns to use in the application, and wi
 
 \subsection{Design Patterns}
 
-\subsubsection{Dependency Injection and Singleton}
+\subsubsection{Dependency Injection and Singleton Pattern}
 
 \subsubsection{Logging}
 
@@ -1440,6 +1440,8 @@ This section will discuss some design patterns to use in the application, and wi
 \subsubsection{Factory Pattern}
 
 \subsubsection{MVVM Pattern}
+
+\subsubsection{Events}
 
 \subsection{Abstractions (Interfaces), Options and Services (Classes)}
 
@@ -1506,13 +1508,53 @@ Apart from those basic services, the colour conversion is included as extension 
 
 \subsubsection{DM-D.S.S. Authentication}
 
+As briefly discussed previously, there will be three types of authenticators involved here: not authenticated (null authenticator), API key authenticator, and OAuth 2 authenticator. To \textbf{abstract} their behaviour, the interface \Code{IAuthenticator} is introduced. To manage the authenticators (to achieve a singleton pattern), the manager which acts as a \textbf{factory} is abstracted as \Code{IAuthenticatorHelper}. The enumeration \Code{AuthenticationStatus} is introduced to get the status of the current authenticator.
+
+In terms of the concrete implementations of the interface, \Code{NullAuthenticator} is the easiest. It will throw a custom exception \Code{NullAuthenticatorException} when attempting to get a header from the class. However, since its behaviour is identical, it will be meaningless to create a new instance of it/dispose it when its necessary/unnecessary. Therefore, a common shared static instance is used, as in the \Code{Instance} property of the class. The \Code{ApiKeyAuthenticator} class also has a very simple implementation. It only has one thing, the API Key.
+
+The OAuth 2 classes are slightly more convoluted. \Code{OAuth2Authenticator} is the key part of the functionality, and it implements \Code{IAuthenticator}. However, it is only its responsibility to acquire access token from refresh token, and to revoke tokens. The responsibilities of acquiring an authorisation code and the first refresh token is done by the \Code{OAuth2Helper} class, which shows a clear separate of concern. Since there are multiple parameters necessary to set up OAuth2, the \textbf{options pattern} is used and \Code{OAuth2Options} class provide the configuration. To hide this complexity, \textbf{factory methods} are also used, as in \Code{OAuth2Provider}. (Shared static methods between OAuth 2 classes are in \Code{OAuth2SharedMethod}).
+
+Very simple DTO objects are used to store the JSON objects returned from the authentication endpoint. The \Code{Error} DTO class represents an error response, \Code{TokenRefresh} represents a token refresh response, and \Code{TokenRequest} represents a token request response. However, since \Code{TokenRequest} response is just basically \Code{TokenRefresh} response plus the refresh token, \textbf{inheritance} is used here to reduce redundant code.
+
+All concrete implementations of \Code{IAuthenticator} must override the \Code{ToString} method to provide means of saving the authenticator to a file.
+
+The concrete implementation of \Code{IAuthenticatorHelper} is \Code{AuthennticatorHelper}. It is responsible for creating the authenticator based the new choice of the authenticator (null, API Key, OAuth), and a method is also provided to read and setup from the string representation of the current authenticator from a file.
+
+Furthermore, there is an \textbf{event} in \Code{IAuthenticatorHelper} which is \Code{AuthennticatonStatusChanged}, which notifies other parts of the code that it has changed. The refresh of the components of GUI Setting Page is achieved by subscribing to this event (adding event handler), and the writing of the current authenticator used to a file is also achieved this way (rather than hard-coding into the code, since that would break single-responsibility).
+
+Extension methods are provided in \Code{AuthenticationHelperServiceCollectionExtension} to inject services into the dependency injection container. Logging is provided for \Code{AuthenticationHelper}, \Code{OAuth2Authenticator} and \Code{OAuth2Helper}, since they have quite convoluted functionalities.
+
+Figure \ref{fig:class-diagram-dmdata-auth} gives the class diagram for this functionality.
+
+\begin{figure}[htp]
+    \centering
+    \includegraphics[width=\linewidth]{class-diagram-dmdata-auth.pdf}
+    \caption{Class Diagram for DM-D.S.S. Authentication}
+    \label{fig:class-diagram-dmdata-auth}
+\end{figure}
+
 \subsubsection{DM-D.S.S. API Calls}
+
+The service for API calls is relatively trivial, with \Code{IApiCaller} representing the \textbf{abstraction}, \Code{ApiCaller} being the \textbf{concrete implementation}, and \Code{ApiCallerLogs} providing the \textbf{logs} for API calls. Extension methods for \textbf{dependency injection} are provided in \Code{ApiCallerServiceCollectionExtensions}, and some other service extensions are provided..
+
+To improve code reusability (and share error-handling code and behaviour), there are several private methods introduced in \Code{ApiCaller} for this. For example, \Code{CreateHttpRequest} is used to create HTTP Requests, \Code{HandleError} is used to handle errors in HTTP Requests, and \Code{SendRequestAsync} is used to send requests.
+
+Notice that this class should not expose API errors to the external code that is using it -- it will just return null if the API call fails.
+
+The class diagram is in Figure \ref{fig:class-diagram-dmdata-api}. Notice that this does not include the DTOs, since they are not part of the service. (They will be discussed later.)
+
+\begin{figure}[htp]
+    \centering
+    \includegraphics[width=\linewidth]{class-diagram-dmdata-api.pdf}
+    \caption{Class Diagram for DM-D.S.S. API Calls}
+    \label{fig:class-diagram-dmdata-api}
+\end{figure}
+
+This service depends on the authentication service, and the common DTOs.
 
 \subsubsection{DM-D.S.S. Telegram Fetching and Parsing}
 
 \subsubsection{DM-D.S.S. WebSocket}
-
-\subsection{Events}
 
 \subsection{Design of DTOs (Record Classes)}
 
