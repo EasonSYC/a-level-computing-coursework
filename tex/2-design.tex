@@ -1354,7 +1354,7 @@ Upon receiving or updating an EEW, the hypocentre of the earthquake will be mark
 
 The predicted maximum intensity of regions will also be coloured, and the wavefronts as well, with the P-Wave being blue (since less destructive) and S-Wave being orange (since more destructive).
 
-If multiple EEWs are in affect simultaneously, then the top-left panel will switch between the earthquakes at a fixed rate. However, the information on the map for both earthquakes will be displayed simultaneously.
+If multiple EEWs are in effect simultaneously, then the top-left panel will switch between the earthquakes at a fixed rate. However, the information on the map for both earthquakes will be displayed simultaneously.
 
 The EEW shall be removed (and the layers on the map as well) after a certain amount of time.
 
@@ -1375,7 +1375,7 @@ The past-earthquake screen regularly displays a sidebar to select the earthquake
 
 On the sidebar, for each earthquake, the intensity will be displayed, coloured as defined in the colour scheme. The name of the hypocentre's location, the depth, the magnitude, and the time of the earthquake is also included.
 
-Notice that there are special cases of magnitudes, such as in different units/huge earthquakes/unknown, and special cases of depths as well, such as very deep/shallow or unknown.
+Notice that there are special cases of magnitudes, such as in different units, huge earthquakes or unknown, and special cases of depths as well, such as very deep, shallow or unknown.
 
 Above the sidebar there is a load/refresh button, and below a button to load earthquakes. The sidebar is scrollable.
 
@@ -1459,7 +1459,7 @@ This section referred to \autocite{dotnet-tutorial-logging} introducing the Micr
 
 The only two other adaptor patterns involved here, is the adaptor for logging for Avalonia and Mapsui.
 
-Avalonia uses a very similar (but different) logging interface \Code{ILogSink} to log, however we used the more modern \Code{ILogSink} interface, and we will need to adapt the \Code{ILogger} to \Code{ILogSink}. This is achieved by a adaptor class \Code{AvaloniaToMicrosoftLoggingAdaptor}, which will implement the \Code{ILogSink} interface, and aggregate a \Code{ILogger}. The \Code{Log} method will be implemented to call the \Code{Log} method of the \Code{ILogger}, and \Code{IsEnabled} to call the \Code{IsEnabled} method of the \Code{ILogger} as well. The \Code{ILogger} provided to the adaptor class will be retrieved from the dependency injection container.
+Avalonia uses a very similar (but different) logging interface \Code{ILogSink} to log, however we used the more modern \Code{ILogSink} interface, and we will need to adapt the \Code{ILogger} to \Code{ILogSink}. This is achieved by an adaptor class \Code{AvaloniaToMicrosoftLoggingAdaptor}, which will implement the \Code{ILogSink} interface, and aggregate a \Code{ILogger}. The \Code{Log} method will be implemented to call the \Code{Log} method of the \Code{ILogger}, and \Code{IsEnabled} to call the \Code{IsEnabled} method of the \Code{ILogger} as well. The \Code{ILogger} provided to the adaptor class will be retrieved from the dependency injection container.
 
 On the other hand, Mapsui uses a delegate (a callback function) to achieve logging. This is relatively simpler to achieve, since we could just attach to the \Code{Logger.LogDelegate} method of Mapsui the log delegate we want, in our case the \Code{ILogger.Log} method, where the \Code{ILogger} is retrieved from the dependency injection container.
 
@@ -1467,7 +1467,7 @@ This section referred to \autocite{mapsui-logging, avalonia-logging} on how logg
 
 \subsubsection{Options Pattern}
 
-It is almost certainly a bad idea to hard-encode some configurations (especially strings) in different services, such as the location of the file for the JMA Time Table, the base URI of API Calls, and the location to store the authenticator. Therefore, a commonly-used approach in .NET is to use a file named \Code{appsettings.json}. The bad thing about this approach, is that it is not typed, and it is stored like a dictionary with strings as keys. Luckily, Microsoft has a Options Binding pattern, which allows us to bind sections of the configuration JSON file, to an options class, which could then be injected into the dependency injection container, and used by the services.
+It is almost certainly a bad idea to hard-encode some configurations (especially strings) in different services, such as the location of the file for the JMA Time Table, the base URI of API Calls, and the location to store the authenticator. Therefore, a commonly-used approach in .NET is to use a file named \Code{appsettings.json}. The bad thing about this approach, is that it is not typed, and it is stored like a dictionary with strings as keys. Luckily, Microsoft has an Options Binding pattern, which allows us to bind sections of the configuration JSON file, to an options class, which could then be injected into the dependency injection container, and used by the services.
 
 The options pattern is used for the configuration for the JMA Time Table (for the location of the file), the configuration for the DM-D.S.S. (for the base URIs, the OAuth 2 setup options, and the start post data for WebSocket), and the configuration for the Kmoni components (for the base URI, relative URI, and the file path to which the observation points are stored). Other options will not be type bound, but retrieved in a similar method as the string key dictionary as described before.
 
@@ -1495,13 +1495,27 @@ This interface is the most commonly-used interface in MVVM -- it allows the obje
 
 \Code{INotifyPropertyChanged} only defines one particular thing in the interface -- the \Code{PropertyChanged} event, which is an event that is raised whenever a property has changed.
 
+This section referred to \autocite{avalonia-inotifypropertychanged}.
+
 \paragraph{\Code{ObservableObject}, \Code{ObservableProperty} and \Code{RelayCommand}}
 
-It would be painful to implement \Code{INotifyPropertyChanged} for every single model/view model, since we would need to implement a backing (private) field, and a public property whose set property raises the \Code{PropertyChanged} event.
+It would be painful to implement this interface for every single model/view model, since we would need to implement a backing (private) field, and a public property whose set property raises the \Code{PropertyChanged} event.
 
 \Code{CommunityToolkit.Mvvm} addresses this problem by providing a base class (\Code{ObservableObject}) and source generators \Code{ObservableProperty} and \Code{RelayCommand} to mark as attributes to use on the fields or on the methods, to generate the properties or the commands, respectively. It reduces our workload of implementing the same interface for each property repeatedly, and is very useful in the MVVM pattern. We will use this significantly to implement the view models in the MVVM pattern.
 
+This section referred to \autocite{dotnet-tutorial-mvvm-toolkit}.
+
 \subsubsection{Reflection}
+
+There are multiple enumerations that we would like to bind to in our view. Therefore, extension methods are provided to convert the enumerations to a readable string, or to a colour string, to bind to the view. However, the implementation of the Avalonia binding system decided that binding will not be possible with the extension methods.
+
+Therefore, \textbf{converters} are used here. Specifically, the typed one-way converter \Code{FuncValueConverter} is used. However, it would be ridiculous to write such a converter for each enumeration.
+
+Therefore, the code is designed to put all extension methods for converting to a string in a single class, and all extension methods for converting to a colour in another class.
+
+A converter is then written for the generic \Code{Enum} class to convert to a string. Then, \textbf{reflection} will be used to find the list of all the methods provided by the particular extension classes, and filtering the method that takes the specific concrete type of the enumeration as the parameter, and invoke the method on it to convert to string. This is still type-safe, since the type check for parameters is used, but we have achieved 'type-safe dynamic typing' using reflection!
+
+This section referred to \autocite{avalonia-custom-converter,dotnet-reference-getmethods, dotnet-reference-getmethods, dotnet-reference-bindingflags}.
 
 \subsubsection{Events}
 
@@ -1603,7 +1617,7 @@ Figure \ref{fig:class-diagram-dmdata-auth} gives the class diagram for this func
 
 \subsubsection{DM-D.S.S. API Calls}
 
-The service for API calls is relatively trivial, with \Code{IApiCaller} representing the \textbf{abstraction}, \Code{ApiCaller} being the \textbf{concrete implementation}, and \Code{ApiCallerLogs} providing the \textbf{logs} for API calls. Extension methods for \textbf{dependency injection} are provided in \Code{ApiCallerServiceCollectionExtensions}, and some other service extensions are provided..
+The service for API calls is relatively trivial, with \Code{IApiCaller} representing the \textbf{abstraction}, \Code{ApiCaller} being the \textbf{concrete implementation}, and \Code{ApiCallerLogs} providing the \textbf{logs} for API calls. Extension methods for \textbf{dependency injection} are provided in \Code{ApiCallerServiceCollectionExtensions}, and some other service extensions are provided.
 
 To improve code reusability (and share error-handling code and behaviour), there are several private methods introduced in \Code{ApiCaller} for this. For example, \Code{CreateHttpRequest} is used to create HTTP Requests, \Code{HandleError} is used to handle errors in HTTP Requests, and \Code{SendRequestAsync} is used to send requests.
 
@@ -1626,7 +1640,7 @@ The responsibilities of parsing the schema for the JSON telegram and parsing the
 
 Their concrete services are \Code{TelegramParser} and \Code{TelegramRetriever} respectively. However, notice that \Code{TelegramRetriever} would aggregate an object of \Code{TelegramParser}. This is an \textbf{aggregation} since their life cycle are not fully (though highly) correlated -- the parser is provided in the constructor for the retriever, and could as well exist without the retriever.
 
-Both concrete services have \textbf{logging}, and extension methods for \textbf{dependency injection} is also provided. Similar to previous classes, due to the existance of the dependency injection methods, the service classes are not exposed to external code, and the only way to create an instance of the service is through the dependency injection container.
+Both concrete services have \textbf{logging}, and extension methods for \textbf{dependency injection} is also provided. Similar to previous classes, due to the existence of the dependency injection methods, the service classes are not exposed to external code, and the only way to create an instance of the service is through the dependency injection container.
 
 The class diagram is in Figure \ref{fig:class-diagram-dmdata-telegram}.
 
