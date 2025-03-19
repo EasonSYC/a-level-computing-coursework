@@ -1477,6 +1477,12 @@ This section referred to \autocite{dotnet-tutorial-configuration} on best practi
 
 \subsubsection{Factory Pattern}
 
+First, there is the \Code{FileLoggerProvider} (which is the provider for my custom file logger), which implements a \Code{ILoggerProvider} to be used in the logger builder in dependency injection. Rather than providing a constructor for the user to directly call, there is a create method in the provider to create an instance, and that is essentially what factory pattern is about.
+
+Some constructors (setting-up) of the services involved is relatively complicated (e.g. involved the base API which is a string, hence cannot be dependency injected), and others might require setting up two classes which is quite complicated (e.g. in OAuth2 services, if a new service is being set-up, then two classes are involved, one is the one getting the authorisation code and the other involves refreshing the token; while if reading refresh token from a file only the latter is needed). In these cases, factory classes or methods will hide this complexity to the users.
+
+These will be introduced in detail later.
+
 \subsubsection{MVVM Pattern}
 
 \subsubsection{Reflection}
