@@ -1519,9 +1519,17 @@ This section referred to \autocite{avalonia-custom-converter,dotnet-reference-ge
 
 \subsubsection{Events}
 
+\textbf{Events} are raised when something of interest happened, and a \textbf{handler} is attached to the event to handle the event (i.e. executes some code). As an example, there are two events for WebSocket, the data received (which invokes the event handler in the real time view model), and status changed (which invokes the event handler in the setting view model).
+
+The detailed use of events will be introduced in the separate components.
+
 This section referred to \autocite{dotnet-tutorial-events}, the .NET guidance on how to raise and handle events.
 
 \subsubsection{Exceptions}
+
+Exceptions are thrown when unexpected things (errors) happen in the application code (e.g. when an API call fails, when a WebSocket disconnects unexpectedly, when an attempt to write to a file fails). Exceptions are to be \textbf{handled} by the application (and should not cause the application to crash any way) and logged into the logs.
+
+Custom exceptions are designed in the authentication, telegram, and WebSocket components in the application, and will be demonstrated later within the class diagrams.
 
 This section referred to \autocite{dotnet-tutorial-exception}, the .NET guidance on how to create custom exceptions, and best practices on handling exceptions.
 
@@ -1690,7 +1698,122 @@ This service depends on the common DTOs, and the telegram parser (but not the te
 
 \subsubsection{Services}
 
+\paragraph{Logging}
+
+\paragraph{Resource Files}
+
+\paragraph{Kmoni Settings Manager}
+
 \subsubsection{Views, View Models, and Models}
+
+\paragraph{One-to-one correspondence between view and view model}
+
+This principle is just as straightforward as the title suggests -- there is one view model corresponding to each view, for the view to bind to.
+
+There are four view models involved in the application: the main window (which contains functionality of the sidebar and switching the view-model), the setting page, the past earthquake page, and the real-time page. Figure \ref{fig:class-diagram-ui-view-models} is a class diagram for the design of the view models.
+
+\begin{figure}
+    \centering
+    \includegraphics[width=\linewidth]{class-diagram-ui-view-model.pdf}
+    \caption{Class Diagram for View Models}
+    \label{fig:class-diagram-ui-view-models}
+\end{figure}
+
+The details of the view models of the pages will be detailed later.
+
+Even though each view model might look bulky and heavy, the author believes this still does not break the principle of single responsibility -- since each view model is only responsible for one page after all.
+
+\paragraph{Abstract Base Classes}
+
+\textbf{Abstract base classes (ABCs)} are used here which describes the shared parts for view models. All view models inherit from \Code{ViewModelBase}. Then there is a \Code{PageViewModleBase} which is the base view model for view models for a page (i.e. excluding the view model for the window itself). The \Code{MapViewModelBase} inherits from that and provides additional functionalities for the map. \textbf{Protected fields and methods} are used to provide shared functionalities.
+
+\subparagraph{\Code{ViewModelBase}}
+
+This is a class which inherits from the \Code{ObservableObject} from the MVVM toolkit, and only involves the \Code{ILogger} object. This might look unnecessary, but it would be extremely useful in the future, in case we would like to change the MVVM toolkit we use, or if we would like to add more shared functionalities.
+
+\subparagraph{\Code{PageViewModelBase}}
+
+This is a class which inherits from the \Code{ViewModelBase}. It has five protected fields: the authentication helper, the API caller, the telegram retriever, the telegram parser, and the time provider for the application. They are all \textbf{aggregated} but not composed in the classes, since they are not part of the life cycle of the view model, and are passes in as constructors for the view model (as in dependency injection).
+
+\subparagraph{\Code{MapViewModelBase}}
+
+This is a class which inherits from the \Code{PageViewModelBase}. It has a private field marked as an observable property (which makes it public anyway) for the map, and four protected fields for:
+\begin{itemize}
+    \item the features of the regions read from the shape file;
+    \item the static resources for the map, such as the shape files themselves, and the two styles for the hypocentre to be reused;
+    \item the limits of Japan; and
+    \item the main limits of Japan (containing the tiny islands as well).
+\end{itemize}
+
+\paragraph{The Window}
+
+The view model for the main window has quite simple purposes: providing the sidebar to switch between views (view models), and provide a button to expand/retract the side pane as well.
+
+The property \Code{IsPaneOpen} is a boolean indicating whether the sidebar pane is open, and it is bound to the property of the pane. The button to expand/retract side pane is bound to \Code{TriggerPaneCommand}, which changes the boolean value (by XOR with true).
+
+The only model associated with this, is the item displayed in the sidebar, \Code{SidebarItemTemplate}. It is initiated with the instance of the view model, the icon key to display on the sidebar, and the text to display on the sidebar. The view will be able to bound the related properties by accessing the list of sidebar items. Since this instance is created in the constructor of the view model, it is considered as \textbf{aggretation}, since their life cycle is strongly correlated.
+
+Upon the chosen item changing in the sidebar, the \Code{CurrentPage} will change as well, allowing the view of the window to change the binding.
+
+It will also handle the event raised by the real time view model requesting to change the view model to the real time view model, and this will be done within the constructor.
+
+Figure \ref{fig:class-diagram-ui-window} is the class diagram for the window view model and the related components.
+
+\begin{figure}[htp]
+    \centering
+    \includegraphics[width=0.5\linewidth]{class-diagram-ui-view-model-window.pdf}
+    \caption{Class Diagram for Window}
+    \label{fig:class-diagram-ui-window}
+\end{figure}
+
+\paragraph{Models for Setting Page}
+
+There are \textbf{four} primary functionalities of the settings page: changing the language setting, the Kmoni setting, the WebSocket settings, and the authentication settings.
+
+Figure \ref{fig:class-diagram-ui-settings} is the class diagram for the settings view model and related components.
+
+\begin{figure}[htp]
+    \centering
+    \includegraphics[width=0.5\linewidth]{class-diagram-ui-view-model-settings.pdf}
+    \caption{Class Diagram for Settings}
+    \label{fig:class-diagram-ui-settings}
+\end{figure}
+
+\subparagraph{Language Settings}
+
+There is an \textbf{event}, \Code{LanguageChanged} to be invoked when the language is changed. This is not used in particular for external code -- this is used as a means to clean up what is to be done when the language has changed. In the current design, only two tasks are to be preformed: change the current language of the resources files, and to write it to the file which stores the language. The existence of this event allows the functionality to be extended, such as popping a window for the user to confirm, in the future.
+
+The property \Code{LanguageChoice} is exposed to the view model to bind to the current language choice, and \Code{LanguageChoices} is the list of languages available. To be consistent with the resources file, the type \Code{CultureInfo} is used to represent the language.
+
+\subparagraph{Kmoni Settings}
+
+For the Kmoni settings, there is a \Code{IKmoniSettingsHelper} \textbf{aggregated} within the class, and two lists which contains the choice of the sensor type and the measurement type. The properties in the settings helper are directly bound to the view model, and all properties changed are handled within the settings helper.
+
+\subparagraph{WebSocket Settings}
+
+This part aggregates a \Code{IWebSocketClient}, which is the actual WebSocket connection. There is an event handler for the WebSocket connection status changing, since the view model has to notify the view that certain properties has changed (the current WebSocket status). There is a text to bind to the WebSocket connect/disconnect button (which will change when the WebSocket status is changed), and there is a command bound to it as well to connect/disconnect.
+
+In the table there is a list of current \Code{WebSocketConnections}, which is a \Code{ObservableCollection} of the interface \Code{IWebSocketConnectionTemplate}. The use of the observable collection is since it will be able to notify the view whenever its members has changed. The interface of the WebSocket Connection declares four properties: the WebSocket ID, the application name, the starting time of the connection, and whether the disconnect button is enabled. A method for disconnecting is also provided. This is an example of the \textbf{adaptor} pattern, since it adapts the objects returned by an API call to the contract we have with the view for binding.
+
+The reason why there is a use of the interface here, is because of \textbf{polymorphism}: there are two concrete implementations of this, the first an empty WebSocket connection, which just stays put (and shares a common instance), and the other an actual WebSocket connection, as will be shown in the class diagram below. They behave differently (especially their disconnection command). The actual WebSocket connection also inherit from Observable Object to allow the notification to the view that its properties has changed.
+
+To implement the refreshing the list of current WebSocket connections, there is a separate method to get the number of total WebSockets available to the user (which looks through the user's contracts), and a separate method to list all currently active WebSockets. The observable collection then could be altered to reflect the latest result.
+
+\subparagraph{Authentication Settings}
+
+For the setting for authentication, there is first property exposing the current \Code{AuthenticationStatus} to the view via the authenticator, to display the current authenticator. There is also an event handler to handle the authentication status changed event, which notifies the properties that are related with the current authentication status.
+
+There are two commands exposing to the view model, the button to set the current API Key, and the button to connect/disconnect from OAuth 2.0. There is also a string for the current API Key Text, a string for the text to display on the OAuth button, a boolean for whether OAuth connection is connected, a boolean for whether API Key is confirmed, and button for whether the API Key button is enabled (i.e. the API Key fits the format, which will be checked every time if the API Key is currently valid).
+
+\paragraph{Models for Past Earthquake Page}
+
+\paragraph{Models for Real-Time Page}
+
+
+
+\subsubsection{Converters}
+
+
 
 \subsection{Design of DTOs (Record Classes)}
 
