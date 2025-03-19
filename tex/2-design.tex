@@ -1751,7 +1751,7 @@ The view model for the main window has quite simple purposes: providing the side
 
 The property \Code{IsPaneOpen} is a boolean indicating whether the sidebar pane is open, and it is bound to the property of the pane. The button to expand/retract side pane is bound to \Code{TriggerPaneCommand}, which changes the boolean value (by XOR with true).
 
-The only model associated with this, is the item displayed in the sidebar, \Code{SidebarItemTemplate}. It is initiated with the instance of the view model, the icon key to display on the sidebar, and the text to display on the sidebar. The view will be able to bound the related properties by accessing the list of sidebar items. Since this instance is created in the constructor of the view model, it is considered as \textbf{aggretation}, since their life cycle is strongly correlated.
+The only model associated with this, is the item displayed in the sidebar, \Code{SidebarItemTemplate}. It is initiated with the instance of the view model, the icon key to display on the sidebar, and the text to display on the sidebar. The view will be able to bound the related properties by accessing the list of sidebar items. Since this instance is created in the constructor of the view model, it is considered as \textbf{aggregation}, since their life cycle is strongly correlated.
 
 Upon the chosen item changing in the sidebar, the \Code{CurrentPage} will change as well, allowing the view of the window to change the binding.
 
@@ -1774,7 +1774,7 @@ Figure \ref{fig:class-diagram-ui-settings} is the class diagram for the settings
 
 \begin{figure}[htp]
     \centering
-    \includegraphics[width=0.5\linewidth]{class-diagram-ui-view-model-settings.pdf}
+    \includegraphics[width=\linewidth]{class-diagram-ui-view-model-settings.pdf}
     \caption{Class Diagram for Settings}
     \label{fig:class-diagram-ui-settings}
 \end{figure}
@@ -1805,9 +1805,65 @@ For the setting for authentication, there is first property exposing the current
 
 There are two commands exposing to the view model, the button to set the current API Key, and the button to connect/disconnect from OAuth 2.0. There is also a string for the current API Key Text, a string for the text to display on the OAuth button, a boolean for whether OAuth connection is connected, a boolean for whether API Key is confirmed, and button for whether the API Key button is enabled (i.e. the API Key fits the format, which will be checked every time if the API Key is currently valid).
 
-\paragraph{Models for Past Earthquake Page}
+\paragraph{Past Earthquake Page}
 
-\paragraph{Models for Real-Time Page}
+Splitting up the functionality for the past earthquake page, there are two main functionalities: the past earthquake list, and the past earthquake details display. Hidden behind this is a functionality to retrieve and cache the list of earthquake observation stations (which we will regard as the third functionality).
+
+Figure \ref{fig:class-diagram-ui-past} is the class diagram for the past earthquake view model and related components.
+
+\begin{figure}[htp]
+    \centering
+    \includegraphics[width=\linewidth]{class-diagram-ui-view-model-past.pdf}
+    \caption{Class Diagram for Past Earthquake}
+    \label{fig:class-diagram-ui-past}
+\end{figure}
+
+\subparagraph{Earthquake List}
+
+To achieve the list of earthquakes, the user would have to press the refresh button, which calls the command associated with it, and attempts to fetch a list of earthquakes, stored into an observable collection. \textbf{Note that the observable collection is annotated with observable property as well}, since we could just totally re-set the list to a new one, and the view will be able to reflect the change. In this method, the cursor token will also be stored to a private field, and used to load extra earthquakes. There is a boolean field reflecting whether the load extra button is enabled, by checking if the cursor token is null.
+
+The model to store the earthquake list item takes one earthquake from the API call as in the constructor, and changing it to the contract to the view, which is another demonstration of the \textbf{adaptor pattern}. It only keeps the necessary properties for binding as well.
+
+\subparagraph{Observation Stations}
+
+To load the list of earthquake observation stations, the user has to be authenticated first. If the constructor detects that the authenticator is in an authenticated stage, the constructor will attempt to fetch the station list at the start. When the authentication status is changed, there is also an event handler that attempts to fetch the list as well.
+
+There is a method to load the stations manually as well, and allows for methods to check for if the list is initialised, before attempting to use it.
+
+\subparagraph{Earthquake Details}
+
+This section has the most details and has the most complicated functionalities. First, three layers are repeatedly used over the life cycle of the application: the layer for the hypocentre, for the observation stations, and for the regional intensities. When a new earthquake is selected, it will not attempt to create a new layer -- instead, it will change the data/style of a layer, and notify the layer that the data has changed.
+
+Secondly there are constants defining the layer of the groups. It is designed such that the hypocentre always stays at the top of the map, stations the next, and the hypocentre in the bottom layer. There is also a \textbf{cancellation token source} -- this is involved, since if the user has changed the mind of which earthquake they want to view the details of, before the details has been reflected on the map, we do not want it to be reflected any more -- and we would like to cancel the asynchronous task. Therefore, in the rest details method, it will cancel and dispose of the current cancellation token source, and set up a new one for the next chosen earthquake.
+
+There is a method to jump to the Yahoo earthquake page for the details of the earthquake as well, using a constant private field of string for the URL to be formatted.
+
+Now comes the interesting part on how to deal with when a new earthquake item is selected.
+
+\begin{itemize}
+    \item MVVM invokes the \Code{OnSelectedEarthquakeChanged} method, which first resets the current earthquake details, and then attains a new cancellation token for the current earthquake.
+    \item The method gets a list of telegrams for the current earthquake, and uses \textbf{filter, group by, select and order} methods as in \Code{FindEarthquakeTelegram} to decide the most suitable telegram to get the information from, as described earlier in the design for the UI page.
+    \item It creates the \textbf{intensity tree} and the \textbf{regional limits} (map bounds of regions which observed intensity) for the earthquake by calling the \Code{DealWithTelegramIntensities} method.
+    \item It marks the hypocentre on map and obtains limits for the hypocentre by \Code{DealWithHypocentre} method.
+    \item It zooms the map to the union of the regional limits and hypocentre, multiplied by a constant \Code{_extendFactor}.
+    \item It creates the details of the earthquake to display on the side panel, using the intensity tree created, the acquired telegram, and the earthquake list item.
+\end{itemize}
+
+In the \Code{DealWithHypocentre} method, it will change the features of the hypocentre layer and notify the feature has changed, and return the limits for the hypocentre.
+
+In the \Code{DealWithTelegramIntensities} method, it will first \textbf{filter} where the intensity is not unknown, and \textbf{join} it with the list of observation stations.
+
+Then, it will call method \Code{CreateRegionLimits} which \textbf{aggregates} the region limits of each region involved using the union operation, and the \Code{CreateIntensityTree} method which \textbf{joins} the station data further with a list of prefectures, and group by intensities, and group by prefecture, region, and finally by city, to create a \textbf{tree} structure.
+
+There is a significant use of \textbf{list-manipulation methods} here, using existing \textbf{LINQ} methods including join, aggregate, select, where, group by, order by, and first.
+
+As for the models used, \Code{EarthquakeDetailsTemplate} is just \Code{EarthquakeItemTemplate} with some more properties to display on the sidebar, and takes it and the telegram and the intensity tree within the constructor.
+
+The particular interesting thing here is the \textbf{intensity tree}: it is a tree \textbf{with different data types} on different depths. Its root could be considered as the earthquake detail object, and on its first layer, the \textbf{intensity} is stored, but afterwards it stores a location, which could simply be it stores a \textbf{string}.
+
+Therefore, there are two classes involved here: \Code{DetailIntensityTemplate}, which is for the first layer, having an intensity and a list of \Code{DisplayNode} (which is its children), which has a name, and a list of \Code{DisplayNode} (which is its children). The whole tree is stored in a list of detail intensity template, which is a tree itself. Therefore, as shown in the class diagram, display node is aggregated within itself and detail intensity template, which is further aggregated into earthquake details template (it is not composition since it is provided at the constructor of earthquake details template).
+
+\paragraph{Real-Time Page}
 
 
 
