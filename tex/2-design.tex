@@ -1941,6 +1941,12 @@ Furthermore, the management of group layers from to bottom is as follows, the la
 
 \subparagraph{Tsunami}
 
+Since it is almost certain that there is only one tsunami warning in effect at one time, the model \Code{CurrentTsunami} is simply a single object of type \Code{TsunamiDetailsTemplate?}. The tsunami layer is also initialised once and used throughout the lifetime of the application, since the data source (shape file) stays the same, and only the colouring of the shape file (the style) changes.
+
+The first method involved here is \Code{OnTsunamiReceived}, which handles the tsunami when it is received. It is in charge of finding the valid date time of the tsunami (which is as indicated on the telegram, or if not then \Code{_tsunamiLifeTime} which is 2 days in the program), and setting the \Code{CurrentTsunami} object and changing the style of the map.
+
+The second method involved is \Code{RemoveExpiredTsunamiEventHandler} which is subscribed to the one-second timer. It checks if the current tsunami has expiry time before the current time (as indicated by the time provider), and if so, set the current tsunami to null and set the layer style to null as well.
+
 \subparagraph{WebSocket}
 
 This part consists of two functionalities: handling the WebSocket data received event (passing it to the appropriate handler for EEW or for Tsunami), and a separate event indicating data received from WebSocket (requesting main window to switch view model to the real-time page) named \Code{WebSocketDataReceived}. The former is achieved by subscribing to the event in the WebSocket client (which is done in the constructor), and the latter will be raised in the event handler. Notice that subscription to the event raised by this will be done in the window view model.
