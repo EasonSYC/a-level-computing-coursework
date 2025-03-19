@@ -1700,9 +1700,59 @@ This service depends on the common DTOs, and the telegram parser (but not the te
 
 \paragraph{Logging}
 
-\paragraph{Resource Files}
+Since the use of the \textbf{adaptor pattern} and \textbf{factory pattern} in logging is described before (for Avalonia and File Logger respectively), a class diagram is included here on how this is in Figure \ref{fig:class-diagram-services-logging}.
+
+\begin{figure}[htp]
+    \centering
+    \includegraphics[width=\linewidth]{class-diagram-services-logging.pdf}
+    \caption{Class Diagram for Logging Services}
+    \label{fig:class-diagram-services-logging}
+\end{figure}
+
+\paragraph{Resources}
+
+There are multiple map resources shared across different pages, and they are stored in the \Code{MapResourcesProvider} class, which includes the shape files, the styles for the hypocentres, and the prefectures of Japan (which is further stored in the \Code{PrefectureData} class).  The class diagram for this is in Figure \ref{fig:class-diagram-services-maps}.
+
+\begin{figure}[htp]
+    \centering
+    \includegraphics[width=0.5\linewidth]{class-diagram-services-maps.pdf}
+    \caption{Class Diagram for Map Resources}
+    \label{fig:class-diagram-services-maps}
+\end{figure}
+
+\paragraph{Time Abstraction}
+
+Although there is an abstraction for a time provider provided by Microsoft as well, the author preferred to implement his own in the application, since the Microsoft one is too heavy but also lacks some functionality at the same time. It only achieves two things: getting the current time, and convert the time to JST, Japanese Standard Time, for communication with the Kmoni APIs. The class diagram for this is in Figure \ref{fig:class-diagram-services-time}.
+
+\begin{figure}[htp]
+    \centering
+    \includegraphics[width=0.5\linewidth]{class-diagram-services-time.pdf}
+    \caption{Class Diagram for Time Abstraction}
+    \label{fig:class-diagram-services-time}
+\end{figure}
+
+This design might look trivial, but this first means that time could be mocked up for unit testing, and secondly past earthquakes are easier to be recreated, since a mock time provider could be provided to mock time in the past, and finally it improves code readability and code reusability, especially with the conversion of time to JST. There could also be a further functionality added, in the future where necessary, for the user to indicate whether they would like time to be displayed locally, or in JST, or in UTC.
 
 \paragraph{Kmoni Settings Manager}
+
+The reason why this (Kmoni) settings in particular is separated from other settings and have a full set of abstractions/options/DTO, is that it has its unique complexities: it is shared between the setting page and the real-time page, it involves the writing of the current option to a file, and it has default options if the file was not able to read/does not exist.
+
+The \textbf{abstraction} involved here is the interface \Code{IKmoniSettingsHelper}, which exposes the current measurement choice, and the current sensor choice. It also has an event to notify when the settings have changed (which is then used to write the new settings to the file, and in the real-time page to update the scale of the GUI to correspond to the new choice). Therefore, in the \textbf{event arguments}, it also includes a copy of the new settings.
+
+There is a \textbf{DTO} called \Code{KmoniSettings}, which stores the sensor type and measurement type, and is serialisable/deserialisable to JSON format, which then could be written to a file/read from a file. Furthermore, this class has \textbf{options} in class \Code{KmoniSettingsHelperOptions}, which contains the file path to store the settings, and the default settings, both to be read from the \Code{appsettings.json} file.
+
+The concrete implementation is \Code{KmoniSettingsHelper}, which is responsible for exposing the property as defined by the interface, while at the same time raising the event if the new sensor choice has changed. It also has logging involved.
+
+Furthermore, there is a \textbf{factory method} provided as extension to the dependency injection container, which reads the current options from the files, and adds the write-to-file method to the event handler. It also does the error handling of the file read and write, and the JSON serialisation/deserialisation -- this shows a clear \textbf{separate of concerns} in the design.
+
+The class diagram for this is in Figure \ref{fig:class-diagram-services-kmoni}.
+
+\begin{figure}[htp]
+    \centering
+    \includegraphics[width=\linewidth]{class-diagram-services-kmoni.pdf}
+    \caption{Class Diagram for Kmoni Settings Manager}
+    \label{fig:class-diagram-services-kmoni}
+\end{figure}
 
 \subsubsection{Views, View Models, and Models}
 
@@ -1865,13 +1915,49 @@ Therefore, there are two classes involved here: \Code{DetailIntensityTemplate}, 
 
 \paragraph{Real-Time Page}
 
+This is the view model with the most functionalities, but we can split it up into five parts: common parts of the view model, handling EEW, handling Tsunami, handling WebSocket, and Kmoni monitor functionality. Figure \ref{fig:class-diagram-ui-real-time} is the overall class diagram for the real-time view model and related components.
 
+\begin{figure}[htp]
+    \centering
+    \includegraphics[width=\linewidth]{class-diagram-ui-view-model-real-time.pdf}
+    \caption{Class Diagram for Real-Time Page}
+    \label{fig:class-diagram-ui-real-time}
+\end{figure}
 
-\subsubsection{Converters}
+\subparagraph{Common Parts}
 
+There are two \textbf{timers} shared by all the parts: a timer that invokes events every second (which includes refreshing the time display, removing expired EEW/Tsunami warnings, and refreshing the Kmoni layer), and a second one that invokes events every 2.5 seconds (which includes the switching of the EEW, if applicable). These event subscribers will be added to the timer within the constructor.
 
+Furthermore, the management of group layers from to bottom is as follows, the layer number defined as a constant integer field (for code reusability and readability):
+\begin{itemize}
+    \item Hypocentre,
+    \item Wavefront,
+    \item Tsunami,
+    \item Kmoni,
+    \item Intensity Regions.
+\end{itemize}
+
+\subparagraph{EEW}
+
+\subparagraph{Tsunami}
+
+\subparagraph{WebSocket}
+
+This part consists of two functionalities: handling the WebSocket data received event (passing it to the appropriate handler for EEW or for Tsunami), and a separate event indicating data received from WebSocket (requesting main window to switch view model to the real-time page) named \Code{WebSocketDataReceived}. The former is achieved by subscribing to the event in the WebSocket client (which is done in the constructor), and the latter will be raised in the event handler. Notice that subscription to the event raised by this will be done in the window view model.
+
+\subparagraph{Kmoni Monitor}
+
+The first functionality this part achieves is displaying the \textbf{legend} for the colours of the Kmoni layer. This consists of two parts: the text for the legend in string \Code{DataLegendtext}, displaying the type and units of the data measured, and the values on the scales of the legend in a decimal array \Code{DataLegentValues}. The latter involves \textbf{list manipulation} using \textbf{LINQ method select} to \textbf{map} normalised height to the scale of the data that is concerned.
+
+The second functionality is to display the Kmoni data on the map. To improve performance, the same layer \Code{_kmoniLayer} is used, and only the data within the layer will be updated to be reflected on the map. To prevent 404 requests, a time delay is in \Code{_kmoniDelay} which is subtracted from the current time when request is sent to fetch the image and extract the points. This is done by \Code{RefreshKmoniDataEventHandler}, which fetches the Kmoni data, and updates the layer if the fetch is successful. The \Code{GetKmoniObservationPoints} is the method called which actually fetches the data and converts them to the feature to display on the map.
 
 \subsection{Design of DTOs (Record Classes)}
+
+\subsubsection{Common (Reusable) DTOs}
+
+\subsubsection{API Calls}
+
+\subsubsection{Telegrams}
 
 The class diagram following the UML convention for the HTTP-based API calls is shown in Figure \ref{fig:classes-http}. The JSON responses will be converted to C\# objects using \Code{System.Text.Json} modules.
 
