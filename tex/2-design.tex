@@ -1485,6 +1485,22 @@ These will be introduced in detail later.
 
 \subsubsection{MVVM Pattern}
 
+The MVVM (Model-View-View Model) pattern is a commonly-used pattern in UI design. The main reason it is used is for a clear separation of concerns -- the \textbf{view} describes the windows, and \textbf{binds} to certain properties in the \textbf{view model}, which is the model that the view binds to, and actual data is stored in the \textbf{models}.
+
+As a brief description of the pattern, the following interfaces will be discussed. The detailed discussion of the view models and the models will be left to later.
+
+\paragraph{\Code{INotifyPropertyChanged}}
+
+This interface is the most commonly-used interface in MVVM -- it allows the object to notify other objects (that subscribes to it) whenever its properties has changed. It is especially useful in MVVM pattern, since it allows the model or the view model to notify the view model or the view that its properties to change, which allows the view model to deal with this accordingly, or let the GUI refresh the data of the view to update the window.
+
+\Code{INotifyPropertyChanged} only defines one particular thing in the interface -- the \Code{PropertyChanged} event, which is an event that is raised whenever a property has changed.
+
+\paragraph{\Code{ObservableObject}, \Code{ObservableProperty} and \Code{RelayCommand}}
+
+It would be painful to implement \Code{INotifyPropertyChanged} for every single model/view model, since we would need to implement a backing (private) field, and a public property whose set property raises the \Code{PropertyChanged} event.
+
+\Code{CommunityToolkit.Mvvm} addresses this problem by providing a base class (\Code{ObservableObject}) and source generators \Code{ObservableProperty} and \Code{RelayCommand} to mark as attributes to use on the fields or on the methods, to generate the properties or the commands, respectively. It reduces our workload of implementing the same interface for each property repeatedly, and is very useful in the MVVM pattern. We will use this significantly to implement the view models in the MVVM pattern.
+
 \subsubsection{Reflection}
 
 \subsubsection{Events}
@@ -1657,6 +1673,10 @@ Apart from this, other compositions of record classes to represents DTOs is just
 This service depends on the common DTOs, and the telegram parser (but not the telegram fetcher, which releases its dependency on the authentication). This means that \Code{ITelegramParser} is \textbf{aggregated} within \Code{IWebSocketClient}, but not \textbf{composed}, just like with \Code{ITelegramRetriever}. In the dependency injection, the \Code{ITelegramParser} will be injected as well, but \textbf{singleton} pattern ensures there is only one of them in play, commonly shared.
 
 \subsection{Design of UI Classes with MVVM Pattern}
+
+\subsubsection{Services}
+
+\subsubsection{Views, View Models, and Models}
 
 \subsection{Design of DTOs (Record Classes)}
 
