@@ -1986,20 +1986,97 @@ The second functionality is to display the Kmoni data on the map. To improve per
 
 \subsubsection{Common (Reusable) DTOs}
 
+In principle, the DTOs should be contained in the namespace for the abstraction requiring the use of the DTO, such as the API calls, the telegrams, or the WebSockets, and exposed to the user where necessary. However, there are some DTOs to be reused, primarily because they are shared across the different parts of the DM-D.S.S. API, WebSocket and telegram services.
+
+\paragraph{JSON Components}
+
+DM-D.S.S. designed \textbf{JSON components} for the application \autocite{dmdata-references-json}, which improves the reusability of typed records over the application. These components include:
+\begin{itemize}
+    \item The description of the earthquake; which further incorporates:
+          \begin{itemize}
+              \item The hypocentre (including the depth and the coordinate);
+              \item The magnitude;
+          \end{itemize}
+    \item The coordinate position of some property.
+\end{itemize}
+
+This makes the records highly reusable, and these will be reused for the API calls (since it is included in the earthquake list and event calls), and the telegrams as well.
+
+\textbf{Enumerations are used wherever possible.} In this case, it means that strings which can only take finitely-many enumerable values will be modelled as an enumeration. In this component, it means that:
+\begin{itemize}
+    \item The condition for the depth (very shallow 'ごく浅い', very deep '７００ｋｍ以上',  unclear '不明') are modelled with \Code{DepthCondition};
+    \item The condition for the magnitude (unknown 'Ｍ不明', very big 'Ｍ８を超える巨大地震') are modelled with \Code{MagnitudeCondition};
+    \item The unit for the magnitude (JMA magnitude 'Mj', normal magnitude 'M') are modelled with \Code{MagnitudeUnit};
+    \item The source for the information of the earthquake (the earthquake advisory centres available) are modelled with \Code{Source};
+    \item The geodetic coordinate used (world geodetic coordinate '世界測地系', Japanese geodetic coordinate '日本測地系') are modelled with \Code{Geodetic}.
+\end{itemize}
+
+\paragraph{Telegrams}
+
+Several components of the telegram are shared between different parts of the DM-D.S.S. functionality. Those include:
+\begin{itemize}
+    \item \Code{XmlReport} which composes of \Code{XmlHead}, \Code{XmlControl}, and describes the key components of the XML telegram. This is used within the API call for the earthquake event, and the data response from the WebSocket.
+    \item \Code{SchemaVersionInformation}, which includes the type and the version for the JSON schema used. It is shared with the API component (because in each telegram retrieved for earthquake event the schema will be included), and for parsing the telegram.
+    \item \Code{TelegramStatus} and \Code{TelegramType}, which describes the status and the type of the telegram. They are composed within \Code{XmlHead}, and for \Code{Head} in the telegram component as well (described later).
+\end{itemize}
+
+Note that \Code{TelegramStatus} and \Code{TelegramType} are modelled as enumerations, since they only take a finite number of values, although provided by string from the original API.
+
+\paragraph{Enumerations}
+
+There are also a couple of other shared enumerations within the DM-D.S.S. services. They are all modelled from strings which can only take finitely many values.
+\begin{itemize}
+    \item \Code{Classification}, which could be used to describe the classification for a contract that user subscribed to, or the classification of a telegram.
+    \item \Code{Intensity} for earthquake intensity, \Code{LgCategory} for LPGM motion category, and \Code{LgIntensity} for LPGM intensity;
+    \item \Code{FormatType} and \Code{TestStatus} for describing the format of a particular telegram (JSON, XML, Alpha Numeric or Binary) and the test status (whether it is a test or not), both used for setting up the WebSocket and in the WebSocket service.
+\end{itemize}
+
 \subsubsection{API Calls}
 
-\subsubsection{Telegrams}
+Since all API Calls must share the response ID, response time, and response status properties, this could be modelled as an \textbf{abstract base class} (record class) for the API calls. This is the \Code{ApiBase} class, on the top of the diagram, composing of an enumeration for the status of the class.
 
-The class diagram following the UML convention for the HTTP-based API calls is shown in Figure \ref{fig:classes-http}. The JSON responses will be converted to C\# objects using \Code{System.Text.Json} modules.
+Inheriting from it are two types of responses: a \textbf{successful} response (which is abstract as well), and an \textbf{error} response (which is concrete). The error response composes the details of the error within as a DTO.
+
+There are three responses further abstracted, each inheriting from the previous one:
+\begin{itemize}
+    \item a \textbf{list} response, which contains a \Code{ItemList} containing all the items in the \Code{item} property in the serialised JSON;
+    \item a \textbf{token} response, which contains a \Code{NextToken} property for the next API call; and
+    \item a \textbf{pooling} response, which contains the next pooling and next pooling interval properties for the next API call.
+\end{itemize}
+
+As described in the previous behaviour of the API responses:
+\begin{itemize}
+    \item \Code{WebSocketStart} and \Code{GdEarthquakeEvent} response are success responses and compose f only the details of the response;
+    \item \Code{ContractList} and \Code{EarthquakeParameter} contains a list of contracts/stations within the response. In the parameter response, in addition to this, it also contains the last changed time for the data, and the version information;
+    \item \Code{WebSocketList} contains a token but not a pooling token, and contains a list of WebSocket details; and finally
+    \item \Code{GdEarthquakeList} contains a list of past earthquake information, and is a pooling response.
+\end{itemize}
+
+This design is accurately reflected in Figure \ref{fig:class-diagram-dmdata-api-dto} which shows a clear use of \textbf{inheritance, composition and abstract classes}.
 
 \begin{figure}[htp]
     \centering
-    \includegraphics[width=\linewidth]{class-http.pdf}
-    \caption{Class Diagram for HTTP data objects}
-    \label{fig:classes-http}
+    \includegraphics[width=\linewidth]{class-diagram-dmdata-api-dto.pdf}
+    \caption{Class Diagram for DTOs for API Calls}
+    \label{fig:class-diagram-dmdata-api-dto}
 \end{figure}
 
-This shows the use of composition and inheritance. The use of generics is also demonstrated.
+Most other parts of the DTOs for API Calls is just simply the use of composition as modelled by the DM-D.S.S. API documentation, and the use of enumerations to model 'finitely many values'.
+
+\subsubsection{Telegrams}
+
+Similar to the API calls, a base class \Code{Head} which contains the head information of the telegram is modelled. And then, classes are inherited from this class to provide the body part of the telegram. The reason why \Code{Head} is not abstract, is because telegrams would have to be deserialised to it first and find the JSON schema, and then re-deserialised to the specific type of the telegram.
+
+This is reflected in Figure \ref{fig:class-diagram-dmdata-telegram-dto} which shows a clear use of \textbf{inheritance and composition}.
+
+\begin{figure}[htp]
+    \centering
+    \includegraphics[width=\linewidth]{class-diagram-dmdata-telegram-dto.pdf}
+    \caption{Class Diagram for DTOs for Telegrams}
+    \label{fig:class-diagram-dmdata-telegram-dto}
+\end{figure}
+
+Otherwise, this it simply the use of composition as modelled by the DM-D.S.S. JSON Documentation \autocite{dmdata-references-telegram}.
 
 \section{Hardware and Software Requirements}
 
