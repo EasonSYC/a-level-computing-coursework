@@ -1,6 +1,8 @@
 \documentclass[10pt]{report}
 
-\input{tex/0-premeable}
+\newcommand{\TexFileBase}{tex/}
+
+\input{\TexFileBase 0-premeable}
 
 \begin{document}
 \pagestyle{fancy}
@@ -29,12 +31,12 @@
     \end{center}
 
     \section*{Abstract}
-    \input{tex/0a-abstract}
+    \input{\TexFileBase 0a-abstract}
 \end{titlepage}
 
 \thispagestyle{nohead}
 
-\include{tex/0b-copyright.tex}
+\include{\TexFileBase 0b-copyright.tex}
 \thispagestyle{nohead}
 
 \SetMainStyle
@@ -46,15 +48,15 @@
 \listoflistings
 \listofalgorithms
 
-\include{tex/1-analysis}
-\include{tex/2-design}
-\include{tex/3-implementation}
-\include{tex/4-testing}
-\include{tex/5-evaluation}
+\include{\TexFileBase 1-analysis}
+\include{\TexFileBase 2-design}
+\include{\TexFileBase 3-implementation}
+\include{\TexFileBase 4-testing}
+\include{\TexFileBase 5-evaluation}
 
 \appendix
-\include{tex/a-listing}
-\include{tex/b-ai}
-\include{tex/c-bibliography}
+\include{\TexFileBase a-listing}
+\include{\TexFileBase b-ai}
+\include{\TexFileBase c-bibliography}
 
 \end{document}
