@@ -1,10 +1,29 @@
 \chapter{Technical Implementation}
-\section{Key Code Segments}
-\subsection{Data structures}
-Implementation of ADTs and OOP Classes to be demonstrated.
 
-\subsection{Modularity}
-Code should be created and tested in separate modules that are integrated later. Use subheadings for each module, define the purpose of the module, and show unit testing of the module.
+Note that in this section, only key code segments are listed. Documentation comments, using statements, and code that are not key functionalities are omitted for brevity (and this is why line numbers sometimes do skip). The full code (including the full using statements and documentation comments) is available in the appendix.
 
-\subsection{Defensive Programming/Robustness}
-Exception handling
+\section{JMA Travel Time}
+\begin{normallisting}
+    \InputLines{csharp}{\CodeBasePath EasonEetwViewer/EasonEetwViewer.JmaTravelTime/Abstractions/ITimeTable.cs}{1}{1}{5}{6}{13}{14}
+    \caption[\Code{ITimeTable} Interface]{\Code{ITimeTable} Interface \\ Use of Interface}
+\end{normallisting}
+
+\begin{normallisting}
+    \InputLines{csharp}{\CodeBasePath EasonEetwViewer/EasonEetwViewer.JmaTravelTime/Dtos/TimeTableEntry.cs}{1}{1}{6}{7}{11}{11}{15}{15}{19}{20}
+    \caption[\Code{TimeTableEntry} DTO]{\Code{TimeTableEntry} DTO \\ User-defined DTO for Data}
+\end{normallisting}
+
+\begin{normallisting}
+    \InputLines{csharp}{\CodeBasePath EasonEetwViewer/EasonEetwViewer.JmaTravelTime/Services/JmaTimeTableBuilder.cs}{7}{7}{11}{12}{22}{40}
+    \caption[\Code{JmaTimeTableBuilder} Factory Class]{\Code{JmaTimeTableBuilder} Factory Class \\ Factory Pattern, Handling of External Data Source, Deserialisation}
+\end{normallisting}
+
+\begin{normallisting}
+    \InputLines{csharp}{\CodeBasePath EasonEetwViewer/EasonEetwViewer.JmaTravelTime/Services/JmaTimeTable.cs}{5}{5}{9}{10}{33}{33}{36}{49}{59}{90}
+    \caption[\Code{JmaTimeTable} Service Class]{\Code{JmaTimeTable} Service Class \\ OOP, Algorithm (Line 59 to 89), Logging}
+\end{normallisting}
+
+\begin{normallisting}
+    \InputLines{csharp}{\CodeBasePath EasonEetwViewer/EasonEetwViewer.JmaTravelTime/Options/JmaTimeTableOptions.cs}{3}{3}{7}{8}{12}{13}
+    \caption[\Code{JmaTimeTableOptions} Options Record]{\Code{JmaTimeTableOptions} Options Record \\ Options Pattern}
+\end{normallisting}
