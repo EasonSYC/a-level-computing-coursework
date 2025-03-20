@@ -1,10 +1,8 @@
 \usepackage[a4paper,margin=1in]{geometry}
 \usepackage{graphicx}
 % \usepackage[utf8]{inputenc}
-\usepackage[chapter]{minted}
-\usepackage{algorithm}
+\usepackage[section]{algorithm}
 \usepackage[noEnd=false,spaceRequire=false,rightComments=false]{algpseudocodex}
-\usepackage{csquotes}
 \usepackage[british]{babel}
 \usepackage[backend=biber,sortcites,sorting=nty,giveninits=true]{biblatex}
 
@@ -28,7 +26,25 @@
 \usepackage{xltxtra}
 \usepackage{textcomp}
 
+\usepackage{tocloft}
+% \newlistof{listing}{lol}{List of Listings}
+
+\usepackage[section]{minted}
+\usepackage{csquotes}
+
+\usepackage{chngcntr}
 \usepackage{hyperref}
+
+% \SetupFloatingEnvironment{listing}{name={Listing},fileext=lol}
+
+\newcommand{\NumberWidth}{4em}
+\setlength{\cftfignumwidth}{\NumberWidth}
+\setlength{\cfttabnumwidth}{\NumberWidth}
+% \setlength{\cftlistingnumwidth}{\NumberWidth}
+% \setlength{\cftalgorithmnumwidth}{\NumberWidth}
+
+\counterwithin{figure}{section}
+\counterwithin{table}{section}
 
 \addbibresource{ref/microsoft-docs.bib}
 \addbibresource{ref/japan-meteorology.bib}
