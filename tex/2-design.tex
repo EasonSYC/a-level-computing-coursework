@@ -39,14 +39,14 @@ A comparison from the official website of MOWLAS (Monitoring of Waves on Land an
 \begin{figure}[htp]
     \centering
     \includegraphics[width=0.75\linewidth]{net-comparison.png}
-    \caption{A comparison of the K-NET, F-net and Hi-net.}
+    \caption{A comparison of the K-NET, F-net and Hi-net}
     \label{fig:net-comparison}
 \end{figure}
 
 \begin{figure}[htp]
     \centering
     \includegraphics[width=0.75\linewidth]{net-distribution.png}
-    \caption{Distribution of the sensors of different nets.}
+    \caption{Distribution of the sensors of different nets}
     \label{fig:net-distribution}
 \end{figure}
 
@@ -639,7 +639,7 @@ Table \ref{tab:necessary-permissions} shows the necessary permissions would be n
         \Code{telegram.get.earthquake} & Allows program to access telegrams on earthquake information.             \\
         \Code{eew.get.forecast}        & Allows program to access telegrams on EEW forecasts (including warnings). \\
     \end{tabular}
-    \caption{Necessary access permissions for DM-D.S.S.}
+    \caption{Necessary access permissions for DM-D.S.S}
     \label{tab:necessary-permissions}
 \end{table}
 
@@ -680,7 +680,7 @@ The list of standard errors together with their meanings is discussed in Table \
         \Code{403} & Insufficient scope for ....                         \\
         \Code{403} & Requests are not allowed.                           \\
     \end{tabular}
-    \caption{Standard errors for API.}
+    \caption{Standard errors for API}
     \label{tab:standard-errors}
 \end{table}
 
@@ -697,7 +697,7 @@ For some API data calls, and specifically for \Code{telegram.list} that we are g
 
 \begin{listing}[htp]
     \inputminted{json}{code/CursorToken.json}
-    \caption{Cursor token sample JSON.}
+    \caption{Cursor token sample JSON}
     \label{code:cursor-token}
 \end{listing}
 
@@ -726,7 +726,7 @@ It will return a list of contracts (subscriptions) of DM-D.S.S., whether or not 
 Listing \ref{code:contract-list} shows a sample return of this API call.
 \begin{listing}[htp]
     \inputminted{json}{code/ContractList.json}
-    \caption{Contract list sample JSON.}
+    \caption{Contract list sample JSON}
     \label{code:contract-list}
 \end{listing}
 
@@ -756,7 +756,7 @@ There are three WebSocket-Related APIs, specifically, \Code{socket.start}, to st
 
 \begin{listing}[htp]
     \inputminted{json}{code/SocketStartPost.json}
-    \caption{Socket start sample request JSON.}
+    \caption{Socket start sample request JSON}
     \label{code:socket-start-post}
 \end{listing}
 
@@ -775,7 +775,7 @@ It will have a response as in Listing \ref{code:socket-start}.
 
 \begin{listing}[htp]
     \inputminted{json}{code/SocketStart.json}
-    \caption{Socket start sample response JSON.}
+    \caption{Socket start sample response JSON}
     \label{code:socket-start}
 \end{listing}
 
@@ -802,7 +802,7 @@ Apart from the standard errors, it will also output errors shown in Table \ref{t
         \Code{402} & No contract.                                                        \\
         \Code{409} & The maximum number of simultaneous connections is exceeded.         \\
     \end{tabular}
-    \caption{Errors for \Code{socket.start}.}
+    \caption{Errors for \Code{socket.start}}
     \label{tab:socket-start-err}
 \end{table}
 
@@ -836,7 +836,7 @@ Listing \ref{code:socket-list} shows a response from the call. The \Code{items} 
 
 \begin{listing}[htp]
     \inputminted{json}{code/SocketList.json}
-    \caption{Socket list sample response JSON.}
+    \caption{Socket list sample response JSON}
     \label{code:socket-list}
 \end{listing}
 
@@ -852,7 +852,7 @@ This is a GET request with no parameters to specify, and will return all station
 
 \begin{listing}[htp]
     \inputminted{json}{code/ParameterEarthquake.json}
-    \caption{Earthquake parameter sample response JSON.}
+    \caption{Earthquake parameter sample response JSON}
     \label{code:parameter-earthquake}
 \end{listing}
 
@@ -887,7 +887,7 @@ Due to the nature of JSON being very long and barely updated (an email will be s
 
 % \begin{listing}[htp]
 %     \inputminted{json}{code/TelegramList.json}
-%     \caption{Telegram list sample response JSON.}
+%     \caption{Telegram list sample response JSON}
 %     \label{code:telegram-list}
 % \end{listing}
 
@@ -919,7 +919,7 @@ A sample response is shown in Listing \ref{code:earthquake-list}.
 
 \begin{listing}[htp]
     \inputminted{json}{code/GdEarthquakeList.json}
-    \caption{Past earthquake list sample response JSON.}
+    \caption{Past earthquake list sample response JSON}
     \label{code:earthquake-list}
 \end{listing}
 
@@ -940,7 +940,7 @@ The data used will be used to create the sidebar (list of past earthquakes) of t
 
 \begin{listing}[htp]
     \inputminted{json}{code/GdEarthquakeEvent.json}
-    \caption{Past earthquake event sample response JSON.}
+    \caption{Past earthquake event sample response JSON}
     \label{code:earthquake-event}
 \end{listing}
 
@@ -974,7 +974,7 @@ There are four types of responses that a WebSocket could return, indicated in th
     \item a (server-side initiated) \Code{ping}. This will happen regularly, and the server will send a JSON in the format in Listing \ref{code:server-ping}.
           \begin{listing}[htp]
               \inputminted{json}{code/ServerPing.json}
-              \caption{WebSocket Ping JSON.}
+              \caption{WebSocket Ping JSON}
               \label{code:server-ping}
           \end{listing}
 
@@ -982,7 +982,7 @@ There are four types of responses that a WebSocket could return, indicated in th
 
           \begin{listing}[htp]
               \inputminted{json}{code/ServerPong.json}
-              \caption{WebSocket Pong JSON.}
+              \caption{WebSocket Pong JSON}
               \label{code:server-pong}
           \end{listing}
 
@@ -992,7 +992,7 @@ There are four types of responses that a WebSocket could return, indicated in th
 
           \begin{listing}[htp]
               \inputminted{json}{code/SocketError.json}
-              \caption{WebSocket Error JSON.}
+              \caption{WebSocket Error JSON}
               \label{code:socket-error}
           \end{listing}
 
@@ -1013,7 +1013,7 @@ There are four types of responses that a WebSocket could return, indicated in th
                   \Code{4808} & Client requested closure of WebSocket.                           \\
                   \Code{4807} & Contracts are discontinued in connection.                        \\
               \end{tabular}
-              \caption{Errors for WebSocket connection.}
+              \caption{Errors for WebSocket connection}
               \label{tab:socket-error}
           \end{table}
 
@@ -1023,7 +1023,7 @@ There are four types of responses that a WebSocket could return, indicated in th
     \item a \Code{data}, an example shown in Listing \ref{code:socket-data}.
           \begin{listing}[htp]
               \inputminted{json}{code/SocketData.json}
-              \caption{WebSocket Data JSON.}
+              \caption{WebSocket Data JSON}
               \label{code:socket-data}
           \end{listing}
 
@@ -1210,7 +1210,7 @@ The depth and the distance from epicentre is provided in the intervals specified
         200 \textasciitilde\ 700  & 10                 & 10                    \\
         700 \textasciitilde\ 2000 & --                 & 10
     \end{tabular}
-    \caption{Distance intervals in JMA 2001.}
+    \caption{Distance intervals in JMA 2001}
     \label{tab:dist-jma-2001}
 \end{table}
 
