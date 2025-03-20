@@ -39,7 +39,26 @@
 
 \newcommand{\CodeBasePath}{../EEETWV/}
 
-\newenvironment{normallisting}{\captionsetup{type=listing}}{}
+\newenvironment{normallisting}{\captionsetup{type=listing}}{\vspace{\floatsep}}
+\newcommand{\InputLine}[4]{
+    \inputminted[firstline=#3, lastline=#4]{#1}{#2}
+}
+
+\makeatletter
+\newcommand{\InputLines}[2]{
+    \InputLines@i{#1}{#2}
+}
+\newcommand{\InputLines@i}[2]{
+    \@ifnextchar\bgroup
+    {\InputLines@ii{#1}{#2}}
+    {}
+}
+\newcommand{\InputLines@ii}[4]{
+    \InputLine{#1}{#2}{#3}{#4}
+    \InputLines@i{#1}{#2}
+}
+
+\makeatother
 
 \newmintinline[Code]{text}{}
 \newcommand{\Colour}[1]{\Code{#1}\space\textcolor[HTML]{#1}{\(\blacksquare\)}}
@@ -49,8 +68,7 @@
 \setminted{
     autogobble,
     breaklines,
-    frame=single,
-    frame=lines,
+    breakanywhere,
     linenos,
     mathescape,
 }

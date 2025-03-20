@@ -426,7 +426,7 @@ It is worth noting that an existing NuGet Library, \GitHubHref{ingen084}{Kyoshin
 
 It is also worth noting that, technically, scraping the data from the 'Kyoshin' monitor page of NIED is not explicitly allowed, but not explicitly banned either. However, extracting and displaying numerical data in the application is strictly banned by the NIED, and therefore the numerical values will only serve as internal values of the application and will not be displayed to the users in any way.
 
-This paragraph referred to \autocite{blog-jquake-poly-fit}. The code used for this section is in Listing \ref{code:poly-fit}.
+This paragraph referred to \autocite{blog-jquake-poly-fit}. The code used for this section is in Listing \ref{code-listing:poly-fit}.
 
 \subsection{DM-D.S.S. Data Source}
 
@@ -1101,7 +1101,7 @@ The particular choice for the final one is due to the fact that VXSE53 usually c
 
 All JSON Schemas include a part called the \textbf{schema head}, and a sample is shown in Listing \ref{code:telegram-head}.
 
-\begin{listing}
+\begin{listing}[htp]
     \inputminted{json}{code/TelegramHead.json}
     \caption{Head of JSON Schema}
     \label{code:telegram-head}
