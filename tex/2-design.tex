@@ -1939,6 +1939,29 @@ Furthermore, the management of group layers from to bottom is as follows, the la
 
 \subparagraph{EEW}
 
+The key part of the EEW is that there could be multiple EEW in effect at the same time. However, there is one thing that is unique for each EEW: their event ID. Therefore, a suitable data structure to store this collection of EEWs is a \textbf{dictionary}, with the event ID in \textbf{string} as the key, and the EEW in \Code{EewDetailsTemplate} as the value.
+
+This naturally leads to switching the current display EEW. This is controlled by \Code{CurrentEewIndex}, a nullable integer for the current EEW index, and \Code{CurrentDisplayEew}, a nullable \Code{EewDetailsTemplate} which has a get method using the index to display the earthquake. When the \Code{SwitchEew} event handler is invoked, it will do the follows:
+\begin{itemize}
+    \item If the number of current EEWs is zero, set the index to null;
+    \item Else, if the current index is null, set the index to zero;
+    \item Else, increment the current index by one, and modulo the length of the number of current EEWs.
+\end{itemize}
+
+The design of the \Code{EewDetailsTemplate} is as follows: apart from the standard information to display, there are two properties of type string, \Code{Before} and \Code{AfterIntensityText}, which gives the text to display before/after the intensity (e.g. if the intensity provided in the EEW is 'above 6+', then the before text will be 'above'. In Japanese the after text will be '以上', since the sequence in the language is different.) There is also an enumeration determining which enumeration to display (if it is (6-, 6+), then it will display 6+; but if it is above 6- i.e. (6-, above), then it will display 6-). Finally, notice there is a cancellation token source and cancellation token here -- this indicates whether this EEW has already been removed from the collection of EEWs, to allow for asynchronous operation to halt.
+
+The type of the EEW is described by the enumeration \Code{EewWarningType}, and the logic of deciding the type of the EEW was discussed before in the design of the UI.
+
+The handler for receiving an EEW is \Code{OnEewReceived}. First, it determines if the EEW is newer than the current EEW in the collection, with the same event ID (making the decision based on the serial number). If not, then it will do nothing; if yes, then it will remove the EEW in display. Then, it will plot the coordinates of the hypocentre on the map, using the corresponding shape style depending on whether the hypocentre is assumed, and also display the regional intensities colouring on the maps.  Finally, it will start a long-running background task on a separate thread to draw the wavefronts for the EEW.
+
+This is the asynchronous \Code{DrawEewCircles}. First it checks if the EEW fits the condition to draw the wavefronts (e.g. is the earthquake, hypocentre, origin null, or is it an assumed hypocentre). If not, it will then check if the depth is within the acceptable range. If all the checks passed, it will then insert two layers onto the map, one for the P-Wave and another for the S-Wave, which will be re-used throughout the duration of the EEW, updating only the features.
+
+Then there is a while loop, which will continue until the cancellation is requested. During the loop, it will find the time that the earthquake has elapsed, and find the distance the seismic waves has travelled through by checking with \Code{ITimeTable}, and adding the feature onto the layer, and notifying the layer that its data has changed. The loop will sleep for a certain amount of time, and then repeat the process. After quitting the loop, the layers will be removed from the map.
+
+\Code{CreateCircleRing} is a method designed to draw a circle in \Code{Polygon} at the given position and radius, to a good quality. Basic geometry is used here, but since the projection of the map changes the length, a magic constant is introduced to the radius to correctly plot the circle with approximately the correct radius.
+
+The method to remove an EEW is as follows (assuming the EEW is removed from the collection): the cancellation token source will be cancelled and disposed of, and then the maps layer of hypocentre and regions, with the correct event ID attached to, will be removed. This will also be regularly called by a method which is invoked by the timer to regularly iterate through the dictionary to see if there are any expired EEWs.
+
 \subparagraph{Tsunami}
 
 Since it is almost certain that there is only one tsunami warning in effect at one time, the model \Code{CurrentTsunami} is simply a single object of type \Code{TsunamiDetailsTemplate?}. The tsunami layer is also initialised once and used throughout the lifetime of the application, since the data source (shape file) stays the same, and only the colouring of the shape file (the style) changes.
@@ -1946,6 +1969,8 @@ Since it is almost certain that there is only one tsunami warning in effect at o
 The first method involved here is \Code{OnTsunamiReceived}, which handles the tsunami when it is received. It is in charge of finding the valid date time of the tsunami (which is as indicated on the telegram, or if not then \Code{_tsunamiLifeTime} which is 2 days in the program), and setting the \Code{CurrentTsunami} object and changing the style of the map.
 
 The second method involved is \Code{RemoveExpiredTsunamiEventHandler} which is subscribed to the one-second timer. It checks if the current tsunami has expiry time before the current time (as indicated by the time provider), and if so, set the current tsunami to null and set the layer style to null as well.
+
+In terms of the models involved, \Code{TsunamiDetailsTemplate} is a record class that holds the details of the tsunami, including its informational text, expiry time, update time, and maximum tsunami warning type of the tsunami warnings of shorelines issued (using the \textbf{max} method in \textbf{LINQ}, which is an \textbf{aggregate}). The tsunami warning type is an enumeration, containing the tsunami warning type level. JMA uses a code to describe the tsunami warning type, so a conversion method is provided as well.
 
 \subparagraph{WebSocket}
 
