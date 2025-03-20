@@ -25,11 +25,11 @@
 \usepackage{textcomp}
 
 \usepackage{tocloft}
-\newlistof{listing}{lol}{List of Listings}
 
 \usepackage[section]{algorithm}
 \usepackage[noEnd=false,spaceRequire=false,rightComments=false]{algpseudocodex}
 
+\newlistof{listing}{lol}{List of Listings}
 \usepackage[section,newfloat]{minted}
 \usepackage{csquotes}
 
@@ -37,18 +37,28 @@
 \usepackage{hyperref}
 
 \SetupFloatingEnvironment{listing}{name={Listing},fileext=lol}
-% \newlistof{algorithms}{loa}{List of Algorithms}
-% \SetupFloatingEnvironment{algorithms}{name={Algorithm},fileext=loa}
+
+% https://tex.stackexchange.com/a/131585/312350
+\makeatletter
+\begingroup
+\let\newcounter\@gobble
+\let\setcounter\@gobbletwo
+\globaldefs\@ne
+\let\c@loadepth\@ne
+\newlistof{algorithms}{loa}{\listalgorithmname}
+\endgroup
+\let\l@algorithm\l@algorithms
+\makeatother
 
 \newcommand{\NumberWidth}{4em}
 \setlength{\cftfignumwidth}{\NumberWidth}
 \setlength{\cfttabnumwidth}{\NumberWidth}
 \setlength{\cftlistingnumwidth}{\NumberWidth}
-% \setlength{\cftalgorithmsnumwidth}{\NumberWidth}
+\setlength{\cftalgorithmsnumwidth}{\NumberWidth}
 
 \newcommand{\IndentWidth}{1.5em}
 \setlength{\cftlistingindent}{\IndentWidth}
-% \setlength{\cftalgorithmsindent}{\IndentWidth}
+\setlength{\cftalgorithmsindent}{\IndentWidth}
 
 \counterwithin{figure}{section}
 \counterwithin{table}{section}
