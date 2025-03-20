@@ -40,7 +40,7 @@ The primary target of this application will be passionate geographers and geolog
 
 Another target client could be industries which highly rely on earthquake predictions due to the risk imposed by earthquakes. High-speed railway and nuclear power plants are good examples of this. Therefore, the staff in charge monitoring will usually have higher proficiency and would like more detailed data of the earthquake. However, they will only need the necessary data from earthquakes happening close to them and only require intensity data of the point in interest (e.g. the power plant). To put this into content, an earthquake happening 1000 km away from them does not need to be fed into their system, while they would like to see the intensity of the shock and the arrival time of the seismic waves to decide the actions. In fact, the author really likes investigating on the rail industry, whose infrastructure could be greatly affected by earthquakes.
 
-Table \ref{tab:users} compares relative features of these two target users/clients.
+\autoref{tab:users} compares relative features of these two target users/clients.
 
 \begin{table}[htp]
     \centering
@@ -124,7 +124,7 @@ Based on the applications the author uses and the feedback from interviewee, the
 
 \subsubsection{Supported Platforms}
 
-Supported platforms of those apps are listed in Table \ref{tab:exist-platform}. In particular, note that SREV is a web-based and GitHub Pages-hosted application therefore supporting all platforms. KEVI is written in .NET Framework and supports the second most platforms, with JQuake not supporting Linux and Quarog only supporting Windows.
+Supported platforms of those apps are listed in \autoref{tab:exist-platform}. In particular, note that SREV is a web-based and GitHub Pages-hosted application therefore supporting all platforms. KEVI is written in .NET Framework and supports the second most platforms, with JQuake not supporting Linux and Quarog only supporting Windows.
 
 \begin{table}[htp]
     \centering
@@ -142,9 +142,9 @@ Supported platforms of those apps are listed in Table \ref{tab:exist-platform}. 
 
 \subsubsection{Earthquake Monitoring}
 
-An overview feature table of monitoring is included in Table \ref{tab:exist-monitoring}. In particular, note that due to the nature of SREV being Scratch-programmed and web-based, it reached a special agreement with DM-D.S.S. to use the API without the need of all users paying for this, since it is hard to integrate such function into a web application.
+An overview feature table of monitoring is included in \autoref{tab:exist-monitoring}. In particular, note that due to the nature of SREV being Scratch-programmed and web-based, it reached a special agreement with DM-D.S.S. to use the API without the need of all users paying for this, since it is hard to integrate such function into a web application.
 
-Quarog is a relatively new application and only supports basic functionalities of EEW Viewing and past earthquake listing, as shown in Figure \ref{fig:quarog-monitor-features}. JQuake is solely dedicated to earthquake and tsunami monitoring as shown in Figure \ref{fig:jquake-monitor-features}, while KEVI has features like rain clouds map and natural disaster warning which is beyond the scope of this analysis (which is a burden to users only requiring earthquake monitoring and a waste of storage space).
+Quarog is a relatively new application and only supports basic functionalities of EEW Viewing and past earthquake listing, as shown in \autoref{fig:quarog-monitor-features}. JQuake is solely dedicated to earthquake and tsunami monitoring as shown in \autoref{fig:jquake-monitor-features}, while KEVI has features like rain clouds map and natural disaster warning which is beyond the scope of this analysis (which is a burden to users only requiring earthquake monitoring and a waste of storage space).
 
 It is worth noting that for SREV, DM-D.S.S. is integrated with special permission with no login required. For JQuake, although it has tsunami warnings/special warnings, the tsunami forecast is not available, since they use a different data source.
 
@@ -193,7 +193,7 @@ It is worth noting that for SREV, DM-D.S.S. is integrated with special permissio
 
 \subsubsection{Configuration Options}
 
-There are also a variety of configuration options available for all apps, as listed in Table \ref{tab:exist-config}. Both KEVI and Quarog supports the adjustment of the colour theme, and Quarog even supports changing the style of how blocks are displayed and coloured as shown in Figure \ref{fig:kevi-colour-cust} and \ref{fig:quarog-cust}. Playing a sound on the speaker is also common among the apps to remind the user of earthquakes.
+There are also a variety of configuration options available for all apps, as listed in \autoref{tab:exist-config}. Both KEVI and Quarog supports the adjustment of the colour theme, and Quarog even supports changing the style of how blocks are displayed and coloured as shown in \autoref{fig:kevi-colour-cust} and \autoref{fig:quarog-cust}. Playing a sound on the speaker is also common among the apps to remind the user of earthquakes.
 
 \begin{table}[htp]
     \centering
@@ -231,7 +231,7 @@ There are also a variety of configuration options available for all apps, as lis
 
 All applications are similar in a way, that their past earthquakes list is displayed on a sidebar.
 
-For Quarog and KEVI, an earthquake can be selected from the sidebar to view the details of, as in Figure \ref{fig:kevi-srev-past-page}. They will both colour on the map the maximum observed intensities by regions. While KEVI chooses to display the regions as colours and also provide an overlay of the observed intensities by observation stations (which will only appear after zoomed in enough, as in Figure \ref{fig:kevi-map}), Quarog chooses to have a separate button to switch between display of regions, and the display of observation stations.
+For Quarog and KEVI, an earthquake can be selected from the sidebar to view the details of, as in \autoref{fig:kevi-srev-past-page}. They will both colour on the map the maximum observed intensities by regions. While KEVI chooses to display the regions as colours and also provide an overlay of the observed intensities by observation stations (which will only appear after zoomed in enough, as in \autoref{fig:kevi-map}), Quarog chooses to have a separate button to switch between display of regions, and the display of observation stations.
 
 \begin{figure}[htp]
     \centering
@@ -250,7 +250,7 @@ For Quarog and KEVI, an earthquake can be selected from the sidebar to view the 
     \label{fig:kevi-map}
 \end{figure}
 
-In particular for KEVI, there is also a tree structure on a panel displaying the details of the observed intensities by hierarchy structure, consisting of prefectures, skipping regions, then districts, then the exact observation stations, as shown in Figure \ref{fig:kevi-intensity-tree}.
+In particular for KEVI, there is also a tree structure on a panel displaying the details of the observed intensities by hierarchy structure, consisting of prefectures, skipping regions, then districts, then the exact observation stations, as shown in \autoref{fig:kevi-intensity-tree}.
 
 \begin{figure}[htp]
     \centering
@@ -260,7 +260,7 @@ In particular for KEVI, there is also a tree structure on a panel displaying the
     \label{fig:kevi-intensity-tree}
 \end{figure}
 
-As for SREV, the selected earthquake will be displayed on the map and coloured by region, but no information on observation stations will be provided. For JQuake, it is impossible to select a particular earthquake, but only possible to replay the past earthquake, and jump to an external weather service to view the details, as shown in Figure \ref{fig:jquake-sidebar-options}.
+As for SREV, the selected earthquake will be displayed on the map and coloured by region, but no information on observation stations will be provided. For JQuake, it is impossible to select a particular earthquake, but only possible to replay the past earthquake, and jump to an external weather service to view the details, as shown in \autoref{fig:jquake-sidebar-options}.
 
 \begin{figure}[htp]
     \centering
@@ -272,7 +272,7 @@ As for SREV, the selected earthquake will be displayed on the map and coloured b
     \label{fig:jquake-sidebar-options}
 \end{figure}
 
-A significant difference between the applications is how they split the different functionalities. For KEVI and SREV, there are separate pages for real-time monitoring, past-earthquake viewing and tsunami warnings, as shown in Figure \ref{fig:kevi-real-time-tsunami} for KEVI, and Figure \ref{fig:srev-real-time-tsunami} for SREV.
+A significant difference between the applications is how they split the different functionalities. For KEVI and SREV, there are separate pages for real-time monitoring, past-earthquake viewing and tsunami warnings, as shown in \autoref{fig:kevi-real-time-tsunami} for KEVI, and \autoref{fig:srev-real-time-tsunami} for SREV.
 
 \begin{figure}[htp]
     \centering
@@ -292,7 +292,7 @@ A significant difference between the applications is how they split the differen
     \label{fig:srev-real-time-tsunami}
 \end{figure}
 
-On the contrary, since JQuake's map only supports replay and real-time functionality (EEW and tsunami), there is only one page, as shown in Figure \ref{fig:jquake-main-page}. Quarog will automatically switch the map to display EEWs if EEWs are issued, and change the sidebar to display the predicted intensities of EEWs, as shown in Figure \ref{fig:quarog-monitor-features}.
+On the contrary, since JQuake's map only supports replay and real-time functionality (EEW and tsunami), there is only one page, as shown in \autoref{fig:jquake-main-page}. Quarog will automatically switch the map to display EEWs if EEWs are issued, and change the sidebar to display the predicted intensities of EEWs, as shown in \autoref{fig:quarog-monitor-features}.
 
 \begin{figure}[htp]
     \centering
@@ -409,19 +409,19 @@ The \(a\) is to implement a setting page for customisation and some additional f
 
 A detailed specification is defined here that is to be aimed to be fulfilled at the end of the project, split into four sections:
 \begin{enumerate}
-    \item \textbf{NIED and DM-D.S.S. Functionality} -- Corresponding to \textbf{Part 1}, in Table \ref{tab:requirements-part-one}
-    \item \textbf{Real-Time Earthquake Monitoring} -- Corresponding to \textbf{Part 2a}, in Table \ref{tab:requirements-part-two-a}
-    \item \textbf{Past-earthquake Viewing} -- Corresponding to \textbf{Part 2b}, in Table \ref{tab:requirements-part-two-b}
-    \item \textbf{Joint functionalities} -- Corresponding to \textbf{Part 3}, in Table \ref{tab:requirements-part-three}
-    \item \textbf{Settings Page} -- Corresponding to \textbf{Part 4}, in Table \ref{tab:requirements-part-four-five}
-    \item \textbf{Additional functionalities} -- Corresponding to \textbf{Part 5}, also in Table \ref{tab:requirements-part-four-five}, marked with a *
+    \item \textbf{NIED and DM-D.S.S. Functionality} -- Corresponding to \textbf{Part 1}, in \autoref{tab:requirements-part-one}
+    \item \textbf{Real-Time Earthquake Monitoring} -- Corresponding to \textbf{Part 2a}, in \autoref{tab:requirements-part-two-a}
+    \item \textbf{Past-earthquake Viewing} -- Corresponding to \textbf{Part 2b}, in \autoref{tab:requirements-part-two-b}
+    \item \textbf{Joint functionalities} -- Corresponding to \textbf{Part 3}, in \autoref{tab:requirements-part-three}
+    \item \textbf{Settings Page} -- Corresponding to \textbf{Part 4}, in \autoref{tab:requirements-part-four-five}
+    \item \textbf{Additional functionalities} -- Corresponding to \textbf{Part 5}, also in \autoref{tab:requirements-part-four-five}, marked with a *
 \end{enumerate}
 
 Those objectives marked with an * are optional depending on time, since they are not core functionalities for the project.
 
 The objectives here are SMART, meaning they are specific, measurable, achievable, realistic and timely.
 
-Table \ref{tab:abbrs} gives abbreviations for the types of testing.
+\autoref{tab:abbrs} gives abbreviations for the types of testing.
 
 \begin{table}[htp]
     \centering
@@ -543,7 +543,7 @@ Some initial ideas on the applications are considered in this section, but more 
 \subsection{Colour Scheme to Use}
 Although most built-in applications tend to introduce their own colour schemes, the author decided to follow the standard guidance provided by the JMA \autocite{jma-colour-guidance} and use the official colour scheme, to prevent any confusion and make the application generally accessible.
 
-Figure \ref{fig:jma-colour-scheme-intensity} shows the JMA Colour Scheme for measured intensities, and Figure \ref{fig:jma-colour-scheme-tsunami} shows the JMA Colour Scheme for different levels of tsunami warnings (the row for the tsunami is highlighted).
+\autoref{fig:jma-colour-scheme-intensity} shows the JMA Colour Scheme for measured intensities, and \autoref{fig:jma-colour-scheme-tsunami} shows the JMA Colour Scheme for different levels of tsunami warnings (the row for the tsunami is highlighted).
 
 \begin{figure}[htp]
     \centering
@@ -562,11 +562,11 @@ Figure \ref{fig:jma-colour-scheme-intensity} shows the JMA Colour Scheme for mea
     \label{fig:jma-colour-scheme-tsunami}
 \end{figure}
 
-In addition to these colours, for tsunami informational advisory, the colour \Colour{80FFFF} is used, in accordance with the colour used for no release of river flooding warning, and for endings of tsunamis warnings, the colour \Colour{F2F2FF} is used, in accordance with the minimal level (the extremely light grey) in Figure \ref{fig:jma-colour-scheme-tsunami}.
+In addition to these colours, for tsunami informational advisory, the colour \Colour{80FFFF} is used, in accordance with the colour used for no release of river flooding warning, and for endings of tsunamis warnings, the colour \Colour{F2F2FF} is used, in accordance with the minimal level (the extremely light grey) in \autoref{fig:jma-colour-scheme-tsunami}.
 
 The colour \Colour{F0F0F0} is used for intensity zero (i.e. any intensity less than intensity 1), and \Colour{C8C8CB} is used for unknown intensities.
 
-A similar colour scheme is used for EEW warnings. Specifically, the same colour as tsunami warning is used for EEW warnings, and the same colour as endings of tsunami warnings is used for EEW cancellation. For EEW forecasts, the colour \Colour{FFAA00} (in accordance with the orange colour in Figure \ref{fig:jma-colour-scheme-tsunami}) is used, and for EEW final reports, the same colour is used as unknown intensities.
+A similar colour scheme is used for EEW warnings. Specifically, the same colour as tsunami warning is used for EEW warnings, and the same colour as endings of tsunami warnings is used for EEW cancellation. For EEW forecasts, the colour \Colour{FFAA00} (in accordance with the orange colour in \autoref{fig:jma-colour-scheme-tsunami}) is used, and for EEW final reports, the same colour is used as unknown intensities.
 
 A summary of the colours used is in the table below.
 
