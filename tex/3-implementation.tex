@@ -1,29 +1,217 @@
 \chapter{Technical Implementation}
 
-Note that in this section, only key code segments are listed. Documentation comments, using statements, and code that are not key functionalities are omitted for brevity (and this is why line numbers sometimes do skip). The full code (including the full using statements and documentation comments) is available in the appendix.
+Note that in this section, only key code segments are listed. Documentation comments, namespace declarations, using statements, and code that are not key functionalities are omitted for brevity (and this is why line numbers sometimes do skip). The full code is available in the appendix.
 
 \section{JMA Travel Time}
 \begin{normallisting}
-    \InputLines{csharp}{\CodeBasePath EasonEetwViewer/EasonEetwViewer.JmaTravelTime/Abstractions/ITimeTable.cs}{1}{1}{5}{6}{13}{14}
-    \caption[\Code{ITimeTable} Interface]{\Code{ITimeTable} Interface \\ Use of Interface}
+    \InputLines{csharp}{\CodeBasePath EasonEetwViewer/EasonEetwViewer.JmaTravelTime/Abstractions/ITimeTable.cs}{5}{6}{13}{14}
+    \caption[\Code{ITimeTable} Interface]{
+        \Code{ITimeTable} Interface \\
+        Use of Interface \\
+        Full Code at \autoref{code-listing:EasonEetwViewer.JmaTravelTime/Abstractions/ITimeTable.cs}}
 \end{normallisting}
 
 \begin{normallisting}
-    \InputLines{csharp}{\CodeBasePath EasonEetwViewer/EasonEetwViewer.JmaTravelTime/Dtos/TimeTableEntry.cs}{1}{1}{6}{7}{11}{11}{15}{15}{19}{20}
-    \caption[\Code{TimeTableEntry} DTO]{\Code{TimeTableEntry} DTO \\ User-defined DTO for Data}
+    \InputLines{csharp}{\CodeBasePath EasonEetwViewer/EasonEetwViewer.JmaTravelTime/Dtos/TimeTableEntry.cs}{6}{7}{11}{11}{15}{15}{19}{20}
+    \caption[\Code{TimeTableEntry} DTO]{
+        \Code{TimeTableEntry} DTO \\
+        User-defined DTO for Data \\
+        Full Code at \autoref{code-listing:EasonEetwViewer.JmaTravelTime/Dtos/TimeTableEntry.cs}}
 \end{normallisting}
 
 \begin{normallisting}
-    \InputLines{csharp}{\CodeBasePath EasonEetwViewer/EasonEetwViewer.JmaTravelTime/Services/JmaTimeTableBuilder.cs}{7}{7}{11}{12}{22}{40}
-    \caption[\Code{JmaTimeTableBuilder} Factory Class]{\Code{JmaTimeTableBuilder} Factory Class \\ Factory Pattern, Handling of External Data Source, Deserialisation}
+    \InputLines{csharp}{\CodeBasePath EasonEetwViewer/EasonEetwViewer.JmaTravelTime/Services/JmaTimeTableBuilder.cs}{11}{12}{22}{40}
+    \caption[\Code{JmaTimeTableBuilder} Factory Class]{
+        \Code{JmaTimeTableBuilder} Factory Class \\
+        Factory Pattern, Handling of External Data Source, Deserialisation \\
+        Full Code at \autoref{code-listing:EasonEetwViewer.JmaTravelTime/Services/JmaTimeTableBuilder.cs}}
 \end{normallisting}
 
 \begin{normallisting}
-    \InputLines{csharp}{\CodeBasePath EasonEetwViewer/EasonEetwViewer.JmaTravelTime/Services/JmaTimeTable.cs}{5}{5}{9}{10}{33}{33}{36}{49}{59}{90}
-    \caption[\Code{JmaTimeTable} Service Class]{\Code{JmaTimeTable} Service Class \\ OOP, Algorithm (Line 59 to 89), Logging}
+    \InputLines{csharp}{\CodeBasePath EasonEetwViewer/EasonEetwViewer.JmaTravelTime/Services/JmaTimeTable.cs}{9}{10}{33}{33}{36}{49}{59}{90}
+    \caption[\Code{JmaTimeTable} Service Class]{
+        \Code{JmaTimeTable} Service Class \\
+        Implementation of Interface, Algorithm (Line 59 to 89), Logging \\
+        Full Code at \autoref{code-listing:EasonEetwViewer.JmaTravelTime/Services/JmaTimeTable.cs}}
 \end{normallisting}
 
 \begin{normallisting}
-    \InputLines{csharp}{\CodeBasePath EasonEetwViewer/EasonEetwViewer.JmaTravelTime/Options/JmaTimeTableOptions.cs}{3}{3}{7}{8}{12}{13}
-    \caption[\Code{JmaTimeTableOptions} Options Record]{\Code{JmaTimeTableOptions} Options Record \\ Options Pattern}
+    \InputLines{csharp}{\CodeBasePath EasonEetwViewer/EasonEetwViewer.JmaTravelTime/Options/JmaTimeTableOptions.cs}{7}{8}{12}{13}
+    \caption[\Code{JmaTimeTableOptions} Options Record]{
+        \Code{JmaTimeTableOptions} Options Record \\
+        Options Pattern \\
+        Full Code at \autoref{code-listing:EasonEetwViewer.JmaTravelTime/Options/JmaTimeTableOptions.cs}}
+\end{normallisting}
+
+\begin{normallisting}
+    \InputLines{csharp}{\CodeBasePath EasonEetwViewer/EasonEetwViewer.JmaTravelTime/Extensions/JmaTimeTableServiceCollectionExtensions.cs}{12}{13}{19}{24}
+    \caption[\Code{JmaTimeTableServiceCollectionExtensions} DI Injection Extension]{
+        \Code{JmaTimeTableServiceCollectionExtensions} DI Injection Extension \\
+        Dependency Injection and Singleton Pattern \\
+        Full Code at \autoref{code-listing:EasonEetwViewer.JmaTravelTime/Extensions/JmaTimeTableServiceCollectionExtensions.cs}}
+\end{normallisting}
+
+\section{Kyoshin Monitor}
+\begin{normallisting}
+    \InputLines{csharp}{\CodeBasePath EasonEetwViewer/EasonEetwViewer.KyoshinMonitor/Abstractions/IImageFetch.cs}{6}{7}{15}{16}
+    \caption[\Code{IImageFetch} Interface]{
+        \Code{IImageFetch} Interface \\
+        Use of Interface \\
+        Full Code at \autoref{code-listing:EasonEetwViewer.KyoshinMonitor/Abstractions/IImageFetch.cs}}
+\end{normallisting}
+
+\begin{normallisting}
+    \InputLines{csharp}{\CodeBasePath EasonEetwViewer/EasonEetwViewer.KyoshinMonitor/Abstractions/IPointExtract.cs}{9}{10}{17}{18}
+    \caption[\Code{IPointExtract} Interface]{
+        \Code{IPointExtract} Interface \\
+        Use of Interface \\
+        Full Code at \autoref{code-listing:EasonEetwViewer.KyoshinMonitor/Abstractions/IPointExtract.cs}}
+\end{normallisting}
+
+\begin{normallisting}
+    \InputLines{csharp}{\CodeBasePath EasonEetwViewer/EasonEetwViewer.KyoshinMonitor/Services/ImageFetch.cs}{10}{11}{35}{45}{48}{76}
+    \caption[\Code{ImageFetch} Service Class]{
+        \Code{ImageFetch} Service Class \\
+        Implementation of Interface, Use of Parametrised Query, API Calls and Error Handling, Logging \\
+        Full Code at \autoref{code-listing:EasonEetwViewer.KyoshinMonitor/Services/ImageFetch.cs}}
+\end{normallisting}
+
+
+\begin{normallisting}
+    \InputLines{csharp}{\CodeBasePath EasonEetwViewer/EasonEetwViewer.KyoshinMonitor/Extensions/EnumToUriStringExtensions.cs}{8}{9}{15}{40}{46}{56}
+    \caption[\Code{EnumToUriStringExtensions} Extensions Class]{
+        \Code{EnumToUriStringExtensions} Extensions Class \\
+        Helper for Parametrised Query \\
+        Full Code at \autoref{code-listing:EasonEetwViewer.KyoshinMonitor/Extensions/EnumToUriStringExtensions.cs}}
+\end{normallisting}
+
+\begin{normallisting}
+    \InputLines{csharp}{\CodeBasePath EasonEetwViewer/EasonEetwViewer.KyoshinMonitor/Services/PointExtract.cs}{9}{10}{21}{28}
+    \caption[\Code{PointExtract} Service Class]{
+        \Code{PointExtract} Service Class \\
+        Implementation of Interface, List Operations (LINQ) \\
+        Full Code at \autoref{code-listing:EasonEetwViewer.KyoshinMonitor/Services/PointExtract.cs}}
+\end{normallisting}
+
+\begin{normallisting}
+    \InputLines{csharp}{\CodeBasePath EasonEetwViewer/EasonEetwViewer.KyoshinMonitor/Extensions/KmoniServiceCollectionExtensions.cs}{13}{14}{20}{35}
+    \caption[\Code{KmoniServiceCollectionExtensions} DI Injection Extension]{
+        \Code{KmoniServiceCollectionExtensions} DI Injection Extension \\
+        Dependency Injection and Singleton Pattern \\
+        Full Code at \autoref{code-listing:EasonEetwViewer.KyoshinMonitor/Extensions/KmoniServiceCollectionExtensions.cs}}
+\end{normallisting}
+
+\begin{normallisting}
+    \InputLines{csharp}{\CodeBasePath EasonEetwViewer/EasonEetwViewer.KyoshinMonitor/Extensions/ColourConversionExtensions.cs}{8}{9}{15}{16}{22}{23}{29}{30}{36}{37}{43}{44}{50}{51}{57}{58}{64}{65}{71}{81}{87}{95}{101}{112}{118}{119}{125}{176}
+    \caption[\Code{ColourConversionExtensions} Extensions Class]{
+        \Code{ColourConversionExtensions} Extensions Class \\
+        Mathematical Algorithm, Binary Search (Line 147 to 173) \\
+        Full Code at \autoref{code-listing:EasonEetwViewer.KyoshinMonitor/Extensions/ColourConversionExtensions.cs}}
+\end{normallisting}
+
+\section{DM-D.S.S. Authentication}
+\begin{normallisting}
+    \InputLines{csharp}{\CodeBasePath EasonEetwViewer/EasonEetwViewer.Dmdata.Authentication/Abstractions/IAuthenticator.cs}{8}{9}{14}{15}
+    \caption[\Code{IAuthenticator} Interface]{
+        \Code{IAuthenticator} Interface \\
+        Use of Interface, Asynchronous Programming \\
+        Full Code at \autoref{code-listing:EasonEetwViewer.Dmdata.Authentication/Abstractions/IAuthenticator.cs}}
+\end{normallisting}
+
+\begin{normallisting}
+    \InputLines{csharp}{\CodeBasePath EasonEetwViewer/EasonEetwViewer.Dmdata.Authentication/Services/NullAuthenticator.cs}{9}{10}{13}{14}{16}{17}{21}{21}{25}{26}
+    \caption[\Code{NullAuthenticator} Service Class]{
+        \Code{NullAuthenticator} Service Class \\
+        Implementation of Interface, Singleton Pattern, Custom Exceptions \\
+        Full Code at \autoref{code-listing:EasonEetwViewer.Dmdata.Authentication/Services/NullAuthenticator.cs}}
+\end{normallisting}
+
+\begin{normallisting}
+    \InputLines{csharp}{\CodeBasePath EasonEetwViewer/EasonEetwViewer.Dmdata.Authentication/Services/ApiKeyAuthenticator.cs}{10}{11}{21}{22}{24}{25}{30}{42}
+    \caption[\Code{ApiKeyAuthenticator} Service Class]{
+        \Code{ApiKeyAuthenticator} Service Class \\
+        Implementation of Interface, Singleton Pattern, Defensive Programming for Inputs \\
+        Full Code at \autoref{code-listing:EasonEetwViewer.Dmdata.Authentication/Services/ApiKeyAuthenticator.cs}}
+\end{normallisting}
+
+\begin{normallisting}
+    \InputLines{csharp}{\CodeBasePath EasonEetwViewer/EasonEetwViewer.Dmdata.Authentication/Services/OAuth2Authenticator.cs}{13}{14}{60}{84}{87}{88}{91}{92}{98}{101}{109}{179}{188}{223}{229}{235}
+    \caption[\Code{OAuth2Authenticator} Service Class]{
+        \Code{OAuth2Authenticator} Service Class \\
+        Implementation of Interface, Defensive Programming in Constructor, Serialisation and Deserialisation, Parametrised API Calls, Exception Handling, Custom Exceptions \\
+        Full Code at \autoref{code-listing:EasonEetwViewer.Dmdata.Authentication/Services/OAuth2Authenticator.cs}}
+\end{normallisting}
+
+\begin{normallisting}
+    \InputLines{csharp}{\CodeBasePath EasonEetwViewer/EasonEetwViewer.Dmdata.Authentication/Services/OAuth2Helper.cs}{17}{18}{105}{105}{110}{117}{147}{181}{204}{267}
+    \caption[\Code{OAuth2Helper} Service Class]{
+        \Code{OAuth2Helper} Service Class \\
+        Parameterised API Calls, Deserialisation, Exception Handling, Custom Exceptions \\
+        Full Code at \autoref{code-listing:EasonEetwViewer.Dmdata.Authentication/Services/OAuth2Helper.cs}}
+\end{normallisting}
+
+\begin{normallisting}
+    \InputLines{csharp}{\CodeBasePath EasonEetwViewer/EasonEetwViewer.Dmdata.Authentication/Dtos/Error.cs}{7}{8}{12}{13}{17}{19}
+    \InputLines{csharp}{\CodeBasePath EasonEetwViewer/EasonEetwViewer.Dmdata.Authentication/Dtos/TokenRefresh.cs}{8}{9}{13}{14}{18}{19}{23}{24}{28}{30}
+    \InputLines{csharp}{\CodeBasePath EasonEetwViewer/EasonEetwViewer.Dmdata.Authentication/Dtos/TokenRequest.cs}{8}{9}{13}{15}
+    \caption[\Code{Error}, \Code{TokenRefresh}, \Code{TokenRefresh} DTO Records]{
+        \Code{Error}, \Code{TokenRefresh}, \Code{TokenRefresh} DTO Records \\
+        DTOs for API calls, Inheritance \\
+        Full Code at \autoref{code-listing:EasonEetwViewer.Dmdata.Authentication/Dtos/Error.cs, code-listing:EasonEetwViewer.Dmdata.Authentication/Dtos/TokenRefresh.cs, code-listing:EasonEetwViewer.Dmdata.Authentication/Dtos/TokenRequest.cs}}
+\end{normallisting}
+
+\begin{normallisting}
+    \InputLines{csharp}{\CodeBasePath EasonEetwViewer/EasonEetwViewer.Dmdata.Authentication/Services/OAuth2Provider.cs}{9}{10}{18}{36}{44}{52}
+    \caption[\Code{OAuth2Provider} Factory Methods]{
+        \Code{OAuth2Provider} Factory Methods \\
+        Factory Pattern (Methods), Options Pattern, OOP \\
+        Full Code at \autoref{code-listing:EasonEetwViewer.Dmdata.Authentication/Services/OAuth2Provider.cs}}
+\end{normallisting}
+
+\begin{normallisting}
+    \InputLines{csharp}{\CodeBasePath EasonEetwViewer/EasonEetwViewer.Dmdata.Authentication/Abstractions/IAuthenticationHelper.cs}{9}{10}{14}{14}{18}{18}{23}{23}{28}{28}{34}{34}{39}{39}{44}{45}
+    \caption[\Code{IAuthenticationHelper} Interface]{
+        \Code{IAuthenticationHelper} Interface \\
+        Use of Interface, Asynchronous Programming, Factory Class \\
+        Full Code at \autoref{code-listing:EasonEetwViewer.Dmdata.Authentication/Abstractions/IAuthenticationHelper.cs}}
+\end{normallisting}
+
+\begin{normallisting}
+    \InputLines{csharp}{\CodeBasePath EasonEetwViewer/EasonEetwViewer.Dmdata.Authentication/Services/AuthenticationHelper.cs}{12}{13}{35}{54}{56}{57}{68}{127}{129}{134}{158}{179}{181}{191}{193}{197}{199}{226}{228}{229}
+    \caption[\Code{AuthenticationHelper} Service Class]{
+        \Code{AuthenticationHelper} Service Class \\
+        Implementation of Interface, Error Handling, Factory Method (Line 68 to 127), Events, Logging \\
+        Full Code at \autoref{code-listing:EasonEetwViewer.Dmdata.Authentication/Services/AuthenticationHelper.cs}}
+\end{normallisting}
+
+\begin{normallisting}
+    \InputLines{csharp}{\CodeBasePath EasonEetwViewer/EasonEetwViewer.Dmdata.Authentication/Abstractions/AuthenticationStatus.cs}{5}{6}{10}{10}{14}{14}{18}{19}
+    \caption[\Code{AuthenticationStatus} Enumeration]{
+        \Code{AuthenticationStatus} Enumeration \\
+        Abstraction \\
+        Full Code at \autoref{code-listing:EasonEetwViewer.Dmdata.Authentication/Abstractions/AuthenticationStatus.cs}}
+\end{normallisting}
+
+\begin{normallisting}
+    \InputLines{csharp}{\CodeBasePath EasonEetwViewer/EasonEetwViewer.Dmdata.Authentication/Events/AuthenticationStatusChangedEventArgs.cs}{8}{9}{13}{13}{17}{18}
+    \caption[\Code{AuthenticationStatusChangedEventArgs} Event]{
+        \Code{AuthenticationStatusChangedEventArgs} Event \\
+        Custom Events \\
+        Full Code at \autoref{code-listing:EasonEetwViewer.Dmdata.Authentication/Events/AuthenticationStatusChangedEventArgs.cs}}
+\end{normallisting}
+
+\begin{normallisting}
+    \InputLines{csharp}{\CodeBasePath EasonEetwViewer/EasonEetwViewer.Dmdata.Authentication/Options/OAuth2Options.cs}{5}{6}{10}{10}{14}{14}{18}{18}{22}{22}{26}{26}{30}{31}
+    \caption[\Code{OAuth2Options} Options Class]{
+        \Code{OAuth2Options} Options Class \\
+        Options Pattern \\
+        Full Code at \autoref{code-listing:EasonEetwViewer.Dmdata.Authentication/Options/OAuth2Options.cs}}
+\end{normallisting}
+
+\begin{normallisting}
+    \InputLines{csharp}{\CodeBasePath EasonEetwViewer/EasonEetwViewer.Dmdata.Authentication/Extensions/AuthenticationHelperServiceCollectionExtensions.cs}{11}{12}{19}{41}
+    \caption[\Code{AuthenticationHelperServiceCollectionExtensions} DI Injection Extension]{
+        \Code{AuthenticationHelperServiceCollectionExtensions} DI Injection Extension \\
+        Dependency Injection and Singleton Pattern, File IO, Error Handling \\
+        Full Code at \autoref{code-listing:EasonEetwViewer.Dmdata.Authentication/Extensions/AuthenticationHelperServiceCollectionExtensions.cs}}
 \end{normallisting}
