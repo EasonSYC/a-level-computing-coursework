@@ -379,7 +379,7 @@ The programming skills and techniques that the author thinks is demonstrated by 
     \InputLines{csharp}{\CodeBasePath EasonEetwViewer/EasonEetwViewer.Dmdata.WebSocket/Services/WebSocketClient.cs}{26}{27}{86}{86}{88}{88}{90}{91}{97}{118}{124}{144}{150}{180}{188}{267}{273}{283}{291}{336}{406}{420}{422}{443}{450}{464}
     \caption[\Code{WebSocketClient} Service Class]{
         \Code{WebSocketClient} Interface \\
-        Implementation of Interface, Custom Events, Asynchronous Programming, External WebSocket Connection, Error Handling, Deserialisation, Composition (of \Code{ClientWebSocket}), Abstract Data Structure (Queue) \\
+        Implementation of Interface, Custom Events, Asynchronous Programming (Use of Cancellation Token, Cancellation Token Source and Task Factory), External WebSocket Connection, Error Handling, Deserialisation, Composition (of \Code{ClientWebSocket}), Abstract Data Structure (Queue) \\
         Full Code at \autoref{code-listing:EasonEetwViewer.Dmdata.WebSocket/Services/WebSocketClient.cs}}
 \end{normallisting}
 
@@ -530,6 +530,14 @@ The programming skills and techniques that the author thinks is demonstrated by 
         Full Code at \autoref{code-listing:EasonEetwViewer/Services/Logging/AvaloniaToMicrosoftLoggingAdaptor.cs}}
 \end{normallisting}
 
+\begin{normallisting}
+    \InputLines{csharp}{\CodeBasePath EasonEetwViewer/EasonEetwViewer/Extensions/MapsuiLoggingExtensions.cs}{11}{12}{20}{31}
+    \caption[\Code{MapsuiLoggingExtensions} Extension Class]{
+        \Code{MapsuiLoggingExtensions} Extension Class \\
+        Adaptor Pattern, Logging \\
+        Full Code at \autoref{code-listing:EasonEetwViewer/Extensions/MapsuiLoggingExtensions.cs}}
+\end{normallisting}
+
 \clearpage
 \subsection{Time Table}
 
@@ -674,7 +682,7 @@ The programming skills and techniques that the author thinks is demonstrated by 
 \end{normallisting}
 
 \clearpage
-\subsection{Past Page View Model}
+\subsection{Past Page}
 
 \begin{normallisting}
     \InputLines{csharp}{\CodeBasePath EasonEetwViewer/EasonEetwViewer/ViewModels/PastPageViewModel.cs}{32}{33}{44}{82}{471}{471}
@@ -753,10 +761,162 @@ The programming skills and techniques that the author thinks is demonstrated by 
 \end{normallisting}
 
 \clearpage
-\subsection{Real-time Page View Model}
+\subsection{Real-time Page}
+
+\begin{normallisting}
+    \InputLines{csharp}{\CodeBasePath EasonEetwViewer/EasonEetwViewer/ViewModels/RealTimePageViewModel.cs}{40}{41}{57}{120}{612}{612}
+    \caption[\Code{RealTimePageViewModel} View Model -- Main Constructor]{
+        \Code{RealTimePageViewModel} View Model -- Main Constructor\\
+        MVVM Pattern, Aggregation, Event Handling \\
+        Full Code at \autoref{code-listing:EasonEetwViewer/ViewModels/RealTimePageViewModel.cs}}
+\end{normallisting}
+
+\begin{normallisting}
+    \InputLines{csharp}{\CodeBasePath EasonEetwViewer/EasonEetwViewer/ViewModels/RealTimePageViewModel.cs}{40}{41}{492}{514}{519}{538}{547}{548}{564}{564}{572}{582}{588}{610}{612}{612}
+    \caption[\Code{RealTimePageViewModel} View Model -- Kyoshin Monitor]{
+        \Code{RealTimePageViewModel} View Model -- Kyoshin Monitor\\
+        MVVM Pattern, Aggregation, Event Handling, List Manipulation and LINQ (Select = Map), External API calls via Interface, Exception Handling \\
+        Full Code at \autoref{code-listing:EasonEetwViewer/ViewModels/RealTimePageViewModel.cs}}
+\end{normallisting}
+
+\begin{normallisting}
+    \InputLines{csharp}{\CodeBasePath EasonEetwViewer/EasonEetwViewer/ViewModels/RealTimePageViewModel.cs}{40}{41}{466}{466}{472}{485}{612}{612}
+    \caption[\Code{RealTimePageViewModel} View Model -- WebSocket]{
+        \Code{RealTimePageViewModel} View Model -- WebSocket\\
+        Event Handling, Custom Event, Type Reflection \\
+        Full Code at \autoref{code-listing:EasonEetwViewer/ViewModels/RealTimePageViewModel.cs}}
+\end{normallisting}
+
+\begin{normallisting}
+    \InputLines{csharp}{\CodeBasePath EasonEetwViewer/EasonEetwViewer/ViewModels/RealTimePageViewModel.cs}{40}{41}{412}{413}{426}{441}{447}{455}{612}{612}
+    \caption[\Code{RealTimePageViewModel} View Model -- Tsunami]{
+        \Code{RealTimePageViewModel} View Model -- Tsunami\\
+        Event Handling, Proper Type Casting (Null Checks) \\
+        Full Code at \autoref{code-listing:EasonEetwViewer/ViewModels/RealTimePageViewModel.cs}}
+\end{normallisting}
+
+\begin{normallisting}
+    \InputLines{csharp}{\CodeBasePath EasonEetwViewer/EasonEetwViewer/Models/RealTimePage/TsunamiDetailsTemplate.cs}{8}{9}{13}{13}{17}{17}{21}{21}{25}{25}{31}{40}
+    \InputLines{csharp}{\CodeBasePath EasonEetwViewer/EasonEetwViewer/Models/RealTimePage/TsunamiWarningType.cs}{2}{9}
+    \caption[\Code{TsunamiDetailsTemplate} Model and \Code{TsunamiWarningType} Enumeration]{
+        \Code{TsunamiDetailsTemplate} Model and \Code{TsunamiWarningType} Enumeration\\
+        Adaptor Pattern (in Constructor), List Manipulation and LINQ (Max, Line 37), Proper Type Casting (Null Check, Line 38) \\
+        \Code{TsunamiDetailsTemplate.cs} Full Code at \autoref{code-listing:EasonEetwViewer/Models/RealTimePage/TsunamiDetailsTemplate.cs} \\
+        \Code{TsunamiWarningType.cs} Full Code at \autoref{code-listing:EasonEetwViewer/Models/RealTimePage/TsunamiWarningType.cs}}
+\end{normallisting}
+
+\begin{normallisting}
+    \InputLines{csharp}{\CodeBasePath EasonEetwViewer/EasonEetwViewer/ViewModels/RealTimePageViewModel.cs}{40}{41}{168}{168}{169}{172}{174}{176}{251}{257}{379}{394}{399}{405}{612}{612}
+    \caption[\Code{RealTimePageViewModel} View Model -- EEW -- Data Structure]{
+        \Code{RealTimePageViewModel} View Model -- EEW -- Data Structure\\
+        MVVM Pattern, Abstract Data Structure (Dictionary), Asynchronous Programming (Use of Cancellation Token and Cancellation Token Source), Proper Type Casting (Null Checks), Event Handler (Removing EEW) \\
+        Full Code at \autoref{code-listing:EasonEetwViewer/ViewModels/RealTimePageViewModel.cs}}
+\end{normallisting}
+
+\begin{normallisting}
+    \InputLines{csharp}{\CodeBasePath EasonEetwViewer/EasonEetwViewer/ViewModels/RealTimePageViewModel.cs}{40}{41}{178}{250}{612}{612}
+    \caption[\Code{RealTimePageViewModel} View Model -- EEW -- Main Part]{
+        \Code{RealTimePageViewModel} View Model -- EEW -- Main Part\\
+        Proper Type Casting (Null Checks), Asynchronous Programming (Use of Cancellation Token, Cancellation Token Source and Task Factory) \\
+        Full Code at \autoref{code-listing:EasonEetwViewer/ViewModels/RealTimePageViewModel.cs}}
+\end{normallisting}
+
+\begin{normallisting}
+    \InputLines{csharp}{\CodeBasePath EasonEetwViewer/EasonEetwViewer/ViewModels/RealTimePageViewModel.cs}{40}{41}{281}{351}{352}{373}{612}{612}
+    \caption[\Code{RealTimePageViewModel} View Model -- EEW -- Wavefronts]{
+        \Code{RealTimePageViewModel} View Model -- EEW -- Wavefronts\\
+        Proper Type Casting (Null Checks), Asynchronous Programming (Use of Cancellation Token), Mathematical Algorithm (Trigonometry, Line 367) \\
+        Full Code at \autoref{code-listing:EasonEetwViewer/ViewModels/RealTimePageViewModel.cs}}
+\end{normallisting}
+
+\begin{normallisting}
+    \InputLines{csharp}{\CodeBasePath EasonEetwViewer/EasonEetwViewer/Models/RealTimePage/EewDetailsTemplate.cs}{11}{12}{16}{16}{20}{20}{24}{24}{28}{28}{32}{32}{36}{36}{40}{40}{44}{44}{48}{48}{52}{52}{56}{56}{60}{63}{67}{70}{74}{77}{81}{81}{85}{85}{92}{114}
+    \InputLines{csharp}{\CodeBasePath EasonEetwViewer/EasonEetwViewer/Models/RealTimePage/EewWarningType.cs}{6}{7}{11}{11}{15}{15}{19}{19}{23}{24}
+    \caption[\Code{EewDetailsTemplate} Model and \Code{EewWarningType} Enumeration]{
+        \Code{EewDetailsTemplate} Model and \Code{EewWarningType} Enumeration \\
+        Adaptor Pattern (in Constructor and Properties), Asynchronous Programming (Cancellation Token and Cancellation Token Source), Proper Type Casting (Null Checks) \\
+        \Code{EewDetailsTemplate} Full Code at \autoref{code-listing:EasonEetwViewer/Models/RealTimePage/EewDetailsTemplate.cs} \\
+        \Code{EewWarningType} Full Code at \autoref{code-listing:EasonEetwViewer/Models/RealTimePage/EewWarningType.cs}}
+\end{normallisting}
 
 \clearpage
 \subsection{Converters and Extensions}
+\subsubsection{Converters}
+
+\begin{normallisting}
+    \InputLines{csharp}{\CodeBasePath EasonEetwViewer/EasonEetwViewer/Converters/UnitValueDisplayUnitConverter.cs}{7}{20}
+    \InputLines{csharp}{\CodeBasePath EasonEetwViewer/EasonEetwViewer/Converters/UnitValueDisplayValueConverter.cs}{7}{20}
+    \InputLines{csharp}{\CodeBasePath EasonEetwViewer/EasonEetwViewer/Converters/EnumDisplayTextConverter.cs}{7}{20}
+    \InputLines{csharp}{\CodeBasePath EasonEetwViewer/EasonEetwViewer/Converters/EnumDisplayColourConverter.cs}{7}{20}
+    \caption[\Code{UnitValueDisplayUnitConverter}, \Code{UnitValueDisplayValueConverter}, \Code{EnumDisplayTextConverter}, \Code{EnumDisplayColourConverter} Converters]{
+        \Code{UnitValueDisplayUnitConverter}, \Code{UnitValueDisplayValueConverter}, \Code{EnumDisplayTextConverter}, \Code{EnumDisplayColourConverter} Converters \\
+        Implementation of External Interface, Type Reflection (Invoke Methods on Dynamic Types with Type Safety), Use of Extension Methods \\
+        \Code{UnitValueDisplayUnitConverter.cs} Full Code at \autoref{code-listing:EasonEetwViewer/Converters/UnitValueDisplayUnitConverter.cs} \\
+        \Code{UnitValueDisplayValueConverter.cs} Full Code at \autoref{code-listing:EasonEetwViewer/Converters/UnitValueDisplayValueConverter.cs} \\
+        \Code{EnumDisplayTextConverter.cs} Full Code at \autoref{code-listing:EasonEetwViewer/Converters/EnumDisplayTextConverter.cs} \\
+        \Code{EnumDisplayColourConverter.cs} Full Code at \autoref{code-listing:EasonEetwViewer/Converters/EnumDisplayColourConverter.cs}}
+\end{normallisting}
+
+\begin{normallisting}
+    \InputLines{csharp}{\CodeBasePath EasonEetwViewer/EasonEetwViewer/Extensions/EnumDisplayColourExtensions.cs}{12}{13}{74}{87}{158}{158}
+    \InputLines{csharp}{\CodeBasePath EasonEetwViewer/EasonEetwViewer/Extensions/EnumDisplayTextExtensions.cs}{16}{17}{269}{282}{353}{353}
+    \caption[\Code{EnumDisplayColourExtensions} and \Code{EnumDisplayTextExtensions} Extension Class]{
+        \Code{EnumDisplayColourExtensions} and \Code{EnumDisplayTextExtensions} Extension Class (Other Methods omitted for Brevity) \\
+        Use of Resource Files (to avoid hard-coded strings), Use of Extensions \\
+        \Code{EnumDisplayColourExtensions.cs} Full Code at \autoref{code-listing:EasonEetwViewer/Extensions/EnumDisplayColourExtensions.cs} \\
+        \Code{EnumDisplayTextExtensions.cs} Full Code at \autoref{code-listing:EasonEetwViewer/Extensions/EnumDisplayTextExtensions.cs}}
+\end{normallisting}
+
+\begin{normallisting}
+    \InputLines{csharp}{\CodeBasePath EasonEetwViewer/EasonEetwViewer/Extensions/UnitValueExtensions.cs}{9}{10}{16}{19}{25}{29}
+    \caption[\Code{UnitValueExtensions} Extension Class]{
+        \Code{UnitValueExtensions} Extension Class (Other Methods omitted for Brevity) \\
+        Use of Resource Files (to avoid hard-coded strings), Use of Extensions \\
+        Full Code at \autoref{code-listing:EasonEetwViewer/Extensions/UnitValueExtensions.cs}}
+\end{normallisting}
+\clearpage
+
+\subsubsection{Extensions}
+
+\begin{normallisting}
+    \InputLines{csharp}{\CodeBasePath EasonEetwViewer/EasonEetwViewer/Extensions/LinqExtensions.cs}{6}{7}{14}{18}
+    \caption[\Code{LinqExtensions} Extension Class]{
+        \Code{LinqExtensions} Extension Class \\
+        Type Safe Casting (Null Checks), List Manipulation and LINQ (Where = Filter, Select = Map) \\
+        Full Code at \autoref{code-listing:EasonEetwViewer/Extensions/LinqExtensions.cs}}
+\end{normallisting}
+
+\begin{normallisting}
+    \InputLines{csharp}{\CodeBasePath EasonEetwViewer/EasonEetwViewer/Extensions/InformationalTextExtensions.cs}{9}{10}{17}{20}{26}{33}{39}{45}{51}{58}
+    \caption[\Code{InformationalTextExtensions} Extension Class]{
+        \Code{InformationalTextExtensions} Extension Class \\
+        Type Safe Casting (Null Checks), Use of String Builder, Use of Extensions, Reusable Code \\
+        Full Code at \autoref{code-listing:EasonEetwViewer/Extensions/InformationalTextExtensions.cs}}
+\end{normallisting}
+
+\begin{normallisting}
+    \InputLines{csharp}{\CodeBasePath EasonEetwViewer/EasonEetwViewer/Extensions/MapStyleExtensions.cs}{23}{24}{30}{42}{48}{59}{66}{77}{157}{157}
+    \caption[\Code{MapStyleExtensions} Extension Class -- DTO Information to Theme]{
+        \Code{MapStyleExtensions} Extension Class -- DTO Information to Theme \\
+        List Manipulation and LINQ (Single or Default), Proper Type Casing (Null Checks), Use of Extensions, Reusable Code \\
+        Full Code at \autoref{code-listing:EasonEetwViewer/Extensions/MapStyleExtensions.cs}}
+\end{normallisting}
+
+\begin{normallisting}
+    \InputLines{csharp}{\CodeBasePath EasonEetwViewer/EasonEetwViewer/Extensions/MapStyleExtensions.cs}{23}{24}{84}{90}{97}{102}{109}{113}{120}{124}{131}{136}{157}{157}
+    \caption[\Code{MapStyleExtensions} Extension Class -- Point Styles]{
+        \Code{MapStyleExtensions} Extension Class -- Point Styles \\
+        Use of Extensions, Reusable Code \\
+        Full Code at \autoref{code-listing:EasonEetwViewer/Extensions/MapStyleExtensions.cs}}
+\end{normallisting}
+
+\begin{normallisting}
+    \InputLines{csharp}{\CodeBasePath EasonEetwViewer/EasonEetwViewer/Extensions/MapStyleExtensions.cs}{23}{24}{144}{156}{157}{157}
+    \caption[\Code{MapStyleExtensions} Extension Class -- Significant Figure Conversion]{
+        \Code{MapStyleExtensions} Extension Class -- Significant Figure Conversion \\
+        Type Casting, Mathematical Algorithm \\
+        Full Code at \autoref{code-listing:EasonEetwViewer/Extensions/MapStyleExtensions.cs}}
+\end{normallisting}
 
 \clearpage
 \subsection{Application and Settings}
