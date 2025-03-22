@@ -2,7 +2,6 @@
 
 Note that in this section, only key code segments are listed. Documentation comments, namespace declarations, using statements, and code that are not key functionalities are omitted for brevity (and this is why line numbers sometimes do skip). The full code is available in the appendix.
 
-\clearpage
 \section{JMA Travel Time}
 \begin{normallisting}
     \InputLines{csharp}{\CodeBasePath EasonEetwViewer/EasonEetwViewer.JmaTravelTime/Abstractions/ITimeTable.cs}{5}{6}{13}{14}
@@ -495,3 +494,111 @@ Note that in this section, only key code segments are listed. Documentation comm
 
 \clearpage
 \section{GUI Component}
+\subsection{Logging}
+
+\begin{normallisting}
+    \InputLines{csharp}{\CodeBasePath EasonEetwViewer/EasonEetwViewer/Services/Logging/FileLogger.cs}{10}{15}{17}{18}{20}{21}{23}{36}
+    \caption[\Code{FileLogger} Logging Class]{
+        \Code{FileLogger} Logging Class \\
+        Implementation of External Interface, File Output \\
+        Full Code at \autoref{code-listing:EasonEetwViewer/Services/Logging/FileLogger.cs}}
+\end{normallisting}
+
+\begin{normallisting}
+    \InputLines{csharp}{\CodeBasePath EasonEetwViewer/EasonEetwViewer/Services/Logging/FileLoggerProvider.cs}{9}{10}{12}{13}{15}{17}
+    \caption[\Code{FileLoggerProvider} Provider Class]{
+        \Code{FileLoggerProvider} Provider Class \\
+        Implementation of External Interface, Factory Pattern \\
+        Full Code at \autoref{code-listing:EasonEetwViewer/Services/Logging/FileLoggerProvider.cs}}
+\end{normallisting}
+
+\begin{normallisting}
+    \InputLines{csharp}{\CodeBasePath EasonEetwViewer/EasonEetwViewer/Services/Logging/FileLoggerExtensions.cs}{9}{10}{18}{28}
+    \caption[\Code{FileLoggerExtensions} Extension Class]{
+        \Code{FileLoggerExtensions} Extension Class \\
+        Logging Builder Extensions \\
+        Full Code at \autoref{code-listing:EasonEetwViewer/Services/Logging/FileLoggerExtensions.cs}}
+\end{normallisting}
+
+\begin{normallisting}
+    \InputLines{csharp}{\CodeBasePath EasonEetwViewer/EasonEetwViewer/Services/Logging/AvaloniaToMicrosoftLoggingAdaptor.cs}{11}{12}{16}{16}{19}{20}{23}{34}{37}{50}
+    \caption[\Code{AvaloniaToMicrosoftLoggingAdaptor} Adaptor Class]{
+        \Code{AvaloniaToMicrosoftLoggingAdaptor} Adaptor Class \\
+        Implementation of External Interface, Adaptor Pattern, Aggregation (of Logger) \\
+        Full Code at \autoref{code-listing:EasonEetwViewer/Services/Logging/AvaloniaToMicrosoftLoggingAdaptor.cs}}
+\end{normallisting}
+
+\clearpage
+\subsection{Time Table}
+
+\begin{normallisting}
+    \InputLines{csharp}{\CodeBasePath EasonEetwViewer/EasonEetwViewer/Services/TimeProvider/ITimeProvider.cs}{5}{6}{14}{14}{20}{21}
+    \caption[\Code{ITimeProvider} Interface]{
+        \Code{ITimeProvider} Interface \\
+        Use of Interface \\
+        Full Code at \autoref{code-listing:EasonEetwViewer/Services/TimeProvider/ITimeProvider.cs}}
+\end{normallisting}
+
+\begin{normallisting}
+    \InputLines{csharp}{\CodeBasePath EasonEetwViewer/EasonEetwViewer/Services/TimeProvider/DefaultTimeProvider.cs}{5}{6}{8}{9}{11}{13}
+    \caption[\Code{DefaultTimeProvider} Service Class]{
+        \Code{DefaultTimeProvider} Service Class \\
+        Implementation of Interface \\
+        Full Code at \autoref{code-listing:EasonEetwViewer/Services/TimeProvider/DefaultTimeProvider.cs}}
+\end{normallisting}
+
+\clearpage
+\subsection{Map Resources}
+
+\begin{normallisting}
+    \InputLines{csharp}{\CodeBasePath EasonEetwViewer/EasonEetwViewer/Services/MapResourcesProvider.cs}{10}{11}{15}{15}{19}{20}{24}{25}{33}{40}{45}{49}{53}{57}{61}{62}{108}{110}
+    \caption[\Code{MapResourcesProvider} Class]{
+        \Code{MapResourcesProvider} Class \\
+        OOP, Reusable Code, Use of Interface (\Code{IStyle}), Composition \\
+        Full Code at \autoref{code-listing:EasonEetwViewer/Services/MapResourcesProvider.cs}}
+\end{normallisting}
+
+\clearpage
+\subsection{View Model Bases}
+
+\begin{normallisting}
+    \InputLines{csharp}{\CodeBasePath EasonEetwViewer/EasonEetwViewer/ViewModels/ViewModelBases/ViewModelBase.cs}{8}{9}{13}{13}{18}{23}
+    \caption[\Code{ViewModelBase} Abstract Base Class]{
+        \Code{ViewModelBase} Abstract Base Class \\
+        Abstract Base Class, Inheritance, Logging \\
+        Full Code at \autoref{code-listing:EasonEetwViewer/ViewModels/ViewModelBases/ViewModelBase.cs}}
+\end{normallisting}
+
+\begin{normallisting}
+    \InputLines{csharp}{\CodeBasePath EasonEetwViewer/EasonEetwViewer/ViewModels/ViewModelBases/PageViewModelBase.cs}{17}{24}{28}{28}{32}{32}{36}{36}{40}{40}{44}{45}
+    \caption[\Code{PageViewModelBase} Abstract Base Class]{
+        \Code{PageViewModelBase} Abstract Base Class \\
+        Abstract Base Class, Inheritance, Aggregation, Protected Fields \\
+        Full Code at \autoref{code-listing:EasonEetwViewer/ViewModels/ViewModelBases/PageViewModelBase.cs}}
+\end{normallisting}
+
+\begin{normallisting}
+    \InputLines{csharp}{\CodeBasePath EasonEetwViewer/EasonEetwViewer/ViewModels/ViewModelBases/MapViewModelBase.cs}{16}{17}{21}{22}{35}{55}{59}{59}{63}{63}{67}{67}{72}{80}{85}{86}{90}{91}{95}{96}{105}{111}
+    \caption[\Code{MapViewModelBase} Abstract Base Class]{
+        \Code{MapViewModelBase} Abstract Base Class \\
+        Abstract Base Class, Inheritance, Aggregation, Protected Fields \\
+        Full Code at \autoref{code-listing:EasonEetwViewer/ViewModels/ViewModelBases/MapViewModelBase.cs}}
+\end{normallisting}
+
+\clearpage
+\subsection{Main Window View Model}
+
+\clearpage
+\subsection{Settings Page View Model}
+
+\clearpage
+\subsection{Past Page View Model}
+
+\clearpage
+\subsection{Real-time Page View Model}
+
+\clearpage
+\subsection{Converters and Extensions}
+
+\clearpage
+\subsection{Application and Settings}
