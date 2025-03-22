@@ -2,6 +2,8 @@
 
 Note that in this section, only key code segments are listed. Documentation comments, namespace declarations, using statements, and code that are not key functionalities are omitted for brevity (and this is why line numbers sometimes do skip). The full code is available in the appendix.
 
+The programming skills and techniques that the author thinks is demonstrated by the portion of code is included in the caption.
+
 \section{JMA Travel Time}
 \begin{normallisting}
     \InputLines{csharp}{\CodeBasePath EasonEetwViewer/EasonEetwViewer.JmaTravelTime/Abstractions/ITimeTable.cs}{5}{6}{13}{14}
@@ -565,7 +567,7 @@ Note that in this section, only key code segments are listed. Documentation comm
     \InputLines{csharp}{\CodeBasePath EasonEetwViewer/EasonEetwViewer/ViewModels/ViewModelBases/ViewModelBase.cs}{8}{9}{13}{13}{18}{23}
     \caption[\Code{ViewModelBase} Abstract Base Class]{
         \Code{ViewModelBase} Abstract Base Class \\
-        Abstract Base Class, Inheritance, Logging \\
+        Abstract Base Class, Inheritance, Logging, Use of \Code{INotifyPropertyChanging} and \Code{INotifyPropertyChanged} \\
         Full Code at \autoref{code-listing:EasonEetwViewer/ViewModels/ViewModelBases/ViewModelBase.cs}}
 \end{normallisting}
 
@@ -586,13 +588,169 @@ Note that in this section, only key code segments are listed. Documentation comm
 \end{normallisting}
 
 \clearpage
-\subsection{Main Window View Model}
+\subsection{Main Window Page}
+
+\begin{normallisting}
+    \InputLines{csharp}{\CodeBasePath EasonEetwViewer/EasonEetwViewer/ViewModels/MainWindowViewModel.cs}{14}{15}{19}{20}{24}{26}{32}{35}{41}{45}{50}{50}{59}{83}{88}{88}{92}{93}{97}{103}
+    \caption[\Code{MainWindowViewModel} View Model]{
+        \Code{MainWindowViewModel} View Model \\
+        MVVM Pattern, Logging, Event Handling (\Code{WebSocketDataReceivedEventHandler}) \\
+        Full Code at \autoref{code-listing:EasonEetwViewer/ViewModels/MainWindowViewModel.cs}}
+\end{normallisting}
+
+\begin{normallisting}
+    \InputLines{csharp}{\CodeBasePath EasonEetwViewer/EasonEetwViewer/Models/MainWindow/SidebarItemTemplate.cs}{10}{11}{18}{29}{33}{33}{37}{37}{41}{42}
+    \caption[\Code{SidebarItemTemplate} Model]{
+        \Code{SidebarItemTemplate} Model \\
+        MVVM Pattern \\
+        Full Code at \autoref{code-listing:EasonEetwViewer/Models/MainWindow/SidebarItemTemplate.cs}}
+\end{normallisting}
 
 \clearpage
-\subsection{Settings Page View Model}
+\subsection{Settings Page}
+
+\begin{normallisting}
+    \InputLines{csharp}{\CodeBasePath EasonEetwViewer/EasonEetwViewer/ViewModels/SettingPageViewModel.cs}{30}{31}{45}{76}{368}{368}
+    \caption[\Code{SettingPageViewModel} View Model -- Main Constructor]{
+        \Code{SettingPageViewModel} View Model -- Main Constructor\\
+        MVVM Pattern, Aggregation, Event Handling \\
+        Full Code at \autoref{code-listing:EasonEetwViewer/ViewModels/SettingPageViewModel.cs}}
+\end{normallisting}
+
+\begin{normallisting}
+    \InputLines{csharp}{\CodeBasePath EasonEetwViewer/EasonEetwViewer/ViewModels/SettingPageViewModel.cs}{30}{31}{85}{85}{89}{90}{95}{96}{101}{108}{113}{128}{134}{145}{149}{149}{153}{156}{368}{368}
+    \caption[\Code{SettingPageViewModel} View Model -- Language Settings]{
+        \Code{SettingPageViewModel} View Model -- Language Settings\\
+        MVVM Pattern, Event Handling, File IO, Exception Handling for File IO (Line 116 to 125, 136 to 144)\\
+        Full Code at \autoref{code-listing:EasonEetwViewer/ViewModels/SettingPageViewModel.cs}}
+\end{normallisting}
+
+\begin{normallisting}
+    \InputLines{csharp}{\CodeBasePath EasonEetwViewer/EasonEetwViewer/ViewModels/SettingPageViewModel.cs}{30}{31}{163}{163}{167}{168}{172}{173}{368}{368}
+    \caption[\Code{SettingPageViewModel} View Model -- Kmoni Settings]{
+        \Code{SettingPageViewModel} View Model -- Kmoni Settings\\
+        MVVM Pattern\\
+        Full Code at \autoref{code-listing:EasonEetwViewer/ViewModels/SettingPageViewModel.cs}}
+\end{normallisting}
+
+\begin{normallisting}
+    \InputLines{csharp}{\CodeBasePath EasonEetwViewer/EasonEetwViewer/ViewModels/SettingPageViewModel.cs}{30}{31}{188}{191}{197}{198}{203}{221}{225}{226}{231}{242}{247}{275}{368}{368}
+    \caption[\Code{SettingPageViewModel} View Model -- WebSocket Settings]{
+        \Code{SettingPageViewModel} View Model -- WebSocket Settings\\
+        MVVM Pattern, Event Handling, Asynchronous, API Call via Interface\\
+        Full Code at \autoref{code-listing:EasonEetwViewer/ViewModels/SettingPageViewModel.cs}}
+\end{normallisting}
+
+\begin{normallisting}
+    \InputLines{csharp}{\CodeBasePath EasonEetwViewer/EasonEetwViewer/ViewModels/SettingPageViewModel.cs}{30}{31}{282}{285}{289}{290}{294}{295}{299}{300}{304}{306}{311}{325}{331}{338}{343}{348}{353}{361}{365}{366}{368}{368}
+    \caption[\Code{SettingPageViewModel} View Model -- Authentication Settings]{
+        \Code{SettingPageViewModel} View Model -- Authentication Settings\\
+        MVVM Pattern, Asynchronous Programming, Event Handling, Defensive Programming (for API Key Input, Line 300), API Call via Interface\\
+        Full Code at \autoref{code-listing:EasonEetwViewer/ViewModels/SettingPageViewModel.cs}}
+\end{normallisting}
+
+\begin{normallisting}
+    \InputLines{csharp}{\CodeBasePath EasonEetwViewer/EasonEetwViewer/Models/SettingPage/IWebSocketConnectionTemplate.cs}{7}{8}{12}{12}{16}{16}{20}{20}{24}{24}{28}{29}
+    \caption[\Code{IWebSocketConnectionTemplate} Model Interface]{
+        \Code{IWebSocketConnectionTemplate} Interface \\
+        MVVM Pattern, Use of Interfaces, Asynchronous Programming \\
+        Full Code at \autoref{code-listing:EasonEetwViewer/Models/SettingPage/IWebSocketConnectionTemplate.cs}}
+\end{normallisting}
+
+\begin{normallisting}
+    \InputLines{csharp}{\CodeBasePath EasonEetwViewer/EasonEetwViewer/Models/SettingPage/EmptyWebSocketConnectionTemplate.cs}{8}{9}{11}{12}{14}{15}{17}{18}{20}{21}{24}{26}{30}{31}{35}{36}
+    \caption[\Code{EmptyWebSocketConnectionTemplate} Model]{
+        \Code{EmptyWebSocketConnectionTemplate} Model \\
+        MVVM Pattern, Implementation of Interfaces, Asynchronous Programming, Polymorphism, Singleton Pattern \\
+        Full Code at \autoref{code-listing:EasonEetwViewer/Models/SettingPage/EmptyWebSocketConnectionTemplate.cs}}
+\end{normallisting}
+
+\begin{normallisting}
+    \InputLines{csharp}{\CodeBasePath EasonEetwViewer/EasonEetwViewer/Models/SettingPage/WebSocketConnectionTemplate.cs}{11}{12}{14}{14}{16}{16}{18}{18}{20}{21}{25}{25}{28}{37}
+    \caption[\Code{WebSocketConnectionTemplate} Model]{
+        \Code{WebSocketConnectionTemplate} Model \\
+        MVVM Pattern, Implementation of Interfaces, Inheritance, Asynchronous Programming, Polymorphism, Use of Delegates \\
+        Full Code at \autoref{code-listing:EasonEetwViewer/Models/SettingPage/WebSocketConnectionTemplate.cs}}
+\end{normallisting}
 
 \clearpage
 \subsection{Past Page View Model}
+
+\begin{normallisting}
+    \InputLines{csharp}{\CodeBasePath EasonEetwViewer/EasonEetwViewer/ViewModels/PastPageViewModel.cs}{32}{33}{44}{82}{471}{471}
+    \caption[\Code{PastPageViewModel} View Model -- Main Constructor]{
+        \Code{PastPageViewModel} View Model -- Main Constructor\\
+        MVVM Pattern, Aggregation, Event Handling \\
+        Full Code at \autoref{code-listing:EasonEetwViewer/ViewModels/PastPageViewModel.cs}}
+\end{normallisting}
+
+\begin{normallisting}
+    \InputLines{csharp}{\CodeBasePath EasonEetwViewer/EasonEetwViewer/ViewModels/PastPageViewModel.cs}{32}{33}{382}{382}{386}{387}{392}{401}{407}{408}{471}{471}
+    \caption[\Code{PastPageViewModel} View Model -- Earthquake Observation Station List]{
+        \Code{PastPageViewModel} View Model -- Earthquake Observation Station List\\
+        Asynchronous Programming, API Calls via Interface, Event Handling (\Code{AuthenticatorWrapperStatusChangedEventHandler}) \\
+        Full Code at \autoref{code-listing:EasonEetwViewer/ViewModels/PastPageViewModel.cs}}
+\end{normallisting}
+
+\begin{normallisting}
+    \InputLines{csharp}{\CodeBasePath EasonEetwViewer/EasonEetwViewer/ViewModels/PastPageViewModel.cs}{32}{33}{415}{416}{420}{421}{425}{427}{432}{433}{439}{450}{456}{469}{471}{471}
+    \caption[\Code{PastPageViewModel} View Model -- Past Earthquake List]{
+        \Code{PastPageViewModel} View Model -- Past Earthquake List\\
+        MVVM Pattern, Asynchronous Programming, API Calls via Interface \\
+        Full Code at \autoref{code-listing:EasonEetwViewer/ViewModels/PastPageViewModel.cs}}
+\end{normallisting}
+
+\begin{normallisting}
+    \InputLines{csharp}{\CodeBasePath EasonEetwViewer/EasonEetwViewer/Models/PastPage/EarthquakeItemTemplate.cs}{9}{10}{15}{22}{26}{26}{30}{30}{34}{34}{38}{38}{42}{43}
+    \caption[\Code{EarthquakeItemTemplate} Model]{
+        \Code{EarthquakeItemTemplate} Model\\
+        MVVM Pattern, Adaptor Pattern (between View and API Call, in Constructor, Line 15 to 22), DTO \\
+        Full Code at \autoref{code-listing:EasonEetwViewer/Models/PastPage/EarthquakeItemTemplate.cs}}
+\end{normallisting}
+
+\begin{normallisting}
+    \InputLines{csharp}{\CodeBasePath EasonEetwViewer/EasonEetwViewer/ViewModels/PastPageViewModel.cs}{32}{33}{93}{94}{117}{117}{121}{124}{128}{128}{133}{133}{160}{205}{214}{233}{332}{350}{471}{471}
+    \caption[\Code{PastPageViewModel} View Model -- Detail Earthquake List -- Main Part]{
+        \Code{PastPageViewModel} View Model -- Detail Earthquake List -- Main Part \\
+        MVVM Pattern, Asynchronous Programming (Use of Cancellation Token and Cancellation Token Source), API Calls via Interface, Separation of Concerns for Methods, Proper Type Casting (Null Checks) \\
+        Full Code at \autoref{code-listing:EasonEetwViewer/ViewModels/PastPageViewModel.cs}}
+\end{normallisting}
+
+\begin{normallisting}
+    \InputLines{csharp}{\CodeBasePath EasonEetwViewer/EasonEetwViewer/ViewModels/PastPageViewModel.cs}{32}{33}{355}{355}{360}{375}{471}{471}
+    \caption[\Code{PastPageViewModel} View Model -- Detail Earthquake List -- Launch WebPage]{
+        \Code{PastPageViewModel} View Model -- Detail Earthquake List -- Launch WebPage \\
+        User Interaction, String Formatting \\
+        Full Code at \autoref{code-listing:EasonEetwViewer/ViewModels/PastPageViewModel.cs}}
+\end{normallisting}
+
+\begin{normallisting}
+    \InputLines{csharp}{\CodeBasePath EasonEetwViewer/EasonEetwViewer/ViewModels/PastPageViewModel.cs}{32}{33}{140}{154}{241}{270}{276}{283}{290}{327}{471}{471}
+    \caption[\Code{PastPageViewModel} View Model -- Detail Earthquake List -- Helper Methods]{
+        \Code{PastPageViewModel} View Model -- Detail Earthquake List -- Helper Methods \\
+        List Manipulation, Higher-Order Functions, LINQ Methods \\
+        List Methods Used: Filter = Where, Group By, Select = Map, Order By (Descending), First (Or Default), Join, Aggregate \\
+        Abstract Data Structure (Tree, Line 299 to 326) \\
+        Full Code at \autoref{code-listing:EasonEetwViewer/ViewModels/PastPageViewModel.cs}}
+\end{normallisting}
+
+\begin{normallisting}
+    \InputLines{csharp}{\CodeBasePath EasonEetwViewer/EasonEetwViewer/Models/PastPage/EarthquakeDetailsTemplate.cs}{10}{11}{18}{31}{35}{35}{39}{39}{43}{43}{47}{47}{51}{51}{55}{55}{59}{59}{63}{64}
+    \caption[\Code{EarthquakeDetailsTemplate} Model]{
+        \Code{EarthquakeDetailsTemplate} Model \\
+        MVVM Pattern, Adaptor Pattern (between View and API Call, in Constructor, Line 18 to 31), DTO \\
+        Full Code at \autoref{code-listing:EasonEetwViewer/Models/PastPage/EarthquakeDetailsTemplate.cs}}
+\end{normallisting}
+
+\begin{normallisting}
+    \InputLines{csharp}{\CodeBasePath EasonEetwViewer/EasonEetwViewer/Models/PastPage/DetailIntensityTemplate.cs}{7}{8}{12}{12}{16}{17}
+    \InputLines{csharp}{\CodeBasePath EasonEetwViewer/EasonEetwViewer/Models/PastPage/DisplayNode.cs}{5}{6}{10}{10}{14}{15}
+    \caption[\Code{DetailIntensityTemplate}, \Code{DisplayNode} Model]{
+        \Code{DetailIntensityTemplate}, \Code{DisplayNode} Model \\
+        MVVM Pattern, Abstract Data Structure (Tree), Composition and Aggregation \\
+        \Code{DetailIntensityTemplate.cs} Full Code at \autoref{code-listing:EasonEetwViewer/Models/PastPage/DetailIntensityTemplate.cs} \\
+        \Code{DisplayNode.cs} Full Code at \autoref{code-listing:EasonEetwViewer/Models/PastPage/DisplayNode.cs}}
+\end{normallisting}
 
 \clearpage
 \subsection{Real-time Page View Model}
@@ -602,3 +760,19 @@ Note that in this section, only key code segments are listed. Documentation comm
 
 \clearpage
 \subsection{Application and Settings}
+
+\begin{normallisting}
+    \InputLines{json}{\CodeBasePath EasonEetwViewer/EasonEetwViewer/appsettings.json}{1}{57}
+    \caption[\Code{appsettings.json} Configuration File]{
+        \Code{appsettings.json} Configuration File \\
+        Configuration, Options Pattern \\
+        File Available at \autoref{code-listing:EasonEetwViewer/appsettings.json}}
+\end{normallisting}
+
+\begin{normallisting}
+    \InputLines{csharp}{\CodeBasePath EasonEetwViewer/EasonEetwViewer/App.axaml.cs}{33}{34}{41}{41}{44}{134}{173}{173}
+    \caption[\Code{App.axaml.cs} Class]{
+        \Code{App.axaml.cs} Class \\
+        Configuration, Options Pattern, Dependency Injection and Singleton Pattern, Logging \\
+        Full Code at \autoref{code-listing:EasonEetwViewer/App.axaml.cs}}
+\end{normallisting}
