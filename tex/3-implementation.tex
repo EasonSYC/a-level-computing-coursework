@@ -2,6 +2,7 @@
 
 Note that in this section, only key code segments are listed. Documentation comments, namespace declarations, using statements, and code that are not key functionalities are omitted for brevity (and this is why line numbers sometimes do skip). The full code is available in the appendix.
 
+\clearpage
 \section{JMA Travel Time}
 \begin{normallisting}
     \InputLines{csharp}{\CodeBasePath EasonEetwViewer/EasonEetwViewer.JmaTravelTime/Abstractions/ITimeTable.cs}{5}{6}{13}{14}
@@ -51,6 +52,7 @@ Note that in this section, only key code segments are listed. Documentation comm
         Full Code at \autoref{code-listing:EasonEetwViewer.JmaTravelTime/Extensions/JmaTimeTableServiceCollectionExtensions.cs}}
 \end{normallisting}
 
+\clearpage
 \section{Kyoshin Monitor}
 \begin{normallisting}
     \InputLines{csharp}{\CodeBasePath EasonEetwViewer/EasonEetwViewer.KyoshinMonitor/Abstractions/IImageFetch.cs}{6}{7}{15}{16}
@@ -72,7 +74,7 @@ Note that in this section, only key code segments are listed. Documentation comm
     \InputLines{csharp}{\CodeBasePath EasonEetwViewer/EasonEetwViewer.KyoshinMonitor/Services/ImageFetch.cs}{10}{11}{35}{45}{48}{76}
     \caption[\Code{ImageFetch} Service Class]{
         \Code{ImageFetch} Service Class \\
-        Implementation of Interface, Use of Parametrised Query, API Calls and Error Handling, Logging \\
+        Implementation of Interface, Use of Parameterised Query, API Calls and Error Handling, Logging \\
         Full Code at \autoref{code-listing:EasonEetwViewer.KyoshinMonitor/Services/ImageFetch.cs}}
 \end{normallisting}
 
@@ -81,7 +83,7 @@ Note that in this section, only key code segments are listed. Documentation comm
     \InputLines{csharp}{\CodeBasePath EasonEetwViewer/EasonEetwViewer.KyoshinMonitor/Extensions/EnumToUriStringExtensions.cs}{8}{9}{15}{40}{46}{56}
     \caption[\Code{EnumToUriStringExtensions} Extensions Class]{
         \Code{EnumToUriStringExtensions} Extensions Class \\
-        Helper for Parametrised Query \\
+        Helper for Parameterised Query \\
         Full Code at \autoref{code-listing:EasonEetwViewer.KyoshinMonitor/Extensions/EnumToUriStringExtensions.cs}}
 \end{normallisting}
 
@@ -109,6 +111,7 @@ Note that in this section, only key code segments are listed. Documentation comm
         Full Code at \autoref{code-listing:EasonEetwViewer.KyoshinMonitor/Extensions/ColourConversionExtensions.cs}}
 \end{normallisting}
 
+\clearpage
 \section{DM-D.S.S. Authentication}
 \begin{normallisting}
     \InputLines{csharp}{\CodeBasePath EasonEetwViewer/EasonEetwViewer.Dmdata.Authentication/Abstractions/IAuthenticator.cs}{8}{9}{14}{15}
@@ -138,7 +141,7 @@ Note that in this section, only key code segments are listed. Documentation comm
     \InputLines{csharp}{\CodeBasePath EasonEetwViewer/EasonEetwViewer.Dmdata.Authentication/Services/OAuth2Authenticator.cs}{13}{14}{60}{84}{87}{88}{91}{92}{98}{101}{109}{179}{188}{223}{229}{235}
     \caption[\Code{OAuth2Authenticator} Service Class]{
         \Code{OAuth2Authenticator} Service Class \\
-        Implementation of Interface, Defensive Programming in Constructor, Serialisation and Deserialisation, Parametrised API Calls, Exception Handling, Custom Exceptions \\
+        Implementation of Interface, Defensive Programming in Constructor, Serialisation and Deserialisation, Parameterised API Calls, Exception Handling, Custom Exceptions \\
         Full Code at \autoref{code-listing:EasonEetwViewer.Dmdata.Authentication/Services/OAuth2Authenticator.cs}}
 \end{normallisting}
 
@@ -157,7 +160,9 @@ Note that in this section, only key code segments are listed. Documentation comm
     \caption[\Code{Error}, \Code{TokenRefresh}, \Code{TokenRefresh} DTO Records]{
         \Code{Error}, \Code{TokenRefresh}, \Code{TokenRefresh} DTO Records \\
         DTOs for API calls, Inheritance \\
-        Full Code at \autoref{code-listing:EasonEetwViewer.Dmdata.Authentication/Dtos/Error.cs, code-listing:EasonEetwViewer.Dmdata.Authentication/Dtos/TokenRefresh.cs, code-listing:EasonEetwViewer.Dmdata.Authentication/Dtos/TokenRequest.cs}}
+        \Code{Error.cs} Full Code at \autoref{code-listing:EasonEetwViewer.Dmdata.Authentication/Dtos/Error.cs} \\
+        \Code{TokenRefresh.cs} Full Code at \autoref{code-listing:EasonEetwViewer.Dmdata.Authentication/Dtos/TokenRefresh.cs} \\
+        \Code{TokenRequest.cs} Full Code at \autoref{code-listing:EasonEetwViewer.Dmdata.Authentication/Dtos/TokenRequest.cs}}
 \end{normallisting}
 
 \begin{normallisting}
@@ -215,3 +220,150 @@ Note that in this section, only key code segments are listed. Documentation comm
         Dependency Injection and Singleton Pattern, File IO, Error Handling \\
         Full Code at \autoref{code-listing:EasonEetwViewer.Dmdata.Authentication/Extensions/AuthenticationHelperServiceCollectionExtensions.cs}}
 \end{normallisting}
+
+\clearpage
+\section{DM-D.S.S. API Caller}
+
+\begin{normallisting}
+    \InputLines{csharp}{\CodeBasePath EasonEetwViewer/EasonEetwViewer.Dmdata.Api/Abstractions/IApiCaller.cs}{10}{11}{16}{16}{25}{29}{35}{35}{41}{41}{46}{46}{56}{61}{67}{69}
+    \caption[\Code{IApiCaller} Interface]{
+        \Code{IApiCaller} Interface \\
+        Use of Interface, Asynchronous Programming, Parameterised API Calls \\
+        Full Code at \autoref{code-listing:EasonEetwViewer.Dmdata.Api/Abstractions/IApiCaller.cs}}
+\end{normallisting}
+
+\begin{normallisting}
+    \InputLines{csharp}{\CodeBasePath EasonEetwViewer/EasonEetwViewer.Dmdata.Api/Services/ApiCaller.cs}{21}{22}{27}{28}{41}{42}{44}{55}{57}{60}{62}{63}{65}{66}{68}{81}{83}{84}{85}{89}{95}{99}{106}{113}{119}{123}{130}{164}{170}{187}{194}{216}{222}{241}{248}{252}{261}{273}
+    \caption[\Code{ApiCaller} Service Class]{
+        \Code{ApiCaller} Service Class \\
+        Implementation of Interface, Asynchronous Programming, Parameterised API Calls, Error Handling (Line 141 to 157, 196 to 215, 232 to 240), Logging, Deserialisation \\
+        Full Code at \autoref{code-listing:EasonEetwViewer.Dmdata.Api/Services/ApiCaller.cs}}
+\end{normallisting}
+
+\begin{normallisting}
+    \InputLines{csharp}{\CodeBasePath EasonEetwViewer/EasonEetwViewer.Dmdata.Api/Extensions/NameValueCollectionExtensions.cs}{7}{8}{17}{21}{31}{44}
+    \caption[\Code{NameValueCollectionExtensions} Extension Class]{
+        \Code{NameValueCollectionExtensions} Extension Class \\
+        Reusable Code, Proper Type Casting \\
+        Full Code at \autoref{code-listing:EasonEetwViewer.Dmdata.Api/Extensions/NameValueCollectionExtensions.cs}}
+\end{normallisting}
+
+\begin{normallisting}
+    \InputLines{csharp}{\CodeBasePath EasonEetwViewer/EasonEetwViewer.Dmdata.Api/Extensions/EnumToUriStringExtensions.cs}{9}{10}{17}{28}{35}{59}
+    \caption[\Code{EnumToUriStringExtensions} Extension Class]{
+        \Code{EnumToUriStringExtensions} Extension Class \\
+        Parameterised API Calls \\
+        Full Code at \autoref{code-listing:EasonEetwViewer.Dmdata.Api/Extensions/EnumToUriStringExtensions.cs}}
+\end{normallisting}
+
+\begin{normallisting}
+    \InputLines{csharp}{\CodeBasePath EasonEetwViewer/EasonEetwViewer.Dmdata.Api/Extensions/ApiCallerServiceCollectionExtensions.cs}{12}{13}{20}{27}
+    \caption[\Code{ApiCallerServiceCollectionExtensions} DI Injection Extension]{
+        \Code{ApiCallerServiceCollectionExtensions} DI Injection Extension \\
+        Dependency Injection and Singleton Pattern \\
+        Full Code at \autoref{code-listing:EasonEetwViewer.Dmdata.Api/Extensions/ApiCallerServiceCollectionExtensions.cs}}
+\end{normallisting}
+
+\begin{normallisting}
+    \InputLines{csharp}{\CodeBasePath EasonEetwViewer/EasonEetwViewer.Dmdata.Api/Dtos/ResponseBase/ApiBase.cs}{10}{11}{15}{16}{20}{21}{26}{28}
+    \InputLines{csharp}{\CodeBasePath EasonEetwViewer/EasonEetwViewer.Dmdata.Api/Dtos/ResponseBase/SuccessBase.cs}{10}{11}{15}{17}
+    \InputLines{csharp}{\CodeBasePath EasonEetwViewer/EasonEetwViewer.Dmdata.Api/Dtos/ResponseBase/ListBase.cs}{10}{11}{15}{17}
+    \InputLines{csharp}{\CodeBasePath EasonEetwViewer/EasonEetwViewer.Dmdata.Api/Dtos/ResponseBase/TokenBase.cs}{10}{11}{18}{20}
+    \InputLines{csharp}{\CodeBasePath EasonEetwViewer/EasonEetwViewer.Dmdata.Api/Dtos/ResponseBase/PoolingBase.cs}{10}{11}{18}{19}{26}{28}
+    \caption[\Code{ApiBase}, \Code{SuccessBase}, \Code{ListBase}, \Code{TokenBase}, \Code{PoolingBase} Abstract Base Records]{
+        \Code{ApiBase}, \Code{SuccessBase}, \Code{ListBase}, \Code{TokenBase}, \Code{PoolingBase} Abstract Base Records \\
+        DTOs, Abstraction, Use of Generics, Inheritance \\
+        \Code{ApiBase} Full Code at \autoref{code-listing:EasonEetwViewer.Dmdata.Api/Dtos/ResponseBase/ApiBase.cs} \\
+        \Code{SuccessBase} Full Code at \autoref{code-listing:EasonEetwViewer.Dmdata.Api/Dtos/ResponseBase/SuccessBase.cs} \\
+        \Code{ListBase} Full Code at \autoref{code-listing:EasonEetwViewer.Dmdata.Api/Dtos/ResponseBase/ListBase.cs} \\
+        \Code{TokenBase} Full Code at \autoref{code-listing:EasonEetwViewer.Dmdata.Api/Dtos/ResponseBase/TokenBase.cs} \\
+        \Code{PoolingBase} Full Code at \autoref{code-listing:EasonEetwViewer.Dmdata.Api/Dtos/ResponseBase/PoolingBase.cs}}
+\end{normallisting}
+
+\begin{normallisting}
+    \InputLines{csharp}{\CodeBasePath EasonEetwViewer/EasonEetwViewer.Dmdata.Api/Dtos/Response/Error.cs}{11}{12}{16}{17}{21}{23}
+    \InputLines{csharp}{\CodeBasePath EasonEetwViewer/EasonEetwViewer.Dmdata.Api/Dtos/Response/ContractList.cs}{8}{8}
+    \InputLines{csharp}{\CodeBasePath EasonEetwViewer/EasonEetwViewer.Dmdata.Api/Dtos/Response/WebSocketList.cs}{8}{8}
+    \InputLines{csharp}{\CodeBasePath EasonEetwViewer/EasonEetwViewer.Dmdata.Api/Dtos/Response/GdEarthquakeList.cs}{8}{8}
+    \InputLines{csharp}{\CodeBasePath EasonEetwViewer/EasonEetwViewer.Dmdata.Api/Dtos/Response/EarthquakeParameter.cs}{10}{11}{15}{16}{20}{22}
+    \InputLines{csharp}{\CodeBasePath EasonEetwViewer/EasonEetwViewer.Dmdata.Api/Dtos/Response/GdEarthquakeEvent.cs}{9}{10}{14}{16}
+    \InputLines{csharp}{\CodeBasePath EasonEetwViewer/EasonEetwViewer.Dmdata.Api/Dtos/Response/WebSocketStart.cs}{12}{13}{17}{18}{22}{23}{27}{28}{35}{36}{40}{41}{48}{49}{53}{55}
+    \caption[\Code{Error}, \Code{ContractList}, \Code{WebSocketList}, \Code{GdEarthquakeList}, \Code{EarthquakeParameter}, \Code{GdEarthquakeEvent}, \Code{WebSocketStart} Records]{
+        \Code{Error}, \Code{ContractList}, \Code{WebSocketList}, \Code{GdEarthquakeList}, \Code{EarthquakeParameter}, \Code{GdEarthquakeEvent}, \Code{WebSocketStart} Records \\
+        DTOs, Inheritance, Use of Generics, Composition \\
+        \Code{Error.cs} Full Code at \autoref{code-listing:EasonEetwViewer.Dmdata.Api/Dtos/Response/Error.cs} \\
+        \Code{ContractList.cs} Full Code at \autoref{code-listing:EasonEetwViewer.Dmdata.Api/Dtos/Response/ContractList.cs} \\
+        \Code{WebSocketList.cs} Full Code at \autoref{code-listing:EasonEetwViewer.Dmdata.Api/Dtos/Response/WebSocketList.cs} \\
+        \Code{GdEarthquakeList.cs} Full Code at \autoref{code-listing:EasonEetwViewer.Dmdata.Api/Dtos/Response/GdEarthquakeList.cs} \\
+        \Code{EarthquakeParameter.cs} Full Code at \autoref{code-listing:EasonEetwViewer.Dmdata.Api/Dtos/Response/EarthquakeParameter.cs} \\
+        \Code{GdEarthquakeEvent.cs} Full Code at \autoref{code-listing:EasonEetwViewer.Dmdata.Api/Dtos/Response/GdEarthquakeEvent.cs} \\
+        \Code{WebSocketStart.cs} Full Code at \autoref{code-listing:EasonEetwViewer.Dmdata.Api/Dtos/Response/WebSocketStart.cs}}
+\end{normallisting}
+
+\clearpage
+\section{DM-D.S.S. Telegrams}
+
+\begin{normallisting}
+    \InputLines{csharp}{\CodeBasePath EasonEetwViewer/EasonEetwViewer.Dmdata.Telegram/Abstractions/ITelegramParser.cs}{8}{9}{15}{15}{21}{22}
+    \caption[\Code{ITelegramParser} Interface]{
+        \Code{ITelegramParser} Interface \\
+        Use of Interface, Types, Deserialisation \\
+        Full Code at \autoref{code-listing:EasonEetwViewer.Dmdata.Telegram/Abstractions/ITelegramParser.cs}}
+\end{normallisting}
+
+\begin{normallisting}
+    \InputLines{csharp}{\CodeBasePath EasonEetwViewer/EasonEetwViewer.Dmdata.Telegram/Abstractions/ITelegramRetriever.cs}{7}{8}{14}{15}
+    \caption[\Code{ITelegramRetriever} Interface]{
+        \Code{ITelegramRetriever} Interface \\
+        Use of Interface, Asynchronous Programming, Parameterised API Call, Deserialisation \\
+        Full Code at \autoref{code-listing:EasonEetwViewer.Dmdata.Telegram/Abstractions/ITelegramRetriever.cs}}
+\end{normallisting}
+
+\begin{normallisting}
+    \InputLines{csharp}{\CodeBasePath EasonEetwViewer/EasonEetwViewer.Dmdata.Telegram/Services/TelegramParser.cs}{13}{14}{28}{33}{37}{57}{61}{89}{91}{93}
+    \caption[\Code{TelegramParser} Service Class]{
+        \Code{TelegramParser} Service Class \\
+        Implementation of Interface, Types, Deserialisation, Exception Handling and Custom Exceptions, Aggregation (of JSON Options), Logging \\
+        Full Code at \autoref{code-listing:EasonEetwViewer.Dmdata.Telegram/Services/TelegramParser.cs}}
+\end{normallisting}
+
+\begin{normallisting}
+    \InputLines{csharp}{\CodeBasePath EasonEetwViewer/EasonEetwViewer.Dmdata.Telegram/Services/TelegramRetriever.cs}{13}{14}{38}{47}{49}{88}
+    \caption[\Code{TelegramRetriever} Service Class]{
+        \Code{TelegramRetriever} Service Class \\
+        Use of Interface, Asynchronous Programming, Parameterised API Call, Deserialisation, Aggregation, Error Handling, Logging \\
+        Full Code at \autoref{code-listing:EasonEetwViewer.Dmdata.Telegram/Services/TelegramRetriever.cs}}
+\end{normallisting}
+
+\begin{normallisting}
+    \InputLines{csharp}{\CodeBasePath EasonEetwViewer/EasonEetwViewer.Dmdata.Telegram/Extensions/TelegramRetrieverServiceCollectionExtensions.cs}{11}{12}{19}{28}
+    \caption[\Code{TelegramRetrieverServiceCollectionExtensions} DI Injection Extension]{
+        \Code{TelegramRetrieverServiceCollectionExtensions}  DI Injection Extension \\
+        DI Singleton Pattern \\
+        Full Code at \autoref{code-listing:EasonEetwViewer.Dmdata.Telegram/Extensions/TelegramRetrieverServiceCollectionExtensions.cs}}
+\end{normallisting}
+
+\begin{normallisting}
+    \InputLines{csharp}{\CodeBasePath EasonEetwViewer/EasonEetwViewer.Dmdata.Telegram/Dtos/TelegramBase/Head.cs}{6}{47}
+    \caption[\Code{Head} DTO Class]{
+        \Code{Head} DTO Class \\
+        Base Class for Deserialisation \\
+        Full Code at \autoref{code-listing:EasonEetwViewer.Dmdata.Telegram/Dtos/TelegramBase/Head.cs}}
+\end{normallisting}
+
+\begin{normallisting}
+    \InputLines{csharp}{\CodeBasePath EasonEetwViewer/EasonEetwViewer.Dmdata.Telegram/Dtos/Schema/EarthquakeInformationSchema.cs}{2}{3}{5}{5}{6}{10}
+    \InputLines{csharp}{\CodeBasePath EasonEetwViewer/EasonEetwViewer.Dmdata.Telegram/Dtos/Schema/EewInformationSchema.cs}{2}{3}{5}{5}{6}{10}
+    \InputLines{csharp}{\CodeBasePath EasonEetwViewer/EasonEetwViewer.Dmdata.Telegram/Dtos/Schema/TsunamiInformationSchema.cs}{2}{3}{5}{5}{6}{10}
+    \caption[\Code{EarthquakeInformationSchema}, \Code{EewInformationSchema}, \Code{TsunamiInformationSchema} DTO Classes]{
+        \Code{EarthquakeInformationSchema}, \Code{EewInformationSchema}, \Code{TsunamiInformationSchema} DTO Classes \\
+        Inherited Classes for Deserialisation, Polymorphism \\
+        \Code{EarthquakeInformationSchema.cs} Full Code at \autoref{code-listing:EasonEetwViewer.Dmdata.Telegram/Dtos/Schema/EarthquakeInformationSchema.cs} \\
+        \Code{EewInformationSchema.cs} Full Code at \autoref{code-listing:EasonEetwViewer.Dmdata.Telegram/Dtos/Schema/EewInformationSchema.cs} \\
+        \Code{TsunamiInformationSchema.cs} Full Code at \autoref{code-listing:EasonEetwViewer.Dmdata.Telegram/Dtos/Schema/TsunamiInformationSchema.cs}}
+\end{normallisting}
+
+\clearpage
+\section{DM-D.S.S. WebSocket}
+\section{Kmoni Settings Manager}
+\section{GUI Component}
