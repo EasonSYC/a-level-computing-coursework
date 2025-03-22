@@ -365,5 +365,84 @@ Note that in this section, only key code segments are listed. Documentation comm
 
 \clearpage
 \section{DM-D.S.S. WebSocket}
+
+\begin{normallisting}
+    \InputLines{csharp}{\CodeBasePath EasonEetwViewer/EasonEetwViewer.Dmdata.WebSocket/Abstractions/IWebSocketClient.cs}{8}{9}{13}{13}{17}{17}{21}{21}{27}{27}{32}{33}
+    \caption[\Code{IWebSocketClient} Interface]{
+        \Code{IWebSocketClient} Interface \\
+        Use of Interface, Custom Events, Asynchronous Programming \\
+        Full Code at \autoref{code-listing:EasonEetwViewer.Dmdata.WebSocket/Abstractions/IWebSocketClient.cs}}
+\end{normallisting}
+
+\begin{normallisting}
+    \InputLines{csharp}{\CodeBasePath EasonEetwViewer/EasonEetwViewer.Dmdata.WebSocket/Services/WebSocketClient.cs}{26}{27}{86}{86}{88}{88}{90}{91}{97}{118}{124}{144}{150}{180}{188}{267}{273}{283}{291}{336}{406}{420}{422}{443}{450}{464}
+    \caption[\Code{WebSocketClient} Service Class]{
+        \Code{WebSocketClient} Interface \\
+        Implementation of Interface, Custom Events, Asynchronous Programming, External WebSocket Connection, Error Handling, Deserialisation, Composition (of \Code{ClientWebSocket}), Abstract Data Structure (Queue) \\
+        Full Code at \autoref{code-listing:EasonEetwViewer.Dmdata.WebSocket/Services/WebSocketClient.cs}}
+\end{normallisting}
+
+\begin{normallisting}
+    \InputLines{csharp}{\CodeBasePath EasonEetwViewer/EasonEetwViewer.Dmdata.WebSocket/Events/DataReceivedEventArgs.cs}{6}{7}{11}{12}
+    \caption[\Code{DataReceivedEventArgs} Custom Event]{
+        \Code{DataReceivedEventArgs} Custom Event \\
+        Events \\
+        Full Code at \autoref{code-listing:EasonEetwViewer.Dmdata.WebSocket/Events/DataReceivedEventArgs.cs}}
+\end{normallisting}
+
+\begin{normallisting}
+    \InputLines{csharp}{\CodeBasePath EasonEetwViewer/EasonEetwViewer.Dmdata.WebSocket/Events/StatusChangedEventArgs.cs}{6}{7}{11}{12}
+    \caption[\Code{StatusChangedEventArgs} Custom Event]{
+        \Code{StatusChangedEventArgs} Custom Event \\
+        Events \\
+        Full Code at \autoref{code-listing:EasonEetwViewer.Dmdata.WebSocket/Events/StatusChangedEventArgs.cs}}
+\end{normallisting}
+
+\begin{normallisting}
+    \InputLines{csharp}{\CodeBasePath EasonEetwViewer/EasonEetwViewer.Dmdata.WebSocket/Extensions/WebSocketServiceCollectionExtensions.cs}{11}{12}{18}{22}
+    \caption[\Code{WebSocketServiceCollectionExtensions} DI Injection Extension]{
+        \Code{WebSocketServiceCollectionExtensions} DI Injection Extension \\
+        Dependency Injection and Singleton Pattern \\
+        Full Code at \autoref{code-listing:EasonEetwViewer.Dmdata.WebSocket/Extensions/WebSocketServiceCollectionExtensions.cs}}
+\end{normallisting}
+
+\begin{normallisting}
+    \InputLines{csharp}{\CodeBasePath EasonEetwViewer/EasonEetwViewer.Dmdata.WebSocket/Dtos/Response/ResponseBase.cs}{8}{9}{13}{15}
+    \InputLines{csharp}{\CodeBasePath EasonEetwViewer/EasonEetwViewer.Dmdata.WebSocket/Dtos/MessageType.cs}{8}{10}{14}{15}{19}{20}{24}{25}{29}{30}{34}{36}
+    \caption[\Code{ResponseBase} Base DTO and \Code{MessageType} Enumeration Abstraction]{
+        \Code{ResponseBase} Base DTO and \Code{MessageType} Enumeration Abstraction \\
+        Base Class, Inheritance, Abstraction \\
+        \Code{ResponseBase.cs} Full Code at \autoref{code-listing:EasonEetwViewer.Dmdata.WebSocket/Dtos/Response/ResponseBase.cs} \\
+        \Code{MessageType.cs} Full Code at \autoref{code-listing:EasonEetwViewer.Dmdata.WebSocket/Dtos/MessageType.cs}}
+\end{normallisting}
+
+\begin{normallisting}
+    \InputLines{csharp}{\CodeBasePath EasonEetwViewer/EasonEetwViewer.Dmdata.WebSocket/Dtos/Response/PingResponse.cs}{8}{9}{13}{14}{18}{20}
+    \InputLines{csharp}{\CodeBasePath EasonEetwViewer/EasonEetwViewer.Dmdata.WebSocket/Dtos/Response/PongResponse.cs}{8}{9}{13}{14}{21}{23}
+    \InputLines{csharp}{\CodeBasePath EasonEetwViewer/EasonEetwViewer.Dmdata.WebSocket/Dtos/Response/StartResponse.cs}{9}{10}{14}{15}{19}{20}{24}{25}{29}{30}{37}{38}{42}{43}{50}{51}{55}{57}
+    \InputLines{csharp}{\CodeBasePath EasonEetwViewer/EasonEetwViewer.Dmdata.WebSocket/Dtos/Response/ErrorResponse.cs}{8}{9}{13}{14}{18}{19}{23}{24}{28}{30}
+    \InputLines{csharp}{\CodeBasePath EasonEetwViewer/EasonEetwViewer.Dmdata.WebSocket/Dtos/Response/DataResponse.cs}{11}{12}{16}{17}{21}{22}{26}{27}{31}{32}{36}{37}{41}{42}{49}{50}{57}{58}{65}{66}{73}{74}{78}{80}
+    \caption[\Code{PingResponse}, \Code{PongResponse}, \Code{StartResponse}, \Code{ErrorResponse}, \Code{DataResponse} DTO Records]{
+        \Code{PingResponse}, \Code{PongResponse}, \Code{StartResponse}, \Code{ErrorResponse}, \Code{DataResponse} DTO Records \\
+        Inheritance, Composition, DTO for WebSocket \\
+        \Code{PingResponse.cs} Full Code at \autoref{code-listing:EasonEetwViewer.Dmdata.WebSocket/Dtos/Response/PingResponse.cs} \\
+        \Code{PongResponse.cs} Full Code at \autoref{code-listing:EasonEetwViewer.Dmdata.WebSocket/Dtos/Response/PongResponse.cs} \\
+        \Code{StartResponse.cs} Full Code at \autoref{code-listing:EasonEetwViewer.Dmdata.WebSocket/Dtos/Response/StartResponse.cs} \\
+        \Code{ErrorResponse.cs} Full Code at \autoref{code-listing:EasonEetwViewer.Dmdata.WebSocket/Dtos/Response/ErrorResponse.cs} \\
+        \Code{DataResponse.cs} Full Code at \autoref{code-listing:EasonEetwViewer.Dmdata.WebSocket/Dtos/Response/DataResponse.cs}}
+\end{normallisting}
+
+\begin{normallisting}
+    \InputLines{csharp}{\CodeBasePath EasonEetwViewer/EasonEetwViewer.Dmdata.WebSocket/Dtos/Request/PingRequest.cs}{9}{10}{14}{15}{22}{24}
+    \InputLines{csharp}{\CodeBasePath EasonEetwViewer/EasonEetwViewer.Dmdata.WebSocket/Dtos/Request/PongRequest.cs}{9}{10}{14}{15}{19}{21}
+    \caption[\Code{PingRequest}, \Code{PongRequest} DTO Records]{
+        \Code{PingRequest}, \Code{PongRequest} DTO Records \\
+        DTO for WebSocket \\
+        \Code{PingRequest.cs} Full Code at \autoref{code-listing:EasonEetwViewer.Dmdata.WebSocket/Dtos/Request/PingRequest.cs} \\
+        \Code{PongRequest.cs} Full Code at \autoref{code-listing:EasonEetwViewer.Dmdata.WebSocket/Dtos/Request/PongRequest.cs}}
+\end{normallisting}
+
+\clearpage
 \section{Kmoni Settings Manager}
+\clearpage
 \section{GUI Component}
