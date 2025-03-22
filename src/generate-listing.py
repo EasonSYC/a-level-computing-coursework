@@ -26,7 +26,7 @@ projects: list[tuple[str, str]]= [
 outputDir: str = "outputTex/"
 
 def to_language(file: str) -> str:
-    if file.endswith(".axaml"):
+    if file.endswith(".axaml") or file.endswith(".resx"):
         return "xml"
     elif file.endswith(".json"):
         return "json"
@@ -35,7 +35,7 @@ def to_language(file: str) -> str:
     return "text"
 
 def check_file(file: str) -> bool:
-    return check_csharp(file) or file.endswith(".axaml") or file.endswith("appsettings.json")
+    return check_csharp(file) or file.endswith(".axaml") or file.endswith(".resx") or file.endswith("appsettings.json")
 
 def check_directory(directory: str) -> bool:
     return "obj/" not in directory and "bin/" not in directory
