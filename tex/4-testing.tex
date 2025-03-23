@@ -1,14 +1,180 @@
 \chapter{Testing}
-Consider how you will test your project. You should devise a test strategy that encompasses a range of methods.
-
 \section{Test Strategy}
+
+The primary testing method for the application will be integration testing, due to the time limitation of this project, and the great amount of components involved. An integrated test showing the application working also probably will be the best way to demonstrate the application is working as expected, and that all components are working together (which probably means all components are working individually as well).
+
+However, the components have been designed with unit testing in mind, since they all use interfaces when they have dependencies, which allows for mock-up classes to be used in place of the real classes.
+
+The test is split into four parts to be tested:
 \begin{itemize}
-    \item Unit testing (of individual functions)
-    \item Integration testing (e.g. different modules/class files)
-    \item Robustness (demonstrating defensive programming skills/exception handling)
-    \item Requirements testing (against your initial requirements - a table with test number, description, test data, expected result, evidence (screenshot/video time link) would be suitable)
-    \item Independent end user beta testing (this will assist with your evaluation)
+    \item The settings page (WebSockets, authentication and language settings);
+    \item The past-earthquake page;
+    \item The real-time page (with mock-up EEWs and Tsunami Warnings), including customisation for Kyoshin Monitor, and the window-switching functionality;
+    \item Robustness testing (e.g. unstable internet connection, defensive programming against user input).
 \end{itemize}
+
+The tests for the table section are outlined in \autoref{tab:tests-settings-auth} for authentication, \autoref{tab:tests-settings-websocket} for WebSocket, and \autoref{tab:tests-settings-language} for language settings.
+
+\begin{table}[htp]
+    \centering
+    \begin{tabular}{c|l|l}
+        \textnumero & Test Description                     & Expected Outcome                         \\
+        \hline
+        1           & Set the API Key                      & API Key is set                           \\
+        2           & Change the contents of the input box & API Key was unset                        \\
+        3           & Close and relaunch the App           & Application is not authenticated         \\
+        4           & Press the OAuth Button               & Browser page launched for authentication \\
+        5           & Close and relaunch the App           & Authentication status persists           \\
+        6           & Attempts to set API Key              & Set button was disabled                  \\
+        7           & Press the OAuth Button               & Application disconnects from OAuth       \\
+        8           & Close and relaunch the App           & Application is not authenticated         \\
+        9           & Set the API Key                      & API Key is set                           \\
+        10          & Close and relaunch the App           & Authentication status persists
+    \end{tabular}
+    \caption{Tests for the Settings Page (Authentication)}
+    \label{tab:tests-settings-auth}
+\end{table}
+
+\begin{table}[htp]
+    \centering
+    \begin{tabular}{c|l|l}
+        \textnumero & Test Description                            & Expected Outcome                             \\
+        \hline
+        1           & Press WebSocket button                      & WebSocket is connected                       \\
+        2           & Press refresh WebSocket List Button         & List is displayed, with empty connections    \\
+        3           & Press disconnect button for the current App & WebSocket is disconnected                    \\
+        4           & Press refresh WebSocket List Button         & Disconnected WebSocket connection disappears \\
+        5           & Press disconnect button for another App     & WebSocket is disconnected                    \\
+        6           & Press WebSocket button twice                & WebSocket is connected and then disconnected
+    \end{tabular}
+    \caption{Tests for the Settings Page (WebSocket)}
+    \label{tab:tests-settings-websocket}
+\end{table}
+
+\begin{table}[htp]
+    \centering
+    \begin{tabular}{c|l|l}
+        \textnumero & Test Description             & Expected Outcome                                          \\
+        \hline
+        1           & Set the language to English  & Most of the App is in English                             \\
+        2           & Close and relaunch the App   & Language settings persists, correct language in whole App \\
+        3           & Set the language to Japanese & Most of the App is in Japanese                            \\
+        4           & Close and relaunch the App   & Language settings persists, correct language in whole App \\
+        5           & Set the language to Chinese  & Most of the App is in Chinese                             \\
+        6           & Close and relaunch the App   & Language settings persists, correct language in whole App
+    \end{tabular}
+    \caption{Tests for the Settings Page (Language)}
+    \label{tab:tests-settings-language}
+\end{table}
+
+The tests for the past-earthquake page are outlined in \autoref{tab:tests-past-earthquake}.
+
+\begin{table}[htp]
+    \centering
+    \begin{tabular}{c|l|l}
+        \textnumero & Test Description                   & Expected Outcome                                      \\
+        \hline
+        1           & Press load earthquakes             & List is loaded and displayed correctly                \\
+        2           & Press load extra earthquakes       & More earthquakes are loaded and appended to the list  \\
+        3           & Press load earthquakes             & List is re-loaded (with the extra earthquake removed) \\
+        4           & Choose a specific earthquake       & Details are displayed on side panel                   \\
+        5           & (None)                             & Map with the hypocentre on top layer                  \\
+        6           & (None)                             & Map with the observation stations on next layer       \\
+        7           & (None)                             & Map with the regions on bottom                        \\
+        8           & (None)                             & Map zoomed to display regional intensities            \\
+        9           & (None)                             & Side panels has details displayed and formatted       \\
+        10          & (None)                             & Intensity tree correctly displayed and formatted      \\
+        11          & Press view Yahoo earthquake button & Correct webpage to earthquake is launched             \\
+        12          & Another earthquake chosen          & The application behaves with 5 to 11 as described     \\
+        13          & Press load earthquakes             & The details and the maps are reset
+    \end{tabular}
+    \caption{Tests for the Past Earthquake Page}
+    \label{tab:tests-past-earthquake}
+\end{table}
+
+The tests for the real-time page is outlined in \autoref{tab:tests-realtime-kmoni} for Kyoshin Monitor, \autoref{tab:tests-realtime-eew} for EEWs, \autoref{tab:tests-realtime-tsunami} for Tsunami Warnings.
+
+\begin{table}[htp]
+    \centering
+    \begin{tabular}{c|l|l}
+        \textnumero & Test Description                           & Expected Outcome                         \\
+        \hline
+        1           & (None)                                     & Current time refreshing                  \\
+        2           & (None)                                     & Kyoshin Monitor data is displayed on map \\
+        3           & (None)                                     & Scale of colour is displayed correctly   \\
+        4           & (None)                                     & Quantity on scale is displayed correctly \\
+        5           & (None)                                     & Data of scale is displayed correctly     \\
+        6           & Change stations settings to K-NET only     & Less observation station displayed       \\
+        7           & Relaunch application                       & Settings Persist                         \\
+        8           & Change stations settings to all            & More observation station displayed       \\
+        9           & Relaunch application                       & Settings Persist                         \\
+        10          & Change data settings to PGA                & Data and scale is displayed correctly    \\
+        11          & Relaunch application                       & Settings Persist                         \\
+        12          & Change data settings to Measured Intensity & Data and scale is displayed correctly    \\
+        13          & Relaunch application                       & Settings Persist
+    \end{tabular}
+    \caption{Tests for the Real-time Page (Kyoshin Monitor)}
+    \label{tab:tests-realtime-kmoni}
+\end{table}
+
+\begin{table}[htp]
+    \centering
+    \begin{tabular}{c|l|l}
+        \textnumero & Test Description                           & Expected Outcome                          \\
+        \hline
+        1           & (Feed First Mock EEW)                      & EEW details is displayed on sidebar       \\
+        2           & (None)                                     & Window is switched to real-time page      \\
+        3           & (None)                                     & Hypocentre marked                         \\
+        4           & (None)                                     & Wavefronts drawing and updating           \\
+        5           & (None)                                     & Predicted maximum intensity displayed     \\
+        6           & (Feed Second Mock EEW, assumed hypocentre) & EEW is displayed on sidebar               \\
+        7           & (None)                                     & Hypocentre marked with alternative symbol \\
+        8           & (None)                                     & Wavefronts not displayed                  \\
+        9           & (None)                                     & Predicted maximum intensity displayed     \\
+        10          & (None)                                     & Details panel switching between EEWs      \\
+        11          & (Feed Updated First Mock EEW)              & EEW Information Updated (in 2 to 4)       \\
+        12          & (Feed Old First Mock EEW)                  & EEW Information not Updated               \\
+        13          & (None)                                     & EEW removed after time
+    \end{tabular}
+    \caption{Tests for the Real-time Page (EEWs)}
+    \label{tab:tests-realtime-eew}
+\end{table}
+
+\begin{table}[htp]
+    \centering
+    \begin{tabular}{c|l|l}
+        \textnumero & Test Description            & Expected Outcome                     \\
+        \hline
+        1           & (Feed Mock Tsunami Warning) & Tsunami Warning is displayed         \\
+        2           & (None)                      & Window is switched to real-time page \\
+        3           & (None)                      & Shorelines coloured and displayed    \\
+        4           & (None)                      & Tsunami Warning details displayed    \\
+        5           & (None)                      & Tsunami Warning removed after time
+    \end{tabular}
+    \caption{Tests for the Real-time Page (Tsunamis)}
+    \label{tab:tests-realtime-tsunami}
+\end{table}
+
+The tests for robustness testing are outlined in \autoref{tab:tests-robustness}.
+
+\begin{table}[htp]
+    \centering
+    \begin{tabular}{c|l|l}
+        \textnumero & Test Description                          & Expected Outcome                               \\
+        \hline
+        1           & Unauthorised DM-D.S.S.                    & Clicking on buttons does not crash application \\
+        2           & Invalid API Key Format                    & Button to Connect disabled                     \\
+        3           & Incorrect API Key                         & Clicking on buttons does not crash application \\
+        4           & (None)                                    & Authorisation automatically resets             \\
+        5           & Invalid OAuth 2                           & Clicking on buttons does not crash application \\
+        6           & (None)                                    & Authorisation automatically resets             \\
+        7           & Unstable Internet Connection              & Application does not crash                     \\
+        8           & Clicking buttons at rapid pace            & Application does not crash                     \\
+        9           & Loading earthquakes where details unknown & 'Unknown' text displayed
+    \end{tabular}
+    \caption{Tests for Robustness}
+    \label{tab:tests-robustness}
+\end{table}
 
 \section{Testing Video}
 \begin{itemize}
@@ -17,23 +183,4 @@ Consider how you will test your project. You should devise a test strategy that 
     \item It is suggested that you include a QR code in your testing to give a link to it the video (for the moderator) rather than just giving a long URL on its own.
 \end{itemize}
 
-\section{System Tests (against original requirements' specification)}
-You need to give evidence in support of requirements that have been met e.g. reference to a relevant test/screenshot/relevant code.
-
-\begin{table}[htp]
-    \centering
-
-    \begin{tabular}{|l|p{0.15\linewidth}|l|p{0.3\linewidth}|}
-        \hline
-        Requirement \textnumero & Description & Success Criteria & Tests + Evidence \\
-        \hline \hline
-                                &             &                  &                  \\
-        \hline
-                                &             &                  &                  \\
-        \hline
-                                &             &                  &                  \\
-        \hline
-    \end{tabular}
-    \caption{Table of Tests}
-    \label{tab:tests}
-\end{table}
+\section{Testing against Original Requirements' Specification}
