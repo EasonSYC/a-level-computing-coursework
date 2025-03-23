@@ -20,16 +20,16 @@ The tests for the table section are outlined in \autoref{tab:tests-settings-auth
     \begin{tabular}{c|l|l}
         \textnumero & Test Description                     & Expected Outcome                         \\
         \hline
-        1           & Set the API Key                      & API Key is set                           \\
-        2           & Change the contents of the input box & API Key was unset                        \\
-        3           & Close and relaunch the App           & Application is not authenticated         \\
-        4           & Press the OAuth Button               & Browser page launched for authentication \\
-        5           & Close and relaunch the App           & Authentication status persists           \\
-        6           & Attempts to set API Key              & Set button was disabled                  \\
-        7           & Press the OAuth Button               & Application disconnects from OAuth       \\
-        8           & Close and relaunch the App           & Application is not authenticated         \\
-        9           & Set the API Key                      & API Key is set                           \\
-        10          & Close and relaunch the App           & Authentication status persists
+        1a(i)       & Set the API Key                      & API Key set                              \\
+        1a(ii)      & Change the contents of the input box & API Key unset                            \\
+        1a(iii)     & Close and relaunch the App           & Application not authenticated            \\
+        1a(iv)      & Press the OAuth Button               & Browser page launched for authentication \\
+        1a(v)       & Close and relaunch the App           & Authentication status persists           \\
+        1a(vi)      & Attempts to set API Key              & Set button disabled                      \\
+        1a(vii)     & Press the OAuth Button               & Application disconnects from OAuth       \\
+        1a(viii)    & Close and relaunch the App           & Application not authenticated            \\
+        1a(ix)      & Set the API Key                      & API Key set                              \\
+        1a(x)       & Close and relaunch the App           & Authentication status persists
     \end{tabular}
     \caption{Tests for the Settings Page (Authentication)}
     \label{tab:tests-settings-auth}
@@ -38,14 +38,14 @@ The tests for the table section are outlined in \autoref{tab:tests-settings-auth
 \begin{table}[htp]
     \centering
     \begin{tabular}{c|l|l}
-        \textnumero & Test Description                            & Expected Outcome                             \\
+        \textnumero & Test Description                        & Expected Outcome                             \\
         \hline
-        1           & Press WebSocket button                      & WebSocket is connected                       \\
-        2           & Press refresh WebSocket List Button         & List is displayed, with empty connections    \\
-        3           & Press disconnect button for the current App & WebSocket is disconnected                    \\
-        4           & Press refresh WebSocket List Button         & Disconnected WebSocket connection disappears \\
-        5           & Press disconnect button for another App     & WebSocket is disconnected                    \\
-        6           & Press WebSocket button twice                & WebSocket is connected and then disconnected
+        1b(i)       & Press WebSocket button                  & WebSocket connected                          \\
+        1b(ii)      & Press refresh WebSocket List Button     & List displayed, with empty connections       \\
+        1b(iii)     & Press disconnect button for current App & WebSocket disconnected                       \\
+        1b(iv)      & Press refresh WebSocket List Button     & Disconnected WebSocket connection disappears \\
+        1b(v)       & Press disconnect button for another App & WebSocket disconnected                       \\
+        1b(vi)      & Press WebSocket button twice            & WebSocket connected and then disconnected
     \end{tabular}
     \caption{Tests for the Settings Page (WebSocket)}
     \label{tab:tests-settings-websocket}
@@ -56,12 +56,12 @@ The tests for the table section are outlined in \autoref{tab:tests-settings-auth
     \begin{tabular}{c|l|l}
         \textnumero & Test Description             & Expected Outcome                                          \\
         \hline
-        1           & Set the language to English  & Most of the App is in English                             \\
-        2           & Close and relaunch the App   & Language settings persists, correct language in whole App \\
-        3           & Set the language to Japanese & Most of the App is in Japanese                            \\
-        4           & Close and relaunch the App   & Language settings persists, correct language in whole App \\
-        5           & Set the language to Chinese  & Most of the App is in Chinese                             \\
-        6           & Close and relaunch the App   & Language settings persists, correct language in whole App
+        1c(i)       & Set the language to English  & Most of the App in English                                \\
+        1c(ii)      & Close and relaunch the App   & Language settings persists, correct language in whole App \\
+        1c(iii)     & Set the language to Japanese & Most of the App in Japanese                               \\
+        1c(iv)      & Close and relaunch the App   & Language settings persists, correct language in whole App \\
+        1c(v)       & Set the language to Chinese  & Most of the App in Chinese                                \\
+        1c(vi)      & Close and relaunch the App   & Language settings persists, correct language in whole App
     \end{tabular}
     \caption{Tests for the Settings Page (Language)}
     \label{tab:tests-settings-language}
@@ -72,21 +72,21 @@ The tests for the past-earthquake page are outlined in \autoref{tab:tests-past-e
 \begin{table}[htp]
     \centering
     \begin{tabular}{c|l|l}
-        \textnumero & Test Description                   & Expected Outcome                                      \\
+        \textnumero & Test Description                   & Expected Outcome                                   \\
         \hline
-        1           & Press load earthquakes             & List is loaded and displayed correctly                \\
-        2           & Press load extra earthquakes       & More earthquakes are loaded and appended to the list  \\
-        3           & Press load earthquakes             & List is re-loaded (with the extra earthquake removed) \\
-        4           & Choose a specific earthquake       & Details are displayed on side panel                   \\
-        5           & (None)                             & Map with the hypocentre on top layer                  \\
-        6           & (None)                             & Map with the observation stations on next layer       \\
-        7           & (None)                             & Map with the regions on bottom                        \\
-        8           & (None)                             & Map zoomed to display regional intensities            \\
-        9           & (None)                             & Side panels has details displayed and formatted       \\
-        10          & (None)                             & Intensity tree correctly displayed and formatted      \\
-        11          & Press view Yahoo earthquake button & Correct webpage to earthquake is launched             \\
-        12          & Another earthquake chosen          & The application behaves with 5 to 11 as described     \\
-        13          & Press load earthquakes             & The details and the maps are reset
+        2(i)        & Press load earthquakes             & List loaded and displayed correctly                \\
+        2(ii)       & Press load extra earthquakes       & More earthquakes loaded and appended to the list   \\
+        2(iii)      & Press load earthquakes             & List re-loaded (with the extra earthquake removed) \\
+        2(iv)       & Choose a specific earthquake       & Details displayed on side panel                    \\
+        2(v)        & (None)                             & Map with hypocentre on top layer                   \\
+        2(vi)       & (None)                             & Map with observation stations on next layer        \\
+        2(vii)      & (None)                             & Map with regions on bottom                         \\
+        2(viii)     & (None)                             & Map zoomed to regional intensities                 \\
+        2(ix)       & (None)                             & Side panel details displayed and formatted         \\
+        2(x)        & (None)                             & Intensity tree displayed and formatted             \\
+        2(xi)       & Press view Yahoo earthquake button & Webpage to earthquake launched                     \\
+        2(xii)      & Another earthquake chosen          & Application behaves with 5 to 11 as described      \\
+        2(xiii)     & Press load earthquakes             & Details and the map reset
     \end{tabular}
     \caption{Tests for the Past Earthquake Page}
     \label{tab:tests-past-earthquake}
@@ -99,19 +99,19 @@ The tests for the real-time page is outlined in \autoref{tab:tests-realtime-kmon
     \begin{tabular}{c|l|l}
         \textnumero & Test Description                           & Expected Outcome                         \\
         \hline
-        1           & (None)                                     & Current time refreshing                  \\
-        2           & (None)                                     & Kyoshin Monitor data is displayed on map \\
-        3           & (None)                                     & Scale of colour is displayed correctly   \\
-        4           & (None)                                     & Quantity on scale is displayed correctly \\
-        5           & (None)                                     & Data of scale is displayed correctly     \\
-        6           & Change stations settings to K-NET only     & Less observation station displayed       \\
-        7           & Relaunch application                       & Settings Persist                         \\
-        8           & Change stations settings to all            & More observation station displayed       \\
-        9           & Relaunch application                       & Settings Persist                         \\
-        10          & Change data settings to PGA                & Data and scale is displayed correctly    \\
-        11          & Relaunch application                       & Settings Persist                         \\
-        12          & Change data settings to Measured Intensity & Data and scale is displayed correctly    \\
-        13          & Relaunch application                       & Settings Persist
+        3a(i)       & (None)                                     & Current time refreshing                  \\
+        3a(ii)      & (None)                                     & Kyoshin Monitor data is displayed on map \\
+        3a(iii)     & (None)                                     & Scale of colour is displayed correctly   \\
+        3a(iv)      & (None)                                     & Quantity on scale is displayed correctly \\
+        3a(v)       & (None)                                     & Data of scale is displayed correctly     \\
+        3a(vi)      & Change stations settings to K-NET only     & Less observation station displayed       \\
+        3a(vii)     & Relaunch application                       & Settings Persist                         \\
+        3a(viii)    & Change stations settings to all            & More observation station displayed       \\
+        3a(ix)      & Relaunch application                       & Settings Persist                         \\
+        3a(x)       & Change data settings to PGA                & Data and scale is displayed correctly    \\
+        3a(xi)      & Relaunch application                       & Settings Persist                         \\
+        3a(xii)     & Change data settings to Measured Intensity & Data and scale is displayed correctly    \\
+        3a(xiii)    & Relaunch application                       & Settings Persist
     \end{tabular}
     \caption{Tests for the Real-time Page (Kyoshin Monitor)}
     \label{tab:tests-realtime-kmoni}
@@ -120,21 +120,21 @@ The tests for the real-time page is outlined in \autoref{tab:tests-realtime-kmon
 \begin{table}[htp]
     \centering
     \begin{tabular}{c|l|l}
-        \textnumero & Test Description                           & Expected Outcome                          \\
+        \textnumero & Test Description                           & Expected Outcome                       \\
         \hline
-        1           & (Feed First Mock EEW)                      & EEW details is displayed on sidebar       \\
-        2           & (None)                                     & Window is switched to real-time page      \\
-        3           & (None)                                     & Hypocentre marked                         \\
-        4           & (None)                                     & Wavefronts drawing and updating           \\
-        5           & (None)                                     & Predicted maximum intensity displayed     \\
-        6           & (Feed Second Mock EEW, assumed hypocentre) & EEW is displayed on sidebar               \\
-        7           & (None)                                     & Hypocentre marked with alternative symbol \\
-        8           & (None)                                     & Wavefronts not displayed                  \\
-        9           & (None)                                     & Predicted maximum intensity displayed     \\
-        10          & (None)                                     & Details panel switching between EEWs      \\
-        11          & (Feed Updated First Mock EEW)              & EEW Information Updated (in 2 to 4)       \\
-        12          & (Feed Old First Mock EEW)                  & EEW Information not Updated               \\
-        13          & (None)                                     & EEW removed after time
+        3b(i)       & (Feed First Mock EEW)                      & EEW details is displayed on sidebar    \\
+        3b(ii)      & (None)                                     & Window is switched to real-time page   \\
+        3b(iii)     & (None)                                     & Hypocentre marked                      \\
+        3b(iv)      & (None)                                     & Wavefronts drawing and updating        \\
+        3b(v)       & (None)                                     & Predicted maximum intensity displayed  \\
+        3b(vi)      & (Feed Second Mock EEW, assumed hypocentre) & EEW is displayed on sidebar            \\
+        3b(vii)     & (None)                                     & Hypocentre marked (alternative symbol) \\
+        3b(viii)    & (None)                                     & Wavefronts not displayed               \\
+        3b(ix)      & (None)                                     & Predicted maximum intensity displayed  \\
+        3b(x)       & (None)                                     & Details panel switching between EEWs   \\
+        3b(xi)      & (Feed Updated First Mock EEW)              & EEW Information Updated (in 2 to 4)    \\
+        3b(xii)     & (Feed Old First Mock EEW)                  & EEW Information not Updated            \\
+        3b(xiii)    & (None)                                     & EEW removed after time
     \end{tabular}
     \caption{Tests for the Real-time Page (EEWs)}
     \label{tab:tests-realtime-eew}
@@ -145,11 +145,11 @@ The tests for the real-time page is outlined in \autoref{tab:tests-realtime-kmon
     \begin{tabular}{c|l|l}
         \textnumero & Test Description            & Expected Outcome                     \\
         \hline
-        1           & (Feed Mock Tsunami Warning) & Tsunami Warning is displayed         \\
-        2           & (None)                      & Window is switched to real-time page \\
-        3           & (None)                      & Shorelines coloured and displayed    \\
-        4           & (None)                      & Tsunami Warning details displayed    \\
-        5           & (None)                      & Tsunami Warning removed after time
+        3c(i)       & (Feed Mock Tsunami Warning) & Tsunami Warning is displayed         \\
+        3c(ii)      & (None)                      & Window is switched to real-time page \\
+        3c(iii)     & (None)                      & Shorelines coloured and displayed    \\
+        3c(iv)      & (None)                      & Tsunami Warning details displayed    \\
+        3c(v)       & (None)                      & Tsunami Warning removed after time
     \end{tabular}
     \caption{Tests for the Real-time Page (Tsunamis)}
     \label{tab:tests-realtime-tsunami}
@@ -160,17 +160,17 @@ The tests for robustness testing are outlined in \autoref{tab:tests-robustness}.
 \begin{table}[htp]
     \centering
     \begin{tabular}{c|l|l}
-        \textnumero & Test Description                          & Expected Outcome                               \\
+        \textnumero & Test Description                          & Expected Outcome                   \\
         \hline
-        1           & Unauthorised DM-D.S.S.                    & Clicking on buttons does not crash application \\
-        2           & Invalid API Key Format                    & Button to Connect disabled                     \\
-        3           & Incorrect API Key                         & Clicking on buttons does not crash application \\
-        4           & (None)                                    & Authorisation automatically resets             \\
-        5           & Invalid OAuth 2                           & Clicking on buttons does not crash application \\
-        6           & (None)                                    & Authorisation automatically resets             \\
-        7           & Unstable Internet Connection              & Application does not crash                     \\
-        8           & Clicking buttons at rapid pace            & Application does not crash                     \\
-        9           & Loading earthquakes where details unknown & 'Unknown' text displayed
+        4(i)        & Press buttons when Unauthorised           & Application does not crash         \\
+        4(ii)       & Input invalid API Key Format              & Button to Set disabled             \\
+        4(iii)      & Press buttons when Incorrect API Key      & Application does not crash         \\
+        4(iv)       & (None)                                    & Authorisation automatically resets \\
+        4(v)        & Press buttons when OAuth 2 invalid        & Application does not crash         \\
+        4(vi)       & (None)                                    & Authorisation automatically resets \\
+        4(vii)      & Unstable Internet Connection              & Application does not crash         \\
+        4(viii)     & Clicking buttons at rapid pace            & Application does not crash         \\
+        4(ix)       & Loading earthquakes where details unknown & 'Unknown' text displayed
     \end{tabular}
     \caption{Tests for Robustness}
     \label{tab:tests-robustness}
