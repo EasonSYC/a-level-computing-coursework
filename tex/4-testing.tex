@@ -45,7 +45,7 @@ The tests for the table section are outlined in \autoref{tab:tests-settings-auth
         1b(iii)     & Press disconnect button for current App & WebSocket disconnected                       \\
         1b(iv)      & Press refresh WebSocket List Button     & Disconnected WebSocket connection disappears \\
         1b(v)       & Press disconnect button for another App & WebSocket disconnected                       \\
-        1b(vi)      & Press WebSocket button twice            & WebSocket connected and then disconnected
+        1b(vi)      & Press refresh WebSocket List Button     & Disconnected WebSocket connection disappears \\
     \end{tabular}
     \caption{Tests for the Settings Page (WebSocket)}
     \label{tab:tests-settings-websocket}
@@ -85,7 +85,7 @@ The tests for the past-earthquake page are outlined in \autoref{tab:tests-past-e
         2(ix)       & (None)                             & Side panel details displayed and formatted         \\
         2(x)        & (None)                             & Intensity tree displayed and formatted             \\
         2(xi)       & Press view Yahoo earthquake button & Webpage to earthquake launched                     \\
-        2(xii)      & Another earthquake chosen          & Application behaves with 5 to 11 as described      \\
+        2(xii)      & Another earthquake chosen          & Application behaves as in 2(v) to 2(xi)            \\
         2(xiii)     & Press load earthquakes             & Details and the map reset
     \end{tabular}
     \caption{Tests for the Past Earthquake Page}
@@ -104,9 +104,9 @@ The tests for the real-time page is outlined in \autoref{tab:tests-realtime-kmon
         3a(iii)     & (None)                                     & Scale of colour is displayed correctly   \\
         3a(iv)      & (None)                                     & Quantity on scale is displayed correctly \\
         3a(v)       & (None)                                     & Data of scale is displayed correctly     \\
-        3a(vi)      & Change stations settings to K-NET only     & Less observation station displayed       \\
+        3a(vi)      & Change stations settings to borehole       & Less observation station displayed       \\
         3a(vii)     & Relaunch application                       & Settings Persist                         \\
-        3a(viii)    & Change stations settings to all            & More observation station displayed       \\
+        3a(viii)    & Change stations settings to surface        & More observation station displayed       \\
         3a(ix)      & Relaunch application                       & Settings Persist                         \\
         3a(x)       & Change data settings to PGA                & Data and scale is displayed correctly    \\
         3a(xi)      & Relaunch application                       & Settings Persist                         \\
@@ -120,20 +120,20 @@ The tests for the real-time page is outlined in \autoref{tab:tests-realtime-kmon
 \begin{table}[htp]
     \centering
     \begin{tabular}{c|l|l}
-        \textnumero & Test Description                           & Expected Outcome                       \\
+        \textnumero & Test Description                           & Expected Outcome                      \\
         \hline
-        3b(i)       & (Feed First Mock EEW)                      & EEW details is displayed on sidebar    \\
-        3b(ii)      & (None)                                     & Window is switched to real-time page   \\
-        3b(iii)     & (None)                                     & Hypocentre marked                      \\
-        3b(iv)      & (None)                                     & Wavefronts drawing and updating        \\
-        3b(v)       & (None)                                     & Predicted maximum intensity displayed  \\
-        3b(vi)      & (Feed Second Mock EEW, assumed hypocentre) & EEW is displayed on sidebar            \\
-        3b(vii)     & (None)                                     & Hypocentre marked (alternative symbol) \\
-        3b(viii)    & (None)                                     & Wavefronts not displayed               \\
-        3b(ix)      & (None)                                     & Predicted maximum intensity displayed  \\
-        3b(x)       & (None)                                     & Details panel switching between EEWs   \\
-        3b(xi)      & (Feed Updated First Mock EEW)              & EEW Information Updated (in 2 to 4)    \\
-        3b(xii)     & (Feed Old First Mock EEW)                  & EEW Information not Updated            \\
+        3b(i)       & (Feed First Mock EEW)                      & EEW details is displayed on sidebar   \\
+        3b(ii)      & (None)                                     & Window is switched to real-time page  \\
+        3b(iii)     & (None)                                     & Hypocentre marked                     \\
+        3b(iv)      & (None)                                     & Wavefronts drawing and updating       \\
+        3b(v)       & (None)                                     & Predicted maximum intensity displayed \\
+        3b(vi)      & (Feed Second Mock EEW, assumed hypocentre) & EEW displayed on sidebar              \\
+        3b(vii)     & (None)                                     & Hypocentre marked (circular symbol)   \\
+        3b(viii)    & (None)                                     & Wavefronts not displayed              \\
+        3b(ix)      & (None)                                     & Predicted maximum intensity displayed \\
+        3b(x)       & (None)                                     & Details panel switching between EEWs  \\
+        3b(xi)      & (Feed Updated First Mock EEW)              & EEW Behaving as in 3b(ii) to 3b(v)    \\
+        3b(xii)     & (Feed Old First Mock EEW)                  & EEW Information not Updated           \\
         3b(xiii)    & (None)                                     & EEW removed after time
     \end{tabular}
     \caption{Tests for the Real-time Page (EEWs)}
@@ -164,13 +164,11 @@ The tests for robustness testing are outlined in \autoref{tab:tests-robustness}.
         \hline
         4(i)        & Press buttons when Unauthorised           & Application does not crash         \\
         4(ii)       & Input invalid API Key Format              & Button to Set disabled             \\
-        4(iii)      & Press buttons when Incorrect API Key      & Application does not crash         \\
-        4(iv)       & (None)                                    & Authorisation automatically resets \\
-        4(v)        & Press buttons when OAuth 2 invalid        & Application does not crash         \\
-        4(vi)       & (None)                                    & Authorisation automatically resets \\
-        4(vii)      & Unstable Internet Connection              & Application does not crash         \\
-        4(viii)     & Clicking buttons at rapid pace            & Application does not crash         \\
-        4(ix)       & Loading earthquakes where details unknown & 'Unknown' text displayed
+        4(iii)      & Set Incorrect API Key                     & Authorisation automatically resets \\
+        4(iv)       & Set Invalid OAuth 2 Refresh Token         & Authorisation automatically resets \\
+        4(v)        & Unstable Internet Connection              & Application does not crash         \\
+        4(vi)       & Clicking buttons at rapid pace            & Application does not crash         \\
+        4(vii)      & Loading earthquakes where details unknown & 'Unknown' text displayed
     \end{tabular}
     \caption{Tests for Robustness}
     \label{tab:tests-robustness}
