@@ -131,8 +131,8 @@ The tests for the real-time page is outlined in \autoref{tab:tests-realtime-kmon
         3b(viii)    & (None)                                     & Wavefronts not displayed              \\
         3b(ix)      & (None)                                     & Predicted maximum intensity displayed \\
         3b(x)       & (None)                                     & Details panel switching between EEWs  \\
-        3b(xi)      & (Feed Updated First Mock EEW)              & EEW Behaving as in 3b(ii) to 3b(v)    \\
-        3b(xii)     & (Feed Old First Mock EEW)                  & EEW Information not Updated           \\
+        3b(xi)      & (Feed Old First Mock EEW)                  & EEW Information not Updated           \\
+        3b(xii)     & (Feed Updated First Mock EEW)              & EEW Behaving as in 3b(ii) to 3b(iv)   \\
         3b(xiii)    & (None)                                     & EEW removed after time
     \end{tabular}
     \caption{Tests for the Real-time Page (EEWs)}
@@ -142,13 +142,12 @@ The tests for the real-time page is outlined in \autoref{tab:tests-realtime-kmon
 \begin{table}[htp]
     \centering
     \begin{tabular}{c|l|l}
-        \textnumero & Test Description            & Expected Outcome                     \\
+        \textnumero & Test Description            & Expected Outcome                      \\
         \hline
-        3c(i)       & (Feed Mock Tsunami Warning) & Tsunami Warning is displayed         \\
-        3c(ii)      & (None)                      & Window is switched to real-time page \\
-        3c(iii)     & (None)                      & Shorelines coloured and displayed    \\
-        3c(iv)      & (None)                      & Tsunami Warning details displayed    \\
-        3c(v)       & (None)                      & Tsunami Warning removed after time
+        3c(i)       & (Feed Mock Tsunami Warning) & Tsunami Warning is displayed on panel \\
+        3c(ii)      & (None)                      & Window is switched to real-time page  \\
+        3c(iii)     & (None)                      & Shorelines coloured and displayed     \\
+        3c(iv)      & (None)                      & Tsunami Warning details displayed
     \end{tabular}
     \caption{Tests for the Real-time Page (Tsunamis)}
     \label{tab:tests-realtime-tsunami}
@@ -159,23 +158,41 @@ The tests for robustness testing are outlined in \autoref{tab:tests-robustness}.
 \begin{table}[htp]
     \centering
     \begin{tabular}{c|l|l}
-        \textnumero & Test Description                          & Expected Outcome                   \\
+        \textnumero & Test Description                         & Expected Outcome                   \\
         \hline
-        4(i)        & Press buttons when Unauthorised           & Application does not crash         \\
-        4(ii)       & Input invalid API Key Format              & Button to Set disabled             \\
-        4(iii)      & Set Incorrect API Key                     & Authorisation automatically resets \\
-        4(iv)       & Set Invalid OAuth 2 Refresh Token         & Authorisation automatically resets \\
-        4(v)        & Unstable Internet Connection              & Application does not crash         \\
-        4(vi)       & Clicking buttons at rapid pace            & Application does not crash         \\
-        4(vii)      & Loading earthquakes where details unknown & 'Unknown' text displayed
+        4(i)        & Press buttons when Unauthorised          & Application does not crash         \\
+        4(ii)       & Input invalid API Key Format             & Button to Set disabled             \\
+        4(iii)      & Set Incorrect API Key                    & Authorisation automatically resets \\
+        4(iv)       & Set Invalid OAuth 2 Refresh Token        & Authorisation automatically resets \\
+        4(v)        & Unstable Internet Connection             & Application does not crash         \\
+        4(vi)       & Clicking buttons at rapid pace           & Application does not crash         \\
+        4(vii)      & Loading earthquakes with special details & Correct text displayed
     \end{tabular}
     \caption{Tests for Robustness}
     \label{tab:tests-robustness}
 \end{table}
 
+\section{Testing Code for EEWs and Tsunami Warnings}
+
+It is unlikely that an EEW warning will happen to be issued during this testing status. Therefore, mock EEWs and WebSockets are fed to the view model via the event handler (which is made internal for testing purposes). The data used for the mock EEWs and tsunami warnings are from the official samples of DM-D.S.S. \autocite{dmdata-sample}, modified slightly for the demonstration of the tests. The JSON is slightly altered, especially with the time and the serial number of the EEWs, to ensure that the EEWs are displayed, and the wavefronts are plotted correctly. Specifically, the telegram \href{https://sample.dmdata.jp/conversion/json/schema/eew-information/vxse45_rjtd_20110311144810.json}{here} (a mock-up of a 2011 earthquake) is used as the test data for the first mock EEW, and the telegram \href{https://sample.dmdata.jp/conversion/json/schema/eew-information/vxse44_rjtd_20180906031016.json}{here} (a mock-up of a 2018 earthquake) is used as the test data for the second mock EEW.
+
+The serial numbers, the \Code{pressDateTime} (used for determining whether an earthquake has expired) and the \Code{originTime} (used for determining the time for the earthquake for plotting wavefronts), and \Code{isLastInfo}, \Code{isCanceled} and \Code{isWarning} (used for determining the type of the EEW) are modified to ensure the test purposes.
+
+For the tsunami warnings, \href{https://sample.dmdata.jp/conversion/json/schema/tsunami-information/vtse41_jpos_20110311144959.json}{this telegram} is used as the test data for the tsunami warning, and the time is modified to ensure that the tsunami warning is deemed as valid by the application.
+
+The code used to feed the tsunami warnings are listed in ...... The JSON Files are not included, since they are mostly identical with the files in the links provided above, and any differences are demonstrated in the testing videos as well.
+
+\begin{normallisting}
+    \InputLines{csharp}{\CodeBasePath EasonEetwViewer/EasonEetwViewer/App.axaml.cs}{33}{34}{44}{45}{129}{173}{193}{193}
+    \caption[Code for testing within \Code{App.axaml.cs} Class]{
+        Code for testing within \Code{App.axaml.cs} Class \\
+        Full Code at \autoref{code-listing:EasonEetwViewer/App.axaml.cs}}
+    \label{code:testing-code}
+\end{normallisting}
+
 \section{Testing Video}
 
-The videos for testing is available on Google Drive \href{https://drive.google.com/drive/folders/1ZcaxVQKPGmVMIAyqow7Lvkem4XKcVg2m?usp=share_link}{here}. The times for the specific tests are specified in \autoref{tab:tests-time}. Note that the data used for the mock EEWs and tsunami warnings are from the official samples of DM-D.S.S. \autocite{dmdata-sample}, modified slightly for the demonstration of the tests.
+The videos for testing is available on Google Drive \href{https://drive.google.com/drive/folders/1ZcaxVQKPGmVMIAyqow7Lvkem4XKcVg2m?usp=share_link}{here}. The times for the specific tests are specified in \autoref{tab:tests-time}. Note that the time displayed is when the details are attempted to be highlighted in the video -- those features might have already appeared on the screen when the previous action had been taken.
 
 \begin{table}[htp]
     \centering
@@ -191,7 +208,9 @@ The videos for testing is available on Google Drive \href{https://drive.google.c
         1a(vii)     & 01:09         \\
         1a(viii)    & 01:13         \\
         1a(ix)      & 01:20         \\
-        1a(x)       & 01:27
+        1a(x)       & 01:27         \\
+                    &               \\
+                    &
     \end{tabular}
     \begin{tabular}{cc}
         \textnumero & Time in Video \\
@@ -246,39 +265,45 @@ The videos for testing is available on Google Drive \href{https://drive.google.c
     \begin{tabular}{cc}
         \textnumero & Time in Video \\
         \hline
-        3b(i)       &               \\
-        3b(ii)      &               \\
-        3b(iii)     &               \\
-        3b(iv)      &               \\
-        3b(v)       &               \\
-        3b(vi)      &               \\
-        3b(vii)     &               \\
-        3b(viii)    &               \\
-        3b(ix)      &               \\
-        3b(x)       &               \\
-        3b(xi)      &               \\
-        3b(xii)     &               \\
-        3b(xiii)    &
+        3b(i)       & 00:46         \\
+        3b(ii)      & 00:42         \\
+        3b(iii)     & 00:42         \\
+        3b(iv)      & 00:46         \\
+        3b(v)       & 00:46         \\
+        3b(vi)      & 00:55         \\
+        3b(vii)     & 00:54         \\
+        3b(viii)    & 00:55         \\
+        3b(ix)      & 00:55         \\
+        3b(x)       & 00:55         \\
+        3b(xi)      & 01:05         \\
+        3b(xii)     & 01:13         \\
+        3b(xiii)    & 03:43
     \end{tabular}
     \begin{tabular}{cc}
         \textnumero & Time in Video \\
         \hline
-        3c(i)       &               \\
-        3c(ii)      &               \\
-        3c(iii)     &               \\
-        3c(iv)      &               \\
-        3c(v)       &               \\
+        3c(i)       & 00:36         \\
+        3c(ii)      & 00:36         \\
+        3c(iii)     & 00:59         \\
+        3c(iv)      & 00:42         \\
         \hline
-        4(i)        &               \\
-        4(ii)       &               \\
-        4(iii)      &               \\
-        4(iv)       &               \\
-        4(v)        &               \\
-        4(vi)       &               \\
-        4(vii)      &
+        4(i)        & 00:07         \\
+        4(ii)       & 00:20         \\
+        4(iii)      & 00:33         \\
+        4(iv)       & 01:08         \\
+        4(v)        & 01:17         \\
+        4(vi)       & 01:50         \\
+        4(vii)      & 02:28         \\
+                    &               \\
+                    &
     \end{tabular}
     \caption{Times for Tests in Videos}
     \label{tab:tests-time}
 \end{table}
 
 \section{Testing against Original Requirements' Specification}
+Back in the analysis section, requirements are specified in \autoref{tab:requirements-part-one}, \autoref{tab:requirements-part-two-a}, \autoref{tab:requirements-part-two-b}, and \autoref{tab:requirements-part-four-five} for different functionalities.
+
+At some parts, the functionality is not directly demonstrated by a direct test (e.g. unit test or modular test), but the integrated test shows some of that the functionality must be working as expected, especially for DM-D.S.S. functionalities. This applies especially to \autoref{tab:requirements-part-one} in requirement 1(ii) to 1(x), and in \autoref{tab:requirements-part-two-a} in requirement 2a(v), in \autoref{tab:requirements-part-four-five} in requirement 4(vi).
+
+The requirements are evaluated and discussed in the next section about evaluation.
