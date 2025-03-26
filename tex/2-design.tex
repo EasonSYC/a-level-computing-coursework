@@ -1148,12 +1148,13 @@ There are two key 'algorithms' that was designed for this application (in additi
 
 Earthquake waves do not travel at uniform rate as they spread out due to the decrease in energy, and so there is no uniform velocity that the seismic waves travel in. We cannot do a simple equation like \(s = vt\) to calculate the distance of the wavefront of a seismic wave from the epicentre.
 
-However, JMA provides tables for the time that seismic waves take to travel a certain distance in \autocite{jma-timetable-2001}, together with \autocite{jma-timetable-format}. It will be possible for us to look up the table and plot the seismic waves at correct distance at a certain time.
+However, JMA provides tables for the time that seismic waves take to travel a certain distance in \autocite{jma-timetable-2001}, together with the format description \autocite{jma-timetable-format}. It will be possible for us to look up the table and plot the seismic waves at correct distance at a certain time.
 
-Comparing the different wave travel tables that JMA provides, the most suitable one for this application will be the \textbf{JMA 2001}, since it is designed for general purpose uses for both land-based and ocean-based earthquakes, and does not take into account the effect of the altitude of the observation points. \autoref{code:jma-2001} provides a preview of the first 10 lines of this file.
+Comparing the different wave travel tables that JMA provides, the most suitable one for this application will be the \textbf{JMA 2001}, since it is designed for general purpose uses for both land-based and ocean-based earthquakes, and does not take into account the effect of the altitude of the observation points. \autoref{code:jma-2001} provides a preview of the first 10 lines of this file, as well as the transition of the depth between line 236 and 237.
 
 \begin{listing}[htp]
     \inputminted[lastline=10,showspaces]{text}{code/tjma2001.txt}
+    \inputminted[firstline=232,lastline=241,showspaces]{text}{code/tjma2001.txt}
     \caption{JMA 2001 Wave Travel Tables}
     \label{code:jma-2001}
 \end{listing}
@@ -1184,7 +1185,7 @@ Therefore, the following regular expression is designed to match each row (with 
     \Code{P ((?=.{4}) *\d+)\.\d{3} S ((?=.{4}) *\d+)\.\d{3} ((?=.{3}) *\d+)  ((?=.{5}) *\d+)}
 \end{center}
 
-Most part of this is quite straightforward, but it is worth explaining what \Code{((?=.{x}) *\d+)} means here. The \Code{(?=.{x})} is a positive lookahead looking \(x\) digits afterwards, but it is not really part of the match. The pattern \Code{ *\d+} is the pattern that this lookahead should match to. Therefore, \Code{((?=.{x}) *\d+)} matches to a number that has left padding to reach exactly \(x\) digits, which is exactly what is required for the numbers in the time, depth and distance column, providing the matching for the padding.
+Most part of this is quite straightforward, but it is worth explaining what \Code{((?=.{x}) *\d+)} means here. The \Code{(?=.{x})} is a positive lookahead looking \(x\) digits afterwards. The pattern \Code{ *\d+} is the pattern that this lookahead should match to. Therefore, \Code{((?=.{x}) *\d+)} matches to a number that has left padding to reach exactly \(x\) digits, which is exactly what is required for the numbers in the time, depth and distance column, providing the matching for the padding.
 
 \subsubsection{Format of Table}
 
@@ -1404,7 +1405,7 @@ Next up there is the section for the WebSocket, where a button is provided to co
 
 Finally, there are two dropdowns corresponding to the sensors and data of the real-time monitoring screen. The user should be able to select the sensors/data that they would like to view in the dropdown, and the data in the real-time page will reflect accordingly to the user's choice, including the text and the numbers on the scale.
 
-At the end there is also a dropdown for the user to select the language of the application, which will change the language of the application, necessarily working upon restart.
+At the bottom there is also a dropdown for the user to select the language of the application, which will change the language of the application, necessarily working upon restart.
 
 \subsection{Joint Functionalities and Technicalities}
 
