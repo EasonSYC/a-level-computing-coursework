@@ -1,0 +1,3 @@
+[submodule "early-earthquake-and-tsunami-warning-viewer"]
+	path = early-earthquake-and-tsunami-warning-viewer
+	url = https://github.com/EasonSYC/early-earthquake-and-tsunami-warning-viewer.git
