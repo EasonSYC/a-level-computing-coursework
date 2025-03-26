@@ -10,7 +10,7 @@ Earthquake is one of the most common natural disasters in the whole world, and d
 
 Japan, sitting on the intersection of the Eurasian, the Philippine and the North-American plates, is the countries with most earthquakes. Historically, the Great Kant\=o Earthquake (関東大震災) in 1923, the Great East Japan Earthquake (東日本大震災) in 2011 (a.k.a. the T\=ohoku Earthquake) and the recent 2024 Noto Peninsula Earthquake (能登半島地震) all caused hundreds of deaths, both due to the result of the earthquake(s) and the resulting tsunami.
 
-To provide protection to its residents, the \href{https://www.jma.go.jp/jma/index.html}{Japan Meteorological Agency} (JMA, 気象庁), together with the \href{https://www.bosai.go.jp}{National Research Institute for Earth Science and Disaster Resilience (NIED, 防災科研)} placed thousands of \textbf{earthquake sensors} across Japan (the Hi-net, the K-NET, the KiK-net and the F-NET), with several of them lying deep in the sea bed, measuring displacement, velocity and acceleration, which are connected to multiple servers, including two located in \=Osaka and T\=okyo.
+To provide protection to its residents, the \href{https://www.jma.go.jp/jma/index.html}{Japan Meteorological Agency (JMA, 気象庁)}, together with the \href{https://www.bosai.go.jp}{National Research Institute for Earth Science and Disaster Resilience (NIED, 防災科研)} placed thousands of \textbf{earthquake sensors} across Japan (the Hi-net, the K-NET, the KiK-net and the F-NET), with several of them lying deep in the sea bed, measuring displacement, velocity and acceleration, which are connected to multiple servers, including two located in \=Osaka and T\=okyo.
 
 Using data obtained from the sensors, computers do some complicated algorithms (mentioned below) to send out \textbf{early earthquake warnings (EEWs, 緊急地震速報)} automatically within milliseconds. There are two types of EEWs:
 \begin{enumerate}
@@ -23,7 +23,7 @@ After the earthquake, JMA staff will determine the location and severity of tsun
 \subsection{Earthquake Terminology}
 
 \begin{itemize}
-    \item \textbf{Intensity (震度).} The intensity describes the intensity vibration of a point due to an earthquake. It is not unique to an earthquake - \textbf{different places can have different intensities} due to the distance to the epicentre, and intensity will also change over time. JMA measures intensity using \textbf{9 levels: 1, 2, 3, 4, 5--, 5+, 6--, 6+ and 7} in increasing order.
+    \item \textbf{Intensity (震度).} The intensity describes the intensity vibration of a point due to an earthquake. It is not unique to an earthquake -- \textbf{different places can have different intensities} due to the distance to the epicentre, and intensity will also change over time. JMA measures intensity using \textbf{9 levels: 1, 2, 3, 4, 5--, 5+, 6--, 6+ and 7} in increasing order.
     \item \textbf{Magnitude/Scale.} The magnitude of an earthquake describes the energy released in the earthquake in a logarithmic scale. \textbf{It is unique to an earthquake.}
     \item \textbf{Epicentre/Hypocentre.} The epicentre is the surface point directly above the true centre of the earthquake.
     \item \textbf{Focal Depth.} The focal depth is the depth of the true centre of the earthquake.
@@ -31,7 +31,7 @@ After the earthquake, JMA staff will determine the location and severity of tsun
 \end{itemize}
 
 \section{Problem Area}
-The main goal of this application is to provide a visualisation of the earthquake/tsunami related data feed(s) provided by JMA's affiliated institution, \href{https://dmdata.jp}{Disaster Mitigation Data Send Service (DM-D.S.S)}, and some other data feeds as well. There are numerous apps providing a list of recent earthquakes, the real-time data measured by the sensors, and the real time earthquake warning displayed on a map, but rarely are there good apps that combine all those features together satisfyingly, with just the necessary features the author needs.
+The main goal of this application is to provide a visualisation of the earthquake/tsunami related data feed(s) provided by \href{https://dmdata.jp}{Disaster Mitigation Data Send Service (DM-D.S.S)} which utilises JMA data feeds, and some other data feeds as well. There are numerous apps providing a list of recent earthquakes, the real-time data measured by the sensors, and the real time earthquake warning displayed on a map, but rarely are there good apps that combine all those features together satisfyingly, with just the necessary features the author needs.
 
 Some applications are no longer being updated due to change in the user's policy of the related data feed. Furthermore, most of the apps available are only in Japanese, not in English or my home language Chinese, which can create trouble for the author to understand.
 
@@ -61,7 +61,7 @@ Another target client could be industries which highly rely on earthquake predic
 
 \section{Research Methodology}
 \subsection{Client Interview}
-The author interviewed my friend Wesley Ma, who is a passionate geologist on earthquake studies and also monitor earthquakes regularly.
+The author interviewed a friend Wesley Ma, who is a passionate geologist on earthquake studies and also monitor earthquakes regularly.
 
 \begin{enumerate}
     \item \textit{Which earthquake monitoring apps do you use?}
@@ -154,7 +154,7 @@ It is worth noting that for SREV, DM-D.S.S. is integrated with special permissio
     \begin{tabular}{c|cccc}
         Feature                        & JQuake     & SREV       & KEVI       & Quarog     \\
         \hline
-        NIED Real-time Shake Support   & \checkmark & \checkmark & \checkmark &            \\
+        NIED Real-time Data Support    & \checkmark & \checkmark & \checkmark &            \\
         DM-D.S.S. WebSocket Support    & \checkmark & \checkmark & \checkmark & \checkmark \\
         Real-time Sensor Data          & \checkmark & \checkmark & \checkmark &            \\
         Vibration Alert                & \checkmark & \checkmark & \checkmark &            \\
@@ -323,7 +323,7 @@ However, due to the limitation of time, the following functionalities are exclud
 
 The following features are considered too complicated for the scope for this project and the time constraints, hence not considered:
 \begin{enumerate}
-    \item Replay (due to a server needing to store past data)
+    \item Replay (due to the necessity of a server needing to store past data)
     \item Sub-Map for the Okinawa Area (due to the difficulty in implementation)
 \end{enumerate}
 
