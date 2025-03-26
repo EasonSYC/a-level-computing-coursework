@@ -8,7 +8,7 @@ However, the components have been designed with unit testing in mind, since they
 The test is split into four parts to be tested:
 \begin{itemize}
     \item The settings page (WebSockets, authentication and language settings);
-    \item The past-earthquake page;
+    \item The past earthquakes page;
     \item The real-time page (with mock-up EEWs and Tsunami Warnings), including customisation for Kyoshin Monitor, and the window-switching functionality;
     \item Robustness testing (e.g. unstable internet connection, defensive programming against user input).
 \end{itemize}
@@ -172,7 +172,7 @@ The tests for robustness testing are outlined in \autoref{tab:tests-robustness}.
     \label{tab:tests-robustness}
 \end{table}
 
-\section{Testing Code for EEWs and Tsunami Warnings}
+\section{EEWs and Tsunami Warnings}
 
 It is unlikely that an EEW warning will happen to be issued during this testing status. Therefore, mock EEWs and WebSockets are fed to the view model via the event handler (which is made internal for testing purposes). The data used for the mock EEWs and tsunami warnings are from the official samples of DM-D.S.S. \autocite{dmdata-sample}, modified slightly for the demonstration of the tests. The JSON is slightly altered, especially with the time and the serial number of the EEWs, to ensure that the EEWs are displayed, and the wavefronts are plotted correctly. Specifically, the telegram \href{https://sample.dmdata.jp/conversion/json/schema/eew-information/vxse45_rjtd_20110311144810.json}{here} (a mock-up of a 2011 earthquake) is used as the test data for the first mock EEW, and the telegram \href{https://sample.dmdata.jp/conversion/json/schema/eew-information/vxse44_rjtd_20180906031016.json}{here} (a mock-up of a 2018 earthquake) is used as the test data for the second mock EEW.
 
@@ -180,7 +180,7 @@ The serial numbers, the \Code{pressDateTime} (used for determining whether an ea
 
 For the tsunami warnings, \href{https://sample.dmdata.jp/conversion/json/schema/tsunami-information/vtse41_jpos_20110311144959.json}{this telegram} is used as the test data for the tsunami warning, and the time is modified to ensure that the tsunami warning is deemed as valid by the application.
 
-The code used to feed the tsunami warnings are listed in ...... The JSON Files are not included, since they are mostly identical with the files in the links provided above, and any differences are demonstrated in the testing videos as well.
+The code used to feed the tsunami warnings are listed in \autoref{code:testing-code} The JSON Files are not included, since they are mostly identical with the files in the links provided above, and any differences are demonstrated in the testing videos as well. Note especially that the test code is protected by a debug flag, so that the test code is not executed in the release version of the application.
 
 \begin{normallisting}
     \InputLines{csharp}{\CodeBasePath EasonEetwViewer/EasonEetwViewer/App.axaml.cs}{33}{34}{44}{45}{129}{173}{193}{193}
