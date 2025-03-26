@@ -1,61 +1,159 @@
 \chapter{Evaluation}
 \section{Requirements Specification Evaluation}
-Personal evaluation
-\begin{itemize}
-    \item Copy and paste your original requirements from your project analysis
-    \item You need to review each requirement and comment objectively on whether it was \textit{fully met/partially met/not met}.
-\end{itemize}
+
+The evaluation detailed in table \autoref{tab:requirements-part-one}, \autoref{tab:requirements-part-two-a}, \autoref{tab:requirements-part-two-b}, \autoref{tab:requirements-part-three} and \autoref{tab:requirements-part-four-five} are evaluated below. Since the original descriptions are very long, they are not repeated here; only the numbering is included, together with the comment. Overall, most objectives are met (apart from the optional ones as identified), but some tests are not fully met (e.g. unit tests are not conducted, but they could be demonstrated through the whole application functioning).
+
+\autoref{tab:evaluation-met-options} shows the possible options in the 'Met?' column, with some description on what it represents.
 
 \begin{table}[htp]
     \centering
-
-    \begin{tabular}{|l|p{0.15\linewidth}|l|p{0.3\linewidth}|}
+    \begin{tabular}{cp{30em}}
+        Option  & Description                                                                              \\
         \hline
-        Requirement \textnumero & Description & Success Criteria & Fully/Partial/Not met (Reflective Comment) \\
-        \hline \hline
-                                &             &                  &                                            \\
-        \hline
-                                &             &                  &                                            \\
-        \hline
-                                &             &                  &                                            \\
-        \hline
+        Fully   & The requirement is fully met and tested (not necessarily through the exact test method). \\
+        Partial & The requirement is partially met, with some parts unfunctioning or untested bits.        \\
+        Unmet   & The requirement is not implemented (but might be designed).
     \end{tabular}
-    \caption{Table of Evaluation}
-    \label{tab:evaluation}
+    \caption{Options for the 'Met?' column}
+    \label{tab:evaluation-met-options}
 \end{table}
 
+\autoref{tab:evaluation-part-one}, \autoref{tab:evaluation-part-two-a}, \autoref{tab:evaluation-part-two-b}, \autoref{tab:evaluation-part-three}, and \autoref{tab:evaluation-part-four-five} show the evaluation of the requirements.
+
+\begin{table}[htp]
+    \centering
+    \begin{tabular}{c|c|l}
+        Req. \textnumero & Met?    & Comment                                                                  \\
+        \hline
+        1(i)             & Fully   & Different test method. Shown by test 1a(i).                              \\
+        1(ii)            & Fully   & Different test method. Shown by tests 1b (WebSocket) and 2 (earthquake). \\
+        1(iii)           & Fully   & Shown in Test 1b.                                                        \\
+        1(iv)            & Partial & Performance test was not conducted.                                      \\
+        1(v)             & Fully   & Different test method. Shown by tests 1b and 2.                          \\
+        1(vi)            & Fully   & Different test method. Shown by tests 2.                                 \\
+        1(vii)           & Fully   & Different test method. Shown by tests 2.                                 \\
+        1(viii)          & Partial & Not unit tested.                                                         \\
+        1(ix)            & Fully   & Shown by tests 4(i) to 4(v).                                             \\
+        1(x)             & Fully   & Shown by tests 1a, 1b and 2.                                             \\
+        1(xi)            & Fully   & Shown by test 1a(iv), and by tests 1b and 2.                             \\
+        1(xii)           & Fully   & shown by tests 1a(iv) to 1a(v).
+    \end{tabular}
+    \caption{Evaluation for \autoref{tab:requirements-part-one}}
+    \label{tab:evaluation-part-one}
+\end{table}
+
+\begin{table}[htp]
+    \centering
+    \begin{tabular}{c|c|l}
+        Req. \textnumero & Met?    & Comment                                                   \\
+        \hline
+        2a(i)            & Fully   & Shown by test 3a(ii).                                     \\
+        2a(ii)           & Fully   & Shown by test 3a(i).                                      \\
+        2a(iii)          & Fully   & Shown by tests 3b(i), 3b(vi) and 3b(xii).                 \\
+        2a(iv)           & Fully   & Shown by tests 3b(iii), 3b(vii) and 3b(xii).              \\
+        2a(v)            & Fully   & Different test method. Shown by tests 3b(iv) and 3b(xii). \\
+        2a(vi)           & Fully   & Shown by tests 3b(iv), 3b(viii) and 3b(xii).              \\
+        2a(vii)          & Fully   & Shown by tests 3b(v), 3b(ix) and 3b(xii).                 \\
+        2a(viii)         & Fully   & Shown by tests 3b(xi) and 3b(xii).                        \\
+        2a(ix)           & Fully   & Shown by test 3b(x).                                      \\
+        2a(x)            & Fully   & Shown by tests 3c(i) and 3c(iv).                          \\
+        2a(xi)           & Fully   & Shown by tests 3c(iii).                                   \\
+        2a(xii)          & Partial & Algorithm designed and described but not implemented.
+    \end{tabular}
+    \caption{Evaluation for \autoref{tab:requirements-part-two-a}}
+    \label{tab:evaluation-part-two-a}
+\end{table}
+
+\begin{table}[htp]
+    \centering
+    \begin{tabular}{c|c|l}
+        Req. \textnumero & Met?  & Comment                                                    \\
+        \hline
+        2b(i)            & Fully & Shown by tests 2(i) to 2(iii), and tests 4(vi).            \\
+        2b(ii)           & Fully & Shown by tests 2(i) and 2(iii).                            \\
+        2b(iii)          & Fully & Shown by tests 2(ii), and test 4(vi).                      \\
+        2b(iv)           & Fully & Shown by tests 2(i) to 2(iii), and tests 4(vi) and 4(vii). \\
+        2b(v)            & Fully & Shown by tests 2(iv) and 2(xii).                           \\
+        2b(vi)           & Fully & Shown by tests 2(ix) and 2(xii).                           \\
+        2b(vii)          & Fully & Shown by tests 2(vii), 2(viii) and 2(xii).                 \\
+        2b(viii)         & Fully & Shown by tests 2(v) and 2(xii).                            \\
+        2b(ix)           & Fully & Shown by tests 2(vi) and 2(xii).                           \\
+        2b(x)            & Fully & Shown by tests 2(x) and 2(xii).                            \\
+        2b(xi)           & Fully & Shown by tests 2(xi) and 2(xii).
+    \end{tabular}
+    \caption{Evaluation for \autoref{tab:requirements-part-two-b}}
+    \label{tab:evaluation-part-two-b}
+\end{table}
+
+\begin{table}[htp]
+    \centering
+    \begin{tabular}{c|c|l}
+        Req. \textnumero & Met?  & Comment                                                                          \\
+        \hline
+        3(i)             & Fully & Shown in all tests where views are switched, i.e. tests 1a, 1b, 1c, 2, 3a and 4. \\
+        3(ii)            & Fully & Shown by tests 3b(ii) and 3c(ii)
+    \end{tabular}
+    \caption{Evaluation for \autoref{tab:requirements-part-three}}
+    \label{tab:evaluation-part-three}
+\end{table}
+
+\begin{table}[htp]
+    \centering
+    \begin{tabular}{c|c|l}
+        Req. \textnumero & Met?    & Comment                                                                             \\
+        \hline
+        4(i)             & Fully   & Shown in tests 1a.                                                                  \\
+        4(ii)            & Fully   & Shown in test 1b(i).                                                                \\
+        4(iii)           & Fully   & Shown in tests 1b(ii) to 1b(vi).                                                    \\
+        4(iv)            & Fully   & Shown in tests 1b(ii) to 1b(vi).                                                    \\
+        4(v)             & Fully   & Shown in tests 3a(vi) to 3a(xiii).                                                  \\
+        4(vi)            & Partial & Individual end-user praises of the UI but would not like to give a specific rating. \\
+        4(vii)           & Unmet   & Not implemented. Colour scheme is not hard-coded into code so possible.             \\
+        4(viii)          & Unmet   & Not implemented.                                                                    \\
+        4(ix)            & Unmet   & Not implemented.                                                                    \\
+        4(x)             & Unmet   & Not implemented.                                                                    \\
+        4(xi)            & Unmet   & Not implemented.
+    \end{tabular}
+    \caption{Evaluation for \autoref{tab:requirements-part-four-five}}
+    \label{tab:evaluation-part-four-five}
+\end{table}
+
+
 \section{Independent End-User Feedback}
-End user/client evaluation
-\begin{itemize}
-    \item there \textbf{must} be meaningful end user feedback
-    \item You should hold a review meeting with your end user
-    \item Write down any key feedback that they give you. E.g. Agreement that a particular requirement has been meet/comments as to aspects that they find suboptimal/comments as to additions they would like to see
-\end{itemize}
+Through quick chat with the end user (which is the same friend who the author interviewed in the analysis section for the requirements), the end user provided some feedback on the application. The feedback is summarised in \autoref{tab:user-feedback}, with some additional comments. The '?' column shows whether the requirement is accepted or not.
 
 \begin{table}[htp]
     \centering
 
-    \begin{tabular}{|l|p{0.15\linewidth}|l|p{0.3\linewidth}|}
+    \begin{tabular}{c|p{18em}|c|p{18em}}
+        \textnumero & Description                                                     & ? & Additional Comments                                                                                                              \\
         \hline
-        Requirement \textnumero & Description & Acceptance Y/N & Additional Comments \\
-        \hline \hline
-                                &             &                &                     \\
-        \hline
-                                &             &                &                     \\
-        \hline
-                                &             &                &                     \\
-        \hline
+        1           & Use alternative free data sources.                              & N & DM-D.S.S. is extremely well-maintained and structured. Free data is generally less structured.                                   \\
+        2           & Label hypocentres of simultaneous EEWs.                         & Y & This helps the user to distinguish between simultaneous earthquakes.                                                             \\
+        3           & Provide the map in alternative colour.                          & N & OpenStreetMap is the data source for the background map and there are no apparent better solutions.                              \\
+        4           & Customisable colours for intensities.                           & Y & Weather service providers or applications often use customised colours.                                                          \\
+        5           & Improve application performance.                                & Y & Mapsui is still a package in active development, and the performance is expected to improve. Layers could be rasterised as well. \\
+        6           & Provide a web version.                                          & Y & This is not impossible since Avalonia is cross-platform, but alternatives to file storage needs to be Investigated.              \\
+        7           & Start WebSocket automatically on launch and on disconnection.   & Y & This reduces the burden for the user.                                                                                            \\
+        8           & Use light theme for application.                                & N & Dark theme is chosen to improve contrast for colours and text.                                                                   \\
+        9           & Provide option to select time zone display (JST or local time). & Y & This is useful and the existence of a time provider class provides the potential.
     \end{tabular}
-    \caption{Table of Feedback}
-    \label{tab:feedback}
+    \caption{Feedback from End User}
+    \label{tab:user-feedback}
 \end{table}
 
 \section{Improvements}
 
-You need to give consideration to a number of potential future improvements that could be made. They may arise from either your experience or from feedback given to you by your end user. Ideally at least one should be in response to end user feedback.
-
-\begin{itemize}
-    \item Write a paragraph for each potential improvement/change
-    \item The improvements/changes could result from additional functionality that has been identified as being beneficial or could be as a result of required efficiencies if some processes are clunky or require faster run-times
-    \item You should then comment on how the proposed change could be implemented moving forward. i.e. what would need to be changed/developed and how? You are not expected to actually make any changes; just comment on the possibilities.
-\end{itemize}
+Although most parts of the application has been completed and functioning, there are still several meaningful improvements that can be made:
+\begin{enumerate}
+    \item \textbf{Introduce more unit tests.} The application would have been greatly benefited if unit tests were introduced, especially for the JMA Time Table module, the Kyoshin monitor colour conversion module, and even the DM-D.S.S. and view models as well. This would have made the application more robust, and easier to maintain and test. The components of the application, however, are designed with unit testing in mind, using interfaces and dependency injection, which allows for mock dependency classes to be injected.
+    \item \textbf{Introduce more performance and stress tests.} The application currently has no performance tests. A performance test on the WebSocket's stability and the map would be beneficial (e.g. the delay between the feed of a telegram and it being displayed on the map). Also, stress test on the rate of incoming data on the WebSocket and passing to the real-time view model would be beneficial, since the EEW telegrams could come at maximum 20 per second.
+    \item \textbf{Unitise more functionalities.} The DM-D.S.S. API Caller, Telegram Fetcher, WebSocket and Kyoshin Monitor Image Fetcher could have been further unitised, especially by separating the details of the connection. This could allow us to test those with unit tests of mock-up connections to ensure they are sent to the correct parametrised URL. This would also allow for easier maintenance.
+    \item \textbf{Start WebSocket automatically.} As the end user suggests, starting the WebSocket automatically after application and after unexpected drop of connection would be beneficial for the user (and is used in most applications as well). This could be implemented by an additional event handler in the settings page that handles the disconnection event for WebSocket connections, and use an asynchronous factory method when the view model is set up (to allow the WebSocket to connect since it is asynchronous).
+    \item \textbf{Implement the shake detection algorithm.} It is very unfortunate that due to time limitations that this algorithm is not implemented. This would improve the application greatly. This algorithm could be implemented in the Kyoshin Monitor component and have the real-time model subscribe to an event in the class.
+    \item \textbf{Improve the GUI.} The GUI of the real-time view could be improved by (as the end-user suggested) labelling the two earthquake hypocentres for recognition. Further, the 'unknown' bit for the GUI could be improved (as sometimes it will be wider than the width assigned to the component which would cause an overlap). The first one could be implemented by considering the callout component within Mapsui, and the latter by adjusting the view.
+    \item \textbf{Provide customisation colour scheme.} The customisability of the colour scheme for the intensities could be very beneficial for the user, using consistent colour scheme as what they usually like for an application/makes them the most comfortable. A separate colour scheme manager could be introduced together with resources files of the application, and another dropdown menu in the  settings manager could be introduced for managing the colour scheme used.
+    \item \textbf{Provide customisable time zone.} Currently, the application always displays time in the local time zone of the user. However, this could lead to confusion when looking at certain Japanese websites and news report and certainly will lead to the confusion when the user is communicating. This could be implemented by a drop-down menu in the settings page for the settings, and added as another functionality in the \Code{ITimeProvider} interface which provides time settings for the GUI.
+    \item \textbf{Provide sound or notification features.} Since it is often the case that a user would like to run the application in a background or on a screen that they will not often monitor, it would be beneficial if they could be notified by sound or system notification of an incoming EEW/Tsunami Warning/Shake detection. This could be done by a separate module, where the view model/GUI components invoke methods in the module to play a sound or show a notification.
+    \item \textbf{Improve map functionalities.} At the moment the map has serious performance issues when the tsunami warnings is displayed, because the edge of the region are very detailed and jagged. This could be improved by rasterising the layer, but sometimes this does not work well with Mapsui renderer/rasteriser (and will cause the application to crash). The solution to this could be updating Mapsui to always use the latest version where possible, and use rasterising layer where possible, at the same time raising this issue with the developer on GitHub to investigate if there is a better solution to the crashing rasteriser.
+\end{enumerate}
