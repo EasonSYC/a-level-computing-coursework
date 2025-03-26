@@ -109,7 +109,7 @@ NIED does have an official released list of observation points, which include th
 
 Unfortunately, 1000 is still quite a lot for us to deal with. Luckily, Ingen who used a similar approach to develop the KEVI application has already made such a mapping inside his open-source application in the file \href{https://github.com/ingen084/KyoshinEewViewerIngen/blob/develop/src/KyoshinEewViewer/Assets/ShindoObsPoints.mpk.lz4}{ShindoObsPoints.mpk.lz4} \autocite{soft-kyoshin-data} within \GitHubHref{ingen084}{KyoshinEewViewerIngen} \autocite{soft-kevi-github}, and even developed an editor for this at \GitHubHref{ingen084}{KyoshinShindoPlaceEditor} \autocite{soft-kyoshin-shindo-place-editor}.
 
-Due to the limited time for this NEA, the author will primarily use the pre-determined observation points for the K-NET and the KiK-net by Ingen in JSON format.
+Due to the limited time for this NEA, the author will use the pre-determined observation points for the K-NET and the KiK-net by Ingen in JSON format.
 
 This paragraph referred to \autocite{blog-ingen-kmoni-data}.
 
@@ -196,16 +196,14 @@ We consider finding \(f_H\) first, which is the cyan line. Notice that its trend
 \begin{table}[htp]
     \centering
 
-    \begin{tabular}{|c|c|}
-        \hline
+    \begin{tabular}{cc}
         \(h\) & \(H = f_H(h)\) \\
         \hline
         0     & 237            \\
         0.1   & 222            \\
         0.6   & 51             \\
         0.9   & 0              \\
-        1     & 0              \\
-        \hline
+        1     & 0
     \end{tabular}
     \caption{Initial values for \(f_H\)}
     \label{tab:h-against-h-iv}
@@ -252,8 +250,7 @@ As for \(f_S(h)\), the obvious thing to do is to split it into 5 (4) piecewise f
 \begin{table}[htp]
     \centering
 
-    \begin{tabular}{|c|c|}
-        \hline
+    \begin{tabular}{cc}
         \(h\) & \(S = f_S(h)\) \\
         \hline
         0     & 1              \\
@@ -261,8 +258,7 @@ As for \(f_S(h)\), the obvious thing to do is to split it into 5 (4) piecewise f
         0.29  & 0.765          \\
         0.4   & 0.95           \\
         0.5   & 1              \\
-        1     & 1              \\
-        \hline
+        1     & 1
     \end{tabular}
     \caption{Initial values for \(f_S\)}
     \label{tab:s-against-h-iv}
@@ -295,8 +291,7 @@ As for \(f_V(h)\), we shall divide it into even more piecewise linear functions.
 \begin{table}[htp]
     \centering
 
-    \begin{tabular}{|c|c|}
-        \hline
+    \begin{tabular}{cc}
         \(h\) & \(V = f_V(h)\) \\
         \hline
         0     & 0.8            \\
@@ -307,8 +302,7 @@ As for \(f_V(h)\), we shall divide it into even more piecewise linear functions.
         0.4   & 1              \\
         0.8   & 1              \\
         0.9   & 0.97           \\
-        1     & 0.68           \\
-        \hline
+        1     & 0.68
     \end{tabular}
     \caption{Initial values for \(f_V\)}
     \label{tab:v-against-h-iv}
@@ -337,11 +331,11 @@ Plotting this out gives us \autoref{fig:v-against-h}.
     \label{fig:v-against-h}
 \end{figure}
 
-Note that in this plot, \(V\) when \(h = 0\) or \(h = 1\) is excluded, since just like every \(h = 0.1 k\) for some \(k \in \mathbb{N}\), they are anomalies created by the horizontal black line in the scale.
+Note that in this plot, \(V\) when \(h = 0\) or \(h = 1\) is excluded, and so should every \(h = 0.1 k\) for some \(k \in \mathbb{N}\) be ignored: they are anomalies created by the horizontal black line in the scale.
 
 \paragraph{Finding \(f^{-1}\)}
 
-To find \(f^{-1}: \mathcal{C} \to [0, 1]\), we do not need necessarily to find an expression of \(h\) in terms of \((H, V, S)\). If we notice that \(f_H\) is one-to-one on \(h \in [0, 0.9]\), and \(f_V\) is one-to-one on \(h \in [0.9, 1]\), we can use \(f_H^{-1}\) to determine \(h\) from \(H\) only if \(H\) is non-zero, and use \(f_V^{-1}\) otherwise.
+To find \(f^{-1}: \mathcal{C} \to [0, 1]\), we do not need necessarily to find an expression of \(h\) in terms of \((H, V, S)\). If we notice that \(f_H\) is one-to-one on \(h \in [0, 0.9]\), and \(f_V\) is one-to-one on \(h \in [0.9, 1]\), we can use \(f_H^{-1}\) to determine \(h\) from \(H\) when \(H\) is non-zero, and use \(f_V^{-1}\) otherwise.
 
 \[
     f^{-1}(H, S, V) = \begin{cases}
@@ -352,7 +346,7 @@ To find \(f^{-1}: \mathcal{C} \to [0, 1]\), we do not need necessarily to find a
 
 Notice that for \(h \in [0.1, 0.6]\), \(f_H\) is a cubic and is not easily invertible. However, it would be plausible to use a binary-search algorithm to find \(h\) based on \(H\) since it is monotonic, and it is within a reasonable amount of time, to relatively good precision. Otherwise, on the linear parts, it is fine to simply mathematically invert it.
 
-\autoref{alg:cap} describes the logic. Note that, this algorithm uses different \(V\) ranges from before (which is consistent with SkiaSharp library in C\#), and the ranges is \(V \in [0, 100]\). Notice that, \(\epsilon(h)n\) and \(\epsilon(H)\) are two constant values that determines the precision of such binary search, and they are chosen to be \(0.01\) and \(0.5\) in the implementation.
+\autoref{alg:cap} describes the logic. Note that, this algorithm uses different \(V\) ranges from before (which is consistent with SkiaSharp library in C\#), and the ranges is \(V \in [0, 100]\). Notice that, \(\epsilon(h)\) and \(\epsilon(H)\) are two constant values that determines the precision of such binary search, and they are chosen to be \(0.01\) and \(0.5\) in the implementation.
 
 \begin{algorithm}[htp]
     \caption{Algorithm for \(f^{-1}\)}\label{alg:cap}
@@ -396,7 +390,7 @@ Notice that for \(h \in [0.1, 0.6]\), \(f_H\) is a cubic and is not easily inver
 
 \subsubsection{Flowchart of data and sidenotes}
 
-To summarise, we discussed the mapping from the colour space\(\mathcal{C}\) to the normalised height \(h\), and back, and we also discussed how \(h\) is related with the measured intensity \(I\), the PGA \(a\), the PGV \(v\), and the PGD \(x\). They can be transformed forwards and backwards using simple mathematical explicit relations, and specifically for \(f_H^{-1}(H)\) will use a binary search algorithm.
+To summarise, we discussed the mapping from the colour space \(\mathcal{C}\) to the normalised height \(h\), and back, and we also discussed how \(h\) is related with the measured intensity \(I\), the PGA \(a\), the PGV \(v\), and the PGD \(x\). They can be transformed forwards and backwards using simple mathematical explicit relations, and specifically for \(f_H^{-1}(H)\) will use a binary search algorithm.
 
 \autoref{fig:kmoni-data-flow} shows the data flow, \autoref{fig:variable-relation} shows the relation between abstract variables, and \autoref{fig:generated-colour} shows the result of colour generated compared with the original.
 
@@ -422,7 +416,7 @@ To summarise, we discussed the mapping from the colour space\(\mathcal{C}\) to t
     \label{fig:generated-colour}
 \end{figure}
 
-It is worth noting that an existing NuGet Library, \GitHubHref{ingen084}{KyoshinMonitorLib} \autocite{soft-kyoshin-monitor-lib} and introduced in \autocite{blog-ingen-kmoni-nuget-lib} which is designated to manage intensities, as well as extracting intensities from the 'Kyoshin' monitor. This NEA did refer to this for some guidance but is not dependent on this library, and its necessary functionalities within the scope of this NEA is realised again using the author's own code. The developer of this library did also mention that it is quite purpose-built so might not be suitable for general use.
+It is worth noting that an existing NuGet Library, \GitHubHref{ingen084}{KyoshinMonitorLib} \autocite{soft-kyoshin-monitor-lib} and introduced in \autocite{blog-ingen-kmoni-nuget-lib} which is designated to manage intensities, as well as extracting intensities from the 'Kyoshin' monitor. This report did refer to this for some inspiration but is not dependent on this library, and its necessary functionalities within the scope of this report is implemented using the author's own code. The developer of this library did also mention that it is quite purpose-built so might not be suitable for general use.
 
 It is also worth noting that, technically, scraping the data from the 'Kyoshin' monitor page of NIED is not explicitly allowed, but not explicitly banned either. However, extracting and displaying numerical data in the application is strictly banned by the NIED, and therefore the numerical values will only serve as internal values of the application and will not be displayed to the users in any way.
 
@@ -430,7 +424,7 @@ This paragraph referred to \autocite{blog-jquake-poly-fit}. The code used for th
 
 \subsection{DM-D.S.S. Data Source}
 
-DM-D.S.S. is a well-structured official data source with low latency and reliable information and services. This is going to be the primary data source for most part of the application.
+DM-D.S.S. is a well-structured data source with low latency and reliable information and services. This is going to be the primary data source for most part of the application.
 
 Their APIs are split into two types: HTTP based requests and WebSocket based connections. HTTP based requests are typically for more static information, while WebSocket connections are for live time-essential data feeds, such as the EEW warnings, tsunami warnings and latest earthquake information.
 
@@ -447,7 +441,7 @@ API Keys access tokens are extremely easy to program, since it simply uses Basic
     \label{fig:api-key-control-panel}
 \end{figure}
 
-As for OAuth2, it will be much simpler for the users, since it will provide the user with a login interface on the website, and ask them to give the program certain permissions, which is just a few simple clicks. Rather than using the user as a bridge for sharing the credentials with the application, they are shared between the authorisation server (DM-D.S.S.) and the application directly, without the need for the user to deal with such human-unreadable codes.
+As for OAuth2, it will be much simpler for the users, since it will provide the user with a login interface on the website, and ask them to give the program certain permissions, which is just a few simple clicks. Rather than using the user as a bridge for sharing the credentials with the application, they are shared between the authorisation server (DM-D.S.S.) and the application directly (partially using the browser), without the need for the user to deal with such human-unreadable codes.
 
 \paragraph{OAuth 2.0}
 
@@ -536,7 +530,7 @@ The response (Step 4) will be JSON format, as shown in \autoref{code:oauth-acces
 
 The properties \Code{token_type}, and \Code{expires_in} are constants, the \Code{scope} are the scopes which are authorised for, and the most important two are the \Code{access_token} and \Code{refresh_token}.
 
-The refresh token is a long-living token, and it has lifetime 183 days in DM-D.S.S., resetting every time a new access token is acquired (see below). On the other hand, the access token is a short-living token, and it has lifetime 6 hours only. This does not mean that the access token should be disposed per-use -- it should be reused within the application, and only when it expires, a new access token should be requested using the refresh token. However, when the application is closed, only the refresh token should be stored, and the access token revoked -- next time the application launches, the access token should be acquired again.
+The refresh token is a long-living token, and it has lifetime 183 days in DM-D.S.S., resetting every time a new access token is acquired (see below). On the other hand, the access token is a short-living token, and it has lifetime 6 hours only. This does not mean that the access token should be disposed per-use -- it should be reused within the application, and only when it expires, a new access token should be requested using the refresh token. However, when the application is closed, only the refresh token should be stored, and the access token revoked -- the next time the application launches, the access token should be acquired again.
 
 If the request failed, then an error will be returned, also in JSON format, as shown in \autoref{code:oauth-error}.
 
@@ -684,13 +678,13 @@ The list of standard errors together with their meanings is discussed in \autore
     \label{tab:standard-errors}
 \end{table}
 
-The only error that might occur in the application is \Code{401} authorisation required, in the case when the OAuth 2 token expired, or the user inputted an incorrect API Key.
+The only errors that might occur in the application are \Code{401} authorisation required (in the case when the OAuth 2 token expired, or the user inputted an incorrect API Key) and \Code{403} insufficient scope (when the user's API Key was not granted the necessary scope for the application).
 
 From here onwards, the \Code{responseId}, \Code{responseTime} and \Code{status} will be removed from the sample response by default.
 
 \paragraph{Cursor Token}
 
-For some API data calls, and specifically for \Code{telegram.list} that we are going to use, there is too much data to be returned in one API call. Therefore, in a response, there will be a specified attribute named \Code{nextToken} indicated with type \Code{string}, sometimes as well as \Code{nextPooloing} and \Code{nextPoolingInterval}, as shown in \autoref{code:cursor-token} as an example call of
+For some API data calls, and specifically for \Code{gd.earthquake.list} that we are going to use, there is too much data to be returned in one API call. Therefore, in a response, there will be a specified attribute named \Code{nextToken} indicated with type \Code{string}, sometimes as well as \Code{nextPooloing} and \Code{nextPoolingInterval}, as shown in \autoref{code:cursor-token} as an example call of
 \begin{center}
     \url{base://telegram?type=VXSE53}.
 \end{center}
@@ -701,19 +695,16 @@ For some API data calls, and specifically for \Code{telegram.list} that we are g
     \label{code:cursor-token}
 \end{listing}
 
-Specifically, the calls for \Code{socket.list} and \Code{gd.eew} will only return a \Code{nextToken} for the next call, while for \Code{telegram.list} and \Code{gd.earthquake} it will return a \Code{nextPooling} as well.
+Specifically, the calls for \Code{socket.list} and \Code{gd.eew} will only return a \Code{nextToken} for the next call, while for \Code{gd.earthquake} it will return a \Code{nextPooling} as well.
 
-If one would like to do the next call to find the next few items of the list, the \Code{cursorToken} parameter should be specified as the same as the \Code{nextToken} or \Code{nextPooling}, with all the rest of the parameters identical to the previous request, i.e.,
+If one would like to do the next call to find the next few items of the list, the \Code{cursorToken} parameter should be specified as the same as the \Code{nextToken}, with all the rest of the parameters identical to the previous request, i.e.,
 \begin{center}
-    \url{base://telegram?type=VXSE53&cursorToken=bmV4dCAgICAgICAgNTc0MzI}
+    \url{base://telegram?type=VXSE53&cursorToken=bmV4dCAgICAgICAgNTc0MzI}.
 \end{center}
-if the \Code{nextToken} is used, and
-\begin{center}
-    \url{base://telegram?type=VXSE53&cursorToken=cG9sbGluZyAgICAgNzM0MzE}
-\end{center}
-if \Code{nextPooling} is used (which should be after \Code{nextPoolingInterval} in milliseconds).
 
-The document suggested that, due to performance issues, the \Code{nextPooling} should be used wherever possible. Note that the \Code{nextToken} and \Code{nextPooling} will change for every single call of the API.
+The \Code{nextPooling} and \Code{nextPoolingInterval} is used for asynchronous fetch for the data, which we will not use in this application (DM-D.S.S. documentation on this is very bad, and it is not clear how it should be used).
+
+Note that the \Code{nextToken} will change for every single call of the API.
 
 From here onwards, in the API sample results, \Code{nextToken}, \Code{nextPooling} and \Code{nextPoolingInterval} will not be included.
 
@@ -744,7 +735,7 @@ Here, \Code{items} is the list of contracts (subscription plans), with each of i
 
 Note that how \Code{id} and \Code{start} can be \Code{null} since it lists all the subscriptions, whether or not the user has been subscribed to it.
 
-This API will be used to calculate the number of WebSocket connections, to display empty WebSocket slots in the listing WebSocket functionality.
+This API will be used to calculate the maximum number of allowed WebSocket connections, to display empty WebSocket slots in the listing WebSocket functionality.
 
 \paragraph{WebSocket APIs}
 
@@ -812,7 +803,7 @@ The only error that should occur in the application is the final one, where the 
 
 \Code{socket.close} is a DELETE method, which specifies the ID of the WebSocket port to be closed in the URL parameter \Code{:id}, e.g., \url{base://socket/30}. If the result is successful, the request will not return anything. If the status is error, it will return a standard error (detailed above), or a \Code{404} error, which indicates that the specified WebSocket \Code{id} is not found.
 
-There is a chance of a \Code{404} error for WebSocket ID not found, if the list has not been refreshed, and the user attempts to disconnect to the WebSocket which was already disconnected. Due to this, the refresh WebSocket list button is provided should such error occur.
+There is a chance of a \Code{404} error for WebSocket ID not found, if the list has not been refreshed, and the user attempts to disconnect to the WebSocket which was already disconnected. Due to this, the refresh WebSocket list button is provided for the user to refresh the list to acquire the latest list of WebSocket connections (see below for the API call to obtain a list).
 
 \subparagraph{Socket List}
 
