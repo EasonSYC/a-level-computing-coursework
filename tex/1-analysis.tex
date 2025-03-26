@@ -452,7 +452,7 @@ The objectives here are SMART, meaning they are specific, measurable, achievable
         1(ix)            & Exception handling for failed connections & Exceptions thrown                                                & UT   \\
         1(x)             & Integrated DM-D.S.S. functionalities      & Correct objects created                                          & IT   \\
         1(xi)            & Connect to DM-D.S.S. using OAuth2         & Access token included in header for requests                     & IT   \\
-        1(xii)           & Refresh tokens when expired using OAuth2  & New access token successfully obtained with the refresh token    & IT   \\
+        1(xii)           & Refresh tokens when expired using OAuth2  & New access token successfully obtained with the refresh token    & IT
     \end{tabular}
     \caption{Requirements for Part 1}
     \label{tab:requirements-part-one}
@@ -462,19 +462,20 @@ The objectives here are SMART, meaning they are specific, measurable, achievable
     \centering
 
     \begin{tabular}{c|l|p{15em}|l}
-        Req. \textnumero & Description                               & Success Criteria                                    & Test \\
+        Req. \textnumero & Description                                   & Success Criteria                                    & Test \\
         \hline
-        2a(i)            & Display real-time observed data on map    & Coloured points at correct locations                & IT   \\
-        2a(ii)           & Display current time at the corner        & Time displayed and refresh every second             & IT   \\
-        2a(iii)          & Display details of current EEW            & Details displaying correctly                        & IT   \\
-        2a(iv)           & Plot epicentre of EEW on map              & Epicentre at correct position with correct symbol   & IT   \\
-        2a(v)            & Calculate seismic wavefronts position     & Correct result from dataset                         & UT   \\
-        2a(vi)           & Plot seismic wavefronts                   & Correct wavefronts at correct positions             & IT   \\
-        2a(vii)          & Colour expected max. intensity of regions & Correctly coloured                                  & IT   \\
-        2a(viii)         & Update/Cancel EEW when appropriate        & Update reflecting on both the details and the map   & IT   \\
-        2a(ix)           & Handle multiple simultaneous EEWs         & Switch between details of EEWs at regular intervals & IT   \\
-        2a(x)            & Display tsunami warnings when issued      & Details displaying correctly                        & IT   \\
-        2a(xi)           & Colour shorelines from tsunami warnings   & Coloured at correct location                        & IT   \\
+        2a(i)            & Display real-time observed data on map        & Coloured points at correct locations                & IT   \\
+        2a(ii)           & Display current time at the corner            & Time displayed and refresh every second             & IT   \\
+        2a(iii)          & Display details of current EEW                & Details displaying correctly                        & IT   \\
+        2a(iv)           & Plot epicentre of EEW on map                  & Epicentre at correct position with correct symbol   & IT   \\
+        2a(v)            & Calculate seismic wavefronts position         & Correct result from dataset                         & UT   \\
+        2a(vi)           & Plot seismic wavefronts                       & Correct wavefronts at correct positions             & IT   \\
+        2a(vii)          & Colour expected max. intensity of regions     & Correctly coloured                                  & IT   \\
+        2a(viii)         & Update/Cancel EEW when appropriate            & Update reflecting on both the details and the map   & IT   \\
+        2a(ix)           & Handle multiple simultaneous EEWs             & Switch between details of EEWs at regular intervals & IT   \\
+        2a(x)            & Display tsunami warnings when issued          & Details displaying correctly                        & IT   \\
+        2a(xi)           & Colour shorelines from tsunami warnings       & Coloured at correct location                        & IT   \\
+        2a(xii)*         & Display boxes at regions where shake detected & Boxes displayed in colours according to intensity   & IT
     \end{tabular}
     \caption{Requirements for Part 2(a)}
     \label{tab:requirements-part-two-a}
@@ -495,7 +496,8 @@ The objectives here are SMART, meaning they are specific, measurable, achievable
         2b(vii)          & Colour map by the maximum intensity of regions of selected earthquake                     & Correctly coloured                       & IT   \\
         2b(viii)         & Plot hypocentre of selected earthquake                                                    & Correctly plotted                        & IT   \\
         2b(ix)           & Plot observed maximum intensities of observation stations of selected earthquake          & Correctly plotted and coloured           & IT   \\
-        2b(x)            & Provide link to external weather services for details                                     & Linked to correct website and earthquake & IT
+        2b(x)            & Display observation stations intensities in an expandable tree.                           & Correctly formatted and built            & IT   \\
+        2b(xi)           & Provide link to external weather services for details                                     & Linked to correct website and earthquake & IT
     \end{tabular}
     \caption{Requirements for Part 2(b)}
     \label{tab:requirements-part-two-b}
